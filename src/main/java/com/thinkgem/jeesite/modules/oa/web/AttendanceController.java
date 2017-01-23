@@ -79,16 +79,10 @@ public class AttendanceController extends BaseController {
 	@RequiresPermissions("oa:attendance:view")
 	@RequestMapping(value = "showAll")
 	public String showAllAttendance(AttendanceMonth attendance,Model model) {
-<<<<<<< HEAD
-		AttendanceMonth attendanceMonth = attendanceService.getDefaultAttendanceMoth();
-        List<AttendanceMonth> attendancelist = attendanceService.getAttendanceShowAll(attendance);
-        model.addAttribute("list", attendancelist);
-=======
 		AttendanceMonth attendanceMonth = attendanceService.getAttendanceMonth(attendance);
 		List<AttendanceMonth> attendancelist = attendanceService
 				.getAttendanceShowAll(attendance);
 		model.addAttribute("list", attendancelist);
->>>>>>> upate drop-down box
 		model.addAttribute("attendanceShowAll", attendanceMonth);
 		return "modules/oa/attendanceShowAll";
 	}
