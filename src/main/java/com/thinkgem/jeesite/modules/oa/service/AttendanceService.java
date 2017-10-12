@@ -1,18 +1,12 @@
-package com.thinkgem.jeesite.modules.sys.service;
+package com.thinkgem.jeesite.modules.oa.service;
 
-import com.thinkgem.jeesite.modules.sys.dao.AttendanceDao;
-import com.thinkgem.jeesite.modules.sys.entity.Attendance;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import java.lang.String;
-import java.lang.reflect.Field;
-import java.util.Arrays;
 
-import javax.annotation.Resource;
-import java.util.List;
+import com.thinkgem.jeesite.modules.oa.dao.AttendanceDao;
 
 /**
  * 考勤Service

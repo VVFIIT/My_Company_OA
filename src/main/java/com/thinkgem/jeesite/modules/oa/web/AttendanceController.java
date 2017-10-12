@@ -1,4 +1,4 @@
-package com.thinkgem.jeesite.modules.sys.web;
+package com.thinkgem.jeesite.modules.oa.web;
 
 
 import javax.servlet.http.HttpServletRequest;
@@ -9,8 +9,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+
 import com.thinkgem.jeesite.common.web.BaseController;
-import com.thinkgem.jeesite.modules.sys.service.AttendanceService;
+import com.thinkgem.jeesite.modules.oa.service.AttendanceService;
 @Controller
 public class AttendanceController extends BaseController{
 

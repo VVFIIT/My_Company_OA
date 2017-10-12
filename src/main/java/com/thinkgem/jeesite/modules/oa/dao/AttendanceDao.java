@@ -1,4 +1,4 @@
-package com.thinkgem.jeesite.modules.sys.dao;
+package com.thinkgem.jeesite.modules.oa.dao;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -6,8 +6,7 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import com.thinkgem.jeesite.modules.sys.entity.Attendance;
+import com.thinkgem.jeesite.modules.oa.entity.Attendance;
 
 /**
  * 考勤AttendanceDao
