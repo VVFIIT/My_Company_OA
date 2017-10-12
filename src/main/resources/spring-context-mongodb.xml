@@ -29,7 +29,7 @@
                 write-timeout="0"
                 write-fsync="true"/>
     </mongo:mongo>
-    <mongo:db-factory dbname="testdatabase" mongo-ref="mongo" />
+    <mongo:db-factory dbname="${mongo.database}" mongo-ref="mongo" />
 
     <!--<bean id="userCredentials" class="org.springframework.data.authentication.UserCredentials">-->
         <!--<constructor-arg name="username" value="${mongo.username}" />-->
