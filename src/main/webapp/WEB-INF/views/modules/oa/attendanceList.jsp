@@ -11,7 +11,7 @@
 
         function updateAttendance() {
             loading('正在跳转，请稍等...');
-            $("#listForm").attr("action", "${ctx}/cms/category/updateSort");
+            $("#listForm").attr("action", "${ctx}/oa/attendanceUpdate");
             $("#listForm").submit();
         }
     </script>
