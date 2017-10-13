@@ -45,10 +45,11 @@ public class AttendanceController extends BaseController {
         logger.debug("QQQQQQQQQQQQQQQQQ");
         return "modules/oa/attendanceUpdate";
     }
+    
     /**
      * 查看考勤
      */
-	@RequestMapping(value ="showAll")
+	@RequestMapping(value = "showAll")
     public String showAllAttendance(HttpServletRequest request, HttpServletResponse response, Model model) {
 
         return "modules/oa/attendanceShowAll";
