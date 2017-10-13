@@ -45,5 +45,12 @@ public class AttendanceController extends BaseController {
         logger.debug("QQQQQQQQQQQQQQQQQ");
         return "modules/oa/attendanceUpdate";
     }
+    /**
+     * 查看考勤
+     */
+	@RequestMapping(value ="check")
+    public String checksAttendance(HttpServletRequest request, HttpServletResponse response, Model model) {
 
+        return "modules/oa/attendancecheck";
+	}
 }
