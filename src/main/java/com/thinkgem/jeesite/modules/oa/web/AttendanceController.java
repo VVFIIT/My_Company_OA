@@ -1,30 +1,29 @@
 package com.thinkgem.jeesite.modules.oa.web;
 
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import com.thinkgem.jeesite.modules.oa.entity.TestAudit;
+import com.thinkgem.jeesite.common.web.BaseController;
+import com.thinkgem.jeesite.modules.oa.service.AttendanceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.thinkgem.jeesite.common.web.BaseController;
-import com.thinkgem.jeesite.modules.oa.service.AttendanceService;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 @Controller
 @RequestMapping(value = "${adminPath}/oa/attendance")
-public class AttendanceController extends BaseController{
+public class AttendanceController extends BaseController {
 
     @Autowired
     private AttendanceService attendanceService;
 
-    
+
     /**
      * MongoDB测试
      */
-    @RequestMapping(value = "${adminPath}/mongo", method = RequestMethod.GET)
+    @RequestMapping(value = "mongo", method = RequestMethod.GET)
     public String mongo(HttpServletRequest request, HttpServletResponse response, Model model) {
         attendanceService.getName();
         logger.debug("MongoDB开始");
@@ -33,13 +32,18 @@ public class AttendanceController extends BaseController{
 
 
     @RequestMapping(value = {"list", ""})
-    public String list(TestAudit testAudit, HttpServletRequest request, HttpServletResponse response, Model model) {
-//		User user = UserUtils.getUser();
-//		if (!user.isAdmin()){
-//			testAudit.setCreateBy(user);
-//		}
-//        Page<TestAudit> page = attendanceService.findPage(new Page<TestAudit>(request, response), testAudit);
-//        model.addAttribute("page", page);
+    public String list(HttpServletRequest request, HttpServletResponse response, Model model) {
+
         return "modules/oa/attendanceList";
     }
+
+    /**
+     * 查看跳转
+     */
+    @RequestMapping(value = "attendanceUpdate")
+    public String attendanceUpdate() {
+        logger.debug("QQQQQQQQQQQQQQQQQ");
+        return "modules/oa/attendanceUpdate";
+    }
+
 }

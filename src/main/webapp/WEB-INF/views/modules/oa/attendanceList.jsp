@@ -54,7 +54,7 @@
         <td>0</td>
         <td>确认</td>
         <td>
-            <a href="">查看</a>
+            <a href="${ctx}/oa/attendance/attendanceUpdate">查看</a>
             <a href=""
                onclick="return confirmx('确认要修改考勤吗？', this.href)">修改</a>
             <a href="">提交</a>
