@@ -20,11 +20,33 @@ public class Attendance {
 	// 月份
 	private String month;
 
+	// 日期
+	private String date;
+
+	// 日期
+	private String week;
+
 	// 考勤状态
 	private String attStatus;
 
 	// 删除标记
 	private String del_flag;
+
+	public String getDate() {
+		return date;
+	}
+
+	public void setDate(String date) {
+		this.date = date;
+	}
+
+	public String getWeek() {
+		return week;
+	}
+
+	public void setWeek(String week) {
+		this.week = week;
+	}
 
 	public String getYear() {
 		return year;
