@@ -9,11 +9,11 @@
 
         });
 
-        function updateAttendance() {
+        function insertAttendance() {
             <%--loading('正在跳转，请稍等...');--%>
-            <%--$("#listForm").attr("action", "${ctx}/oa/attendance/attendanceUpdate");--%>
+            <%--$("#listForm").attr("action", "${ctx}/oa/attendance/insert");--%>
             <%--$("#listForm").submit();--%>
-            window.location.href="${ctx}/oa/attendance/attendanceUpdate";
+            window.location.href="${ctx}/oa/attendance/insert";
         }
     </script>
 </head>
@@ -24,7 +24,7 @@
 <form:form id="searchForm" modelAttribute="oa" action="${ctx}/oa/attendance/" method="get"
            class="breadcrumb form-search">
     <div>
-        <input id="btnSubmit" class="btn btn-primary" type="button" value="添加考勤" onclick="updateAttendance();"/>
+        <input id="btnSubmit" class="btn btn-primary" type="button" value="添加考勤" onclick="insertAttendance();"/>
     </div>
 </form:form>
 <sys:message content="${message}"/>

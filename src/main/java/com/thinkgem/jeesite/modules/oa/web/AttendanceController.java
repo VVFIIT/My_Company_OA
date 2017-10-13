@@ -45,10 +45,9 @@ public class AttendanceController extends BaseController {
     /**
      * 查看跳转
      */
-    @RequestMapping(value = "attendanceUpdate")
+    @RequestMapping(value = "insert")
     public String attendanceUpdate() {
-        logger.debug("QQQQQQQQQQQQQQQQQ");
-        return "modules/oa/attendanceUpdate";
+        return "modules/oa/attendanceInsert";
     }
     
     /**
