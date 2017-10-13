@@ -10,9 +10,10 @@
         });
 
         function updateAttendance() {
-            loading('正在跳转，请稍等...');
-            $("#listForm").attr("action", "${ctx}/oa/attendanceUpdate");
-            $("#listForm").submit();
+            <%--loading('正在跳转，请稍等...');--%>
+            <%--$("#listForm").attr("action", "${ctx}/oa/attendance/attendanceUpdate");--%>
+            <%--$("#listForm").submit();--%>
+            window.location.href="${ctx}/oa/attendance/attendanceUpdate";
         }
     </script>
 </head>
