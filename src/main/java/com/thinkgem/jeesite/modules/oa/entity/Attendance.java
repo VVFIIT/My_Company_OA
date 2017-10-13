@@ -16,7 +16,7 @@ public class Attendance {
 
 	// 年
 	private String year;
-		
+
 	// 月份
 	private String month;
 
@@ -33,7 +33,7 @@ public class Attendance {
 	public void setYear(String year) {
 		this.year = year;
 	}
-	
+
 	public String getMonth() {
 		return month;
 	}
