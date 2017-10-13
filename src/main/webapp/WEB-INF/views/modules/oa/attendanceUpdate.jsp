@@ -6,7 +6,7 @@
 	<meta name="decorator" content="default"/>
 </head>
 <body>
-	<form:form id="attInsertForm" modelAttribute="attendance" action="${ctx}/oa/attendance/attendanceInsert" method="post" class="breadcrumb form-search">
+	<form:form id="attSearchListForm" modelAttribute="attendance" action="${ctx}/oa/attendance/attendanceSearchList" method="post" class="breadcrumb form-search">
 		<ul class="ul-form">
 			<li><label>请选择年份：</label>
 				<form:select path="year" class="input-medium">
@@ -23,18 +23,34 @@
 			<li class="btns"><input id="btnSubmit" class="btn btn-primary" type="submit" value="查询"/></li>
 		</ul>
 	</form:form>
-	<table id="attendanceTable" class="table table-striped table-bsordered table-condensed">
-		<thead><tr><th>日期</th><th>星期</th><th>工作地点</th><th>考勤状态</th></thead>
-		<tbody>
-			<c:forEach items="${dayslist}" var="day">
+	<form:form id="attInsertListForm" modelAttribute="attendance" action="${ctx}/oa/attendance/attendanceInsertList" method="post" class="breadcrumb form-search">
+		<table id="attendanceTable" class="table table-striped table-bsordered table-condensed">
+			<thead><tr><th>日期</th><th>星期</th><th>工作地点</th><th>考勤状态</th></thead>
+			<tbody>
+				<c:forEach items="${attendanceList}" var="attendance">
+					<tr>
+						<td>${attendance.date}</td>
+						<td>${attendance.week}</td>
+						<td><input type="text" name="address" value="大连市"></td>
+						<td>
+							<form:select path="attStatus" class="input-medium">
+								<form:options items="${fns:getDictList('oa_attendance_status')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
+							</form:select>
+						</td>
+					</tr>
+				</c:forEach>
 				<tr>
-					<td>${day}</td>
-					<td>星期一</td>
-					<td>大连市</td>
-					<td>正常出勤</td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td>
+						<input id="btnSubmit" class="btn btn-primary" type="submit" value="提交"/>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						<input id="btnSubmit" class="btn btn-primary" type="submit" value="返回"/>
+					</td>
 				</tr>
-			</c:forEach>
-		</tbody>
-	</table>
+			</tbody>
+		</table>
+	</form:form>
 </body>
 </html>

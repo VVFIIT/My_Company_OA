@@ -63,10 +63,10 @@ public class AttendanceController extends BaseController {
 	/**
 	 * 添加考勤列表
 	 */
-	@RequestMapping(value = "attendanceInsert")
+	@RequestMapping(value = "attendanceSearchList")
 	public String attendanceList(Attendance attendance, Model model) {
-		List<String> dayslist = attendanceService.getAttendanceDateList(attendance);
-		model.addAttribute("dayslist", dayslist);
+		List<Attendance> attendanceList = attendanceService.getAttendanceDateList(attendance);
+		model.addAttribute("attendanceList", attendanceList);
 		return "modules/oa/attendanceUpdate";
 	}
 	

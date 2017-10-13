@@ -39,25 +39,40 @@ public class AttendanceService {
     /*
      * 添加考勤列表
      */
-    public List<String> getAttendanceDateList(Attendance attendance){
+    public List<Attendance> getAttendanceDateList(Attendance attendance){
     	String month = attendance.getMonth();
 		String year = attendance.getYear();
     	Calendar calendar = Calendar.getInstance(); 
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM");
-		Date date = null;
-		String strDate = year + "-" + month;
+		Date dateDay = null;
+		String strDateDay = year + "-" + month;
 		try {
-			date = format.parse(strDate);
+			dateDay = format.parse(strDateDay);
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
-		calendar.setTime(date); 
+		calendar.setTime(dateDay); 
 		int daysCount = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
-		ArrayList<String> dayslist = new ArrayList<String>();
+		ArrayList<Attendance> attendanceList = new ArrayList<Attendance>();
 		for(int i=1; i<=daysCount; i++) {
 			String day = month+"月"+i+"日";
-			dayslist.add(day);
+			Date dateWeek = null;
+			String[] weekOfDays = {"星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六"};
+			String strDateWeek = year + "-" + month + "-" + i;
+			SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-DD");
+			try {
+				dateWeek = format1.parse(strDateWeek);
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
+			Calendar calendar1 = Calendar.getInstance(); 
+			calendar1.setTime(dateWeek);
+			int w = calendar1.get(Calendar.DAY_OF_WEEK) - 1;
+			Attendance attendanceInsert = new Attendance();
+			attendanceInsert.setDate(day);
+			attendanceInsert.setWeek(weekOfDays[w]);
+			attendanceList.add(attendanceInsert);
 		}
-		return dayslist;
+		return attendanceList;
     }
 }
