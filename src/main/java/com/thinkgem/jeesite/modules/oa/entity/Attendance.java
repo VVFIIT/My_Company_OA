@@ -26,11 +26,22 @@ public class Attendance {
 	// 日期
 	private String week;
 
+	// 工作城市
+	private String city;
+
 	// 考勤状态
 	private String attStatus;
 
 	// 删除标记
 	private String del_flag;
+
+	public String getCity() {
+		return city;
+	}
+
+	public void setCity(String city) {
+		this.city = city;
+	}
 
 	public String getDate() {
 		return date;
