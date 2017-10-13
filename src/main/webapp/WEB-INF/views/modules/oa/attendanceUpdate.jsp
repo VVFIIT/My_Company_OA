@@ -6,8 +6,14 @@
 	<meta name="decorator" content="default"/>
 </head>
 <body>
-	<form:form id="updateForm" modelAttribute="attendanceUpdate" action="${ctx}/oa/attendanceUpdate" method="post">
+	<form:form id="attInsertForm" modelAttribute="attendance" action="${ctx}/oa/attendance/attendanceInsert" method="post" class="breadcrumb form-search">
 		<ul class="ul-form">
+			<li><label>请选择年份：</label>
+				<form:select path="year" class="input-medium">
+					<form:option value="" label=""/>
+					<form:options items="${fns:getDictList('oa_year_type')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
+				</form:select>
+			</li>
 			<li><label>请选择月份：</label>
 				<form:select path="month" class="input-medium">
 					<form:option value="" label=""/>
