@@ -14,6 +14,9 @@ public class Attendance {
 
 	private String name;
 
+	// 年
+	private String year;
+		
 	// 月份
 	private String month;
 
@@ -23,6 +26,14 @@ public class Attendance {
 	// 删除标记
 	private String del_flag;
 
+	public String getYear() {
+		return year;
+	}
+
+	public void setYear(String year) {
+		this.year = year;
+	}
+	
 	public String getMonth() {
 		return month;
 	}
