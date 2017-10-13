@@ -20,7 +20,7 @@
 <ul class="nav nav-tabs">
     <li class="active"><a href="${ctx}/oa/attendance/check">考勤列表</a></li>
 </ul>
-<form:form id="searchForm" modelAttribute="oa" action="${ctx}/oa/attendance/check" method="get"
+<form:form id="searchForm" modelAttribute="oa" action="${ctx}/oa/attendance/showAll" method="get"
            class="breadcrumb form-search">
 
 </form:form>
