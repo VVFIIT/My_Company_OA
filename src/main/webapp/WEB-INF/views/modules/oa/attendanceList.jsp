@@ -10,9 +10,10 @@
         });
 
         function updateAttendance() {
-            loading('正在跳转，请稍等...');
-            $("#listForm").attr("action", "${ctx}/cms/category/updateSort");
-            $("#listForm").submit();
+            <%--loading('正在跳转，请稍等...');--%>
+            <%--$("#listForm").attr("action", "${ctx}/oa/attendance/attendanceUpdate");--%>
+            <%--$("#listForm").submit();--%>
+            window.location.href="${ctx}/oa/attendance/attendanceUpdate";
         }
     </script>
 </head>
@@ -54,7 +55,7 @@
         <td>0</td>
         <td>确认</td>
         <td>
-            <a href="">查看</a>
+            <a href="${ctx}/oa/attendance/attendanceUpdate">查看</a>
             <a href=""
                onclick="return confirmx('确认要修改考勤吗？', this.href)">修改</a>
             <a href="">提交</a>

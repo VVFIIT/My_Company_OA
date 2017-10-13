@@ -162,8 +162,7 @@ public class TestAuditController extends BaseController {
 	@RequestMapping(value = "delete")
 	public String delete(TestAudit testAudit, RedirectAttributes redirectAttributes) {
 		testAuditService.delete(testAudit);
-		addMessage(redirectAttributes, "删除审批成功");
+		addMessage(redirectAttributes, "删除审批成功"); 
 		return "redirect:" + adminPath + "/oa/testAudit/?repage";
-	}
-
+	}     
 }
