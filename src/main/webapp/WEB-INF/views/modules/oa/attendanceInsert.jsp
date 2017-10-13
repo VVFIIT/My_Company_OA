@@ -31,7 +31,7 @@
 					<tr>
 						<td>${attendance.date}</td>
 						<td>${attendance.week}</td>
-						<td><input type="text" name="address" value="大连市"></td>
+						<td><form:input path="city" value="大连市" htmlEscape="false" maxlength="50" class="required"/></td>
 						<td>
 							<form:select path="attStatus" class="input-medium">
 								<form:options items="${fns:getDictList('oa_attendance_status')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
@@ -39,16 +39,11 @@
 						</td>
 					</tr>
 				</c:forEach>
-				<tr>
-					<td></td>
-					<td></td>
-					<td></td>
-					<td>
-						<input id="btnSubmit" class="btn btn-primary" type="submit" value="提交"/>
-						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-						<input id="btnSubmit" class="btn btn-primary" type="submit" value="返回"/>
-					</td>
-				</tr>
+				<div>
+					<input id="btnSubmit" class="btn btn-primary" type="submit" value="提交"/>
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+					<input id="btnSubmit" class="btn btn-primary" type="submit" value="返回"/>
+				</div>
 			</tbody>
 		</table>
 	</form:form>

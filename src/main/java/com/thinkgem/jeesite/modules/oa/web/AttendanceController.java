@@ -74,5 +74,13 @@ public class AttendanceController extends BaseController {
 		return new Attendance();
 	}
 	
+	/**
+	 * 提交考勤列表
+	 */
+	@RequestMapping(value = "attendanceInsertList")
+	public String attendanceInsert(Attendance attendance, Model model) {
+		
+		return "modules/oa/attendanceList";
+	}
 	
 }
