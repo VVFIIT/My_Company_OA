@@ -1,12 +1,10 @@
 package com.thinkgem.jeesite.modules.oa.entity;
 
 import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
 
 /**
  * 考勤
  */
-@Document(collection = "test")
 public class Attendance {
 
 	@Id
