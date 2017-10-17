@@ -6,7 +6,9 @@
     <meta name="decorator" content="default"/>
     <script type="text/javascript">
         $(document).ready(function () {
-
+        	s$("#year").val(d.getFullYear());
+        	$("#month").val(((d.getMonth() + 1)+'').replace(/^(.)$/,'0$1')) 
+        	alert($("#year").val(d.getFullYear()));
         });
 
         function updateAttendance() {
@@ -20,12 +22,26 @@
 <ul class="nav nav-tabs">
     <li class="active"><a href="${ctx}/oa/attendance/showAll">考勤列表</a></li>
 </ul>
-<form:form id="searchForm" modelAttribute="oa" action="${ctx}/oa/attendance/showAll" method="get"
-           class="breadcrumb form-search">
 
+<form:form id="attSearchListForm" modelAttribute="attendance" action="${ctx}/oa/attendance/showAll" method="post" class="breadcrumb form-search">
+		<ul class="ul-form">
+			<li><label>请选择年份：</label>
+				<form:select path="year" class="input-medium">
+					<form:option value="" label=""/>
+					<form:options items="${fns:getDictList('oa_year_type')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
+				</form:select>
+			</li>
+			<li><label>请选择月份：</label>
+				<form:select path="month" class="input-medium">
+					<form:option value="" label=""/>
+					<form:options items="${fns:getDictList('oa_month_type')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
+				</form:select>
+			</li>
+			<li class="btns"><input id="btnSubmit" class="btn btn-primary" type="submit" value="查询"/></li>
+		</ul>
 </form:form>
 <sys:message content="${message}"/>
-<table id="contentTable" class="table table-striped table-bordered table-condensed">
+<table id="contentTable" modelAttribute="attendance" class="table table-striped table-bordered table-condensed">
     <thead>
     <tr>
         <th>姓名</th>
@@ -43,40 +59,6 @@
         <%--</shiro:hasPermission>--%>
         <%--</td>--%>
     </tr>
-    <c:forEach items="${list}" var="oa">
-        <%--<c:set var="task" value="${act.task}"/>--%>
-        <%--<c:set var="vars" value="${act.vars}"/>--%>
-        <%--<c:set var="procDef" value="${act.procDef}"/>&lt;%&ndash;--%>
-        <%--<c:set var="procExecUrl" value="${act.procExecUrl}" /> &ndash;%&gt;--%>
-        <%--<c:set var="status" value="${act.status}"/>--%>
-        <%--<tr>--%>
-        <%--<td><fmt:formatDate value="${testAudit.createDate}" type="both" pattern="yyyy-MM-dd HH:mm:ss"/></td>--%>
-        <%--<td>--%>
-        <%--<a target="_blank"--%>
-        <%--href="${pageContext.request.contextPath}/act/diagram-viewer?processDefinitionId=${task.processDefinitionId}&processInstanceId=${task.processInstanceId}">${task.name}</a>--%>
-        <%--</td>--%>
-        <%--<td>${procDef.name}</td>--%>
-        <%--<td><b title='流程版本号'>V: ${procDef.version}</b></td>--%>
-        <%--<td><fmt:formatDate value="${task.createTime}" type="both"/></td>--%>
-        <%--<td>--%>
-        <%--<c:if test="${empty task.assignee}">--%>
-        <%--<a href="javascript:claim('${task.id}');">签收任务</a>--%>
-        <%--</c:if>--%>
-        <%--<c:if test="${not empty task.assignee}">&lt;%&ndash;--%>
-        <%--<a href="${ctx}${procExecUrl}/exec/${task.taskDefinitionKey}?procInsId=${task.processInstanceId}&act.taskId=${task.id}">办理</a> &ndash;%&gt;--%>
-        <%--<a href="${ctx}/act/task/form?taskId=${task.id}&taskName=${fns:urlEncode(task.name)}&taskDefKey=${task.taskDefinitionKey}&procInsId=${task.processInstanceId}&procDefId=${task.processDefinitionId}&status=${status}">任务办理</a>--%>
-        <%--</c:if>--%>
-        <%--<shiro:hasPermission name="oa:attendance:edit">--%>
-        <%--<td>--%>
-        <%--<a href="${ctx}/oa/attendance/look?id=${testAudit.id}">查看</a>--%>
-        <%--<a href="${ctx}/oa/attendance/insert?id=${testAudit.id}" onclick="return confirmx('确认要修改考勤吗？', this.href)">修改</a>--%>
-        <%--<a href="${ctx}/oa/attendance/ok?id=${testAudit.id}">提交</a>--%>
-        <%--<a href="${ctx}/oa/attendance/delete?id=${testAudit.id}" onclick="return confirmx('确认要删除该考勤吗？', this.href)">删除</a>--%>
-        <%--</td>--%>
-        <%--</shiro:hasPermission>--%>
-        <%--</td>--%>
-        <%--</tr>--%>
-    </c:forEach>
     </tbody>
 </table>
 </body>
