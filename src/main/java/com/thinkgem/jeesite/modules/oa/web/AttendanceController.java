@@ -83,4 +83,11 @@ public class AttendanceController extends BaseController {
 		return "modules/oa/attendanceList";
 	}
 	
+	/**
+	 * 查询
+	 */
+	@RequestMapping(value = "getAttendance")
+	public List<Attendance> getAttendance(Attendance attendance) {
+		return attendanceService.getAttendance(attendance);
+	}
 }
