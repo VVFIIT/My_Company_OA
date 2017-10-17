@@ -1,11 +1,9 @@
 package com.thinkgem.jeesite.modules.oa.web;
 
 
-import java.util.List;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
+import com.thinkgem.jeesite.common.web.BaseController;
+import com.thinkgem.jeesite.modules.oa.entity.Attendance;
+import com.thinkgem.jeesite.modules.oa.service.AttendanceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,10 +11,15 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.thinkgem.jeesite.common.web.BaseController;
-import com.thinkgem.jeesite.modules.oa.entity.Attendance;
-import com.thinkgem.jeesite.modules.oa.service.AttendanceService;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.util.List;
 
+/**
+ * 考勤Controller
+ *
+ * @author mojun
+ */
 @Controller
 @RequestMapping(value = "${adminPath}/oa/attendance")
 public class AttendanceController extends BaseController {
@@ -49,45 +52,45 @@ public class AttendanceController extends BaseController {
     public String attendanceUpdate() {
         return "modules/oa/attendanceInsert";
     }
-    
+
     /**
      * 查看考勤
      */
-	@RequestMapping(value = "showAll")
+    @RequestMapping(value = "showAll")
     public String showAllAttendance(HttpServletRequest request, HttpServletResponse response, Model model) {
 
         return "modules/oa/attendanceShowAll";
-	}
-	
-	/**
-	 * 添加考勤列表
-	 */
-	@RequestMapping(value = "attendanceSearchList")
-	public String attendanceList(Attendance attendance, Model model) {
-		List<Attendance> attendanceList = attendanceService.getAttendanceDateList(attendance);
-		model.addAttribute("attendanceList", attendanceList);
-		return "modules/oa/attendanceUpdate";
-	}
-	
-	@ModelAttribute("attendance")
-	public Attendance getAttendanceModel() {
-		return new Attendance();
-	}
-	
-	/**
-	 * 提交考勤列表
-	 */
-	@RequestMapping(value = "attendanceInsertList")
-	public String attendanceInsert(Attendance attendance, Model model) {
-		
-		return "modules/oa/attendanceList";
-	}
-	
-	/**
-	 * 查询
-	 */
-	@RequestMapping(value = "getAttendance")
-	public List<Attendance> getAttendance(Attendance attendance) {
-		return attendanceService.getAttendance(attendance);
-	}
+    }
+
+    /**
+     * 添加考勤列表
+     */
+    @RequestMapping(value = "attendanceSearchList")
+    public String attendanceList(Attendance attendance, Model model) {
+        List<Attendance> attendanceList = attendanceService.getAttendanceDateList(attendance);
+        model.addAttribute("attendanceList", attendanceList);
+        return "modules/oa/attendanceUpdate";
+    }
+
+    @ModelAttribute("attendance")
+    public Attendance getAttendanceModel() {
+        return new Attendance();
+    }
+
+    /**
+     * 提交考勤列表
+     */
+    @RequestMapping(value = "attendanceInsertList")
+    public String attendanceInsert(Attendance attendance, Model model) {
+
+        return "modules/oa/attendanceList";
+    }
+
+    /**
+     * 查询
+     */
+    @RequestMapping(value = "getAttendance")
+    public List<Attendance> getAttendance(Attendance attendance) {
+        return attendanceService.getAttendance(attendance);
+    }
 }
