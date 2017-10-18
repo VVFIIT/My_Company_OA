@@ -2,8 +2,6 @@ package com.thinkgem.jeesite.modules.oa.entity;
 
 import org.springframework.data.annotation.Id;
 
-import java.util.UUID;
-
 /**
  * 考勤
  *
