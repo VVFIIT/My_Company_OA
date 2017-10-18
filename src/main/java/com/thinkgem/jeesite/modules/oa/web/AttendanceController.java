@@ -31,7 +31,7 @@ public class AttendanceController extends BaseController {
     /**
      * MongoDB测试
      */
-    @RequestMapping(value = "mongo", method = RequestMethod.GET)
+    @RequestMapping(value = "mongo1", method = RequestMethod.GET)
     public String mongo(HttpServletRequest request, HttpServletResponse response, Model model) {
         attendanceService.getName();
         logger.debug("MongoDB开始");
