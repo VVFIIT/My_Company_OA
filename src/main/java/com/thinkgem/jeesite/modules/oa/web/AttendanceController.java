@@ -56,7 +56,7 @@ public class AttendanceController extends BaseController {
     }
 
     /**
-     * 查看考勤
+     * 查看所有考勤
      */
     @RequestMapping(value = "showAll")
     public String showAllAttendance(HttpServletRequest request, HttpServletResponse response, Model model) {
@@ -105,6 +105,7 @@ public class AttendanceController extends BaseController {
     }
 
     /**
+<<<<<<< HEAD
      * 查询所有
      */
     @RequestMapping(value = "getAllAttendance")
@@ -120,4 +121,38 @@ public class AttendanceController extends BaseController {
     public void delete() {
         attendanceService.delete();
     }
+=======
+	 * 根据条件查询
+	 */
+	@RequestMapping(value = "getAttendance")
+	public List<Attendance> getAttendance(Attendance attendance) {
+		return attendanceService.getAttendance(attendance);
+	}
+
+	/**
+	 * 查询所有
+	 */
+	@RequestMapping(value = "getAllAttendance")
+	public List<Attendance> getAllAttendance(Attendance attendance) {
+		List<Attendance> list = attendanceService.getAllAttendance(attendance);
+		return list;
+	}
+	
+	/**
+	 * test delete
+	 */
+	@RequestMapping(value = "delete")
+	public void delete() {
+		attendanceService.delete();
+	}
+	
+    /**
+     * 查看个人考勤
+     */
+    @RequestMapping(value = "show")
+    public String attendanceShow() {
+        return "modules/oa/attendanceShow";
+    }
+	
+>>>>>>> upload attendanceShow.jsp--查看考勤跳转
 }
