@@ -73,21 +73,38 @@ public class AttendanceService {
         return attendanceList;
     }
 
-    /**
-     * 插入考勤实体
-     */
-    public void insertAtt() {
-        Attendance attendance = new Attendance();
-        attendance.setId(UUID.randomUUID());
-        attendance.setName("王二麻子");
-        attendanceDao.insert(attendance);
-    }
+    /*
+	 * 插入考勤实体
+	 */
+	public void insertAtt() {
+		Attendance attendance = new Attendance();
+		attendance.setId(UUID.randomUUID().toString());
+		attendance.setName("张大笋");
+		attendance.setMonth("12");
+		attendance.setYear("2017");
+		attendanceDao.insert(attendance);
+	}
 
-    /**
-     * 查询
-     */
-    public List<Attendance> getAttendance(Attendance attendance) {
-        List<Attendance> attendanceList = attendanceDao.getAttendanceByName(attendance);
-        return attendanceList;
-    }
+	/*
+	 * 查询根据姓名
+	 */
+	public List<Attendance> getAttendance(Attendance attendance) {
+		attendance.setName("王");
+		List<Attendance> attendanceList = attendanceDao.getAttendance(attendance);
+		return attendanceList;
+	}
+	
+	/*
+	 * 查询所有
+	 */
+	public List<Attendance> getAllAttendance(Attendance attendance) {		
+		List<Attendance> attendanceList = attendanceDao.getAllAttendance(attendance);
+		return attendanceList;
+	}
+	
+	public void delete() {
+		Attendance attendance = new Attendance();
+		attendance.setId("104856a8-05b9-d878-7311-289817711c8b");
+		attendanceDao.delete(attendance);
+	}
 }
