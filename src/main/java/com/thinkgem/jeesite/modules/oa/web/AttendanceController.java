@@ -39,9 +39,10 @@ public class AttendanceController extends BaseController {
     }
 
 
-    @RequestMapping(value = {"list", ""})
-    public String list(HttpServletRequest request, HttpServletResponse response, Model model) {
-
+    @RequestMapping(value = {"list", ""}, method = RequestMethod.GET)
+    public String list(Attendance attendance, Model model) {
+        List<Attendance> list = attendanceService.getAttendance(attendance);
+        model.addAttribute("list", list);
         return "modules/oa/attendanceList";
     }
 

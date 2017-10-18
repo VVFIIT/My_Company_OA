@@ -13,7 +13,7 @@
             <%--loading('正在跳转，请稍等...');--%>
             <%--$("#listForm").attr("action", "${ctx}/oa/attendance/insert");--%>
             <%--$("#listForm").submit();--%>
-            window.location.href="${ctx}/oa/attendance/insert";
+            window.location.href = "${ctx}/oa/attendance/insert";
         }
     </script>
 </head>

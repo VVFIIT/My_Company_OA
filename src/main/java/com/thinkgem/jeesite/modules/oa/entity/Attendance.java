@@ -49,7 +49,7 @@ public class Attendance {
     /**
      * 删除标记
      */
-    private String del_flag;
+    private String deleteFlag;
 
     public String getCity() {
         return city;
@@ -99,12 +99,12 @@ public class Attendance {
         this.attStatus = attStatus;
     }
 
-    public String getDel_flag() {
-        return del_flag;
+    public String getDeleteFlag() {
+        return deleteFlag;
     }
 
-    public void setDel_flag(String del_flag) {
-        this.del_flag = del_flag;
+    public void setDeleteFlag(String deleteFlag) {
+        this.deleteFlag = deleteFlag;
     }
 
     public UUID getId() {
