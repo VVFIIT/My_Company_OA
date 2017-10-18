@@ -13,7 +13,7 @@ import com.thinkgem.jeesite.modules.oa.entity.AttendanceMonth;
 /**
  * Created by GQR on 2017/10/18.
  */
-
+@Service
 public class AttendanceMonthDao {
     //MongoTemplate是数据库和代码之间的接口，对数据库的操作都在它里面
     @Autowired
