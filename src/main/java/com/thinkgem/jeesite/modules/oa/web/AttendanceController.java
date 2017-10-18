@@ -131,5 +131,20 @@ public class AttendanceController extends BaseController {
         return "modules/oa/attendanceShow";
     }
 	
-
+	/**
+	 * test getAttendanceByDate
+	 */
+	@RequestMapping(value = "getAttendanceByDate")
+	public void getAttendanceByDate() {
+		attendanceService.getAttendanceByDate();
+	}
+	
+	
+	/**
+	 * test update
+	 */
+	@RequestMapping(value = "update")
+	public void update() {
+		attendanceService.update();
+	}
 }
