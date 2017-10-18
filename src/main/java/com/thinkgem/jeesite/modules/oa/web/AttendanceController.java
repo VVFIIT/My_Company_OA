@@ -41,7 +41,7 @@ public class AttendanceController extends BaseController {
 
     @RequestMapping(value = {"list", ""}, method = RequestMethod.GET)
     public String list(Attendance attendance, Model model) {
-        insertAtt();
+//        insertAtt();
         List<Attendance> list = attendanceService.getAllAttendance(attendance);
         model.addAttribute("list", list);
         return "modules/oa/attendanceList";

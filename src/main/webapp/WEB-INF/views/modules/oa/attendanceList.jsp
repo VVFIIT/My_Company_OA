@@ -20,13 +20,14 @@
 <body>
 <ul class="nav nav-tabs">
     <li class="active"><a href="${ctx}/oa/attendance/">考勤列表</a></li>
+    <li><a href="${ctx}/oa/attendance/insert">考勤添加</a></li>
 </ul>
-<form:form id="searchForm" modelAttribute="attendance" action="${ctx}/oa/attendance/" method="get"
-           class="breadcrumb form-search">
-    <div>
-        <input id="btnSubmit" class="btn btn-primary" type="button" value="添加考勤" onclick="insertAttendance();"/>
-    </div>
-</form:form>
+<%--<form:form id="searchForm" modelAttribute="attendance" action="${ctx}/oa/attendance/" method="get"--%>
+<%--class="breadcrumb form-search">--%>
+<%--<div>--%>
+<%--<input id="btnSubmit" class="btn btn-primary" type="button" value="添加考勤" onclick="insertAttendance();"/>--%>
+<%--</div>--%>
+<%--</form:form>--%>
 <sys:message content="${message}"/>
 <table id="contentTable" class="table table-striped table-bordered table-condensed">
     <thead>
@@ -43,29 +44,32 @@
         <th>操作</th>
     </tr>
     </thead>
-    <tbody>
-    <c:forEach items="${list}" var="attendance">
-        <tr>
-            <td>${fns:abbr(attendance.name,40)}</td>
-            <td>${fns:abbr(attendance.year,40)}</td>
-            <td>${fns:abbr(attendance.month,40)}</td>
-            <td>0</td>
-            <td>0</td>
-            <td>0</td>
-            <td>0</td>
-            <td>0</td>
-            <td>确认</td>
-            <td>
-                <a href="${ctx}/oa/attendance/attendanceUpdate">查看</a>
-                <a href=""
-                   onclick="return confirmx('确认要修改考勤吗？', this.href)">修改</a>
-                <a href="">提交</a>
-                <a href=""
-                   onclick="return confirmx('确认要删除该考勤吗？', this.href)">删除</a>
-            </td>
-        </tr>
-    </c:forEach>
-    </tbody>
+    <form:form id="searchForm" modelAttribute="attendance" action="${ctx}/oa/attendance/" method="get"
+               class="breadcrumb form-search">
+        <tbody>
+        <c:forEach items="${list}" var="attendance">
+            <tr>
+                <td>${fns:abbr(attendance.year,40)}</td>
+                <td>${fns:abbr(attendance.name,40)}</td>
+                <td>${fns:abbr(attendance.month,40)}</td>
+                <td>0</td>
+                <td>0</td>
+                <td>0</td>
+                <td>0</td>
+                <td>0</td>
+                <td>确认</td>
+                <td>
+                    <a href="${ctx}/oa/attendance/attendanceUpdate">查看</a>
+                    <a href=""
+                       onclick="return confirmx('确认要修改考勤吗？', this.href)">修改</a>
+                    <a href="">提交</a>
+                    <a href=""
+                       onclick="return confirmx('确认要删除该考勤吗？', this.href)">删除</a>
+                </td>
+            </tr>
+        </c:forEach>
+        </tbody>
+    </form:form>
 </table>
 </body>
 </html>
