@@ -88,35 +88,35 @@ public class AttendanceController extends BaseController {
     }
 
     /**
-	 * test insert
-	 */
-	@RequestMapping(value = "insertAtt")
-	public void insertAtt() {
-		attendanceService.insertAtt();
-	}
-	
-    /**
-	 * 根据条件查询
-	 */
-	@RequestMapping(value = "getAttendance")
-	public List<Attendance> getAttendance(Attendance attendance) {
-		return attendanceService.getAttendance(attendance);
-	}
+     * test insert
+     */
+    @RequestMapping(value = "insertAtt")
+    public void insertAtt() {
+        attendanceService.insertAtt();
+    }
 
-	/**
-	 * 查询所有
-	 */
-	@RequestMapping(value = "getAllAttendance")
-	public List<Attendance> getAllAttendance(Attendance attendance) {
-		List<Attendance> list = attendanceService.getAllAttendance(attendance);
-		return list;
-	}
-	
-	/**
-	 * test delete
-	 */
-	@RequestMapping(value = "delete")
-	public void delete() {
-		attendanceService.delete();
-	}
+    /**
+     * 根据条件查询
+     */
+    @RequestMapping(value = "getAttendance")
+    public List<Attendance> getAttendance(Attendance attendance) {
+        return attendanceService.getAttendance(attendance);
+    }
+
+    /**
+     * 查询所有
+     */
+    @RequestMapping(value = "getAllAttendance")
+    public List<Attendance> getAllAttendance(Attendance attendance) {
+        List<Attendance> list = attendanceService.getAllAttendance(attendance);
+        return list;
+    }
+
+    /**
+     * test delete
+     */
+    @RequestMapping(value = "delete")
+    public void delete() {
+        attendanceService.delete();
+    }
 }
