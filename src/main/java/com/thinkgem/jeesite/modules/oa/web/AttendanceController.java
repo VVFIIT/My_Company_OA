@@ -65,28 +65,28 @@ public class AttendanceController extends BaseController {
     }
 
     /**
-     * 添加考勤列表
-     */
-    @RequestMapping(value = "attendanceSearchList")
-    public String attendanceList(Attendance attendance, Model model) {
-        List<Attendance> attendanceList = attendanceService.getAttendanceDateList(attendance);
-        model.addAttribute("attendanceList", attendanceList);
-        return "modules/oa/attendanceUpdate";
-    }
-
-    @ModelAttribute("attendance")
-    public Attendance getAttendanceModel() {
-        return new Attendance();
-    }
-
-    /**
-     * 提交考勤列表
-     */
-    @RequestMapping(value = "attendanceInsertList")
-    public String attendanceInsert(Attendance attendance, Model model) {
-
-        return "modules/oa/attendanceList";
-    }
+	 * 添加考勤列表
+	 */
+	@RequestMapping(value = "attendanceSearchList")
+	public String attendanceList(Attendance attendance, Model model) {
+		List<Attendance> attendanceList = attendanceService.getAttendanceDateList(attendance);
+		model.addAttribute("attendanceList", attendanceList);
+		return "modules/oa/attendanceInsertList";
+	}
+	
+	@ModelAttribute("attendance")
+	public Attendance getAttendanceModel() {
+		return new Attendance();
+	}
+	
+	/**
+	 * 提交考勤列表
+	 */
+	@RequestMapping(value = "attendanceInsertList")
+	public String attendanceInsert(Attendance attendance, Model model) {
+		attendanceService.InsertAttendanceList(attendance);
+		return "modules/oa/attendanceList";
+	}
 
     /**
      * test insert
