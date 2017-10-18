@@ -41,7 +41,8 @@ public class AttendanceController extends BaseController {
 
     @RequestMapping(value = {"list", ""}, method = RequestMethod.GET)
     public String list(Attendance attendance, Model model) {
-        List<Attendance> list = attendanceService.getAttendance(attendance);
+//        insertAtt();
+        List<Attendance> list = attendanceService.getAllAttendance(attendance);
         model.addAttribute("list", list);
         return "modules/oa/attendanceList";
     }
@@ -55,7 +56,7 @@ public class AttendanceController extends BaseController {
     }
 
     /**
-     * 查看考勤
+     * 查看所有考勤
      */
     @RequestMapping(value = "showAll")
     public String showAllAttendance(HttpServletRequest request, HttpServletResponse response, Model model) {
@@ -104,6 +105,7 @@ public class AttendanceController extends BaseController {
     }
 
     /**
+
      * 查询所有
      */
     @RequestMapping(value = "getAllAttendance")
@@ -119,4 +121,30 @@ public class AttendanceController extends BaseController {
     public void delete() {
         attendanceService.delete();
     }
+
+	
+    /**
+     * 查看个人考勤
+     */
+    @RequestMapping(value = "show")
+    public String attendanceShow() {
+        return "modules/oa/attendanceShow";
+    }
+	
+	/**
+	 * test getAttendanceByDate
+	 */
+	@RequestMapping(value = "getAttendanceByDate")
+	public void getAttendanceByDate() {
+		attendanceService.getAttendanceByDate();
+	}
+	
+	
+	/**
+	 * test update
+	 */
+	@RequestMapping(value = "update")
+	public void update() {
+		attendanceService.update();
+	}
 }

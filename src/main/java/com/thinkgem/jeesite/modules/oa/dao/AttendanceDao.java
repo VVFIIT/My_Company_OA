@@ -6,6 +6,7 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
+import org.springframework.data.mongodb.core.query.Update;
 
 import java.util.List;
 
@@ -47,28 +48,31 @@ public class AttendanceDao {
         return this.mongoTemplate.findAll(Attendance.class);
     }
 
-    /**
-     * 查询根据时间
-     */
-    public List<Attendance> getAttendanceByDate(Attendance attendance) {
-        Criteria criatira = new Criteria();
-        criatira.andOperator(Criteria.where("year").is(attendance.getYear()), Criteria.where("month").is(attendance.getMonth()));
-        mongoTemplate.find(new Query(criatira), Attendance.class);
-        return this.mongoTemplate.findAll(Attendance.class);
-    }
-
-    /**
-     * 更新考勤实体
-     */
-    public void update(Attendance attendance) {
-        //Query query = new Query(Criteria.where("name").regex(".*?\\" + attendance.getName() + ".*"));
-        // return this.mongoTemplate.upsert(query, update, Attendance.class);
-    }
-
-    /**
-     * 删除
-     */
-    public void delete(Attendance attendance) {
-        this.mongoTemplate.remove(attendance);
-    }
+    /*
+	 * 更新考勤实体
+	 */
+	public void update(Attendance attendance) {
+		Query query = new Query(Criteria.where("name").is(attendance.getName()));
+		Update update = new Update();
+		update.pull("attStatus", "60");
+		mongoTemplate.upsert(query, update, Attendance.class);
+	}
+	
+	/*
+	 * 查询根据时间(wait)
+	 */
+	public List<Attendance> getAttendanceByDate(Attendance attendance) {
+		Criteria criatira = new Criteria();
+//		criatira.andOperator(Criteria.where("year").is(attendance.getYear()), Criteria.where("month").is(attendance.getMonth()));
+		criatira.andOperator(Criteria.where("year").is(attendance.getYear()).and("month").is(attendance.getMonth()));
+		mongoTemplate.find(new Query(criatira), Attendance.class);
+		return this.mongoTemplate.findAll(Attendance.class);	
+	}
+	
+	/*
+	 * 删除
+	 */
+	public void delete(Attendance attendance) {
+		this.mongoTemplate.remove(attendance);
+	}
 }
