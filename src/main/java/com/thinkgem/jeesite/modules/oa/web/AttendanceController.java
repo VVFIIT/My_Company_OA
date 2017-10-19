@@ -106,31 +106,6 @@ public class AttendanceController extends BaseController {
 		return "modules/oa/attendanceList";
 	}
 
-    /**
-     * test insert
-     */
-    @RequestMapping(value = "insertAtt")
-    public void insertAtt() {
-        attendanceService.insertAtt();
-    }
-
-    /**
-     * 根据条件查询
-     */
-    @RequestMapping(value = "getAttendance")
-    public List<Attendance> getAttendance(Attendance attendance) {
-        return attendanceService.getAttendance(attendance);
-    }
-
-    /**
-
-     * 查询所有
-     */
-    @RequestMapping(value = "getAllAttendance")
-    public List<Attendance> getAllAttendance(Attendance attendance) {
-        List<Attendance> list = attendanceService.getAllAttendance(attendance);
-        return list;
-    }
 
     /**
      * test delete
@@ -148,23 +123,6 @@ public class AttendanceController extends BaseController {
     public String attendanceShow() {
         return "modules/oa/attendanceShow";
     }
-	
-	/**
-	 * test getAttendanceByDate
-	 */
-	@RequestMapping(value = "getAttendanceByDate")
-	public void getAttendanceByDate() {
-		attendanceService.getAttendanceByDate();
-	}
-	
-	
-	/**
-	 * test update
-	 */
-	@RequestMapping(value = "update")
-	public void update() {
-		attendanceService.update();
-	}
 	
 	
 }

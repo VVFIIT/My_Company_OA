@@ -1,35 +1,76 @@
 package com.thinkgem.jeesite.modules.oa.dao;
 
 import com.thinkgem.jeesite.modules.oa.entity.Attendance;
+
+import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
+import com.thinkgem.jeesite.common.utils.StringUtils;
+
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Service;
 
 import com.thinkgem.jeesite.modules.oa.entity.AttendanceMonth;
+
 /**
  * Created by GQR on 2017/10/18.
  */
 @Service
 public class AttendanceMonthDao {
-    //MongoTemplate是数据库和代码之间的接口，对数据库的操作都在它里面
-    @Autowired
-    private MongoTemplate mongoTemplate;
 
-    //@Override(暂留 后续可能会使用impl 重新)
-    public AttendanceMonth findAll() {
-        return this.mongoTemplate.findOne(new Query(Criteria.where("name").is("郭庆荣")), AttendanceMonth.class);
-    }
+	@Autowired
+	private MongoTemplate mongoTemplate;
 
-    //添加一个实体
+	/**
+	 * 插入考勤
+	 */
+	public void insert(AttendanceMonth attendanceMonth) {
+		this.mongoTemplate.insert(attendanceMonth);
 
-    //根据年月 返回实体
+	}
 
-    //update对应实体
+	/*
+	 * 查询
+	 */
+	public List<AttendanceMonth> getAttendance(AttendanceMonth attendanceMonth) {
+		Query query = new Query();
+		if (StringUtils.isNotBlank(attendanceMonth.getName())) {
+			query.addCriteria(Criteria.where("name").regex(".*?\\" + attendanceMonth.getName() + ".*"));
+		}
+		if (attendanceMonth.getYear() != null) {
+			query.addCriteria(Criteria.where("year").is(attendanceMonth.getYear()));
+		}
+		if (attendanceMonth.getMonth() != null) {
+			query.addCriteria(Criteria.where("year").is(attendanceMonth.getMonth()));
+		}
 
-    //findAll（XX年XX月）return List<processStatus>
+		query.with(new Sort(new Sort.Order(Sort.Direction.DESC, "year")));
+		query.with(new Sort(new Sort.Order(Sort.Direction.DESC, "month")));
+		return this.mongoTemplate.find(query, AttendanceMonth.class);
+	}
 
+	/*
+	 * 更新考勤实体
+	 */
+	public void update(AttendanceMonth attendanceMonth) {
+		// Query query = new
+		// Query(Criteria.where("id").is(attendanceMonth.getId()));
+		Query query = new Query(Criteria.where("name").is("张大天"));
+		Update update = new Update();
+
+		// update.pull("id", attendanceMonth.getId());
+		// update.pull("attendanceStatus",
+		// attendanceMonth.getAttendanceStatus());
+		// update.pull("department", attendanceMonth.getDepartment());
+		update.pull("month", attendanceMonth.getMonth());
+		// update.pull("year", attendanceMonth.getYear());
+		// update.pull("processStatus", attendanceMonth.getProcessStatus());
+
+		mongoTemplate.upsert(query, update, Attendance.class);
+	}
 }
