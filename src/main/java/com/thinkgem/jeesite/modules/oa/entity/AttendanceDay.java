@@ -19,7 +19,7 @@ public class AttendanceDay {
 
 
     //考勤状态
-    private Integer status;
+    private String status;
 
     //getter and setter
     public Integer getdate() {
@@ -46,11 +46,11 @@ public class AttendanceDay {
         this.location = location;
     }
 
-    public Integer getstatus() {
+    public String getstatus() {
         return status;
     }
 
-    public void setstatus(Integer status) {
+    public void setstatus(String status) {
         this.status = status;
     }
 }
