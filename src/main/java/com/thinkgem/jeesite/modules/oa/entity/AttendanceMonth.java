@@ -42,51 +42,62 @@ public class AttendanceMonth {
 
 
     //getter and setter
-    public String getname() {
-        return name;
-    }
+	public String getId() {
+		return id;
+	}
 
-    public void setname(String name) {
-        this.name = name;
-    }
+	public void setId(String id) {
+		this.id = id;
+	}
 
-    public String getdepartment() {
-        return department;
-    }
+	public String getName() {
+		return name;
+	}
 
-    public void setdepartment(String department) {
-        this.department = department;
-    }
+	public void setName(String name) {
+		this.name = name;
+	}
 
-    public Integer getyear() {
-        return year;
-    }
+	public String getDepartment() {
+		return department;
+	}
 
-    public void setyear(Integer year) {
-        this.year = year;
-    }
+	public void setDepartment(String department) {
+		this.department = department;
+	}
 
-    public Integer getmonth() {
-        return month;
-    }
+	public Integer getYear() {
+		return year;
+	}
 
-    public void setmonth(Integer month) {
-        this.month = month;
-    }
+	public void setYear(Integer year) {
+		this.year = year;
+	}
 
-    public List<AttendanceDay> getattendanceStatus() {
-        return attendanceStatus;
-    }
+	public Integer getMonth() {
+		return month;
+	}
 
-    public void setattendanceStatus(List<AttendanceDay> attendanceStatus) {
-        this.attendanceStatus = attendanceStatus;
-    }
+	public void setMonth(Integer month) {
+		this.month = month;
+	}
 
-    public String getprocessStatus() {
-        return processStatus;
-    }
+	public List<AttendanceDay> getAttendanceStatus() {
+		return attendanceStatus;
+	}
 
-    public void setprocessStatus(String processStatus) {
-        this.processStatus = processStatus;
-    }
+	public void setAttendanceStatus(List<AttendanceDay> attendanceStatus) {
+		this.attendanceStatus = attendanceStatus;
+	}
+
+	public String getProcessStatus() {
+		return processStatus;
+	}
+
+	public void setProcessStatus(String processStatus) {
+		this.processStatus = processStatus;
+	}
+
+
+    
 }

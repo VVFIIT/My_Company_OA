@@ -65,11 +65,11 @@ public class AttendanceService {
 			calendar1.setTime(dateWeek);
 			int w = calendar1.get(Calendar.DAY_OF_WEEK) - 1;
 			String week = weekOfDays[w];
-			Integer defaultStatus = null;
+			String defaultStatus = null;
 			if("星期六".equals(week) || "星期日".equals(week)) {
-				defaultStatus = 8;
+				defaultStatus = "公休日";
 			}else {
-				defaultStatus = 1;
+				defaultStatus = "正常出勤";
 			}
 			AttendanceDay attendanceInsert = new AttendanceDay();
 			attendanceInsert.setDate(i);
