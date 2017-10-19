@@ -244,4 +244,12 @@
     <example>${fns:toJson(object)}</example>  
   </function>
   
+  <function>
+    <description>获取每日考勤状态</description>
+    <name>getStatus</name>
+    <function-class>com.thinkgem.jeesite.modules.sys.utils.DictUtils</function-class>
+    <function-signature>java.util.String getStatus(java.lang.int)</function-signature>
+    <example>${fns:getStatus(index)}</example>  
+  </function>
+  
 </taglib>

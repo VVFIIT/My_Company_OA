@@ -6,23 +6,23 @@
 	<meta name="decorator" content="default"/>
 </head>
 <body>
-	<form:form id="attInsertListForm" modelAttribute="attendance" action="${ctx}/oa/attendance/attendanceInsertList" method="post" class="breadcrumb form-search">
+	<form:form id="attInsertListForm" modelAttribute="attendanceMonth" action="${ctx}/oa/attendance/attendanceInsertList" method="post" class="breadcrumb form-search">
 		<table id="attendanceTable" class="table table-striped table-bsordered table-condensed">
 			<thead><tr><th>日期</th><th>星期</th><th>工作地点</th><th>考勤状态</th></thead>
 			<tbody>
-				<c:forEach items="${attendanceList}" var="attendance">
+				<c:forEach items="${attendanceDayList}" var="attendanceday" varStatus="status">
 					<tr>
-						<td>${attendance.date}</td>
-						<td>${attendance.week}</td>
-						<td><form:input path="city" value="大连市" htmlEscape="false" maxlength="50" class="required"/></td>
+						<td>${attendanceday.date}</td>
+						<td>${attendanceday.week}</td>
+						<td><form:input path="location" value="大连市" htmlEscape="false" maxlength="50" class="required"/></td>
 						<td>
-							<form:select path="attStatus" value="公休日" class="input-medium">
+							<form:select path="${fns:getStatus(${status.index})}">
 								<form:options items="${fns:getDictList('oa_attendance_status')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
 							</form:select>
 						</td>
 					</tr>
-					<form:input path="date" name="date" type="hidden" value="${attendance.date}"/>
-					<form:input path="week" name="week" type="hidden" value="${attendance.week}"/>
+					<form:input path="date" name="date" type="hidden" value="${attendanceday.date}"/>
+					<form:input path="week" name="week" type="hidden" value="${attendanceday.week}"/>
 				</c:forEach>
 				<tr>
 					<td></td>

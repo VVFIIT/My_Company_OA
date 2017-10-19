@@ -17,34 +17,38 @@ public class AttendanceDay {
     //工作地点
     private String location;
 
-
     //考勤状态
     private String status;
 
     //getter and setter
-    public Integer getdate() {
-        return date;
-    }
+	public Integer getDate() {
+		return date;
+	}
 
-    public void setdate(Integer date) {
-        this.date = date;
-    }
 
-    public String getweek() {
-        return week;
-    }
+	public void setDate(Integer date) {
+		this.date = date;
+	}
 
-    public void setweek(String week) {
-        this.week = week;
-    }
 
-    public String getlocation() {
-        return location;
-    }
+	public String getWeek() {
+		return week;
+	}
 
-    public void setlocation(String location) {
-        this.location = location;
-    }
+
+	public void setWeek(String week) {
+		this.week = week;
+	}
+
+
+	public String getLocation() {
+		return location;
+	}
+
+
+	public void setLocation(String location) {
+		this.location = location;
+	}
 
     public String getstatus() {
         return status;
@@ -53,4 +57,5 @@ public class AttendanceDay {
     public void setstatus(String status) {
         this.status = status;
     }
+
 }

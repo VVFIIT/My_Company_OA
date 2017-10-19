@@ -2,12 +2,12 @@ package com.thinkgem.jeesite.modules.oa.service;
 
 import com.thinkgem.jeesite.modules.oa.dao.AttendanceDao;
 import com.thinkgem.jeesite.modules.oa.entity.Attendance;
+import com.thinkgem.jeesite.modules.oa.entity.AttendanceDay;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -36,7 +36,7 @@ public class AttendanceService {
 	/*
      * 添加考勤列表
      */
-    public List<Attendance> getAttendanceDateList(Attendance attendance){
+    public List<AttendanceDay> getAttendanceDateList(Attendance attendance){
     	String month = attendance.getMonth();
 		String year = attendance.getYear();
     	Calendar calendar = Calendar.getInstance(); 
@@ -50,9 +50,8 @@ public class AttendanceService {
 		}
 		calendar.setTime(dateDay); 
 		int daysCount = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
-		ArrayList<Attendance> attendanceList = new ArrayList<Attendance>();
+		ArrayList<AttendanceDay> attendanceDayList = new ArrayList<AttendanceDay>();
 		for(int i=1; i<=daysCount; i++) {
-			String day = year+"/"+month+"/"+i;
 			Date dateWeek = null;
 			String[] weekOfDays = {"星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六"};
 			String strDateWeek = year + "-" + month + "-" + i;
@@ -66,19 +65,19 @@ public class AttendanceService {
 			calendar1.setTime(dateWeek);
 			int w = calendar1.get(Calendar.DAY_OF_WEEK) - 1;
 			String week = weekOfDays[w];
-			String defaultStatus = null;
+			Integer defaultStatus = null;
 			if("星期六".equals(week) || "星期日".equals(week)) {
-				defaultStatus = "公休日";
+				defaultStatus = 8;
 			}else {
-				defaultStatus = "正常出勤";
+				defaultStatus = 1;
 			}
-			Attendance attendanceInsert = new Attendance();
-			attendanceInsert.setDate(day);
+			AttendanceDay attendanceInsert = new AttendanceDay();
+			attendanceInsert.setDate(i);
 			attendanceInsert.setWeek(week);
-			attendanceInsert.setAttStatus(defaultStatus);
-			attendanceList.add(attendanceInsert);
+			attendanceInsert.setStatus(defaultStatus);
+			attendanceDayList.add(attendanceInsert);
 		}
-		return attendanceList;
+		return attendanceDayList;
     }
     
     /*

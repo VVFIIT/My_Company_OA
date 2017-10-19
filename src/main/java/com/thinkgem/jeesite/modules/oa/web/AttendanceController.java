@@ -3,6 +3,8 @@ package com.thinkgem.jeesite.modules.oa.web;
 
 import com.thinkgem.jeesite.common.web.BaseController;
 import com.thinkgem.jeesite.modules.oa.entity.Attendance;
+import com.thinkgem.jeesite.modules.oa.entity.AttendanceDay;
+import com.thinkgem.jeesite.modules.oa.entity.AttendanceMonth;
 import com.thinkgem.jeesite.modules.oa.service.AttendanceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -69,14 +71,24 @@ public class AttendanceController extends BaseController {
 	 */
 	@RequestMapping(value = "attendanceSearchList")
 	public String attendanceList(Attendance attendance, Model model) {
-		List<Attendance> attendanceList = attendanceService.getAttendanceDateList(attendance);
-		model.addAttribute("attendanceList", attendanceList);
+		List<AttendanceDay> attendanceDayList = attendanceService.getAttendanceDateList(attendance);
+		model.addAttribute("attendanceDayList", attendanceDayList);
 		return "modules/oa/attendanceInsertList";
 	}
 	
 	@ModelAttribute("attendance")
 	public Attendance getAttendanceModel() {
 		return new Attendance();
+	}
+	
+	@ModelAttribute("attendanceMonth")
+	public AttendanceMonth getAttendanceMonthModel() {
+		return new AttendanceMonth();
+	}
+	
+	@ModelAttribute("attendanceDay")
+	public AttendanceDay getAttendanceDayModel() {
+		return new AttendanceDay();
 	}
 	
 	/**
