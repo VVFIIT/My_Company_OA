@@ -14,10 +14,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import java.util.List;
 
 /**
@@ -31,6 +29,8 @@ public class AttendanceController extends BaseController {
 
     @Autowired
     private AttendanceService attendanceService;
+    
+//    private AttendanceMonth updateAttendanceMonth;
 
 
     /**
@@ -53,7 +53,7 @@ public class AttendanceController extends BaseController {
     }
 
     /**
-     * 查看跳转
+     * 添加考勤跳转
      */
     @RequestMapping(value = "insert")
     public String attendanceUpdate() {
@@ -76,25 +76,15 @@ public class AttendanceController extends BaseController {
 	 * 添加考勤列表
 	 */
 	@RequestMapping(value = "attendanceSearchList")
-	public String attendanceList(Attendance attendance, Model model) {
-		List<AttendanceDay> attendanceDayList = attendanceService.getAttendanceDateList(attendance);
-		model.addAttribute("attendanceDayList", attendanceDayList);
+	public String attendanceList(AttendanceMonth attendanceMonth, Model model) {
+		AttendanceMonth attendanceMonth1 = attendanceService.getAttendanceDateList(attendanceMonth);
+		model.addAttribute("attendanceMonth1", attendanceMonth1);
 		return "modules/oa/attendanceInsertList";
-	}
-	
-	@ModelAttribute("attendance")
-	public Attendance getAttendanceModel() {
-		return new Attendance();
 	}
 	
 	@ModelAttribute("attendanceMonth")
 	public AttendanceMonth getAttendanceMonthModel() {
-		return new AttendanceMonth();
-	}
-	
-	@ModelAttribute("attendanceDay")
-	public AttendanceDay getAttendanceDayModel() {
-		return new AttendanceDay();
+		return attendanceService.getDefaultAttendanceMonth();
 	}
 	
 	/**
@@ -165,6 +155,5 @@ public class AttendanceController extends BaseController {
 	public void update() {
 		attendanceService.update();
 	}
-	
-	
+
 }

@@ -7,7 +7,6 @@ import com.thinkgem.jeesite.modules.oa.entity.AttendanceDay;
 import com.thinkgem.jeesite.modules.oa.entity.AttendanceMonth;
 import com.thinkgem.jeesite.modules.sys.dao.UserDao;
 import com.thinkgem.jeesite.modules.sys.entity.User;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,9 +44,9 @@ public class AttendanceService {
 	/*
      * 添加考勤列表
      */
-    public List<AttendanceDay> getAttendanceDateList(Attendance attendance){
-    	String month = attendance.getMonth();
-		String year = attendance.getYear();
+    public AttendanceMonth getAttendanceDateList(AttendanceMonth attendanceMonth){
+    	int year = attendanceMonth.getYear();
+    	int month = attendanceMonth.getMonth();
     	Calendar calendar = Calendar.getInstance(); 
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM");
 		Date dateDay = null;
@@ -86,7 +85,61 @@ public class AttendanceService {
 			attendanceInsert.setStatus(defaultStatus);
 			attendanceDayList.add(attendanceInsert);
 		}
-		return attendanceDayList;
+		AttendanceMonth attendanceMonth1 = new AttendanceMonth(attendanceDayList);
+		attendanceMonth1.setYear(year);
+		attendanceMonth1.setMonth(month);
+		attendanceMonth1.setAttendanceStatus(attendanceDayList);
+    	return attendanceMonth1;
+    }
+    
+    /*
+     * 下拉框默认值
+     */
+    public AttendanceMonth getDefaultAttendanceMonth(){
+    	int defaultYear = 2017;
+    	int defaultMonth = 9;
+    	Calendar calendar = Calendar.getInstance(); 
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM");
+		Date dateDay = null;
+		String strDateDay = defaultYear + "-" + defaultMonth;
+		try {
+			dateDay = format.parse(strDateDay);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		calendar.setTime(dateDay);
+		int daysCount = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
+		ArrayList<AttendanceDay> attendanceDayList = new ArrayList<AttendanceDay>();
+		for(int i=1; i<=daysCount; i++) {
+			Date dateWeek = null;
+			String[] weekOfDays = {"星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六"};
+			String strDateWeek = defaultYear + "-" + defaultMonth + "-" + i;
+			SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-DD");
+			try {
+				dateWeek = format1.parse(strDateWeek);
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
+			Calendar calendar1 = Calendar.getInstance();
+			calendar1.setTime(dateWeek);
+			int w = calendar1.get(Calendar.DAY_OF_WEEK) - 1;
+			String week = weekOfDays[w];
+			String defaultStatus = null;
+			if("星期六".equals(week) || "星期日".equals(week)) {
+				defaultStatus = "公休日";
+			}else {
+				defaultStatus = "正常出勤";
+			}
+			AttendanceDay attendanceInsert = new AttendanceDay();
+			attendanceInsert.setDate(i);
+			attendanceInsert.setWeek(week);
+			attendanceInsert.setStatus(defaultStatus);
+			attendanceDayList.add(attendanceInsert);
+		}
+		AttendanceMonth updateAttendanceMonth = new AttendanceMonth(attendanceDayList);
+		updateAttendanceMonth.setYear(defaultYear);
+    	updateAttendanceMonth.setMonth(defaultMonth);
+    	return updateAttendanceMonth;
     }
     
     /*

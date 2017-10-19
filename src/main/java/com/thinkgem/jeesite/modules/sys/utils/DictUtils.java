@@ -91,73 +91,107 @@ public class DictUtils {
 		return JsonMapper.toJsonString(getDictList(type));
 	}
 	
-	public static String getStatus(int index){
-		String status = null;
+	public static String getDefaultStatus(int index){
+		String status = "";
 		switch(index) {
-		case 0:
-			status = "status_day_1";
 		case 1:
-			status = "status_day_2";
+			status = "status_day_1";
+			break;
 		case 2:
-			status = "status_day_3";
+			status = "status_day_2";
+			break;
 		case 3:
-			status = "status_day_4";
+			status = "status_day_3";
+			break;
 		case 4:
-			status = "status_day_5";
+			status = "status_day_4";
+			break;
 		case 5:
-			status = "status_day_6";
+			status = "status_day_5";
+			break;
 		case 6:
-			status = "status_day_7";
+			status = "status_day_6";
+			break;
 		case 7:
-			status = "status_day_8";
+			status = "status_day_7";
+			break;
 		case 8:
-			status = "status_day_9";
+			status = "status_day_8";
+			break;
 		case 9:
-			status = "status_day_10";
+			status = "status_day_9";
+			break;
 		case 10:
-			status = "status_day_11";
+			status = "status_day_10";
+			break;
 		case 11:
-			status = "status_day_12";
+			status = "status_day_11";
+			break;
 		case 12:
-			status = "status_day_13";
+			status = "status_day_12";
+			break;
 		case 13:
-			status = "status_day_14";
+			status = "status_day_13";
+			break;
 		case 14:
-			status = "status_day_15";
+			status = "status_day_14";
+			break;
 		case 15:
-			status = "status_day_16";
+			status = "status_day_15";
+			break;
 		case 16:
-			status = "status_day_17";
+			status = "status_day_16";
+			break;
 		case 17:
-			status = "status_day_18";
+			status = "status_day_17";
+			break;
 		case 18:
-			status = "status_day_19";
+			status = "status_day_18";
+			break;
 		case 19:
-			status = "status_day_20";
+			status = "status_day_19";
+			break;
 		case 20:
-			status = "status_day_21";
+			status = "status_day_20";
+			break;
 		case 21:
-			status = "status_day_22";
+			status = "status_day_21";
+			break;
 		case 22:
-			status = "status_day_23";
+			status = "status_day_22";
+			break;
 		case 23:
-			status = "status_day_24";
+			status = "status_day_23";
+			break;
 		case 24:
-			status = "status_day_25";
+			status = "status_day_24";
+			break;
 		case 25:
-			status = "status_day_26";
+			status = "status_day_25";
+			break;
 		case 26:
-			status = "status_day_27";
+			status = "status_day_26";
+			break;
 		case 27:
-			status = "status_day_28";
+			status = "status_day_27";
+			break;
 		case 28:
-			status = "status_day_29";
+			status = "status_day_28";
+			break;
 		case 29:
-			status = "status_day_30";
+			status = "status_day_29";
+			break;
 		case 30:
+			status = "status_day_30";
+			break;
+		case 31:
 			status = "status_day_31";
+			break;
+		default:
+			break;
 		}
-		return "attendanceHelper."+status;
+		status = "attendanceHelper."+status;
+		return status;
 	}
 	
 }

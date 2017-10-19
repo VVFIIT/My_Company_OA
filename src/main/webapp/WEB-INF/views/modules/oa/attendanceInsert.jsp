@@ -10,7 +10,7 @@
 	    <li><a href="${ctx}/oa/attendance/">考勤列表</a></li>
 	    <li class="active"><a href="${ctx}/oa/attendance/insert">考勤添加</a></li>
 	</ul>
-	<form:form id="attSearchListForm" modelAttribute="attendance" target="downFrame" action="${ctx}/oa/attendance/attendanceSearchList" method="post" class="breadcrumb form-search">
+	<form:form id="attSearchListForm" modelAttribute="attendanceMonth" target="downFrame" action="${ctx}/oa/attendance/attendanceSearchList" method="post" class="breadcrumb form-search">
 		<ul class="ul-form">
 			<li><label>请选择年份：</label>
 				<form:select path="year" id="defaultYearHidden" class="input-medium">

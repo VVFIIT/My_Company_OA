@@ -7,6 +7,8 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import com.thinkgem.jeesite.modules.oa.helper.AttendanceHelper;
+
 import java.util.List;
 
 /**
@@ -36,12 +38,19 @@ public class AttendanceMonth {
     //考勤记录List（单位：月）
     @DBRef
     private List<AttendanceDay> attendanceStatus;
+    
+    private AttendanceHelper attendanceHelper;
 
     //审批流程状态
     private String processStatus;
-
-
-    //getter and setter
+    
+    public AttendanceMonth(){
+    }
+    
+    public AttendanceMonth(List<AttendanceDay> list){
+    	attendanceHelper = new AttendanceHelper(list);
+    }
+    
 	public String getId() {
 		return id;
 	}
@@ -96,6 +105,14 @@ public class AttendanceMonth {
 
 	public void setProcessStatus(String processStatus) {
 		this.processStatus = processStatus;
+	}
+
+	public AttendanceHelper getAttendanceHelper() {
+		return attendanceHelper;
+	}
+
+	public void setAttendanceHelper(AttendanceHelper attendanceHelper) {
+		this.attendanceHelper = attendanceHelper;
 	}
 
 
