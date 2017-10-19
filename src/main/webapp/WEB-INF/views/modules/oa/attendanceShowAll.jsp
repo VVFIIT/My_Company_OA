@@ -44,7 +44,7 @@
 			</ul>
 	</form:form>
 	<sys:message content="${message}"/>
-	<table id="contentTable" modelAttribute="attendance" class="table table-striped table-bordered table-condensed">
+<!-- 	<table id="contentTable" modelAttribute="attendance" class="table table-striped table-bordered table-condensed">
 	    <thead>
 	    <tr>
 	        <th>姓名</th>
@@ -62,34 +62,23 @@
 	            </div>
 	        </td>
 	    </tr>
-	</tbody> 
-	<%-- <table id="contentTable" class="table table-striped table-bordered table-condensed">
+	</tbody>  -->
+	<table id="contentTable" class="table table-striped table-bordered table-condensed">
 		<thead><tr>
 			<th>姓名</th>
 			<th>考勤提交状态</th>
 			<th>操作</th>
 		</tr></thead>
 		<tbody>
-		<c:forEach items="${page.list}" var="leave">
-			<c:set var="task" value="${leave.task }" />
-			<c:set var="pi" value="${leave.processInstance }" />
-			<c:set var="hpi" value="${leave.historicProcessInstance }" />
+		<c:forEach items="${page.list}" var="attendance">
 			<tr>
-				<td>${leave.id}</td>
-				<td>${leave.createBy.name}</td>
-				<td><fmt:formatDate value="${leave.createDate}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
-				<td>${leave.reason}</td>
-				<c:if test="${not empty task}">
-					<td>${task.name}</td>
-					<td><a target="_blank" href="${ctx}/act/task/trace/photo/${task.processDefinitionId}/${task.executionId}">跟踪</a></td>
-				</c:if>
-				<c:if test="${empty task}">
-					<td>已结束</td>
-					<td>&nbsp;</td>
-				</c:if>
+				<td>${attendance.name}</td>
+				<td>${attendance.attStatus}</td>
+				<td><a target="_blank" href="${ctx}/oa/attendance/show">查看</a></td>
+
 			</tr>
 		</c:forEach>
 		</tbody>
-	</table> --%>
+	</table>
 </body>
 </html>

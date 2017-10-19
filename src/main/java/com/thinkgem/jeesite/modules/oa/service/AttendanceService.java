@@ -1,13 +1,19 @@
 package com.thinkgem.jeesite.modules.oa.service;
 
+import com.thinkgem.jeesite.common.persistence.Page;
 import com.thinkgem.jeesite.modules.oa.dao.AttendanceDao;
 import com.thinkgem.jeesite.modules.oa.entity.Attendance;
 import com.thinkgem.jeesite.modules.oa.entity.AttendanceDay;
+import com.thinkgem.jeesite.modules.oa.entity.AttendanceMonth;
+import com.thinkgem.jeesite.modules.sys.dao.UserDao;
+import com.thinkgem.jeesite.modules.sys.entity.User;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -25,6 +31,9 @@ public class AttendanceService {
 
 	@Autowired
 	private AttendanceDao attendanceDao;
+	
+	@Autowired
+	private UserDao userDao;
 
 	@Transactional(readOnly = false, rollbackFor = Exception.class)
 	public void getName() {
@@ -156,4 +165,6 @@ public class AttendanceService {
 		List<Attendance> attendanceList = attendanceDao.getAttendanceByDate(attendance);
 		return attendanceList;
 	}
+	
+
 }

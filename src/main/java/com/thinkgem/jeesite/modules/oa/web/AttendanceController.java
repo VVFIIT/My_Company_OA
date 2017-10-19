@@ -65,8 +65,10 @@ public class AttendanceController extends BaseController {
      */
     @RequiresPermissions("oa:attendance:view")
     @RequestMapping(value = "showAll")
-    public String showAllAttendance(HttpServletRequest request, HttpServletResponse response, Model model) {
-
+    public String showAllAttendance(Attendance attendance, Model model) {
+//    	attendance.setName("郭庆荣");
+//    	List<Attendance> list = attendanceService.attendanceShowAllService(attendance);
+//    	model.addAttribute("list", list);
         return "modules/oa/attendanceShowAll";
     }
 
@@ -163,4 +165,6 @@ public class AttendanceController extends BaseController {
 	public void update() {
 		attendanceService.update();
 	}
+	
+	
 }
