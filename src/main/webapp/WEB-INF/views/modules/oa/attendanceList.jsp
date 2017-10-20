@@ -50,13 +50,13 @@
         <c:forEach items="${list}" var="attendanceMonth">
             <tr>
                 <td>${fns:abbr(attendanceMonth.year,40)}年${fns:abbr(attendanceMonth.month,40)}月</td>
-                <td>${fns:abbr(attendanceMonth.name,40)}</td>
-                <td>${fns:abbr(attendanceMonth.month,40)}</td>
-                <td>0</td>
-                <td>0</td>
-                <td>0</td>
-                <td>0</td>
-                <td>0</td>
+                <td>${fns:abbr(attendanceMonth.attendanceDayStatus.normalDay,40)}</td>
+                <td>${fns:abbr(attendanceMonth.attendanceDayStatus.travelDayShort,40)}</td>
+                <td>${fns:abbr(attendanceMonth.attendanceDayStatus.travelDayLong,40)}</td>
+                <td>${fns:abbr(attendanceMonth.attendanceDayStatus.overtimeDay,40)}</td>
+                <td>${fns:abbr(attendanceMonth.attendanceDayStatus.leaveDay,40)}</td>
+                <td>${fns:abbr(attendanceMonth.attendanceDayStatus.paidLeaveDay,40)}</td>
+                <td>${fns:abbr(attendanceMonth.attendanceDayStatus.sickLeaveDay,40)}</td>
                 <td>确认</td>
                 <td>
                     <a href="${ctx}/oa/attendance/insert">查看</a>

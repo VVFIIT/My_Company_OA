@@ -53,7 +53,9 @@ public class AttendanceController extends BaseController {
     public String list(Model model) {
         List<AttendanceMonth> list = attendanceMonthService.getAllAttendance();
         List<AttendanceDayStatus> lists = attendanceMonthService.getDayStatusSum();
-        System.out.println("_____________________" + lists);
+        for (int i = 0; i < lists.size(); i++) {
+            list.get(i).setAttendanceDayStatus(lists.get(i));
+        }
         model.addAttribute("list", list);
         return "modules/oa/attendanceList";
     }

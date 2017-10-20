@@ -38,6 +38,8 @@ public class AttendanceMonth {
     //考勤记录List（单位：月）
     @DBRef
     private List<AttendanceDay> attendanceStatus;
+
+    private AttendanceDayStatus attendanceDayStatus;
     
     private AttendanceHelper attendanceHelper;
 
@@ -114,4 +116,12 @@ public class AttendanceMonth {
 	public void setAttendanceHelper(AttendanceHelper attendanceHelper) {
 		this.attendanceHelper = attendanceHelper;
 	}
+
+    public AttendanceDayStatus getAttendanceDayStatus() {
+        return attendanceDayStatus;
+    }
+
+    public void setAttendanceDayStatus(AttendanceDayStatus attendanceDayStatus) {
+        this.attendanceDayStatus = attendanceDayStatus;
+    }
 }
