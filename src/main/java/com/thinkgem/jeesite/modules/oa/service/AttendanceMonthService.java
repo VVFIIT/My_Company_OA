@@ -2,6 +2,7 @@ package com.thinkgem.jeesite.modules.oa.service;
 
 import com.thinkgem.jeesite.modules.oa.dao.AttendanceMonthDao;
 import com.thinkgem.jeesite.modules.oa.entity.AttendanceDay;
+import com.thinkgem.jeesite.modules.oa.entity.AttendanceDayStatus;
 import com.thinkgem.jeesite.modules.oa.entity.AttendanceMonth;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -109,5 +110,36 @@ public class AttendanceMonthService {
 //		attendanceMonth.setOaNotifyRecordList(attendanceMonthDao.findList(new OaNotifyRecord(attendanceMonth)));
 //		return attendanceMonth;
 //	}
+
+	/**
+	 * 计算考勤状态和
+	 */
+	public List<AttendanceDayStatus> getDayStatusSum() {
+		AttendanceMonth attendanceMonth = new AttendanceMonth();
+		attendanceMonth.setName("姜吉庆");
+		List<AttendanceMonth> attendanceMonthList = attendanceMonthDao.getNameAttendance(attendanceMonth);
+		System.out.println("++++++++++++++++++++++++" + attendanceMonthList);
+		List<AttendanceDayStatus> list = new ArrayList<AttendanceDayStatus>();
+		//for (int i = 0; i < attendanceMonthList.size(); i++) {
+		for (AttendanceMonth anAttendanceMonthList : attendanceMonthList) {
+			AttendanceDayStatus attendanceDayStatus = new AttendanceDayStatus();
+			//正常出勤,出差-短期,出差-长期,加班,请假,其它带薪假,病假,公休日,法定节假日
+			int q = 0, w = 0, a = 0, b = 0, c = 0, d = 0, e = 0, f = 0, g = 0;
+			for (int j = 0; j < anAttendanceMonthList.getAttendanceStatus().size(); j++) {
+				if ("正常出勤".equals(anAttendanceMonthList.getAttendanceStatus().get(j).getStatus())) {
+					q++;
+					attendanceDayStatus.setNormalDay(q);
+					System.out.println("_______________" + anAttendanceMonthList.getAttendanceStatus().get(j).getStatus());
+					System.out.println("__________________+++++" + q);
+				} else if ("出差-短期".equals(anAttendanceMonthList.getAttendanceStatus().get(j).getStatus())) {
+					w++;
+					System.out.println("__________________+++++" + w);
+				}
+			}
+			list.add(attendanceDayStatus);
+		}
+		System.out.println("++__________________==" + list.size());
+		return list;
+	}
 
 }
