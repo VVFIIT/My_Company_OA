@@ -81,8 +81,11 @@ public class AttendanceHelper {
         this.updateAttendanceHelperStatus(attendancedays);
     }
 
-    void updateAttendanceHelperStatus(List<AttendanceDay> attendancedays){
+    public void updateAttendanceHelperStatus(List<AttendanceDay> attendancedays){
     	int size = attendancedays.size();
+    	if(size==0) {
+        	return;
+        }
         this.status_day_1 = attendancedays.get(0).getStatus();
         this.status_day_2 = attendancedays.get(1).getStatus();
         this.status_day_3 = attendancedays.get(2).getStatus();

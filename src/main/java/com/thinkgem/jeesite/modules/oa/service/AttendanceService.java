@@ -89,17 +89,14 @@ public class AttendanceService {
 			attendanceInsert.setStatus(defaultStatus);
 			attendanceDayList.add(attendanceInsert);
 		}
-		AttendanceMonth attendanceMonth1 = new AttendanceMonth(attendanceDayList);
-		attendanceMonth1.setYear(year);
-		attendanceMonth1.setMonth(month);
-		attendanceMonth1.setAttendanceStatus(attendanceDayList);
-    	return attendanceMonth1;
+		attendanceMonth.setAttendanceStatus(attendanceDayList);
+    	return attendanceMonth;
     }
     
     /*
      * 下拉框默认值
      */
-    public AttendanceMonth getDefaultAttendanceMonth(){
+    public AttendanceMonth getDefaultAttendanceMonth(AttendanceMonth updateAttendanceMonth){
     	int defaultYear = 2017;
     	int defaultMonth = 9;
     	Calendar calendar = Calendar.getInstance(); 
@@ -140,7 +137,7 @@ public class AttendanceService {
 			attendanceInsert.setStatus(defaultStatus);
 			attendanceDayList.add(attendanceInsert);
 		}
-		AttendanceMonth updateAttendanceMonth = new AttendanceMonth(attendanceDayList);
+		updateAttendanceMonth.getAttendanceHelper().updateAttendanceHelperStatus(attendanceDayList);
 		updateAttendanceMonth.setYear(defaultYear);
     	updateAttendanceMonth.setMonth(defaultMonth);
     	return updateAttendanceMonth;

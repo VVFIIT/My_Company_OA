@@ -3,7 +3,10 @@ package com.thinkgem.jeesite.modules.oa.web;
 import com.thinkgem.jeesite.common.utils.StringUtils;
 import com.thinkgem.jeesite.common.web.BaseController;
 import com.thinkgem.jeesite.modules.oa.entity.Attendance;
+<<<<<<< HEAD
 import com.thinkgem.jeesite.modules.oa.entity.AttendanceDayStatus;
+=======
+>>>>>>> update
 import com.thinkgem.jeesite.modules.oa.entity.AttendanceMonth;
 import com.thinkgem.jeesite.modules.oa.service.AttendanceMonthService;
 import com.thinkgem.jeesite.modules.oa.service.AttendanceService;
@@ -30,12 +33,20 @@ public class AttendanceController extends BaseController {
 
     @Autowired
     private AttendanceService attendanceService;
+<<<<<<< HEAD
 
 //    private AttendanceMonth updateAttendanceMonth;
+=======
+    
+    private AttendanceMonth updateAttendanceMonth;
+>>>>>>> update
 
     @Autowired
     private AttendanceMonthService attendanceMonthService;
 
+    public AttendanceController() {
+    	this.updateAttendanceMonth = new AttendanceMonth();
+    }
     /**
      * MongoDB测试
      */
@@ -81,6 +92,7 @@ public class AttendanceController extends BaseController {
 
 
     /**
+<<<<<<< HEAD
      * 添加考勤列表
      */
     @RequestMapping(value = "attendanceSearchList")
@@ -89,6 +101,30 @@ public class AttendanceController extends BaseController {
         model.addAttribute("attendanceMonth1", attendanceMonth1);
         return "modules/oa/attendanceInsertList";
     }
+=======
+	 * 添加考勤列表
+	 */
+	@RequestMapping(value = "attendanceSearchList")
+	public String attendanceList(AttendanceMonth attendanceMonth, Model model) {
+		AttendanceMonth attendanceMonth1 = attendanceService.getAttendanceDateList(attendanceMonth);
+		model.addAttribute("attendanceMonth1", attendanceMonth1);
+		return "modules/oa/attendanceInsertList";
+	}
+	
+	@ModelAttribute("attendanceMonth")
+	public AttendanceMonth getAttendanceMonthModel() {
+		return attendanceService.getDefaultAttendanceMonth(updateAttendanceMonth);
+	}
+	
+	/**
+	 * 提交考勤列表
+	 */
+	@RequestMapping(value = "attendanceInsertList")
+	public String attendanceInsert(Attendance attendance, Model model) {
+		attendanceService.InsertAttendanceList(attendance);
+		return "modules/oa/attendanceList";
+	}
+>>>>>>> update
 
     @ModelAttribute("attendanceMonth")
     public AttendanceMonth getAttendanceMonthModel() {

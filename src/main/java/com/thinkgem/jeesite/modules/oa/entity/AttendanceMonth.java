@@ -47,10 +47,7 @@ public class AttendanceMonth {
     private String processStatus;
     
     public AttendanceMonth(){
-    }
-    
-    public AttendanceMonth(List<AttendanceDay> list){
-    	attendanceHelper = new AttendanceHelper(list);
+    	attendanceHelper = new AttendanceHelper();
     }
 
 	public String getId() {
