@@ -39,9 +39,6 @@ public class AttendanceService {
 	
 	@Autowired
 	private UserDao userDao;
-	
-	@Autowired
-	private AttendanceMonthDao attendanceMonthDao;
 
 	@Transactional(readOnly = false, rollbackFor = Exception.class)
 	public void getName() {

@@ -111,20 +111,6 @@ public class AttendanceController extends BaseController {
 		return "modules/oa/attendanceList";
 	}
 
-    @ModelAttribute("attendanceMonth")
-    public AttendanceMonth getAttendanceMonthModel() {
-        return attendanceService.getDefaultAttendanceMonth();
-    }
-
-    /**
-     * 提交考勤列表
-     */
-    @RequestMapping(value = "attendanceInsertList")
-    public String attendanceInsert(Attendance attendance, Model model) {
-        attendanceService.InsertAttendanceList(attendance);
-        return "modules/oa/attendanceList";
-    }
-
     /**
      * 查看个人考勤
      */
