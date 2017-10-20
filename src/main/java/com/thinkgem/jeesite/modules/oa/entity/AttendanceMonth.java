@@ -17,24 +17,25 @@ import java.util.List;
  * @author mojun
  */
 
-@Document(collection="attendance")
+@Document(collection = "attendance")
 public class AttendanceMonth {
 
-    @Id
-    private String id;
+	@Id
+	private String id;
 
-    //姓名
-    private String name;
+	// 姓名
+	private String name;
 
-    //部门
-    private String department;
+	// 部门
+	private String department;
 
-    //当前记录的年份
-    private Integer year;
+	// 当前记录的年份
+	private Integer year;
 
-    //当前记录的月份
-    private Integer month;
+	// 当前记录的月份
+	private Integer month;
 
+<<<<<<< HEAD
     //考勤记录List（单位：月）
     @DBRef
     private List<AttendanceDay> attendanceStatus;
@@ -51,6 +52,16 @@ public class AttendanceMonth {
     	attendanceHelper = new AttendanceHelper(list);
     }
     
+=======
+	// 考勤记录List（单位：月）
+	// @DBRef
+	private List<AttendanceDay> attendanceStatus;
+
+	// 审批流程状态
+	private String processStatus;
+
+	// getter and setter
+>>>>>>> 90b39448537a611622ac19536b3ea3b465ac901c
 	public String getId() {
 		return id;
 	}
@@ -114,7 +125,4 @@ public class AttendanceMonth {
 	public void setAttendanceHelper(AttendanceHelper attendanceHelper) {
 		this.attendanceHelper = attendanceHelper;
 	}
-
-
-    
 }

@@ -44,14 +44,14 @@
         <th>操作</th>
     </tr>
     </thead>
-    <form:form id="searchForm" modelAttribute="attendance" action="${ctx}/oa/attendance/" method="get"
+    <form:form id="searchForm" modelAttribute="attendanceMonth" action="${ctx}/oa/attendance/" method="get"
                class="breadcrumb form-search">
         <tbody>
-        <c:forEach items="${list}" var="attendance">
+        <c:forEach items="${list}" var="attendanceMonth">
             <tr>
-                <td>${fns:abbr(attendance.year,40)}</td>
-                <td>${fns:abbr(attendance.name,40)}</td>
-                <td>${fns:abbr(attendance.month,40)}</td>
+                <td>${fns:abbr(attendanceMonth.year,40)}年${fns:abbr(attendanceMonth.month,40)}月</td>
+                <td>${fns:abbr(attendanceMonth.name,40)}</td>
+                <td>${fns:abbr(attendanceMonth.month,40)}</td>
                 <td>0</td>
                 <td>0</td>
                 <td>0</td>
@@ -63,8 +63,8 @@
                     <a href=""
                        onclick="return confirmx('确认要修改考勤吗？', this.href)">修改</a>
                     <a href="">提交</a>
-                    <a href=""
-                       onclick="return confirmx('确认要删除该考勤吗？', this.href)">删除</a>
+                    <%--<a href=""--%>
+                       <%--onclick="return confirmx('确认要删除该考勤吗？', this.href)">删除</a>--%>
                 </td>
             </tr>
         </c:forEach>

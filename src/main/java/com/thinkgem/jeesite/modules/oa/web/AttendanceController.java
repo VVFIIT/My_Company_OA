@@ -1,12 +1,13 @@
 package com.thinkgem.jeesite.modules.oa.web;
 
 
+import com.thinkgem.jeesite.common.utils.StringUtils;
 import com.thinkgem.jeesite.common.web.BaseController;
 import com.thinkgem.jeesite.modules.oa.entity.Attendance;
 import com.thinkgem.jeesite.modules.oa.entity.AttendanceDay;
 import com.thinkgem.jeesite.modules.oa.entity.AttendanceMonth;
+import com.thinkgem.jeesite.modules.oa.service.AttendanceMonthService;
 import com.thinkgem.jeesite.modules.oa.service.AttendanceService;
-
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -32,6 +33,8 @@ public class AttendanceController extends BaseController {
     
 //    private AttendanceMonth updateAttendanceMonth;
 
+    @Autowired
+    private AttendanceMonthService attendanceMonthService;
 
     /**
      * MongoDB测试
@@ -45,9 +48,8 @@ public class AttendanceController extends BaseController {
 
 
     @RequestMapping(value = {"list", ""}, method = RequestMethod.GET)
-    public String list(Attendance attendance, Model model) {
-//        insertAtt();
-        List<Attendance> list = attendanceService.getAllAttendance(attendance);
+    public String list(Model model) {
+        List<AttendanceMonth> list = attendanceMonthService.getAllAttendance();
         model.addAttribute("list", list);
         return "modules/oa/attendanceList";
     }
@@ -96,31 +98,6 @@ public class AttendanceController extends BaseController {
 		return "modules/oa/attendanceList";
 	}
 
-    /**
-     * test insert
-     */
-    @RequestMapping(value = "insertAtt")
-    public void insertAtt() {
-        attendanceService.insertAtt();
-    }
-
-    /**
-     * 根据条件查询
-     */
-    @RequestMapping(value = "getAttendance")
-    public List<Attendance> getAttendance(Attendance attendance) {
-        return attendanceService.getAttendance(attendance);
-    }
-
-    /**
-
-     * 查询所有
-     */
-    @RequestMapping(value = "getAllAttendance")
-    public List<Attendance> getAllAttendance(Attendance attendance) {
-        List<Attendance> list = attendanceService.getAllAttendance(attendance);
-        return list;
-    }
 
     /**
      * test delete
@@ -138,7 +115,7 @@ public class AttendanceController extends BaseController {
     public String attendanceShow() {
         return "modules/oa/attendanceShow";
     }
-	
+
 	/**
 	 * test getAttendanceByDate
 	 */
@@ -146,7 +123,6 @@ public class AttendanceController extends BaseController {
 	public void getAttendanceByDate() {
 		attendanceService.getAttendanceByDate();
 	}
-	
 	
 	/**
 	 * test update
@@ -156,4 +132,15 @@ public class AttendanceController extends BaseController {
 		attendanceService.update();
 	}
 
+    /**
+     * 修改个人考勤
+     */
+    @RequestMapping(value = "form")
+    public String form(AttendanceMonth attendanceMonth, Model model) {
+        if (StringUtils.isNotBlank(attendanceMonth.getId())) {
+//            attendanceMonth = attendanceService.getRecordList(attendanceMonth);
+        }
+        model.addAttribute("attendanceMonth", attendanceMonth);
+        return "modules/oa/attendanceInsertList";
+    }
 }
