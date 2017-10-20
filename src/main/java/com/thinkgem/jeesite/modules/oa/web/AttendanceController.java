@@ -46,7 +46,9 @@ public class AttendanceController extends BaseController {
         return "MongoDB开始";
     }
 
-
+    /**
+     * 考勤首页数据显示
+     */
     @RequestMapping(value = {"list", ""}, method = RequestMethod.GET)
     public String list(Model model) {
         List<AttendanceMonth> list = attendanceMonthService.getAllAttendance();

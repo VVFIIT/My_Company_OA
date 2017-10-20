@@ -133,12 +133,26 @@ public class AttendanceMonthService {
 					System.out.println("__________________+++++" + q);
 				} else if ("出差-短期".equals(anAttendanceMonthList.getAttendanceStatus().get(j).getStatus())) {
 					w++;
-					System.out.println("__________________+++++" + w);
+					attendanceDayStatus.setTravelDayShort(w);
+				} else if ("出差-长期".equals(anAttendanceMonthList.getAttendanceStatus().get(j).getStatus())){
+					a++;
+					attendanceDayStatus.setTravelDayLong(a);
+				}else if ("加班".equals(anAttendanceMonthList.getAttendanceStatus().get(j).getStatus())){
+					b++;
+					attendanceDayStatus.setOvertimeDay(b);
+				}else if ("请假".equals(anAttendanceMonthList.getAttendanceStatus().get(j).getStatus())){
+					c++;
+					attendanceDayStatus.setLeaveDay(c);
+				}else if ("其它带薪假".equals(anAttendanceMonthList.getAttendanceStatus().get(j).getStatus())){
+					d++;
+					attendanceDayStatus.setPaidLeaveDay(d);
+				}else if ("病假".equals(anAttendanceMonthList.getAttendanceStatus().get(j).getStatus())){
+					e++;
+					attendanceDayStatus.setSickLeaveDay(e);
 				}
 			}
 			list.add(attendanceDayStatus);
 		}
-		System.out.println("++__________________==" + list.size());
 		return list;
 	}
 
