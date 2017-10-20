@@ -42,7 +42,7 @@ public class AttendanceMonthDao {
 			query.addCriteria(Criteria.where("year").is(attendanceMonth.getYear()));
 		}
 		if (attendanceMonth.getMonth() != null) {
-			query.addCriteria(Criteria.where("year").is(attendanceMonth.getMonth()));
+			query.addCriteria(Criteria.where("month").is(attendanceMonth.getMonth()));
 		}
 
 		query.with(new Sort(new Sort.Order(Sort.Direction.DESC, "year")));
