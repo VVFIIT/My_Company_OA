@@ -34,8 +34,7 @@ public class AttendanceMonth {
 
 	// 当前记录的月份
 	private Integer month;
-
-<<<<<<< HEAD
+	
     //考勤记录List（单位：月）
     @DBRef
     private List<AttendanceDay> attendanceStatus;
@@ -51,17 +50,7 @@ public class AttendanceMonth {
     public AttendanceMonth(List<AttendanceDay> list){
     	attendanceHelper = new AttendanceHelper(list);
     }
-    
-=======
-	// 考勤记录List（单位：月）
-	// @DBRef
-	private List<AttendanceDay> attendanceStatus;
 
-	// 审批流程状态
-	private String processStatus;
-
-	// getter and setter
->>>>>>> 90b39448537a611622ac19536b3ea3b465ac901c
 	public String getId() {
 		return id;
 	}
