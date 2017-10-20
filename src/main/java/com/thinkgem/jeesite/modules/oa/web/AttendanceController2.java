@@ -3,11 +3,13 @@ package com.thinkgem.jeesite.modules.oa.web;
 import com.thinkgem.jeesite.common.utils.StringUtils;
 import com.thinkgem.jeesite.common.web.BaseController;
 import com.thinkgem.jeesite.modules.oa.entity.Attendance;
+<<<<<<< HEAD
 import com.thinkgem.jeesite.modules.oa.entity.AttendanceDayStatus;
+=======
+>>>>>>> update
 import com.thinkgem.jeesite.modules.oa.entity.AttendanceMonth;
 import com.thinkgem.jeesite.modules.oa.service.AttendanceMonthService;
 import com.thinkgem.jeesite.modules.oa.service.AttendanceService;
-
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -31,8 +33,13 @@ public class AttendanceController extends BaseController {
 
     @Autowired
     private AttendanceService attendanceService;
+<<<<<<< HEAD
+
+//    private AttendanceMonth updateAttendanceMonth;
+=======
     
     private AttendanceMonth updateAttendanceMonth;
+>>>>>>> update
 
     @Autowired
     private AttendanceMonthService attendanceMonthService;
@@ -85,7 +92,18 @@ public class AttendanceController extends BaseController {
         return "modules/oa/attendanceShowAll";
     }
 
+
     /**
+<<<<<<< HEAD
+     * 添加考勤列表
+     */
+    @RequestMapping(value = "attendanceSearchList")
+    public String attendanceList(AttendanceMonth attendanceMonth, Model model) {
+        AttendanceMonth attendanceMonth1 = attendanceService.getAttendanceDateList(attendanceMonth);
+        model.addAttribute("attendanceMonth1", attendanceMonth1);
+        return "modules/oa/attendanceInsertList";
+    }
+=======
 	 * 添加考勤列表
 	 */
 	@RequestMapping(value = "attendanceSearchList")
@@ -110,6 +128,7 @@ public class AttendanceController extends BaseController {
 		attendanceService.InsertAttendanceList(attendance);
 		return "modules/oa/attendanceList";
 	}
+>>>>>>> update
 
     @ModelAttribute("attendanceMonth")
     public AttendanceMonth getAttendanceMonthModel() {
