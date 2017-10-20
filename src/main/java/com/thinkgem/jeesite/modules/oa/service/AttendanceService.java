@@ -2,6 +2,7 @@ package com.thinkgem.jeesite.modules.oa.service;
 
 import com.thinkgem.jeesite.common.persistence.Page;
 import com.thinkgem.jeesite.modules.oa.dao.AttendanceDao;
+import com.thinkgem.jeesite.modules.oa.dao.AttendanceMonthDao;
 import com.thinkgem.jeesite.modules.oa.entity.Attendance;
 import com.thinkgem.jeesite.modules.oa.entity.AttendanceDay;
 import com.thinkgem.jeesite.modules.oa.entity.AttendanceMonth;
@@ -30,9 +31,12 @@ public class AttendanceService {
 
 	@Autowired
 	private AttendanceDao attendanceDao;
-	
+
 	@Autowired
 	private UserDao userDao;
+
+	@Autowired
+	private AttendanceMonthDao attendanceMonthDao;
 
 	@Transactional(readOnly = false, rollbackFor = Exception.class)
 	public void getName() {
@@ -42,12 +46,21 @@ public class AttendanceService {
 	}
 
 	/*
+<<<<<<< HEAD
      * 添加考勤列表
      */
     public AttendanceMonth getAttendanceDateList(AttendanceMonth attendanceMonth){
     	int year = attendanceMonth.getYear();
     	int month = attendanceMonth.getMonth();
     	Calendar calendar = Calendar.getInstance(); 
+=======
+	 * 添加考勤列表
+	 */
+	public List<AttendanceDay> getAttendanceDateList(Attendance attendance) {
+		String month = attendance.getMonth();
+		String year = attendance.getYear();
+		Calendar calendar = Calendar.getInstance();
+>>>>>>> update attendance
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM");
 		Date dateDay = null;
 		String strDateDay = year + "-" + month;
@@ -56,12 +69,13 @@ public class AttendanceService {
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
-		calendar.setTime(dateDay); 
+		calendar.setTime(dateDay);
 		int daysCount = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
 		ArrayList<AttendanceDay> attendanceDayList = new ArrayList<AttendanceDay>();
-		for(int i=1; i<=daysCount; i++) {
+		for (int i = 1; i <= daysCount; i++) {
 			Date dateWeek = null;
-			String[] weekOfDays = {"星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六"};
+			String[] weekOfDays = { "星期日", "星期一", "星期二", "星期三", "星期四", "星期五",
+					"星期六" };
 			String strDateWeek = year + "-" + month + "-" + i;
 			SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-DD");
 			try {
@@ -69,14 +83,14 @@ public class AttendanceService {
 			} catch (ParseException e) {
 				e.printStackTrace();
 			}
-			Calendar calendar1 = Calendar.getInstance(); 
+			Calendar calendar1 = Calendar.getInstance();
 			calendar1.setTime(dateWeek);
 			int w = calendar1.get(Calendar.DAY_OF_WEEK) - 1;
 			String week = weekOfDays[w];
 			String defaultStatus = null;
-			if("星期六".equals(week) || "星期日".equals(week)) {
+			if ("星期六".equals(week) || "星期日".equals(week)) {
 				defaultStatus = "公休日";
-			}else {
+			} else {
 				defaultStatus = "正常出勤";
 			}
 			AttendanceDay attendanceInsert = new AttendanceDay();
@@ -85,6 +99,7 @@ public class AttendanceService {
 			attendanceInsert.setStatus(defaultStatus);
 			attendanceDayList.add(attendanceInsert);
 		}
+<<<<<<< HEAD
 		AttendanceMonth attendanceMonth1 = new AttendanceMonth(attendanceDayList);
 		attendanceMonth1.setYear(year);
 		attendanceMonth1.setMonth(month);
@@ -147,11 +162,21 @@ public class AttendanceService {
      */
     public void InsertAttendanceList(Attendance attendance){
     	String[] strDate = attendance.getDate().split(",");
+=======
+		return attendanceDayList;
+	}
+
+	/*
+	 * 插入考勤列表
+	 */
+	public void InsertAttendanceList(Attendance attendance) {
+		String[] strDate = attendance.getDate().split(",");
+>>>>>>> update attendance
 		String[] strWeek = attendance.getWeek().split(",");
 		String[] strCity = attendance.getCity().split(",");
 		String[] strAttStatus = attendance.getAttStatus().split(",");
 		ArrayList<Attendance> attendanceList = new ArrayList<Attendance>();
-		for(int i = 0; i<strDate.length; i++) {
+		for (int i = 0; i < strDate.length; i++) {
 			Attendance strAttendance = new Attendance();
 			strAttendance.setDate(strDate[i]);
 			strAttendance.setWeek(strWeek[i]);
@@ -159,7 +184,7 @@ public class AttendanceService {
 			strAttendance.setAttStatus(strAttStatus[i]);
 			attendanceList.add(strAttendance);
 		}
-    }
+	}
 
 	/**
 	 * 插入考勤实体
@@ -178,7 +203,8 @@ public class AttendanceService {
 	 */
 	public List<Attendance> getAttendance(Attendance attendance) {
 		attendance.setName("王");
-		List<Attendance> attendanceList = attendanceDao.getAttendance(attendance);
+		List<Attendance> attendanceList = attendanceDao
+				.getAttendance(attendance);
 		return attendanceList;
 	}
 
@@ -186,7 +212,8 @@ public class AttendanceService {
 	 * 查询所有
 	 */
 	public List<Attendance> getAllAttendance(Attendance attendance) {
-		List<Attendance> attendanceList = attendanceDao.getAllAttendance(attendance);
+		List<Attendance> attendanceList = attendanceDao
+				.getAllAttendance(attendance);
 		return attendanceList;
 	}
 
@@ -215,9 +242,47 @@ public class AttendanceService {
 		Attendance attendance = new Attendance();
 		attendance.setYear("2017");
 		attendance.setMonth("12");
-		List<Attendance> attendanceList = attendanceDao.getAttendanceByDate(attendance);
+		List<Attendance> attendanceList = attendanceDao
+				.getAttendanceByDate(attendance);
 		return attendanceList;
 	}
-	
+
+	/**
+	 * 查询考勤
+	 */
+	public List<AttendanceMonth> attendanceShowAllService(
+			AttendanceMonth attendance) {
+		Integer month = attendance.getMonth();
+		Integer year = attendance.getYear();
+		User user = new User();
+		List<User> userList = userDao.findList(user);
+		List<AttendanceMonth> returnList = new ArrayList<AttendanceMonth>();
+		for (User userInformation : userList) {
+			String name = userInformation.getName();
+			AttendanceMonth attendanceInsert = new AttendanceMonth();
+			if (month == null && year == null) {
+				Calendar cal = Calendar.getInstance();
+				int yearCurrent = cal.get(Calendar.YEAR); // 获取当前年份
+				int monthCurrent = cal.get(Calendar.MONTH) + 1; // 获取当前月份
+				attendanceInsert.setName(name);
+				attendanceInsert.setYear(yearCurrent);
+				attendanceInsert.setMonth(monthCurrent);
+			} else {
+				attendanceInsert.setName(name);
+				attendanceInsert.setYear(year);
+				attendanceInsert.setMonth(month);
+			}
+			List<AttendanceMonth> attendanceList = attendanceMonthDao
+					.getAttendance(attendanceInsert);
+
+			if (0 == attendanceList.size()) {
+				// 根据姓名，年，月，没有记录，此人还没有提交过，页面需要显示 姓名 和 空状态
+				attendanceList.add(attendanceInsert);
+			}
+			// 正常情况下 根据姓名，年，月，会精确查出一条记录
+			returnList.add(attendanceList.get(0));
+		}
+		return returnList;
+	}
 
 }

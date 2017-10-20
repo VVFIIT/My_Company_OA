@@ -44,25 +44,7 @@
 			</ul>
 	</form:form>
 	<sys:message content="${message}"/>
-<!-- 	<table id="contentTable" modelAttribute="attendance" class="table table-striped table-bordered table-condensed">
-	    <thead>
-	    <tr>
-	        <th>姓名</th>
-	        <th>考勤提交状态</th>
-	        <th>操作</th>
-	    </tr>
-	    </thead>
-	    <tbody>
-	    <tr>
-	        <td>高振东</td>
-	        <td>提交</td>
-	        <td>
-	        	<div>
-	            	<input id="btnSubmit" class="btn btn-primary" type="button" value="查看" onclick="attendanceShow();"/>
-	            </div>
-	        </td>
-	    </tr>
-	</tbody>  -->
+
 	<table id="contentTable" class="table table-striped table-bordered table-condensed">
 		<thead><tr>
 			<th>姓名</th>
@@ -70,10 +52,13 @@
 			<th>操作</th>
 		</tr></thead>
 		<tbody>
-		<c:forEach items="${page.list}" var="attendance">
+		<c:forEach items="${list}" var="attendance">
 			<tr>
 				<td>${attendance.name}</td>
-				<td>${attendance.attStatus}</td>
+				<td>
+					${attendance.processStatus}
+					
+				</td>
 				<td><a target="_blank" href="${ctx}/oa/attendance/show">查看</a></td>
 
 			</tr>
