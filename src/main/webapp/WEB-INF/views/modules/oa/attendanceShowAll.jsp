@@ -26,7 +26,7 @@
 	    <li class="active"><a href="${ctx}/oa/attendance/showAll">考勤列表</a></li>
 	</ul>
 	
-	<form:form id="attSearchListForm" modelAttribute="attendance" action="${ctx}/oa/attendance/showAll" method="post" class="breadcrumb form-search">
+	<form:form id="attSearchListForm" modelAttribute="attendanceShowAll" action="${ctx}/oa/attendance/showAll" method="post" class="breadcrumb form-search">
 			<ul class="ul-form">
 				<li><label>请选择年份：</label>
 					<form:select path="year" class="input-medium">
@@ -56,8 +56,12 @@
 			<tr>
 				<td>${attendance.name}</td>
 				<td>
-					${attendance.processStatus}
 					
+					<c:if test="${empty attendance.processStatus}"></c:if>
+					<c:if test="${attendance.processStatus ==1}"> 提交</c:if>
+					<font color=red><c:if test="${attendance.processStatus ==2}"> 未提交</c:if></font>
+					<c:if test="${attendance.processStatus ==3}"> 确认</c:if>
+  					
 				</td>
 				<td><a target="_blank" href="${ctx}/oa/attendance/show">查看</a></td>
 

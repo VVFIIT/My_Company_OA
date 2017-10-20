@@ -263,7 +263,7 @@ public class AttendanceService {
 	/**
 	 * 查询考勤
 	 */
-	public List<AttendanceMonth> attendanceShowAllService(
+	public List<AttendanceMonth> getAttendanceShowAll(
 			AttendanceMonth attendance) {
 		Integer month = attendance.getMonth();
 		Integer year = attendance.getYear();
@@ -297,5 +297,17 @@ public class AttendanceService {
 		}
 		return returnList;
 	}
-
+	
+	/**
+	 * 查询考勤默认值
+	 */
+	public AttendanceMonth getDefaultAttendanceShowAll(){		
+		Calendar cal = Calendar.getInstance();
+		int defaultYear = cal.get(Calendar.YEAR); // 获取当前年份
+		int defaultMonth = cal.get(Calendar.MONTH) + 1; // 获取当前月份
+		AttendanceMonth updateAttendanceMonth = new AttendanceMonth();
+		updateAttendanceMonth.setYear(defaultYear);
+    	updateAttendanceMonth.setMonth(defaultMonth);
+    	return updateAttendanceMonth;
+    }
 }
