@@ -3,16 +3,15 @@ package com.thinkgem.jeesite.modules.oa.service;
 import com.thinkgem.jeesite.modules.oa.dao.AttendanceMonthDao;
 import com.thinkgem.jeesite.modules.oa.entity.AttendanceDay;
 import com.thinkgem.jeesite.modules.oa.entity.AttendanceMonth;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
 
 /**
  * Created by GQR on 2017/10/18.
@@ -90,5 +89,25 @@ public class AttendanceMonthService {
 
 		attendanceMonthDao.update(attendanceMonth);
 	}
+
+	/**
+	 * 查询所有姓名唯一的信息
+	 */
+	public List<AttendanceMonth> getAllAttendance() {
+		AttendanceMonth attendanceMonth = new AttendanceMonth();
+		attendanceMonth.setName("姜吉庆");
+		List<AttendanceMonth> attendanceMonthList = attendanceMonthDao.getNameAttendance(attendanceMonth);
+		return attendanceMonthList;
+	}
+
+//	/**
+//	 * 获取考勤记录
+//	 * @param attendanceMonth
+//	 * @return
+//	 */
+//	public AttendanceMonth getRecordList(AttendanceMonth attendanceMonth) {
+//		attendanceMonth.setOaNotifyRecordList(attendanceMonthDao.findList(new OaNotifyRecord(attendanceMonth)));
+//		return attendanceMonth;
+//	}
 
 }

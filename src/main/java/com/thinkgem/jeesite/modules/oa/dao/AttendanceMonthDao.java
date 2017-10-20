@@ -1,21 +1,17 @@
 package com.thinkgem.jeesite.modules.oa.dao;
 
-import com.thinkgem.jeesite.modules.oa.entity.Attendance;
-
-import org.springframework.data.domain.Sort;
-import org.springframework.data.mongodb.core.MongoTemplate;
 import com.thinkgem.jeesite.common.utils.StringUtils;
-
-import java.util.List;
-
+import com.thinkgem.jeesite.modules.oa.entity.Attendance;
+import com.thinkgem.jeesite.modules.oa.entity.AttendanceMonth;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Service;
 
-import com.thinkgem.jeesite.modules.oa.entity.AttendanceMonth;
+import java.util.List;
 
 /**
  * Created by GQR on 2017/10/18.
@@ -72,5 +68,15 @@ public class AttendanceMonthDao {
 		// update.pull("processStatus", attendanceMonth.getProcessStatus());
 
 		mongoTemplate.upsert(query, update, Attendance.class);
+	}
+
+	/**
+	 * 查询唯一姓名所有
+	 */
+	public List<AttendanceMonth> getNameAttendance(AttendanceMonth attendanceMonth) {
+		Query query = new Query();
+		query.addCriteria(Criteria.where("name").is(attendanceMonth.getName()));
+		query.with(new Sort(new Sort.Order(Sort.Direction.ASC, "month")));
+		return this.mongoTemplate.find(query, AttendanceMonth.class);
 	}
 }
