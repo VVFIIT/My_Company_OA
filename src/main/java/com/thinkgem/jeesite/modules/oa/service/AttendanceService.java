@@ -8,6 +8,8 @@ import com.thinkgem.jeesite.modules.oa.entity.AttendanceDay;
 import com.thinkgem.jeesite.modules.oa.entity.AttendanceMonth;
 import com.thinkgem.jeesite.modules.sys.dao.UserDao;
 import com.thinkgem.jeesite.modules.sys.entity.User;
+import com.thinkgem.jeesite.modules.sys.utils.UserUtils;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +33,9 @@ public class AttendanceService {
 
 	@Autowired
 	private AttendanceDao attendanceDao;
+	
+	@Autowired
+	private AttendanceMonthDao attendanceMonthDao;
 	
 	@Autowired
 	private UserDao userDao;
@@ -67,55 +72,7 @@ public class AttendanceService {
 			Date dateWeek = null;
 			String[] weekOfDays = {"星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六"};
 			String strDateWeek = year + "-" + month + "-" + i;
-			SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-DD");
-			try {
-				dateWeek = format1.parse(strDateWeek);
-			} catch (ParseException e) {
-				e.printStackTrace();
-			}
-			Calendar calendar1 = Calendar.getInstance(); 
-			calendar1.setTime(dateWeek);
-			int w = calendar1.get(Calendar.DAY_OF_WEEK) - 1;
-			String week = weekOfDays[w];
-			String defaultStatus = null;
-			if("星期六".equals(week) || "星期日".equals(week)) {
-				defaultStatus = "公休日";
-			}else {
-				defaultStatus = "正常出勤";
-			}
-			AttendanceDay attendanceInsert = new AttendanceDay();
-			attendanceInsert.setDate(i);
-			attendanceInsert.setWeek(week);
-			attendanceInsert.setStatus(defaultStatus);
-			attendanceDayList.add(attendanceInsert);
-		}
-		attendanceMonth.setAttendanceStatus(attendanceDayList);
-    	return attendanceMonth;
-    }
-    
-    /*
-     * 下拉框默认值
-     */
-    public AttendanceMonth getDefaultAttendanceMonth(AttendanceMonth updateAttendanceMonth){
-    	int defaultYear = 2017;
-    	int defaultMonth = 9;
-    	Calendar calendar = Calendar.getInstance(); 
-		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM");
-		Date dateDay = null;
-		String strDateDay = defaultYear + "-" + defaultMonth;
-		try {
-			dateDay = format.parse(strDateDay);
-		} catch (ParseException e) {
-			e.printStackTrace();
-		}
-		calendar.setTime(dateDay);
-		int daysCount = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
-		ArrayList<AttendanceDay> attendanceDayList = new ArrayList<AttendanceDay>();
-		for(int i=1; i<=daysCount; i++) {
-			Date dateWeek = null;
-			String[] weekOfDays = {"星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六"};
-			String strDateWeek = defaultYear + "-" + defaultMonth + "-" + i;
-			SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-DD");
+			SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd");
 			try {
 				dateWeek = format1.parse(strDateWeek);
 			} catch (ParseException e) {
@@ -137,11 +94,97 @@ public class AttendanceService {
 			attendanceInsert.setStatus(defaultStatus);
 			attendanceDayList.add(attendanceInsert);
 		}
-		updateAttendanceMonth.getAttendanceHelper().updateAttendanceHelperStatus(attendanceDayList);
-		updateAttendanceMonth.setYear(defaultYear);
-    	updateAttendanceMonth.setMonth(defaultMonth);
-    	return updateAttendanceMonth;
+		attendanceMonth.setAttendanceStatus(attendanceDayList);
+    	return attendanceMonth;
     }
+    
+    /*
+     * 添加考勤跳转框年份和月份默认值
+     */
+    public AttendanceMonth getDefaultYearAndMonth(){
+    	int defaultYear;
+    	int defaultMonth;
+    	AttendanceMonth attendanceMonth = new AttendanceMonth();
+    	User user = UserUtils.getUser();
+    	attendanceMonth.setName(user.getName());
+    	List<AttendanceMonth> list = attendanceMonthDao.getAttendance(attendanceMonth);
+    	if(list.size()==0) {
+    		Calendar date = Calendar.getInstance();
+    		int year = date.get(Calendar.YEAR);
+    		int month = date.get(Calendar.MONTH)+1;
+    		if(month==1) {
+    			defaultYear = year-1;
+    			defaultMonth = 12;
+    		}else {
+    			defaultYear = year;
+        		defaultMonth = month-1;
+    		}
+    	}else {
+    		int year = list.get(0).getYear();
+        	int month = list.get(0).getMonth();
+        	if(month==12) {
+        		defaultYear = year+1;
+        		defaultMonth = 1;
+        	}else {
+        		defaultYear = year;
+        		defaultMonth = month;
+        	}
+    	}
+    	attendanceMonth.setYear(defaultYear);
+    	attendanceMonth.setMonth(defaultMonth);
+    	return attendanceMonth;
+    }
+    
+    /*
+     * 查询考勤状态列表默认值
+     */
+    public AttendanceMonth getDefaultAttendanceMonth(AttendanceMonth attendanceMonth){
+    	int defaultYear = attendanceMonth.getYear();
+    	int defaultMonth = attendanceMonth.getMonth();
+    	Calendar calendar = Calendar.getInstance(); 
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM");
+		Date dateDay = null;
+		String strDateDay = defaultYear + "-" + defaultMonth;
+		try {
+			dateDay = format.parse(strDateDay);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		calendar.setTime(dateDay);
+		int daysCount = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
+		ArrayList<AttendanceDay> attendanceDayList = new ArrayList<AttendanceDay>();
+		for(int i=1; i<=daysCount; i++) {
+			Date dateWeek = null;
+			String[] weekOfDays = {"星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六"};
+			String strDateWeek = defaultYear + "-" + defaultMonth + "-" + i;
+			SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd");
+			try {
+				dateWeek = format1.parse(strDateWeek);
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
+			Calendar calendar1 = Calendar.getInstance();
+			calendar1.setTime(dateWeek);
+			int w = calendar1.get(Calendar.DAY_OF_WEEK) - 1;
+			String week = weekOfDays[w];
+			String defaultStatus = null;
+			if("星期六".equals(week) || "星期日".equals(week)) {
+				defaultStatus = "公休日";
+			}else {
+				defaultStatus = "正常出勤";
+			}
+			AttendanceDay attendanceInsert = new AttendanceDay();
+			attendanceInsert.setDate(i);
+			attendanceInsert.setWeek(week);
+			attendanceInsert.setStatus(defaultStatus);
+			attendanceDayList.add(attendanceInsert);
+		}
+		attendanceMonth.getAttendanceHelper().updateAttendanceHelperStatus(attendanceDayList);
+		attendanceMonth.setYear(defaultYear);
+		attendanceMonth.setMonth(defaultMonth);
+    	return attendanceMonth;
+    }
+    
     
     /*
      * 插入考勤列表

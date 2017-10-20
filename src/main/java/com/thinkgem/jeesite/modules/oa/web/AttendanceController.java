@@ -75,7 +75,9 @@ public class AttendanceController extends BaseController {
      * 添加考勤跳转
      */
     @RequestMapping(value = "insert")
-    public String attendanceUpdate() {
+    public String attendanceUpdate(Model model) {
+    	AttendanceMonth attendanceMonth = attendanceService.getDefaultYearAndMonth();
+    	model.addAttribute("attendanceMonth_Insert", attendanceMonth);
         return "modules/oa/attendanceInsert";
     }
 
@@ -107,13 +109,15 @@ public class AttendanceController extends BaseController {
 	@RequestMapping(value = "attendanceSearchList")
 	public String attendanceList(AttendanceMonth attendanceMonth, Model model) {
 		AttendanceMonth attendanceMonth1 = attendanceService.getAttendanceDateList(attendanceMonth);
+		AttendanceMonth attendanceMonth2 = attendanceService.getDefaultAttendanceMonth(updateAttendanceMonth);
 		model.addAttribute("attendanceMonth1", attendanceMonth1);
+		model.addAttribute("attendanceMonth_InsertList", attendanceMonth2);
 		return "modules/oa/attendanceInsertList";
 	}
 	
 	@ModelAttribute("attendanceMonth")
 	public AttendanceMonth getAttendanceMonthModel() {
-		return attendanceService.getDefaultAttendanceMonth(updateAttendanceMonth);
+		return this.updateAttendanceMonth;
 	}
 	
 	/**

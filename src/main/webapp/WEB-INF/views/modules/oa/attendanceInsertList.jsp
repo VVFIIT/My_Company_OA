@@ -6,7 +6,7 @@
 	<meta name="decorator" content="default"/>
 </head>
 <body>
-	<form:form id="attInsertListForm" modelAttribute="attendanceMonth" action="${ctx}/oa/attendance/attendanceInsertList" method="post" class="breadcrumb form-search">
+	<form:form id="attInsertListForm" modelAttribute="attendanceMonth_InsertList" action="${ctx}/oa/attendance/attendanceInsertList" method="post" class="breadcrumb form-search">
 		<table id="attendanceTable" class="table table-striped table-bsordered table-condensed">
 			<thead><tr><th>日期</th><th>星期</th><th>工作地点</th><th>考勤状态</th></thead>
 			<tbody>
