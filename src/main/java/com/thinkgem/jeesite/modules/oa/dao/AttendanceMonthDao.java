@@ -51,23 +51,30 @@ public class AttendanceMonthDao {
 	}
 
 	/*
-	 * 更新考勤实体
+	 * 更新考勤
 	 */
 	public void update(AttendanceMonth attendanceMonth) {
-		// Query query = new
-		// Query(Criteria.where("id").is(attendanceMonth.getId()));
-		Query query = new Query(Criteria.where("name").is("张大天"));
+		Query query = new Query(Criteria.where("_id").is(attendanceMonth.getId()));
 		Update update = new Update();
-
-		// update.pull("id", attendanceMonth.getId());
-		// update.pull("attendanceStatus",
-		// attendanceMonth.getAttendanceStatus());
-		// update.pull("department", attendanceMonth.getDepartment());
-		update.pull("month", attendanceMonth.getMonth());
-		// update.pull("year", attendanceMonth.getYear());
-		// update.pull("processStatus", attendanceMonth.getProcessStatus());
-
-		mongoTemplate.upsert(query, update, Attendance.class);
+		if (attendanceMonth.getAttendanceStatus().size() > 0 && attendanceMonth.getAttendanceStatus() != null) {
+			update.set("attendanceStatus", attendanceMonth.getAttendanceStatus());
+		}
+		if (StringUtils.isNotBlank(attendanceMonth.getDepartment())) {
+			update.set("department", attendanceMonth.getDepartment());
+		}
+		if (attendanceMonth.getMonth() != null) {
+			update.set("month", attendanceMonth.getMonth());
+		}
+		if (attendanceMonth.getYear() != null) {
+			update.set("year", attendanceMonth.getYear());
+		}
+		if (StringUtils.isNotBlank(attendanceMonth.getName())) {
+			update.set("name", attendanceMonth.getName());
+		}
+		if (StringUtils.isNotBlank(attendanceMonth.getProcessStatus())) {
+			update.set("processStatus", attendanceMonth.getProcessStatus());
+		}
+		mongoTemplate.updateMulti(query, update, Attendance.class);
 	}
 
 	/**

@@ -97,16 +97,6 @@ public class AttendanceController extends BaseController {
 		attendanceService.InsertAttendanceList(attendance);
 		return "modules/oa/attendanceList";
 	}
-
-
-    /**
-     * test delete
-     */
-    @RequestMapping(value = "delete")
-    public void delete() {
-        attendanceService.delete();
-    }
-
 	
     /**
      * 查看个人考勤
@@ -122,14 +112,6 @@ public class AttendanceController extends BaseController {
 	@RequestMapping(value = "getAttendanceByDate")
 	public void getAttendanceByDate() {
 		attendanceService.getAttendanceByDate();
-	}
-	
-	/**
-	 * test update
-	 */
-	@RequestMapping(value = "update")
-	public void update() {
-		attendanceService.update();
 	}
 
     /**

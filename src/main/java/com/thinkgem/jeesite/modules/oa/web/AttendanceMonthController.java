@@ -17,27 +17,4 @@ public class AttendanceMonthController extends BaseController {
 	@Autowired
 	private AttendanceMonthService attendanceMonthService;
 
-	/**
-	 * test insert
-	 */
-	@RequestMapping(value = "insertAttendanceMonth")
-	public void insertAttendanceMonth() {
-		attendanceMonthService.insertAttendanceMonth();
-	}
-
-	/**
-	 * test getAttendance
-	 */
-	@RequestMapping(value = "getAttendance")
-	public void getAttendance() {
-		attendanceMonthService.getAttendance();
-	}
-
-	/**
-	 * test update
-	 */
-	@RequestMapping(value = "update")
-	public void update() {
-		attendanceMonthService.update();
-	}
 }

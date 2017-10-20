@@ -65,7 +65,7 @@ public class AttendanceMonthService {
 	}
 
 	/**
-	 * 更新状态
+	 * 更新
 	 */
 	@Transactional(readOnly = false, rollbackFor = Exception.class)
 	public void update() {
@@ -82,7 +82,7 @@ public class AttendanceMonthService {
 		attendanceMonth.setAttendanceStatus(attendanceDayList);
 		attendanceMonth.setId("9017cd60-5c7c-450c-b710-f98aad2dd756");
 		attendanceMonth.setDepartment("研发5部");
-		attendanceMonth.setMonth(2);
+		attendanceMonth.setMonth(5);
 		attendanceMonth.setName("如来");
 		attendanceMonth.setProcessStatus("3");
 		attendanceMonth.setYear(2014);
