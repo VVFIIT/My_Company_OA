@@ -26,7 +26,7 @@
 	    <li class="active"><a href="${ctx}/oa/attendance/showAll">考勤列表</a></li>
 	</ul>
 	
-	<form:form id="attSearchListForm" modelAttribute="attendanceShowAll" action="${ctx}/oa/attendance/showAll" method="post" class="breadcrumb form-search">
+	<form:form id="attSearchListForm" modelAttribute="attendanceShowAll" action="${ctx}/oa/attendance/attendanceShowAll" method="post" class="breadcrumb form-search">
 			<ul class="ul-form">
 				<li><label>请选择年份：</label>
 					<form:select path="year" class="input-medium">

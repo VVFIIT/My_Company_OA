@@ -261,7 +261,7 @@ public class AttendanceService {
 	}
 
 	/**
-	 * 查询考勤
+	 * 查询考勤状态
 	 */
 	public List<AttendanceMonth> getAttendanceShowAll(
 			AttendanceMonth attendance) {
@@ -276,7 +276,7 @@ public class AttendanceService {
 			if (month == null && year == null) {
 				Calendar cal = Calendar.getInstance();
 				int yearCurrent = cal.get(Calendar.YEAR); // 获取当前年份
-				int monthCurrent = cal.get(Calendar.MONTH) + 1; // 获取当前月份
+				int monthCurrent = cal.get(Calendar.MONTH); // 获取当前月份
 				attendanceInsert.setName(name);
 				attendanceInsert.setYear(yearCurrent);
 				attendanceInsert.setMonth(monthCurrent);
@@ -299,15 +299,27 @@ public class AttendanceService {
 	}
 	
 	/**
-	 * 查询考勤默认值
+	 * 考勤状态 默认显示的年和月
 	 */
-	public AttendanceMonth getDefaultAttendanceShowAll(){		
+	public AttendanceMonth getDefaultAttendanceMoth(){		
 		Calendar cal = Calendar.getInstance();
 		int defaultYear = cal.get(Calendar.YEAR); // 获取当前年份
-		int defaultMonth = cal.get(Calendar.MONTH) + 1; // 获取当前月份
+		int defaultMonth = cal.get(Calendar.MONTH); // 获取当前月份
 		AttendanceMonth updateAttendanceMonth = new AttendanceMonth();
 		updateAttendanceMonth.setYear(defaultYear);
     	updateAttendanceMonth.setMonth(defaultMonth);
+    	return updateAttendanceMonth;
+    }
+	
+	/**
+	 * 查询指定年和月的考勤状态
+	 */
+	public AttendanceMonth getAttendanceMonth(AttendanceMonth attendance){		
+		Integer month = attendance.getMonth();
+		Integer year = attendance.getYear();
+		AttendanceMonth updateAttendanceMonth = new AttendanceMonth();
+		updateAttendanceMonth.setYear(year);
+    	updateAttendanceMonth.setMonth(month);
     	return updateAttendanceMonth;
     }
 }

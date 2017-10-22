@@ -75,14 +75,16 @@ public class AttendanceController extends BaseController {
     }
 
     /**
-	 * 查看所有考勤
+	 * 默认显示的考勤状态
 	 */
 	@RequiresPermissions("oa:attendance:view")
 	@RequestMapping(value = "showAll")
 	public String showAllAttendance(AttendanceMonth attendance,Model model) {
+		AttendanceMonth attendanceMonth = attendanceService.getDefaultAttendanceMoth();
 		List<AttendanceMonth> attendancelist = attendanceService
 				.getAttendanceShowAll(attendance);
 		model.addAttribute("list", attendancelist);
+		model.addAttribute("attendanceShowAll", attendanceMonth);
 		return "modules/oa/attendanceShowAll";
 	}
 
@@ -140,8 +142,16 @@ public class AttendanceController extends BaseController {
         return "modules/oa/attendanceInsertList";
     }
     
-    @ModelAttribute("attendanceShowAll")
-	public AttendanceMonth getAttendanceShowAll() {
-		return attendanceService.getDefaultAttendanceShowAll();
+    /**
+     * 查询指定的考勤状态
+     */
+    @RequestMapping("attendanceShowAll")
+	public String getAttendanceShowAll(AttendanceMonth attendance,Model model) {
+    	AttendanceMonth attendanceMonth = attendanceService.getAttendanceMonth(attendance);
+		List<AttendanceMonth> attendancelist = attendanceService
+				.getAttendanceShowAll(attendance);
+		model.addAttribute("list", attendancelist);
+		model.addAttribute("attendanceShowAll", attendanceMonth);
+		return "modules/oa/attendanceShowAll";
 	}
 }
