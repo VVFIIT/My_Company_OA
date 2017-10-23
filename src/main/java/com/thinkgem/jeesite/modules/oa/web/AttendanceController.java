@@ -108,8 +108,8 @@ public class AttendanceController extends BaseController {
 	 * 提交考勤列表
 	 */
 	@RequestMapping(value = "attendanceInsertList")
-	public String attendanceInsert(Attendance attendance, Model model) {
-		attendanceService.InsertAttendanceList(attendance);
+	public String attendanceInsert(AttendanceMonth attendanceMonth) {
+		attendanceService.InsertAttendanceList(attendanceMonth);
 		return "modules/oa/attendanceList";
 	}
 

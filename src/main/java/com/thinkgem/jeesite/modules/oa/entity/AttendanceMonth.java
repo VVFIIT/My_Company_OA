@@ -36,7 +36,7 @@ public class AttendanceMonth {
 	private Integer month;
 	
     //考勤记录List（单位：月）
-    @DBRef
+	//@DBRef
     private List<AttendanceDay> attendanceStatus;
 
     private AttendanceDayStatus attendanceDayStatus;
