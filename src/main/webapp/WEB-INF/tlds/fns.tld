@@ -252,4 +252,12 @@
     <example>${fns:getDefaultStatus(index)}</example>
   </function>
   
+  <function>
+    <description>获取每日考勤状态</description>
+    <name>getDefaultLocation</name>
+    <function-class>com.thinkgem.jeesite.modules.sys.utils.DictUtils</function-class>
+    <function-signature>java.util.String getDefaultLocation(int)</function-signature>
+    <example>${fns:getDefaultLocation(index)}</example>
+  </function>
+  
 </taglib>

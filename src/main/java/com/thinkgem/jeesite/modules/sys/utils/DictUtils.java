@@ -13,6 +13,7 @@ import com.google.common.collect.Maps;
 import com.thinkgem.jeesite.common.mapper.JsonMapper;
 import com.thinkgem.jeesite.common.utils.CacheUtils;
 import com.thinkgem.jeesite.common.utils.SpringContextHolder;
+import com.thinkgem.jeesite.modules.oa.entity.AttendanceDay;
 import com.thinkgem.jeesite.modules.sys.dao.DictDao;
 import com.thinkgem.jeesite.modules.sys.entity.Dict;
 
@@ -192,6 +193,109 @@ public class DictUtils {
 		}
 		status = "attendanceHelper."+status;
 		return status;
+	}
+	
+	public static String getDefaultLocation(int index){
+		String location = "";
+		switch(index) {
+		case 1:
+			location = "location_day_1";
+			break;
+		case 2:
+			location = "location_day_2";
+			break;
+		case 3:
+			location = "location_day_3";
+			break;
+		case 4:
+			location = "location_day_4";
+			break;
+		case 5:
+			location = "location_day_5";
+			break;
+		case 6:
+			location = "location_day_6";
+			break;
+		case 7:
+			location = "location_day_7";
+			break;
+		case 8:
+			location = "location_day_8";
+			break;
+		case 9:
+			location = "location_day_9";
+			break;
+		case 10:
+			location = "location_day_10";
+			break;
+		case 11:
+			location = "location_day_11";
+			break;
+		case 12:
+			location = "location_day_12";
+			break;
+		case 13:
+			location = "location_day_13";
+			break;
+		case 14:
+			location = "location_day_14";
+			break;
+		case 15:
+			location = "location_day_15";
+			break;
+		case 16:
+			location = "location_day_16";
+			break;
+		case 17:
+			location = "location_day_17";
+			break;
+		case 18:
+			location = "location_day_18";
+			break;
+		case 19:
+			location = "location_day_19";
+			break;
+		case 20:
+			location = "location_day_20";
+			break;
+		case 21:
+			location = "location_day_21";
+			break;
+		case 22:
+			location = "location_day_22";
+			break;
+		case 23:
+			location = "location_day_23";
+			break;
+		case 24:
+			location = "location_day_24";
+			break;
+		case 25:
+			location = "location_day_25";
+			break;
+		case 26:
+			location = "location_day_26";
+			break;
+		case 27:
+			location = "location_day_27";
+			break;
+		case 28:
+			location = "location_day_28";
+			break;
+		case 29:
+			location = "location_day_29";
+			break;
+		case 30:
+			location = "location_day_30";
+			break;
+		case 31:
+			location = "location_day_31";
+			break;
+		default:
+			break;
+		}
+		location = "attendanceHelper."+location;
+		return location;
 	}
 	
 }

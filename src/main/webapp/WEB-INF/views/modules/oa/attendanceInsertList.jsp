@@ -14,15 +14,15 @@
 					<tr>
 						<td>${attendanceMonth1.year}/${attendanceMonth1.month}/${attendanceday.date}</td>
 						<td>${attendanceday.week}</td>
-						<td><form:input path="year" value="大连市" htmlEscape="false" maxlength="50" class="required"/></td>
+						<td><form:input path="${fns:getDefaultLocation(status.count)}" htmlEscape="false" maxlength="50" class="required"/></td>
 						<td>
 							<form:select path="${fns:getDefaultStatus(status.count)}" class="input-medium">
 								<form:options items="${fns:getDictList('oa_attendance_status')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
 							</form:select>
 						</td>
 					</tr>
-					<form:input path="year" name="date" type="hidden" value="${attendanceday.date}"/>
-					<form:input path="year" name="week" type="hidden" value="${attendanceday.week}"/>
+					<%-- <form:input path="year" name="date" type="hidden" value="${attendanceday.date}"/>
+					<form:input path="year" name="week" type="hidden" value="${attendanceday.week}"/> --%>
 				</c:forEach>
 				<tr>
 					<td></td>
