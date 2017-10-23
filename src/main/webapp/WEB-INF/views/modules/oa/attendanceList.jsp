@@ -59,10 +59,10 @@
                 <td>${fns:abbr(attendanceMonth.attendanceDayStatus.sickLeaveDay,40)}</td>
                 <td>确认</td>
                 <td>
-                    <a href="${ctx}/oa/attendance/insert">查看</a>
+                    <a href="${ctx}/oa/attendance/insertList">查看</a>
+                    <a href="${ctx}/oa/attendance/form">修改</a>
                     <a href=""
-                       onclick="return confirmx('确认要修改考勤吗？', this.href)">修改</a>
-                    <a href="">提交</a>
+                       onclick="return confirmx('确认要提交该考勤吗？', this.href)">提交</a>
                     <%--<a href=""--%>
                        <%--onclick="return confirmx('确认要删除该考勤吗？', this.href)">删除</a>--%>
                 </td>

@@ -7,7 +7,6 @@ import com.thinkgem.jeesite.modules.oa.entity.AttendanceDayStatus;
 import com.thinkgem.jeesite.modules.oa.entity.AttendanceMonth;
 import com.thinkgem.jeesite.modules.oa.service.AttendanceMonthService;
 import com.thinkgem.jeesite.modules.oa.service.AttendanceService;
-
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -81,9 +80,8 @@ public class AttendanceController extends BaseController {
 	@RequestMapping(value = "showAll")
 	public String showAllAttendance(AttendanceMonth attendance,Model model) {
 		AttendanceMonth attendanceMonth = attendanceService.getDefaultAttendanceMoth();
-		List<AttendanceMonth> attendancelist = attendanceService
-				.getAttendanceShowAll(attendance);
-		model.addAttribute("list", attendancelist);
+        List<AttendanceMonth> attendancelist = attendanceService.getAttendanceShowAll(attendance);
+        model.addAttribute("list", attendancelist);
 		model.addAttribute("attendanceShowAll", attendanceMonth);
 		return "modules/oa/attendanceShowAll";
 	}
@@ -131,6 +129,15 @@ public class AttendanceController extends BaseController {
     }
 
     /**
+     * 查看个人考勤详情
+     */
+    @RequestMapping(value = "insertList")
+    public String insertList() {
+
+        return "modules/oa/attendanceInsert";
+    }
+
+    /**
      * 修改个人考勤
      */
     @RequestMapping(value = "form")
@@ -138,7 +145,7 @@ public class AttendanceController extends BaseController {
         if (StringUtils.isNotBlank(attendanceMonth.getId())) {
 //            attendanceMonth = attendanceService.getRecordList(attendanceMonth);
         }
-        model.addAttribute("attendanceMonth", attendanceMonth);
+//        model.addAttribute("attendanceMonth", attendanceMonth);
         return "modules/oa/attendanceInsertList";
     }
     
