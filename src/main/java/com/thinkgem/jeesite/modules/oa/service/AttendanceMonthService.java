@@ -23,26 +23,29 @@ public class AttendanceMonthService {
 
 	protected Logger logger = LoggerFactory.getLogger(getClass());
 
+	private final AttendanceMonthDao attendanceMonthDao;
+
 	@Autowired
-	private AttendanceMonthDao attendanceMonthDao;
+	public AttendanceMonthService(AttendanceMonthDao attendanceMonthDao) {
+		this.attendanceMonthDao = attendanceMonthDao;
+	}
 
 	/**
 	 * 根据年月 姓名查询
 	 */
-	@Transactional(readOnly = false, rollbackFor = Exception.class)
+	@Transactional(rollbackFor = Exception.class)
 	public List<AttendanceMonth> getAttendance() {
 		AttendanceMonth attendanceMonth = new AttendanceMonth();
 		attendanceMonth.setName("张");
 		// attendanceMonth.setMonth(11);
 		// attendanceMonth.setYear(2017);
-		List<AttendanceMonth> attendanceMonthList = attendanceMonthDao.getAttendance(attendanceMonth);
-		return attendanceMonthList;
+		return attendanceMonthDao.getAttendance(attendanceMonth);
 	}
 
 	/**
 	 * 插入考勤实体
 	 */
-	@Transactional(readOnly = false, rollbackFor = Exception.class)
+	@Transactional(rollbackFor = Exception.class)
 	public void insertAttendanceMonth() {
 		AttendanceMonth attendanceMonth = new AttendanceMonth();
 		List<AttendanceDay> attendanceDayList = new ArrayList<AttendanceDay>();
@@ -68,7 +71,7 @@ public class AttendanceMonthService {
 	/**
 	 * 更新
 	 */
-	@Transactional(readOnly = false, rollbackFor = Exception.class)
+	@Transactional(rollbackFor = Exception.class)
 	public void update() {
 		AttendanceMonth attendanceMonth = new AttendanceMonth();
 		List<AttendanceDay> attendanceDayList = new ArrayList<AttendanceDay>();
@@ -97,8 +100,7 @@ public class AttendanceMonthService {
 	public List<AttendanceMonth> getAllAttendance() {
 		AttendanceMonth attendanceMonth = new AttendanceMonth();
 		attendanceMonth.setName("姜吉庆");
-		List<AttendanceMonth> attendanceMonthList = attendanceMonthDao.getNameAttendance(attendanceMonth);
-		return attendanceMonthList;
+		return attendanceMonthDao.getNameAttendance(attendanceMonth);
 	}
 
 //	/**
@@ -118,19 +120,15 @@ public class AttendanceMonthService {
 		AttendanceMonth attendanceMonth = new AttendanceMonth();
 		attendanceMonth.setName("姜吉庆");
 		List<AttendanceMonth> attendanceMonthList = attendanceMonthDao.getNameAttendance(attendanceMonth);
-		System.out.println("++++++++++++++++++++++++" + attendanceMonthList);
 		List<AttendanceDayStatus> list = new ArrayList<AttendanceDayStatus>();
-		//for (int i = 0; i < attendanceMonthList.size(); i++) {
 		for (AttendanceMonth anAttendanceMonthList : attendanceMonthList) {
 			AttendanceDayStatus attendanceDayStatus = new AttendanceDayStatus();
-			//正常出勤,出差-短期,出差-长期,加班,请假,其它带薪假,病假,公休日,法定节假日
-			int q = 0, w = 0, a = 0, b = 0, c = 0, d = 0, e = 0, f = 0, g = 0;
+			//正常出勤,出差-短期,出差-长期,加班,请假,其它带薪假,病假,--公休日,--法定节假日
+			int q = 0, w = 0, a = 0, b = 0, c = 0, d = 0, e = 0;
 			for (int j = 0; j < anAttendanceMonthList.getAttendanceStatus().size(); j++) {
 				if ("正常出勤".equals(anAttendanceMonthList.getAttendanceStatus().get(j).getStatus())) {
 					q++;
 					attendanceDayStatus.setNormalDay(q);
-					System.out.println("_______________" + anAttendanceMonthList.getAttendanceStatus().get(j).getStatus());
-					System.out.println("__________________+++++" + q);
 				} else if ("出差-短期".equals(anAttendanceMonthList.getAttendanceStatus().get(j).getStatus())) {
 					w++;
 					attendanceDayStatus.setTravelDayShort(w);
