@@ -469,4 +469,12 @@ public class AttendanceService {
     	
     }
 	
+	public List<AttendanceMonth> getAttendanceShow(AttendanceMonth attendance) {
+		AttendanceMonth attendanceInsert = new AttendanceMonth();
+		String id = attendance.getId();		
+		attendanceInsert.setId(id);
+		List<AttendanceMonth> attendanceList = attendanceMonthDao
+				.getIdAttendance(attendanceInsert);
+		return attendanceList;
+	}
 }

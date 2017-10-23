@@ -86,4 +86,10 @@ public class AttendanceMonthDao {
 		query.with(new Sort(new Sort.Order(Sort.Direction.ASC, "month")));
 		return this.mongoTemplate.find(query, AttendanceMonth.class);
 	}
+	
+	public List<AttendanceMonth> getIdAttendance(AttendanceMonth attendanceMonth) {
+		Query query = new Query();
+		query.addCriteria(Criteria.where("_id").is(attendanceMonth.getId()));
+		return this.mongoTemplate.find(query, AttendanceMonth.class);
+	}
 }

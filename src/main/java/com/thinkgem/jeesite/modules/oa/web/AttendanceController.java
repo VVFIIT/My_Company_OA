@@ -118,7 +118,11 @@ public class AttendanceController extends BaseController {
      * 查看个人考勤
      */
     @RequestMapping(value = "show")
-    public String attendanceShow() {
+    public String attendanceShow(AttendanceMonth attendance, Model model) {
+    	List<AttendanceMonth> list = attendanceService
+				.getAttendanceShow(attendance);
+    	AttendanceMonth attendanceMonth = list.get(0);
+    	model.addAttribute("attendanceMonth",attendanceMonth);
         return "modules/oa/attendanceShow";
     }
 

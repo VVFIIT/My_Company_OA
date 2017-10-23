@@ -63,7 +63,7 @@
 					<c:if test="${attendance.processStatus ==3}"> 确认</c:if>
   					
 				</td>
-				<td><a target="_blank" href="${ctx}/oa/attendance/show">查看</a></td>
+				<td><a target="_blank" href="${ctx}/oa/attendance/show?id=${attendance.id}">查看</a></td>
 
 			</tr>
 		</c:forEach>
