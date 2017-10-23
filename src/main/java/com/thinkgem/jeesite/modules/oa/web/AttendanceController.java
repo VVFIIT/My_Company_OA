@@ -14,6 +14,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -140,13 +141,36 @@ public class AttendanceController extends BaseController {
     /**
      * 修改个人考勤
      */
-    @RequestMapping(value = "form")
-    public String form(AttendanceMonth attendanceMonth, Model model) {
+    @RequestMapping(value = "modifyAttendanceInformation")
+    public String modifyAttendanceInformation(AttendanceMonth attendanceMonth, Model model) {
         if (StringUtils.isNotBlank(attendanceMonth.getId())) {
 //            attendanceMonth = attendanceService.getRecordList(attendanceMonth);
         }
 //        model.addAttribute("attendanceMonth", attendanceMonth);
         return "modules/oa/attendanceInsertList";
+    }
+
+    /**
+     * 提交个人考勤
+     */
+    @RequestMapping(value = "checkProcessStatus")
+    public String checkProcessStatus(AttendanceMonth attendanceMonth, RedirectAttributes redirectAttributes, Model model) {
+        if (!"1".equals(attendanceMonth.getProcessStatus())) {
+            attendanceMonthService.updateProcessStatus(attendanceMonth);
+        } else if (!"2".equals(attendanceMonth.getProcessStatus())) {
+            attendanceMonthService.updateProcessStatus(attendanceMonth);
+        }
+//        else if ("3".equals(attendanceMonth.getProcessStatus())){
+//
+//        }
+        addMessage(redirectAttributes, "提交考勤成功");
+        List<AttendanceMonth> list = attendanceMonthService.getAllAttendance();
+        List<AttendanceDayStatus> lists = attendanceMonthService.getDayStatusSum();
+        for (int i = 0; i < lists.size(); i++) {
+            list.get(i).setAttendanceDayStatus(lists.get(i));
+        }
+        model.addAttribute("list", list);
+        return "modules/oa/attendanceList";
     }
     
     /**

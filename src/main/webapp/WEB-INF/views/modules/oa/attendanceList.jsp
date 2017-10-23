@@ -22,12 +22,6 @@
     <li class="active"><a href="${ctx}/oa/attendance/">考勤列表</a></li>
     <li><a href="${ctx}/oa/attendance/insert">考勤添加</a></li>
 </ul>
-<%--<form:form id="searchForm" modelAttribute="attendance" action="${ctx}/oa/attendance/" method="get"--%>
-<%--class="breadcrumb form-search">--%>
-<%--<div>--%>
-<%--<input id="btnSubmit" class="btn btn-primary" type="button" value="添加考勤" onclick="insertAttendance();"/>--%>
-<%--</div>--%>
-<%--</form:form>--%>
 <sys:message content="${message}"/>
 <table id="contentTable" class="table table-striped table-bordered table-condensed">
     <thead>
@@ -60,8 +54,8 @@
                 <td>确认</td>
                 <td>
                     <a href="${ctx}/oa/attendance/insertList">查看</a>
-                    <a href="${ctx}/oa/attendance/form">修改</a>
-                    <a href=""
+                    <a href="${ctx}/oa/attendance/modifyAttendanceInformation">修改</a>
+                    <a href="${ctx}/oa/attendance/checkProcessStatus?id=${attendanceMonth.id}&processStatus=${attendanceMonth.processStatus}"
                        onclick="return confirmx('确认要提交该考勤吗？', this.href)">提交</a>
                     <%--<a href=""--%>
                        <%--onclick="return confirmx('确认要删除该考勤吗？', this.href)">删除</a>--%>

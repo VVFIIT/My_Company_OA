@@ -103,6 +103,16 @@ public class AttendanceMonthService {
 		return attendanceMonthDao.getNameAttendance(attendanceMonth);
 	}
 
+	/**
+	 * 更新提交状态属性
+	 */
+	@Transactional(rollbackFor = Exception.class)
+	public AttendanceMonth updateProcessStatus(AttendanceMonth attendanceMonth) {
+		attendanceMonth.setId(attendanceMonth.getId());
+		attendanceMonth.setProcessStatus("3");
+		attendanceMonthDao.update(attendanceMonth);
+		return attendanceMonth;
+	}
 //	/**
 //	 * 获取考勤记录
 //	 * @param attendanceMonth
