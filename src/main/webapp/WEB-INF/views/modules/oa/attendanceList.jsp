@@ -44,13 +44,20 @@
         <c:forEach items="${list}" var="attendanceMonth">
             <tr>
                 <td>${fns:abbr(attendanceMonth.year,30)}年${fns:abbr(attendanceMonth.month,30)}月</td>
-                <td>${fns:abbr(attendanceMonth.attendanceDayStatus.normalDay,30)}</td>
-                <td>${fns:abbr(attendanceMonth.attendanceDayStatus.travelDayShort,30)}</td>
-                <td>${fns:abbr(attendanceMonth.attendanceDayStatus.travelDayLong,30)}</td>
-                <td>${fns:abbr(attendanceMonth.attendanceDayStatus.overtimeDay,30)}</td>
-                <td>${fns:abbr(attendanceMonth.attendanceDayStatus.leaveDay,30)}</td>
-                <td>${fns:abbr(attendanceMonth.attendanceDayStatus.paidLeaveDay,30)}</td>
-                <td>${fns:abbr(attendanceMonth.attendanceDayStatus.sickLeaveDay,30)}</td>
+                <%--<td>${fns:abbr(attendanceMonth.attendanceDayStatus.normalDay,30)}</td>--%>
+                <td>${fns:getDictLabel(attendanceMonth.attendanceDayStatus.normalDay,'oa_attendance_status','')}</td>
+                <%--<td>${fns:abbr(attendanceMonth.attendanceDayStatus.travelDayShort,30)}</td>--%>
+                <td>${fns:getDictLabel(attendanceMonth.attendanceDayStatus.travelDayShort,'oa_attendance_status','')}</td>
+                <%--<td>${fns:abbr(attendanceMonth.attendanceDayStatus.travelDayLong,30)}</td>--%>
+                <td>${fns:getDictLabel(attendanceMonth.attendanceDayStatus.travelDayLong,'oa_attendance_status','')}</td>
+                <%--<td>${fns:abbr(attendanceMonth.attendanceDayStatus.overtimeDay,30)}</td>--%>
+                <td>${fns:getDictLabel(attendanceMonth.attendanceDayStatus.overtimeDay,'oa_attendance_status','')}</td>
+                <%--<td>${fns:abbr(attendanceMonth.attendanceDayStatus.leaveDay,30)}</td>--%>
+                <td>${fns:getDictLabel(attendanceMonth.attendanceDayStatus.leaveDay,'oa_attendance_status','')}</td>
+            <%--<td>${fns:abbr(attendanceMonth.attendanceDayStatus.paidLeaveDay,30)}</td>--%>
+                <td>${fns:getDictLabel(attendanceMonth.attendanceDayStatus.paidLeaveDay,'oa_attendance_status','')}</td>
+                <%--<td>${fns:abbr(attendanceMonth.attendanceDayStatus.sickLeaveDay,30)}</td>--%>
+                <td>${fns:getDictLabel(attendanceMonth.attendanceDayStatus.sickLeaveDay,'oa_attendance_status','')}</td>
                 <td>${fns:getDictLabel(attendanceMonth.processStatus,'oa_attendance_check_status','')}</td>
                 <td>
                     <a href="${ctx}/oa/attendance/insertList">查看</a>

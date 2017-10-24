@@ -83,7 +83,7 @@ public class AttendanceMonthDao {
 	public List<AttendanceMonth> getNameAttendance(AttendanceMonth attendanceMonth) {
 		Query query = new Query();
 		query.addCriteria(Criteria.where("name").is(attendanceMonth.getName()));
-		query.with(new Sort(new Sort.Order(Sort.Direction.ASC, "month")));
+		query.with(new Sort(new Sort.Order(Sort.Direction.DESC, "month")));
 		return this.mongoTemplate.find(query, AttendanceMonth.class);
 	}
 	
