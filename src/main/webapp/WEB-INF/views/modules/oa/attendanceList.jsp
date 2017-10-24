@@ -39,7 +39,7 @@
     </tr>
     </thead>
     <form:form id="searchForm" modelAttribute="attendanceMonth" action="${ctx}/oa/attendance/" method="get"
-               class="breadcrumb form-search">
+               class="breadcrumb form-search" path="dataScope">
         <tbody>
         <c:forEach items="${list}" var="attendanceMonth">
             <tr>
@@ -51,12 +51,15 @@
                 <td>${fns:abbr(attendanceMonth.attendanceDayStatus.leaveDay,40)}</td>
                 <td>${fns:abbr(attendanceMonth.attendanceDayStatus.paidLeaveDay,40)}</td>
                 <td>${fns:abbr(attendanceMonth.attendanceDayStatus.sickLeaveDay,40)}</td>
-                <td>确认</td>
+                <td>${fns:getDictLabel(attendanceMonth.processStatus,'oa_attendance_check_status','')}</td>
                 <td>
                     <a href="${ctx}/oa/attendance/insertList">查看</a>
                     <a href="${ctx}/oa/attendance/modifyAttendanceInformation">修改</a>
-                    <a href="${ctx}/oa/attendance/checkProcessStatus?id=${attendanceMonth.id}&processStatus=${attendanceMonth.processStatus}"
-                       onclick="return confirmx('确认要提交该考勤吗？', this.href)">提交</a>
+                    <a id="processStatus" style="${fns:getCheckStatus(attendanceMonth.processStatus)}"
+                       href="${ctx}/oa/attendance/checkProcessStatus?id=${attendanceMonth.id}&processStatus=${attendanceMonth.processStatus}" onclick="return confirmx('确认要提交该考勤吗？', this.href)">提交</a>
+
+                    <%--<a id="processStatus"--%>
+                       <%--href="${ctx}/oa/attendance/checkProcessStatus?id=${attendanceMonth.id}&processStatus=${attendanceMonth.processStatus}" onclick="return confirmx('确认要提交该考勤吗？', this.href)">提交</a>--%>
                     <%--<a href=""--%>
                        <%--onclick="return confirmx('确认要删除该考勤吗？', this.href)">删除</a>--%>
                 </td>

@@ -3,19 +3,17 @@
  */
 package com.thinkgem.jeesite.modules.sys.utils;
 
-import java.util.List;
-import java.util.Map;
-
-import org.apache.commons.lang3.StringUtils;
-
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.thinkgem.jeesite.common.mapper.JsonMapper;
 import com.thinkgem.jeesite.common.utils.CacheUtils;
 import com.thinkgem.jeesite.common.utils.SpringContextHolder;
-import com.thinkgem.jeesite.modules.oa.entity.AttendanceDay;
 import com.thinkgem.jeesite.modules.sys.dao.DictDao;
 import com.thinkgem.jeesite.modules.sys.entity.Dict;
+import org.apache.commons.lang3.StringUtils;
+
+import java.util.List;
+import java.util.Map;
 
 /**
  * 字典工具类
@@ -297,5 +295,17 @@ public class DictUtils {
 		location = "attendanceHelper."+location;
 		return location;
 	}
-	
+
+
+	public static String getCheckStatus(String processStatus) {
+		String status = "";
+		if ("3".equals(processStatus)) {
+			status = "none;";
+		} else {
+			status = "block;";
+		}
+		status = "display:" + status;
+		return status;
+//		return "display: none;";
+	}
 }
