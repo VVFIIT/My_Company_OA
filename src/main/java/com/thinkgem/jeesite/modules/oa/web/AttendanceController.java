@@ -117,8 +117,14 @@ public class AttendanceController extends BaseController {
 	 * 提交考勤列表
 	 */
 	@RequestMapping(value = "attendanceInsertList")
-	public String attendanceInsert(AttendanceMonth attendanceMonth) {
+	public String attendanceInsert(AttendanceMonth attendanceMonth, Model model) {
 		attendanceService.InsertAttendanceList(attendanceMonth);
+		List<AttendanceMonth> list = attendanceMonthService.getAllAttendance();
+		List<AttendanceDayStatus> lists = attendanceMonthService.getDayStatusSum();
+		for (int i = 0; i < lists.size(); i++) {
+			list.get(i).setAttendanceDayStatus(lists.get(i));
+		}
+		model.addAttribute("list", list);
 		return "modules/oa/attendanceList";
 	}
 
