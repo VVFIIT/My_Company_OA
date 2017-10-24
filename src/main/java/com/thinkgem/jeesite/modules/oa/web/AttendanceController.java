@@ -62,7 +62,7 @@ public class AttendanceController extends BaseController {
 	/**
 	 * 考勤首页数据显示
 	 */
-	@RequestMapping(value = { "list", "" }, method = RequestMethod.GET)
+	@RequestMapping(value = { "list", "" })
 	public String list(Model model) {
 		List<AttendanceMonth> list = attendanceMonthService.getAllAttendance();
 		List<AttendanceDayStatus> lists = attendanceMonthService.getDayStatusSum();
