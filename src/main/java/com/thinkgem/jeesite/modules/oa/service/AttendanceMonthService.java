@@ -1,5 +1,6 @@
 package com.thinkgem.jeesite.modules.oa.service;
 
+import com.thinkgem.jeesite.common.persistence.Page;
 import com.thinkgem.jeesite.modules.oa.dao.AttendanceMonthDao;
 import com.thinkgem.jeesite.modules.oa.entity.AttendanceDay;
 import com.thinkgem.jeesite.modules.oa.entity.AttendanceDayStatus;
@@ -163,6 +164,17 @@ public class AttendanceMonthService {
 			list.add(attendanceDayStatus);
 		}
 		return list;
+	}
+
+	/**
+	 * 我的 考勤查询分页
+	 * @param page
+	 * @return
+	 */
+	public Page<AttendanceMonth> page(Page<AttendanceMonth> page) {
+		AttendanceMonth attendanceMonth=new AttendanceMonth();
+		attendanceMonth.setPage(page);
+		return attendanceMonthDao.getAttendancePage(attendanceMonth);	 
 	}
 
 }

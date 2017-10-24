@@ -1,10 +1,12 @@
 package com.thinkgem.jeesite.modules.oa.dao;
 
+import com.thinkgem.jeesite.common.persistence.Page;
 import com.thinkgem.jeesite.common.utils.StringUtils;
 import com.thinkgem.jeesite.modules.oa.entity.Attendance;
 import com.thinkgem.jeesite.modules.oa.entity.AttendanceMonth;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -91,5 +93,31 @@ public class AttendanceMonthDao {
 		Query query = new Query();
 		query.addCriteria(Criteria.where("_id").is(attendanceMonth.getId()));
 		return this.mongoTemplate.find(query, AttendanceMonth.class);
+	}
+
+	/**
+	 * 考勤分页
+	 * @param attendanceMonth
+	 * @return
+	 */
+	public Page<AttendanceMonth> getAttendancePage(AttendanceMonth attendanceMonth) {
+		Query query = new Query();
+		if (StringUtils.isNotBlank(attendanceMonth.getName())) {
+			query.addCriteria(Criteria.where("name").regex(".*?\\" + attendanceMonth.getName() + ".*"));
+		}
+		if (attendanceMonth.getYear() != null) {
+			query.addCriteria(Criteria.where("year").is(attendanceMonth.getYear()));
+		}
+		if (attendanceMonth.getMonth() != null) {
+			query.addCriteria(Criteria.where("month").is(attendanceMonth.getMonth()));
+		}
+		query.with(new Sort(Direction.DESC,"year","month"));
+	    query.skip((attendanceMonth.getPage().getPageNo()-1)*attendanceMonth.getPage().getPageSize()).limit(attendanceMonth.getPage().getPageSize());  
+	   
+	    List<AttendanceMonth> list=this.mongoTemplate.find(query, AttendanceMonth.class);
+	    Page<AttendanceMonth> page = attendanceMonth.getPage();
+	    page.setCount(list.size());
+	    page.setList(list);
+		return page;
 	}
 }

@@ -6,7 +6,6 @@
     <meta name="decorator" content="default"/>
     <script type="text/javascript">
         $(document).ready(function () {
-<<<<<<< HEAD
         	/* 导出  */
         	$("#btnAttExport").click(function(){
 				top.$.jBox.confirm("确认要导出员工考勤数据吗？","系统提示",function(v,h,f){
@@ -18,9 +17,6 @@
 				top.$('.jbox-body .jbox-icon').css('top','55px');
 			});
         	
-=======
-
->>>>>>> update
         });
         function attendanceShow() {
 

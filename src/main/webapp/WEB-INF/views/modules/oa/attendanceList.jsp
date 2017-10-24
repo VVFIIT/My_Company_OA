@@ -15,6 +15,13 @@
             <%--$("#listForm").submit();--%>
             window.location.href = "${ctx}/oa/attendance/insert";
         }
+        
+        function page(n,s){
+			$("#pageNo").val(n);
+			$("#pageSize").val(s);
+			$("#searchForm").submit();
+        	return false;
+        }
     </script>
 </head>
 <body>
@@ -40,6 +47,8 @@
     </thead>
     <form:form id="searchForm" modelAttribute="attendanceMonth" action="${ctx}/oa/attendance/" method="get"
                class="breadcrumb form-search" path="dataScope">
+        <input id="pageNo" name="pageNo" type="hidden" value="${page.pageNo}"/>
+		<input id="pageSize" name="pageSize" type="hidden" value="${page.pageSize}"/>
         <tbody>
         <c:forEach items="${list}" var="attendanceMonth">
             <tr>
@@ -69,8 +78,9 @@
                 </td>
             </tr>
         </c:forEach>
-        </tbody>
+        </tbody>        
     </form:form>
 </table>
+<div class="pagination">${page}</div>
 </body>
 </html>

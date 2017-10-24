@@ -1,5 +1,6 @@
 package com.thinkgem.jeesite.modules.oa.web;
 
+import com.thinkgem.jeesite.common.persistence.Page;
 import com.thinkgem.jeesite.common.utils.DateUtils;
 import com.thinkgem.jeesite.common.utils.StringUtils;
 import com.thinkgem.jeesite.common.utils.excel.ExportExcel;
@@ -63,13 +64,14 @@ public class AttendanceController extends BaseController {
 	 * 考勤首页数据显示
 	 */
 	@RequestMapping(value = { "list", "" })
-	public String list(Model model) {
-		List<AttendanceMonth> list = attendanceMonthService.getAllAttendance();
+	public String list(Model model, HttpServletRequest request, HttpServletResponse response) {
+		Page<AttendanceMonth> page = attendanceMonthService.page(new Page<AttendanceMonth>(request, response));
+		List<AttendanceMonth> list = page.getList();
 		List<AttendanceDayStatus> lists = attendanceMonthService.getDayStatusSum();
 		for (int i = 0; i < lists.size(); i++) {
 			list.get(i).setAttendanceDayStatus(lists.get(i));
 		}
-		model.addAttribute("list", list);
+		model.addAttribute("page", page);
 		return "modules/oa/attendanceList";
 	}
 

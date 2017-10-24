@@ -8,6 +8,7 @@ import java.util.List;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import com.thinkgem.jeesite.common.persistence.BaseEntity;
 import com.thinkgem.jeesite.common.utils.excel.annotation.ExcelField;
 import com.thinkgem.jeesite.modules.oa.helper.AttendanceHelper;
 
@@ -16,9 +17,9 @@ import com.thinkgem.jeesite.modules.oa.helper.AttendanceHelper;
  *
  * @author mojun
  */
-
+@SuppressWarnings("serial")
 @Document(collection = "attendance")
-public class AttendanceMonth {
+public class AttendanceMonth extends BaseEntity<AttendanceMonth>{
 
 	@Id
 	private String id;
@@ -123,5 +124,17 @@ public class AttendanceMonth {
 
 	public void setAttendanceDayStatus(AttendanceDayStatus attendanceDayStatus) {
 		this.attendanceDayStatus = attendanceDayStatus;
+	}
+
+	@Override
+	public void preInsert() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void preUpdate() {
+		// TODO Auto-generated method stub
+		
 	}
 }
