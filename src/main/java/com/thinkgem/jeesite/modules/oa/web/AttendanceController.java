@@ -128,6 +128,7 @@ public class AttendanceController extends BaseController {
 		return "modules/oa/attendanceList";
 	}
 
+<<<<<<< HEAD
 	/**
 	 * 查看个人考勤
 	 */
@@ -220,4 +221,70 @@ public class AttendanceController extends BaseController {
 		return "redirect:" + adminPath + "/modules/oa/attendanceShowAll";
 	}
 
+=======
+    /**
+     * 查看个人考勤
+     */
+    @RequestMapping(value = "show")
+    public String attendanceShow(AttendanceMonth attendance, Model model) {
+    	List<AttendanceMonth> list = attendanceService
+				.getAttendanceShow(attendance);
+    	AttendanceMonth attendanceMonth = list.get(0);
+    	model.addAttribute("attendanceMonth",attendanceMonth); 	
+        return "modules/oa/attendanceShow";
+    }
+
+    /**
+     * test getAttendanceByDate
+     */
+    @RequestMapping(value = "getAttendanceByDate")
+    public void getAttendanceByDate() {
+        attendanceService.getAttendanceByDate();
+    }
+
+    /**
+     * 查看个人考勤详情
+     */
+    @RequestMapping(value = "insertList")
+    public String insertList() {
+
+        return "modules/oa/attendanceInsert";
+    }
+
+    /**
+     * 修改个人考勤
+     */
+    @RequestMapping(value = "modifyAttendanceInformation")
+    public String modifyAttendanceInformation(AttendanceMonth attendanceMonth, Model model) {
+        if (StringUtils.isNotBlank(attendanceMonth.getId())) {
+//            attendanceMonth = attendanceService.getRecordList(attendanceMonth);
+        }
+//        model.addAttribute("attendanceMonth", attendanceMonth);
+        return "modules/oa/attendanceInsertList";
+    }
+
+    /**
+     * 提交个人考勤
+     */
+    @RequestMapping(value = "checkProcessStatus")
+    public String checkProcessStatus(AttendanceMonth attendanceMonth, RedirectAttributes redirectAttributes, Model model) {
+        if (!"1".equals(attendanceMonth.getProcessStatus())) {
+            attendanceMonthService.updateProcessStatus(attendanceMonth);
+        } else if (!"2".equals(attendanceMonth.getProcessStatus())) {
+            attendanceMonthService.updateProcessStatus(attendanceMonth);
+        }
+//        else if ("3".equals(attendanceMonth.getProcessStatus())){
+//
+//        }
+        addMessage(redirectAttributes, "提交考勤成功");
+        List<AttendanceMonth> list = attendanceMonthService.getAllAttendance();
+        List<AttendanceDayStatus> lists = attendanceMonthService.getDayStatusSum();
+        for (int i = 0; i < lists.size(); i++) {
+            list.get(i).setAttendanceDayStatus(lists.get(i));
+        }
+        model.addAttribute("list", list);
+        return "modules/oa/attendanceList";
+    }
+    
+>>>>>>> update
 }

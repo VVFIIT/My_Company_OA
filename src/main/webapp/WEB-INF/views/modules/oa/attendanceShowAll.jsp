@@ -6,6 +6,7 @@
     <meta name="decorator" content="default"/>
     <script type="text/javascript">
         $(document).ready(function () {
+<<<<<<< HEAD
         	/* 导出  */
         	$("#btnAttExport").click(function(){
 				top.$.jBox.confirm("确认要导出员工考勤数据吗？","系统提示",function(v,h,f){
@@ -17,6 +18,9 @@
 				top.$('.jbox-body .jbox-icon').css('top','55px');
 			});
         	
+=======
+
+>>>>>>> update
         });
         function attendanceShow() {
 
@@ -72,7 +76,13 @@
 					<c:if test="${attendance.processStatus ==3}"> 确认</c:if>
   					
 				</td>
-				<td><a target="_blank" href="${ctx}/oa/attendance/show?id=${attendance.id}">查看</a></td>
+				<td>
+				<c:if test="${empty attendance.processStatus}"><a href="" onclick="return confirmx('未提交！', this.href)">查看</a></c:if>
+				
+				<c:if test="${attendance.processStatus ==1}"> <a href="${ctx}/oa/attendance/show?id=${attendance.id}">查看</a></c:if>
+				<c:if test="${attendance.processStatus ==2}"> <a href="${ctx}/oa/attendance/show?id=${attendance.id}">查看</a></c:if></font>
+				<c:if test="${attendance.processStatus ==3}"> <a href="${ctx}/oa/attendance/show?id=${attendance.id}">查看</a></c:if>
+				</td>
 
 			</tr>
 		</c:forEach>
