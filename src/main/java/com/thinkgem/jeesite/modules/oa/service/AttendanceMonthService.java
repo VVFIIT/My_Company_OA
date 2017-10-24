@@ -4,6 +4,8 @@ import com.thinkgem.jeesite.modules.oa.dao.AttendanceMonthDao;
 import com.thinkgem.jeesite.modules.oa.entity.AttendanceDay;
 import com.thinkgem.jeesite.modules.oa.entity.AttendanceDayStatus;
 import com.thinkgem.jeesite.modules.oa.entity.AttendanceMonth;
+import com.thinkgem.jeesite.modules.sys.entity.User;
+import com.thinkgem.jeesite.modules.sys.utils.UserUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -95,7 +97,8 @@ public class AttendanceMonthService {
 	 */
 	public List<AttendanceMonth> getAllAttendance() {
 		AttendanceMonth attendanceMonth = new AttendanceMonth();
-		attendanceMonth.setName("姜吉庆");
+		User user = UserUtils.getUser();
+		attendanceMonth.setName(user.getName());
 		return attendanceMonthDao.getNameAttendance(attendanceMonth);
 	}
 
@@ -125,7 +128,8 @@ public class AttendanceMonthService {
 	 */
 	public List<AttendanceDayStatus> getDayStatusSum() {
 		AttendanceMonth attendanceMonth = new AttendanceMonth();
-		attendanceMonth.setName("姜吉庆");
+		User user = UserUtils.getUser();
+		attendanceMonth.setName(user.getName());
 		List<AttendanceMonth> attendanceMonthList = attendanceMonthDao.getNameAttendance(attendanceMonth);
 		List<AttendanceDayStatus> list = new ArrayList<AttendanceDayStatus>();
 		for (AttendanceMonth anAttendanceMonthList : attendanceMonthList) {
