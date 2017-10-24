@@ -259,5 +259,13 @@
     <function-signature>java.util.String getDefaultLocation(int)</function-signature>
     <example>${fns:getDefaultLocation(index)}</example>
   </function>
+
+  <function>
+    <description>考勤操作状态</description>
+    <name>getCheckStatus</name>
+    <function-class>com.thinkgem.jeesite.modules.sys.utils.DictUtils</function-class>
+    <function-signature>java.lang.String getCheckStatus(java.lang.String)</function-signature>
+    <example>${fns:getDictList(type)}</example>
+  </function>
   
 </taglib>
