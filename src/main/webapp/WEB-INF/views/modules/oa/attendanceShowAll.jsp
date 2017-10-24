@@ -6,9 +6,17 @@
     <meta name="decorator" content="default"/>
     <script type="text/javascript">
         $(document).ready(function () {
-        	s$("#year").val(d.getFullYear());
-        	$("#month").val(((d.getMonth() + 1)+'').replace(/^(.)$/,'0$1')) 
-        	alert($("#year").val(d.getFullYear()));
+        	/* 导出  */
+        	$("#btnAttExport").click(function(){
+				top.$.jBox.confirm("确认要导出员工考勤数据吗？","系统提示",function(v,h,f){
+					if(v=="ok"){
+						$("#attSearchListForm").attr("action","${ctx}/oa/attendance/showAllExport");
+						$("#attSearchListForm").submit();
+					}
+				},{buttonsFocus:1});
+				top.$('.jbox-body .jbox-icon').css('top','55px');
+			});
+        	
         });
         function attendanceShow() {
 
@@ -41,6 +49,7 @@
 					</form:select>
 				</li>
 				<li class="btns"><input id="btnSubmit" class="btn btn-primary" type="submit" value="查询"/></li>
+				<li class="btns"><input id="btnAttExport" class="btn btn-primary" type="button" value="导出"/></li>
 			</ul>
 	</form:form>
 	<sys:message content="${message}"/>

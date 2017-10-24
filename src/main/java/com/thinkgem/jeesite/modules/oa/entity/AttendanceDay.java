@@ -2,6 +2,8 @@ package com.thinkgem.jeesite.modules.oa.entity;
 
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import com.thinkgem.jeesite.common.utils.excel.annotation.ExcelField;
+
 /**
  * Created by Jiang on 2017/10/18.
  */
@@ -20,7 +22,7 @@ public class AttendanceDay {
     //考勤状态
     private String status;
 
-    //getter and setter
+    @ExcelField(title="日期", align=2, sort=0)
 	public Integer getDate() {
 		return date;
 	}
@@ -30,7 +32,7 @@ public class AttendanceDay {
 		this.date = date;
 	}
 
-
+	@ExcelField(title="星期", align=2, sort=40)
 	public String getWeek() {
 		return week;
 	}
@@ -40,7 +42,7 @@ public class AttendanceDay {
 		this.week = week;
 	}
 
-
+	@ExcelField(title="工作地点", align=2, sort=80)
 	public String getLocation() {
 		return location;
 	}
@@ -50,6 +52,7 @@ public class AttendanceDay {
 		this.location = location;
 	}
 
+	@ExcelField(title="考勤状态", align=2, sort=100)
     public String getStatus() {
         return status;
     }

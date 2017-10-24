@@ -56,7 +56,7 @@ public class AttendanceMonthDao {
 	public void update(AttendanceMonth attendanceMonth) {
 		Query query = new Query(Criteria.where("_id").is(attendanceMonth.getId()));
 		Update update = new Update();
-		if (attendanceMonth.getAttendanceStatus().size() > 0 && attendanceMonth.getAttendanceStatus() != null) {
+		if (attendanceMonth.getAttendanceStatus() != null) {
 			update.set("attendanceStatus", attendanceMonth.getAttendanceStatus());
 		}
 		if (StringUtils.isNotBlank(attendanceMonth.getDepartment())) {

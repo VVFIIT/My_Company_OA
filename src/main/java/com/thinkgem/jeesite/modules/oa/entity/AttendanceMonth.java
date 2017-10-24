@@ -1,15 +1,15 @@
 package com.thinkgem.jeesite.modules.oa.entity;
 
+import java.util.List;
+
 /**
  * Created by GQR on 2017/10/18.
  */
 import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import com.thinkgem.jeesite.common.utils.excel.annotation.ExcelField;
 import com.thinkgem.jeesite.modules.oa.helper.AttendanceHelper;
-
-import java.util.List;
 
 /**
  * 考勤内容-以月为单位
@@ -34,21 +34,20 @@ public class AttendanceMonth {
 
 	// 当前记录的月份
 	private Integer month;
-	
-    //考勤记录List（单位：月）
-	//@DBRef
-    private List<AttendanceDay> attendanceStatus;
 
-    private AttendanceDayStatus attendanceDayStatus;
-    
-    private AttendanceHelper attendanceHelper;
+	// 考勤记录List（单位：月）
+	private List<AttendanceDay> attendanceStatus;
 
-    //审批流程状态
-    private String processStatus;
-    
-    public AttendanceMonth(){
-    	attendanceHelper = new AttendanceHelper();
-    }
+	private AttendanceDayStatus attendanceDayStatus;
+
+	private AttendanceHelper attendanceHelper;
+
+	// 审批流程状态
+	private String processStatus;
+
+	public AttendanceMonth() {
+		attendanceHelper = new AttendanceHelper();
+	}
 
 	public String getId() {
 		return id;
@@ -58,6 +57,7 @@ public class AttendanceMonth {
 		this.id = id;
 	}
 
+	@ExcelField(title="姓名", align=2, sort=20)
 	public String getName() {
 		return name;
 	}
@@ -66,6 +66,7 @@ public class AttendanceMonth {
 		this.name = name;
 	}
 
+	@ExcelField(title="部门", align=2, sort=20)
 	public String getDepartment() {
 		return department;
 	}
@@ -74,6 +75,7 @@ public class AttendanceMonth {
 		this.department = department;
 	}
 
+	@ExcelField(title="年", align=2, sort=20)
 	public Integer getYear() {
 		return year;
 	}
@@ -81,7 +83,8 @@ public class AttendanceMonth {
 	public void setYear(Integer year) {
 		this.year = year;
 	}
-
+	
+	@ExcelField(title="月", align=2, sort=20)
 	public Integer getMonth() {
 		return month;
 	}
@@ -114,11 +117,11 @@ public class AttendanceMonth {
 		this.attendanceHelper = attendanceHelper;
 	}
 
-    public AttendanceDayStatus getAttendanceDayStatus() {
-        return attendanceDayStatus;
-    }
+	public AttendanceDayStatus getAttendanceDayStatus() {
+		return attendanceDayStatus;
+	}
 
-    public void setAttendanceDayStatus(AttendanceDayStatus attendanceDayStatus) {
-        this.attendanceDayStatus = attendanceDayStatus;
-    }
+	public void setAttendanceDayStatus(AttendanceDayStatus attendanceDayStatus) {
+		this.attendanceDayStatus = attendanceDayStatus;
+	}
 }
