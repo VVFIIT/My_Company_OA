@@ -73,10 +73,10 @@
   					
 				</td>
 				<td>
-				<c:if test="${empty attendance.processStatus}"><a href="" onclick="return confirmx('未提交！', this.href)">查看</a></c:if>
+				<c:if test="${empty attendance.processStatus}"><a href="" onclick="return confirmx('用户未创建!', this.href)">查看</a></c:if>
 				
 				<c:if test="${attendance.processStatus ==1}"> <a href="${ctx}/oa/attendance/show?id=${attendance.id}">查看</a></c:if>
-				<c:if test="${attendance.processStatus ==2}"> <a href="${ctx}/oa/attendance/show?id=${attendance.id}">查看</a></c:if></font>
+				<c:if test="${attendance.processStatus ==2}"> <a href="" onclick="return confirmx('用户未提交!', this.href)">查看</a></c:if>
 				<c:if test="${attendance.processStatus ==3}"> <a href="${ctx}/oa/attendance/show?id=${attendance.id}">查看</a></c:if>
 				</td>
 
