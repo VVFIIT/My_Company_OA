@@ -106,28 +106,84 @@ public class AttendanceService {
     	User user = UserUtils.getUser();
     	attendanceMonth.setName(user.getName());
     	List<AttendanceMonth> list = attendanceMonthDao.getAttendance(attendanceMonth);
-    	if(list.size()==0) {
-    		Calendar date = Calendar.getInstance();
-    		int year = date.get(Calendar.YEAR);
-    		int month = date.get(Calendar.MONTH)+1;
-    		if(month==1) {
-    			defaultYear = year-1;
-    			defaultMonth = 12;
-    		}else {
-    			defaultYear = year;
-        		defaultMonth = month-1;
-    		}
-    	}else {
-    		int year = list.get(0).getYear();
-        	int month = list.get(0).getMonth();
-        	if(month==12) {
-        		defaultYear = year+1;
-        		defaultMonth = 1;
-        	}else {
-        		defaultYear = year;
-        		defaultMonth = month+1;
-        	}
-    	}
+    	int startYear = 2017;
+    	int startMonth = 1;
+    	Calendar date = Calendar.getInstance();
+    	int year = date.get(Calendar.YEAR);
+		int month = date.get(Calendar.MONTH)+1;
+		int endYear;
+		int endMonth;
+    	if(month==1) {
+    		endYear = year-1;
+    		endMonth = 12;
+		}else {
+			endYear = year;
+			endMonth = month-1;
+		}
+		int resultYear = 0;
+		int resultMonth = 0;
+		List<Integer> worklist = new ArrayList<Integer>();
+		if(startYear == endYear) {
+	    	for(int j = startMonth; j<=endMonth;j++) {
+	    		worklist.add(j);
+	    		for(AttendanceMonth attendanceMonth1 : list) {
+	    			if(j==attendanceMonth1.getMonth()) {
+	    				worklist.remove(worklist.size()-1);
+	    			}
+	    		}
+	    	}
+	    	if(worklist.size()!=0) {
+				resultYear = startYear;
+				resultMonth = worklist.get(0);
+			}
+		}else if(startYear < endYear){
+			for(int i = startYear; i <= endYear; i++) {
+				if(i == startYear) {
+					for(int j = startMonth; j<=12;j++) {
+			    		worklist.add(j);
+			    		for(AttendanceMonth attendanceMonth1 : list) {
+			    			if(j==attendanceMonth1.getMonth()) {
+			    				worklist.remove(worklist.size()-1);
+			    			}
+			    		}
+			    	}
+					if(worklist.size()!=0) {
+						resultYear = i;
+						resultMonth = worklist.get(0);
+					}
+				}
+				if(i > startYear && i < endYear && worklist.size() == 0) {
+					for(int j = 1; j<=12;j++) {
+			    		worklist.add(j);
+			    		for(AttendanceMonth attendanceMonth1 : list) {
+			    			if(j==attendanceMonth1.getMonth()) {
+			    				worklist.remove(worklist.size()-1);
+			    			}
+			    		}
+			    	}
+					if(worklist.size()!=0) {
+						resultYear = i;
+						resultMonth = worklist.get(0);
+					}
+				}
+				if(i == endYear && worklist.size() == 0) {
+					for(int j = 1; j<=endMonth;j++) {
+			    		worklist.add(j);
+			    		for(AttendanceMonth attendanceMonth1 : list) {
+			    			if(j==attendanceMonth1.getMonth()) {
+			    				worklist.remove(worklist.size()-1);
+			    			}
+			    		}
+			    	}
+					if(worklist.size()!=0) {
+						resultYear = i;
+						resultMonth = worklist.get(0);
+					}
+				}
+			}
+		}
+    	defaultYear = resultYear;
+    	defaultMonth = resultMonth;
     	attendanceMonth.setYear(defaultYear);
     	attendanceMonth.setMonth(defaultMonth);
     	return attendanceMonth;
@@ -139,7 +195,7 @@ public class AttendanceService {
     public AttendanceMonth getDefaultAttendanceMonth(AttendanceMonth attendanceMonth){
     	int defaultYear = attendanceMonth.getYear();
     	int defaultMonth = attendanceMonth.getMonth();
-    	Calendar calendar = Calendar.getInstance(); 
+    	Calendar calendar = Calendar.getInstance();
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM");
 		Date dateDay = null;
 		String strDateDay = defaultYear + "-" + defaultMonth;
@@ -178,10 +234,11 @@ public class AttendanceService {
 			attendanceInsert.setStatus(defaultStatus);
 			attendanceDayList.add(attendanceInsert);
 		}
-		attendanceMonth.getAttendanceHelper().updateAttendanceHelperStatus(attendanceDayList);
-		attendanceMonth.setYear(defaultYear);
-		attendanceMonth.setMonth(defaultMonth);
-    	return attendanceMonth;
+		AttendanceMonth attendanceMonth1 = new AttendanceMonth();
+		attendanceMonth1.getAttendanceHelper().updateAttendanceHelperStatus(attendanceDayList);
+		attendanceMonth1.setYear(defaultYear);
+		attendanceMonth1.setMonth(defaultMonth);
+    	return attendanceMonth1;
     }
     
     
