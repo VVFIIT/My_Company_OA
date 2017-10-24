@@ -302,7 +302,7 @@ public class DictUtils {
 		if ("3".equals(processStatus)) {
 			status = "none;";
 		} else {
-			status = "block;";
+			status = "inline";
 		}
 		status = "display:" + status;
 		return status;
