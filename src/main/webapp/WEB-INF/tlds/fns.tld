@@ -261,10 +261,18 @@
   </function>
 
   <function>
-    <description>考勤操作状态</description>
+    <description>考勤操作状态(如果是确认状态则隐藏修改按钮)</description>
     <name>getCheckStatus</name>
     <function-class>com.thinkgem.jeesite.modules.sys.utils.DictUtils</function-class>
     <function-signature>java.lang.String getCheckStatus(java.lang.String)</function-signature>
+    <example>${fns:getDictList(type)}</example>
+  </function>
+  
+    <function>
+    <description>考勤操作状态(如果是确认状态则显示导出按钮)</description>
+    <name>getCheckStatusShow</name>
+    <function-class>com.thinkgem.jeesite.modules.sys.utils.DictUtils</function-class>
+    <function-signature>java.lang.String getCheckStatusShow(java.lang.String)</function-signature>
     <example>${fns:getDictList(type)}</example>
   </function>
   

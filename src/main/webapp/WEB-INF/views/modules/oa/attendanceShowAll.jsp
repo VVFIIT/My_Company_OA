@@ -89,7 +89,7 @@
 					<c:if test="${attendance.processStatus ==1}"> <a href="" onclick="return confirmx('用户未提交!', this.href)">查看</a></c:if>
 					<c:if test="${attendance.processStatus ==3}"> <a href="${ctx}/oa/attendance/show?id=${attendance.id}">查看</a></c:if>
 				
-				 	<a id="btnAttExport1" onclick="showExport('${attendance.id}')"  >导出</a> 
+				 	<a id="btnAttExport1" style="${fns:getCheckStatusShow(attendance.processStatus)}" onclick="showExport('${attendance.id}')"  >导出</a> 
 				</td>
 
 			</tr>
