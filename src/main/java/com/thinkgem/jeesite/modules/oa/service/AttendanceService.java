@@ -106,20 +106,11 @@ public class AttendanceService {
     	User user = UserUtils.getUser();
     	attendanceMonth.setName(user.getName());
     	List<AttendanceMonth> list = attendanceMonthDao.getAttendance(attendanceMonth);
-    	int startYear = 2017;
-    	int startMonth = 1;
-    	Calendar date = Calendar.getInstance();
-    	int year = date.get(Calendar.YEAR);
-		int month = date.get(Calendar.MONTH)+1;
-		int endYear;
-		int endMonth;
-    	if(month==1) {
-    		endYear = year-1;
-    		endMonth = 12;
-		}else {
-			endYear = year;
-			endMonth = month-1;
-		}
+    	List<Integer> list1 = getStartDateAndEndDate();
+    	int startYear = list1.get(0);
+    	int startMonth = list1.get(1);
+    	int endYear = list1.get(2);
+    	int endMonth = list1.get(3);
 		int resultYear = 0;
 		int resultMonth = 0;
 		List<Integer> worklist = new ArrayList<Integer>();
@@ -534,4 +525,46 @@ public class AttendanceService {
 				.getIdAttendance(attendanceInsert);
 		return attendanceList;
 	}
+	
+	/*
+	 * 获取DB中已经存在的AttendanceMonth
+	 */
+	public List<AttendanceMonth> getExistAttendanceMonth(){
+		AttendanceMonth existAttendanceMonth = new AttendanceMonth();
+    	User user = UserUtils.getUser();
+    	existAttendanceMonth.setName(user.getName());
+    	List<AttendanceMonth> list = attendanceMonthDao.getAttendance(existAttendanceMonth);
+		return list;
+	}
+	
+	/*
+	 * 获取入职年月和截止年月
+	 */
+	public List<Integer> getStartDateAndEndDate() {
+		User user = UserUtils.getUser();
+		Date startDate = user.getEntryDate();
+    	Calendar now = Calendar.getInstance();
+    	now.setTime(startDate);
+    	int startYear = now.get(Calendar.YEAR);
+    	int startMonth = now.get(Calendar.MONTH)+1;
+    	Calendar date = Calendar.getInstance();
+    	int year = date.get(Calendar.YEAR);
+		int month = date.get(Calendar.MONTH)+1;
+		int endYear;
+		int endMonth;
+    	if(month==1) {
+    		endYear = year-1;
+    		endMonth = 12;
+		}else {
+			endYear = year;
+			endMonth = month-1;
+		}
+    	ArrayList<Integer> list = new ArrayList<Integer>();
+    	list.add(startYear);
+    	list.add(startMonth);
+    	list.add(endYear);
+    	list.add(endMonth);
+		return list;
+	}
+	
 }

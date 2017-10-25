@@ -67,6 +67,13 @@ public class AttendanceController extends BaseController {
 			lists.get(i).setAttendanceDayStatus(list.get(i));
 		}
 		model.addAttribute("page", page);
+		AttendanceMonth attendanceMonth = attendanceService.getDefaultYearAndMonth();
+		if(attendanceMonth.getYear()==0) {
+			model.addAttribute("MODE", "noInsertMonth");
+		}else {
+			model.addAttribute("MODE", "yesInsertMonth");
+		}
+		model.addAttribute("list", list);
 		return "modules/oa/attendanceList";
 	}
 
@@ -76,8 +83,26 @@ public class AttendanceController extends BaseController {
 	@RequestMapping(value = "insert")
 	public String attendanceUpdate(Model model) {
 		AttendanceMonth attendanceMonth = attendanceService.getDefaultYearAndMonth();
-		model.addAttribute("attendanceMonth_Insert", attendanceMonth);
-		return "modules/oa/attendanceInsert";
+		if(attendanceMonth.getYear()==0) {
+			List<AttendanceMonth> list = attendanceMonthService.getAllAttendance();
+			List<AttendanceDayStatus> lists = attendanceMonthService.getDayStatusSum();
+			for (int i = 0; i < lists.size(); i++) {
+				list.get(i).setAttendanceDayStatus(lists.get(i));
+			}
+			model.addAttribute("MODE", "noInsertMonth");
+			model.addAttribute("list", list);
+			return "modules/oa/attendanceList";
+		}else {
+			List<AttendanceMonth> list = attendanceService.getExistAttendanceMonth();
+			List<Integer> list1 = attendanceService.getStartDateAndEndDate();
+			model.addAttribute("startYear", list1.get(0));
+			model.addAttribute("startMonth", list1.get(1));
+			model.addAttribute("endYear", list1.get(2));
+			model.addAttribute("endMonth", list1.get(3));
+			model.addAttribute("existAttendanceMonthList", list);
+			model.addAttribute("attendanceMonth_Insert", attendanceMonth);
+			return "modules/oa/attendanceInsert";
+		}
 	}
 
 	/**
@@ -123,6 +148,13 @@ public class AttendanceController extends BaseController {
 			lists.get(i).setAttendanceDayStatus(list.get(i));
 		}
 		model.addAttribute("page", page);
+		AttendanceMonth attendanceMonth1 = attendanceService.getDefaultYearAndMonth();
+		if(attendanceMonth1.getYear()==0) {
+			model.addAttribute("MODE", "noInsertMonth");
+		}else {
+			model.addAttribute("MODE", "yesInsertMonth");
+		}
+		model.addAttribute("list", list);
 		return "modules/oa/attendanceList";
 	}
 

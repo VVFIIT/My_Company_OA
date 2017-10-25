@@ -21,12 +21,19 @@
             $("#searchForm").submit();
             return false;
         }
+        
+        function noInsertMonth() {
+        	var mode = "${MODE}";
+        	if(mode == "noInsertMonth"){
+        		alert("您没有可以添加的月份！");
+        	}
+        }
     </script>
 </head>
 <body>
 <ul class="nav nav-tabs">
     <li class="active"><a href="${ctx}/oa/attendance/">考勤列表</a></li>
-    <li><a href="${ctx}/oa/attendance/insert">考勤添加</a></li>
+    <li><a href="${ctx}/oa/attendance/insert" onclick="noInsertMonth()">考勤添加</a></li>
 </ul>
 <form:form id="searchForm" modelAttribute="attendanceMonth" action="${ctx}/oa/attendance/"
            class="breadcrumb form-search">
