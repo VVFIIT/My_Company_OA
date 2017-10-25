@@ -67,8 +67,8 @@ public class AttendanceController extends BaseController {
 			lists.get(i).setAttendanceDayStatus(list.get(i));
 		}
 		model.addAttribute("page", page);
-		AttendanceMonth attendanceMonth = attendanceService.getDefaultYearAndMonth();
-		if(attendanceMonth.getYear()==0) {
+		AttendanceMonth attendanceMonth1 = attendanceService.getDefaultYearAndMonth();
+		if(attendanceMonth1.getYear()==0) {
 			model.addAttribute("MODE", "noInsertMonth");
 		}else {
 			model.addAttribute("MODE", "yesInsertMonth");
