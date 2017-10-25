@@ -227,18 +227,13 @@ public class AttendanceController extends BaseController {
 	public String attendanceShowAllExport(AttendanceMonth attendanceMonth, HttpServletRequest request,
 			HttpServletResponse response, RedirectAttributes redirectAttributes) {
 		try {
-			// 临时测试数据
-			attendanceMonth.setMonth(5);
-			attendanceMonth.setName("张大天");
-			attendanceMonth.setYear(2014);
-
 			List<AttendanceMonth> list = attendanceMonthService.getAttendance(attendanceMonth);
 			List<AttendanceDay> exportList = new ArrayList<AttendanceDay>();
 			if (list.size() > 0 && list != null) {
 				exportList = list.get(0).getAttendanceStatus();
 			}
 			String fileName = attendanceMonth.getYear() + "年" + attendanceMonth.getMonth() + "月"
-					+ attendanceMonth.getName() + "考勤" + DateUtils.getDate("yyyyMMddHHmmss") + ".xlsx";
+					+ list.get(0).getName() + "考勤" + DateUtils.getDate("yyyyMMddHHmmss") + ".xlsx";
 			new ExportExcel("员工考勤", AttendanceDay.class).setDataList(exportList).write(response, fileName).dispose();
 			return null;
 		} catch (Exception e) {
