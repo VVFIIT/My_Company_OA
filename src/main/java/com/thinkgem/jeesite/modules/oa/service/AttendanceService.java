@@ -133,7 +133,7 @@ public class AttendanceService {
 					for(int j = startMonth; j<=12;j++) {
 			    		worklist.add(j);
 			    		for(AttendanceMonth attendanceMonth1 : list) {
-			    			if(j==attendanceMonth1.getMonth()) {
+			    			if(i==attendanceMonth1.getYear() && j==attendanceMonth1.getMonth()) {
 			    				worklist.remove(worklist.size()-1);
 			    			}
 			    		}
@@ -147,7 +147,7 @@ public class AttendanceService {
 					for(int j = 1; j<=12;j++) {
 			    		worklist.add(j);
 			    		for(AttendanceMonth attendanceMonth1 : list) {
-			    			if(j==attendanceMonth1.getMonth()) {
+			    			if(i==attendanceMonth1.getYear() && j==attendanceMonth1.getMonth()) {
 			    				worklist.remove(worklist.size()-1);
 			    			}
 			    		}
@@ -161,7 +161,7 @@ public class AttendanceService {
 					for(int j = 1; j<=endMonth;j++) {
 			    		worklist.add(j);
 			    		for(AttendanceMonth attendanceMonth1 : list) {
-			    			if(j==attendanceMonth1.getMonth()) {
+			    			if(i==attendanceMonth1.getYear() && j==attendanceMonth1.getMonth()) {
 			    				worklist.remove(worklist.size()-1);
 			    			}
 			    		}

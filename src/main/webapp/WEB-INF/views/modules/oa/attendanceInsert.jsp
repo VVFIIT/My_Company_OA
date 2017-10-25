@@ -14,7 +14,7 @@
         	var month = document.getElementById("inputMonth").value;
         	var iframe = document.getElementById("downFrame");
         	iframe.style.display = "";
-        	if(startYear>year || endYear<year || (startYear=year && startMonth>month) || (endYear=year && endMonth<month)){
+        	if(year<startYear || year>endYear || (year==startYear && month<startMonth) || (year==endYear && month>endMonth)){
         		var iframe = document.getElementById("downFrame");
             	iframe.style.display = "none";
         		alert("该日期超出范围！不可选择");
