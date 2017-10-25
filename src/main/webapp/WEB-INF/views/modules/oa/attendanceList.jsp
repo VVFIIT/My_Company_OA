@@ -50,7 +50,7 @@
         <input id="pageNo" name="pageNo" type="hidden" value="${page.pageNo}"/>
 		<input id="pageSize" name="pageSize" type="hidden" value="${page.pageSize}"/>
         <tbody>
-        <c:forEach items="${list}" var="attendanceMonth">
+        <c:forEach items="${page.list}" var="attendanceMonth">
             <tr>
                 <td>${fns:abbr(attendanceMonth.year,30)}年${fns:abbr(attendanceMonth.month,30)}月</td>
                 <td>${fns:abbr(attendanceMonth.attendanceDayStatus.normalDay,30)}</td>
