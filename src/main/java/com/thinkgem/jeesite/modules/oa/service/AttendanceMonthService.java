@@ -107,8 +107,10 @@ public class AttendanceMonthService {
 	 * 更新提交状态属性
 	 */
 	@Transactional(rollbackFor = Exception.class)
-	public AttendanceMonth updateProcessStatus(AttendanceMonth attendanceMonth) {
-		attendanceMonth.setId(attendanceMonth.getId());
+	public AttendanceMonth updateProcessStatus(String id) {
+		AttendanceMonth attendanceMonth=new AttendanceMonth();
+		attendanceMonth.setId(id);
+		//修改为提交状态
 		attendanceMonth.setProcessStatus("3");
 		attendanceMonthDao.update(attendanceMonth);
 		return attendanceMonth;
@@ -131,38 +133,42 @@ public class AttendanceMonthService {
 		AttendanceMonth attendanceMonth = new AttendanceMonth();
 		User user = UserUtils.getUser();
 		attendanceMonth.setName(user.getName());
-		List<AttendanceMonth> attendanceMonthList = attendanceMonthDao.getNameAttendance(attendanceMonth);
+		Page<AttendanceMonth> page = attendanceMonthDao.getAttendancePage(attendanceMonth);
+		List<AttendanceMonth> lists = page.getList();
 		List<AttendanceDayStatus> list = new ArrayList<AttendanceDayStatus>();
-		for (AttendanceMonth anAttendanceMonthList : attendanceMonthList) {
+		for (AttendanceMonth list1 : lists) {
 			AttendanceDayStatus attendanceDayStatus = new AttendanceDayStatus();
 			// 正常出勤,出差-短期,出差-长期,加班,请假,其它带薪假,病假,--公休日,--法定节假日
 			int q = 0, w = 0, a = 0, b = 0, c = 0, d = 0, e = 0;
-			for (int j = 0; j < anAttendanceMonthList.getAttendanceStatus().size(); j++) {
-				if ("1".equals(anAttendanceMonthList.getAttendanceStatus().get(j).getStatus())) {
+			for (int j = 0; j < list1.getAttendanceStatus().size(); j++) {
+				if ("1".equals(list1.getAttendanceStatus().get(j).getStatus())) {
 					q++;
 					attendanceDayStatus.setNormalDay(q);
-				} else if ("2".equals(anAttendanceMonthList.getAttendanceStatus().get(j).getStatus())) {
+				} else if ("2".equals(list1.getAttendanceStatus().get(j).getStatus())) {
 					w++;
 					attendanceDayStatus.setTravelDayShort(w);
-				} else if ("3".equals(anAttendanceMonthList.getAttendanceStatus().get(j).getStatus())) {
+				} else if ("3".equals(list1.getAttendanceStatus().get(j).getStatus())) {
 					a++;
 					attendanceDayStatus.setTravelDayLong(a);
-				} else if ("4".equals(anAttendanceMonthList.getAttendanceStatus().get(j).getStatus())) {
+				} else if ("4".equals(list1.getAttendanceStatus().get(j).getStatus())) {
 					b++;
 					attendanceDayStatus.setOvertimeDay(b);
-				} else if ("5".equals(anAttendanceMonthList.getAttendanceStatus().get(j).getStatus())) {
+				} else if ("5".equals(list1.getAttendanceStatus().get(j).getStatus())) {
 					c++;
 					attendanceDayStatus.setLeaveDay(c);
-				} else if ("6".equals(anAttendanceMonthList.getAttendanceStatus().get(j).getStatus())) {
+				} else if ("6".equals(list1.getAttendanceStatus().get(j).getStatus())) {
 					d++;
 					attendanceDayStatus.setPaidLeaveDay(d);
-				} else if ("7".equals(anAttendanceMonthList.getAttendanceStatus().get(j).getStatus())) {
+				} else if ("7".equals(list1.getAttendanceStatus().get(j).getStatus())) {
 					e++;
 					attendanceDayStatus.setSickLeaveDay(e);
 				}
 			}
 			list.add(attendanceDayStatus);
 		}
+//		for (AttendanceMonth anAttendanceMonthList : attendanceMonthList) {
+
+//		}
 		return list;
 	}
 
