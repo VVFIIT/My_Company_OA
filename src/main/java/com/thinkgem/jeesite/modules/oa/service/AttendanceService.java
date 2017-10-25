@@ -442,29 +442,31 @@ public class AttendanceService {
 	/**
 	 * 查询考勤状态
 	 */
-	public List<AttendanceMonth> getAttendanceShowAll(
-			AttendanceMonth attendance) {
+	public Page<AttendanceMonth> getAttendanceShowAllPage(AttendanceMonth attendance) {
 		int defaultYear;
-    	int defaultMonth;
+		int defaultMonth;
 		Integer month = attendance.getMonth();
 		Integer year = attendance.getYear();
 		User user = new User();
 		List<User> userList = userDao.findList(user);
-		List<AttendanceMonth> returnList = new ArrayList<AttendanceMonth>();
+
+		Page<AttendanceMonth> returnPage = attendance.getPage();
+		List<AttendanceMonth> returnList = returnPage.getList();
+
 		for (User userInformation : userList) {
 			String name = userInformation.getName();
 			AttendanceMonth attendanceInsert = new AttendanceMonth();
 			if (month == null && year == null) {
 				Calendar date = Calendar.getInstance();
-	    		int currentYear = date.get(Calendar.YEAR);
-	    		int currentMonth = date.get(Calendar.MONTH)+1;
-	    		if(currentMonth==1) {
-	    			defaultYear = currentYear-1;
-	    			defaultMonth = 12;
-	    		}else {
-	    			defaultYear = currentYear;
-	        		defaultMonth = currentMonth-1;
-	    		}
+				int currentYear = date.get(Calendar.YEAR);
+				int currentMonth = date.get(Calendar.MONTH) + 1;
+				if (currentMonth == 1) {
+					defaultYear = currentYear - 1;
+					defaultMonth = 12;
+				} else {
+					defaultYear = currentYear;
+					defaultMonth = currentMonth - 1;
+				}
 				attendanceInsert.setName(name);
 				attendanceInsert.setYear(defaultYear);
 				attendanceInsert.setMonth(defaultMonth);
@@ -475,7 +477,7 @@ public class AttendanceService {
 			}
 			List<AttendanceMonth> attendanceList = attendanceMonthDao
 					.getAttendance(attendanceInsert);
-
+		
 			if (0 == attendanceList.size()) {
 				// 根据姓名，年，月，没有记录，此人还没有提交过，页面需要显示 姓名 和 空状态
 				attendanceList.add(attendanceInsert);
@@ -483,7 +485,11 @@ public class AttendanceService {
 			// 正常情况下 根据姓名，年，月，会精确查出一条记录
 			returnList.add(attendanceList.get(0));
 		}
-		return returnList;
+		
+		returnPage.setCount(returnList.size()); 
+		returnPage.setList(returnList);
+		
+		return returnPage;
 	}
 	
 	/**

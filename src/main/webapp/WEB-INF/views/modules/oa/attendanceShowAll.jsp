@@ -6,26 +6,28 @@
     <meta name="decorator" content="default"/>
     <script type="text/javascript">
         $(document).ready(function () {
-        	/* 导出  */
-        	$("#btnAttExport").click(function(){
-				top.$.jBox.confirm("确认要导出员工考勤数据吗？","系统提示",function(v,h,f){
-					if(v=="ok"){
-						$("#attSearchListForm").attr("action","${ctx}/oa/attendance/showAllExport");
-						$("#attSearchListForm").submit();
-					}
-				},{buttonsFocus:1});
-				top.$('.jbox-body .jbox-icon').css('top','55px');
-			});
-        	
-        });
-        function attendanceShow() {
 
+        });
+
+        function attendanceShow() {
             window.location.href = "${ctx}/oa/attendance/show";
         }
         function updateAttendance() {
             loading('正在跳转，请稍等...');
             $("#listForm").attr("action", "${ctx}/cms/category/updateSort");
             $("#listForm").submit();
+        }
+        
+        function showExport(id) {
+            top.$.jBox.confirm("确认要导出员工考勤数据吗？","系统提示",function(v,h,f){
+				if(v=="ok"){	
+					var href = "${ctx}/oa/attendance/showAllExport?id="+id;
+					
+					$("#attSearchListForm").attr("action",href); 					
+					$("#attSearchListForm").submit();
+				}
+			},{buttonsFocus:1});
+			top.$('.jbox-body .jbox-icon').css('top','55px');
         }
     </script>
 </head>
@@ -49,7 +51,6 @@
 					</form:select>
 				</li>
 				<li class="btns"><input id="btnSubmit" class="btn btn-primary" type="submit" value="查询"/></li>
-				<li class="btns"><input id="btnAttExport" class="btn btn-primary" type="button" value="导出"/></li>
 			</ul>
 	</form:form>
 	<sys:message content="${message}"/>
@@ -63,9 +64,11 @@
 		<tbody>
 		<c:forEach items="${list}" var="attendance">
 			<tr>
-				<td>${attendance.name}</td>
 				<td>
-					
+				 <input id="attendanceIdShow" name="id" type="hidden" value="${attendance.id}"/>  	 
+				${attendance.name}
+				</td>
+				<td>
 					<c:if test="${empty attendance.processStatus}"></c:if>
 					<c:if test="${attendance.processStatus ==1}"> 提交</c:if>
 					<font color=red><c:if test="${attendance.processStatus ==2}"> 未提交</c:if></font>
@@ -78,6 +81,9 @@
 				<c:if test="${attendance.processStatus ==1}"> <a href="${ctx}/oa/attendance/show?id=${attendance.id}">查看</a></c:if>
 				<c:if test="${attendance.processStatus ==2}"> <a href="" onclick="return confirmx('用户未提交!', this.href)">查看</a></c:if>
 				<c:if test="${attendance.processStatus ==3}"> <a href="${ctx}/oa/attendance/show?id=${attendance.id}">查看</a></c:if>
+				
+				
+				 <a id="btnAttExport1" onclick="showExport('${attendance.id}')"  >导出</a> 
 				</td>
 
 			</tr>

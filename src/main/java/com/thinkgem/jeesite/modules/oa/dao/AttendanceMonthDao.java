@@ -37,6 +37,9 @@ public class AttendanceMonthDao {
 	 */
 	public List<AttendanceMonth> getAttendance(AttendanceMonth attendanceMonth) {
 		Query query = new Query();
+		if (StringUtils.isNotBlank(attendanceMonth.getId())) {
+			query.addCriteria(Criteria.where("_id").is(attendanceMonth.getId()));
+		}
 		if (StringUtils.isNotBlank(attendanceMonth.getName())) {
 			query.addCriteria(Criteria.where("name").regex(".*?\\" + attendanceMonth.getName() + ".*"));
 		}
@@ -102,6 +105,9 @@ public class AttendanceMonthDao {
 	 */
 	public Page<AttendanceMonth> getAttendancePage(AttendanceMonth attendanceMonth) {
 		Query query = new Query();
+		if (StringUtils.isNotBlank(attendanceMonth.getId())) {
+			query.addCriteria(Criteria.where("_id").is(attendanceMonth.getId()));
+		}
 		if (StringUtils.isNotBlank(attendanceMonth.getName())) {
 			query.addCriteria(Criteria.where("name").regex(".*?\\" + attendanceMonth.getName() + ".*"));
 		}

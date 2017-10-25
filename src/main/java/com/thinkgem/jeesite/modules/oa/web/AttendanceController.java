@@ -110,11 +110,16 @@ public class AttendanceController extends BaseController {
 	 */
 	@RequiresPermissions("oa:attendance:view")
 	@RequestMapping(value = "showAll")
-	public String showAllAttendance(AttendanceMonth attendance, Model model) {
-		AttendanceMonth attendanceMonth = attendanceService.getAttendanceMonth(attendance);
-		List<AttendanceMonth> attendancelist = attendanceService.getAttendanceShowAll(attendance);
-		model.addAttribute("list", attendancelist);
-		model.addAttribute("attendanceShowAll", attendanceMonth);
+	public String showAllAttendance(AttendanceMonth attendanceMonth, Model model,HttpServletRequest request, HttpServletResponse response) {	
+		//默认查询考勤状态，并分页
+		Page<AttendanceMonth> page = new Page<AttendanceMonth>(request, response);
+		attendanceMonth.setPage(page);		
+		Page<AttendanceMonth> returnPage = attendanceService.getAttendanceShowAllPage(attendanceMonth);
+		model.addAttribute("page", returnPage);
+		//查询栏 默认显示的年月
+		AttendanceMonth attendanceMonthReturn = attendanceService.getAttendanceMonth(attendanceMonth);
+		model.addAttribute("attendanceShowAll", attendanceMonthReturn);
+		
 		return "modules/oa/attendanceShowAll";
 	}
 
@@ -222,18 +227,13 @@ public class AttendanceController extends BaseController {
 	public String attendanceShowAllExport(AttendanceMonth attendanceMonth, HttpServletRequest request,
 			HttpServletResponse response, RedirectAttributes redirectAttributes) {
 		try {
-			// 临时测试数据
-			attendanceMonth.setMonth(5);
-			attendanceMonth.setName("张大天");
-			attendanceMonth.setYear(2014);
-
 			List<AttendanceMonth> list = attendanceMonthService.getAttendance(attendanceMonth);
 			List<AttendanceDay> exportList = new ArrayList<AttendanceDay>();
 			if (list.size() > 0 && list != null) {
 				exportList = list.get(0).getAttendanceStatus();
 			}
 			String fileName = attendanceMonth.getYear() + "年" + attendanceMonth.getMonth() + "月"
-					+ attendanceMonth.getName() + "考勤" + DateUtils.getDate("yyyyMMddHHmmss") + ".xlsx";
+					+ list.get(0).getName() + "考勤" + DateUtils.getDate("yyyyMMddHHmmss") + ".xlsx";
 			new ExportExcel("员工考勤", AttendanceDay.class).setDataList(exportList).write(response, fileName).dispose();
 			return null;
 		} catch (Exception e) {
