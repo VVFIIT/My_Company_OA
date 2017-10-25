@@ -115,16 +115,16 @@ public class AttendanceMonthService {
 		attendanceMonthDao.update(attendanceMonth);
 		return attendanceMonth;
 	}
-	// /**
-	// * 获取考勤记录
-	// * @param attendanceMonth
-	// * @return
-	// */
-	// public AttendanceMonth getRecordList(AttendanceMonth attendanceMonth) {
-	// attendanceMonth.setOaNotifyRecordList(attendanceMonthDao.findList(new
-	// OaNotifyRecord(attendanceMonth)));
-	// return attendanceMonth;
-	// }
+
+	/**
+	 * 获取考勤记录11111
+	 */
+	public AttendanceMonth getR(String id) {
+		AttendanceMonth attendanceMonth=new AttendanceMonth();
+		attendanceMonth.setId(id);
+		attendanceMonthDao.getNAttendance(attendanceMonth);
+		return attendanceMonth;
+	}
 
 	/**
 	 * 计算考勤状态和
