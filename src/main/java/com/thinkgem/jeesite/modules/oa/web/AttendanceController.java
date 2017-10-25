@@ -1,14 +1,12 @@
 package com.thinkgem.jeesite.modules.oa.web;
 
-import com.thinkgem.jeesite.common.persistence.Page;
-import com.thinkgem.jeesite.common.utils.DateUtils;
-import com.thinkgem.jeesite.common.utils.excel.ExportExcel;
-import com.thinkgem.jeesite.common.web.BaseController;
-import com.thinkgem.jeesite.modules.oa.entity.AttendanceDay;
-import com.thinkgem.jeesite.modules.oa.entity.AttendanceDayStatus;
-import com.thinkgem.jeesite.modules.oa.entity.AttendanceMonth;
-import com.thinkgem.jeesite.modules.oa.service.AttendanceMonthService;
-import com.thinkgem.jeesite.modules.oa.service.AttendanceService;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -18,10 +16,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.util.ArrayList;
-import java.util.List;
+import com.thinkgem.jeesite.common.persistence.Page;
+import com.thinkgem.jeesite.common.utils.DateUtils;
+import com.thinkgem.jeesite.common.utils.excel.ExportExcel;
+import com.thinkgem.jeesite.common.web.BaseController;
+import com.thinkgem.jeesite.modules.oa.entity.AttendanceDay;
+import com.thinkgem.jeesite.modules.oa.entity.AttendanceDayStatus;
+import com.thinkgem.jeesite.modules.oa.entity.AttendanceMonth;
+import com.thinkgem.jeesite.modules.oa.helper.StringName;
+import com.thinkgem.jeesite.modules.oa.service.AttendanceMonthService;
+import com.thinkgem.jeesite.modules.oa.service.AttendanceService;
 
 /**
  * 考勤Controller
@@ -58,7 +62,8 @@ public class AttendanceController extends BaseController {
 	 * 考勤首页数据显示
 	 */
 	@RequestMapping(value = { "list", "" })
-	public String list(AttendanceMonth attendanceMonth, Model model, HttpServletRequest request, HttpServletResponse response) {
+	public String list(AttendanceMonth attendanceMonth, Model model, HttpServletRequest request,
+			HttpServletResponse response) {
 		Page<AttendanceMonth> page = attendanceMonthService.page(new Page<AttendanceMonth>(request, response));
 		List<AttendanceMonth> lists = page.getList();
 		List<AttendanceDayStatus> list = attendanceMonthService.getDayStatusSum();
@@ -66,9 +71,9 @@ public class AttendanceController extends BaseController {
 			lists.get(i).setAttendanceDayStatus(list.get(i));
 		}
 		AttendanceMonth attendanceMonth1 = attendanceService.getDefaultYearAndMonth();
-		if(attendanceMonth1.getYear()==0) {
+		if (attendanceMonth1.getYear() == 0) {
 			model.addAttribute("MODE", "noInsertMonth");
-		}else {
+		} else {
 			model.addAttribute("MODE", "yesInsertMonth");
 		}
 		model.addAttribute("page", page);
@@ -81,7 +86,7 @@ public class AttendanceController extends BaseController {
 	@RequestMapping(value = "insert")
 	public String attendanceUpdate(Model model, HttpServletRequest request, HttpServletResponse response) {
 		AttendanceMonth attendanceMonth = attendanceService.getDefaultYearAndMonth();
-		if(attendanceMonth.getYear()==0) {
+		if (attendanceMonth.getYear() == 0) {
 			Page<AttendanceMonth> page = attendanceMonthService.page(new Page<AttendanceMonth>(request, response));
 			List<AttendanceMonth> lists = page.getList();
 			List<AttendanceDayStatus> list = attendanceMonthService.getDayStatusSum();
@@ -91,7 +96,7 @@ public class AttendanceController extends BaseController {
 			model.addAttribute("MODE", "noInsertMonth");
 			model.addAttribute("page", page);
 			return "modules/oa/attendanceList";
-		}else {
+		} else {
 			List<AttendanceMonth> list = attendanceService.getExistAttendanceMonth();
 			List<Integer> list1 = attendanceService.getStartDateAndEndDate();
 			model.addAttribute("startYear", list1.get(0));
@@ -109,16 +114,17 @@ public class AttendanceController extends BaseController {
 	 */
 	@RequiresPermissions("oa:attendance:view")
 	@RequestMapping(value = "showAll")
-	public String showAllAttendance(AttendanceMonth attendanceMonth, Model model,HttpServletRequest request, HttpServletResponse response) {	
-		//默认查询考勤状态，并分页
+	public String showAllAttendance(AttendanceMonth attendanceMonth, Model model, HttpServletRequest request,
+			HttpServletResponse response) {
+		// 默认查询考勤状态，并分页
 		Page<AttendanceMonth> page = new Page<AttendanceMonth>(request, response);
-		attendanceMonth.setPage(page);		
+		attendanceMonth.setPage(page);
 		Page<AttendanceMonth> returnPage = attendanceService.getAttendanceShowAllPage(attendanceMonth);
 		model.addAttribute("page", returnPage);
-		//查询栏 默认显示的年月
+		// 查询栏 默认显示的年月
 		AttendanceMonth attendanceMonthReturn = attendanceService.getAttendanceMonth(attendanceMonth);
 		model.addAttribute("attendanceShowAll", attendanceMonthReturn);
-		
+
 		return "modules/oa/attendanceShowAll";
 	}
 
@@ -143,7 +149,8 @@ public class AttendanceController extends BaseController {
 	 * 提交考勤列表
 	 */
 	@RequestMapping(value = "attendanceInsertList")
-	public String attendanceInsert(AttendanceMonth attendanceMonth, Model model, HttpServletRequest request, HttpServletResponse response) {
+	public String attendanceInsert(AttendanceMonth attendanceMonth, Model model, HttpServletRequest request,
+			HttpServletResponse response) {
 		attendanceService.InsertAttendanceList(attendanceMonth);
 		Page<AttendanceMonth> page = attendanceMonthService.page(new Page<AttendanceMonth>(request, response));
 		List<AttendanceMonth> lists = page.getList();
@@ -152,9 +159,9 @@ public class AttendanceController extends BaseController {
 			lists.get(i).setAttendanceDayStatus(list.get(i));
 		}
 		AttendanceMonth attendanceMonth1 = attendanceService.getDefaultYearAndMonth();
-		if(attendanceMonth1.getYear()==0) {
+		if (attendanceMonth1.getYear() == 0) {
 			model.addAttribute("MODE", "noInsertMonth");
-		}else {
+		} else {
 			model.addAttribute("MODE", "yesInsertMonth");
 		}
 		model.addAttribute("page", page);
@@ -196,8 +203,6 @@ public class AttendanceController extends BaseController {
 	public String modifyAttendanceInformation(AttendanceMonth attendanceMonth, String id) {
 		attendanceMonth = attendanceMonthService.getInformation(id);
 		System.out.println("_________________" + attendanceMonth);
-
-
 		return "modules/oa/attendanceInsertList";
 	}
 
@@ -205,7 +210,8 @@ public class AttendanceController extends BaseController {
 	 * 提交个人考勤
 	 */
 	@RequestMapping(value = "checkProcessStatus")
-	public String checkProcessStatus(String id, RedirectAttributes redirectAttributes, Model model, HttpServletRequest request, HttpServletResponse response) {
+	public String checkProcessStatus(String id, RedirectAttributes redirectAttributes, Model model,
+			HttpServletRequest request, HttpServletResponse response) {
 		attendanceMonthService.updateProcessStatus(id);
 		addMessage(redirectAttributes, "提交考勤成功");
 		Page<AttendanceMonth> page = attendanceMonthService.page(new Page<AttendanceMonth>(request, response));
@@ -227,11 +233,46 @@ public class AttendanceController extends BaseController {
 		try {
 			List<AttendanceMonth> list = attendanceMonthService.getAttendance(attendanceMonth);
 			List<AttendanceDay> exportList = new ArrayList<AttendanceDay>();
+
 			if (list.size() > 0 && list != null) {
 				exportList = list.get(0).getAttendanceStatus();
+				for (AttendanceDay attendanceDay : exportList) {
+					String status = attendanceDay.getStatus();
+					// 给考勤状态匹配常量类中的汉字
+					switch (status) {
+					case "1":
+						attendanceDay.setStatus(StringName.s1);
+						break;
+					case "2":
+						attendanceDay.setStatus(StringName.s2);
+						break;
+					case "3":
+						attendanceDay.setStatus(StringName.s3);
+						break;
+					case "4":
+						attendanceDay.setStatus(StringName.s4);
+						break;
+					case "5":
+						attendanceDay.setStatus(StringName.s5);
+						break;
+					case "6":
+						attendanceDay.setStatus(StringName.s6);
+						break;
+					case "7":
+						attendanceDay.setStatus(StringName.s7);
+						break;
+
+					case "8":
+						attendanceDay.setStatus(StringName.s8);
+						break;
+					case "9":
+						attendanceDay.setStatus(StringName.s9);
+						break;
+					}
+				}
 			}
-			String fileName = attendanceMonth.getYear() + "年" + attendanceMonth.getMonth() + "月"
-					+ list.get(0).getName() + "考勤" + DateUtils.getDate("yyyyMMddHHmmss") + ".xlsx";
+			String fileName = attendanceMonth.getYear() + "年" + attendanceMonth.getMonth() + "月" + list.get(0).getName()
+					+ "考勤" + DateUtils.getDate("yyyyMMddHHmmss") + ".xlsx";
 			new ExportExcel("员工考勤", AttendanceDay.class).setDataList(exportList).write(response, fileName).dispose();
 			return null;
 		} catch (Exception e) {
