@@ -2,7 +2,6 @@ package com.thinkgem.jeesite.modules.oa.web;
 
 import com.thinkgem.jeesite.common.persistence.Page;
 import com.thinkgem.jeesite.common.utils.DateUtils;
-import com.thinkgem.jeesite.common.utils.StringUtils;
 import com.thinkgem.jeesite.common.utils.excel.ExportExcel;
 import com.thinkgem.jeesite.common.web.BaseController;
 import com.thinkgem.jeesite.modules.oa.entity.AttendanceDay;
@@ -194,12 +193,11 @@ public class AttendanceController extends BaseController {
 	 * 修改个人考勤
 	 */
 	@RequestMapping(value = "modifyAttendanceInformation")
-	public String modifyAttendanceInformation(AttendanceMonth attendanceMonth, Model model, String id) {
-//		if (StringUtils.isNotBlank(attendanceMonth.getId())) {
-			attendanceMonthService.getR(id);
-			// attendanceService.getRecordList(attendanceMonth);
-//		}
-		// model.addAttribute("attendanceMonth", attendanceMonth);
+	public String modifyAttendanceInformation(AttendanceMonth attendanceMonth, String id) {
+		attendanceMonth = attendanceMonthService.getInformation(id);
+		System.out.println("_________________" + attendanceMonth);
+
+
 		return "modules/oa/attendanceInsertList";
 	}
 

@@ -117,13 +117,13 @@ public class AttendanceMonthService {
 	}
 
 	/**
-	 * 获取考勤记录11111
-	 */
-	public AttendanceMonth getR(String id) {
-		AttendanceMonth attendanceMonth=new AttendanceMonth();
+     * 获取一条考勤的所有信息
+     */
+    public AttendanceMonth getInformation(String id) {
+        AttendanceMonth attendanceMonth=new AttendanceMonth();
 		attendanceMonth.setId(id);
-		attendanceMonthDao.getNAttendance(attendanceMonth);
-		return attendanceMonth;
+        attendanceMonth = attendanceMonthDao.getAttendanceEntity(attendanceMonth);
+        return attendanceMonth;
 	}
 
 	/**
