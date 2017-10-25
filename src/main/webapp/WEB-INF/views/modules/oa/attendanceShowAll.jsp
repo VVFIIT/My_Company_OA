@@ -18,6 +18,13 @@
             $("#listForm").submit();
         }
         
+        function page(n,s){
+        	 $("#pageNo").val(n);
+        	 $("#pageSize").val(s);
+        	 $("#searchForm").submit();
+        	 return false;
+        }
+        
         function showExport(id) {
             top.$.jBox.confirm("确认要导出员工考勤数据吗？","系统提示",function(v,h,f){
 				if(v=="ok"){	
@@ -37,6 +44,8 @@
 	</ul>
 	
 	<form:form id="attSearchListForm" modelAttribute="attendanceShowAll" action="${ctx}/oa/attendance/showAll" method="post" class="breadcrumb form-search">
+			 <input id="pageNo" name="pageNo" type="hidden" value="${page.pageNo}"/>
+			 <input id="pageSize" name="pageSize" type="hidden" value="${page.pageSize}"/>
 			<ul class="ul-form">
 				<li><label>请选择年份：</label>
 					<form:select path="year" class="input-medium">
@@ -62,33 +71,31 @@
 			<th>操作</th>
 		</tr></thead>
 		<tbody>
-		<c:forEach items="${list}" var="attendance">
+		<c:forEach items="${page.list}" var="attendance">
 			<tr>
 				<td>
-				 <input id="attendanceIdShow" name="id" type="hidden" value="${attendance.id}"/>  	 
-				${attendance.name}
-				</td>
+				 	<input id="attendanceIdShow" name="id" type="hidden" value="${attendance.id}"/>  	 
+					${attendance.name}
 				<td>
 					<c:if test="${empty attendance.processStatus}"></c:if>
-					<c:if test="${attendance.processStatus ==1}"> 提交</c:if>
-					<font color=red><c:if test="${attendance.processStatus ==2}"> 未提交</c:if></font>
-					<c:if test="${attendance.processStatus ==3}"> 确认</c:if>
-  					
+					<font color=red><c:if test="${attendance.processStatus ==1}"> 未提交</c:if></font>
+					<c:if test="${attendance.processStatus ==2}"> 提交</c:if>
+					<c:if test="${attendance.processStatus ==3}"> 确认</c:if>	
 				</td>
 				<td>
-				<c:if test="${empty attendance.processStatus}"><a href="" onclick="return confirmx('用户未创建!', this.href)">查看</a></c:if>
+					<c:if test="${empty attendance.processStatus}"><a href="" onclick="return confirmx('用户未创建!', this.href)">查看</a></c:if>
+					
+					<c:if test="${attendance.processStatus ==2}"> <a href="${ctx}/oa/attendance/show?id=${attendance.id}">查看</a></c:if>
+					<c:if test="${attendance.processStatus ==1}"> <a href="" onclick="return confirmx('用户未提交!', this.href)">查看</a></c:if>
+					<c:if test="${attendance.processStatus ==3}"> <a href="${ctx}/oa/attendance/show?id=${attendance.id}">查看</a></c:if>
 				
-				<c:if test="${attendance.processStatus ==1}"> <a href="${ctx}/oa/attendance/show?id=${attendance.id}">查看</a></c:if>
-				<c:if test="${attendance.processStatus ==2}"> <a href="" onclick="return confirmx('用户未提交!', this.href)">查看</a></c:if>
-				<c:if test="${attendance.processStatus ==3}"> <a href="${ctx}/oa/attendance/show?id=${attendance.id}">查看</a></c:if>
-				
-				
-				 <a id="btnAttExport1" onclick="showExport('${attendance.id}')"  >导出</a> 
+				 	<a id="btnAttExport1" onclick="showExport('${attendance.id}')"  >导出</a> 
 				</td>
 
 			</tr>
 		</c:forEach>
 		</tbody>
 	</table>
+	<div class="pagination">${page}</div>
 </body>
 </html>
