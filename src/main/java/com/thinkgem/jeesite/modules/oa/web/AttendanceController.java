@@ -110,11 +110,16 @@ public class AttendanceController extends BaseController {
 	 */
 	@RequiresPermissions("oa:attendance:view")
 	@RequestMapping(value = "showAll")
-	public String showAllAttendance(AttendanceMonth attendance, Model model) {
-		AttendanceMonth attendanceMonth = attendanceService.getAttendanceMonth(attendance);
-		List<AttendanceMonth> attendancelist = attendanceService.getAttendanceShowAll(attendance);
-		model.addAttribute("list", attendancelist);
-		model.addAttribute("attendanceShowAll", attendanceMonth);
+	public String showAllAttendance(AttendanceMonth attendanceMonth, Model model,HttpServletRequest request, HttpServletResponse response) {	
+		//默认查询考勤状态，并分页
+		Page<AttendanceMonth> page = new Page<AttendanceMonth>(request, response);
+		attendanceMonth.setPage(page);		
+		Page<AttendanceMonth> returnPage = attendanceService.getAttendanceShowAllPage(attendanceMonth);
+		model.addAttribute("page", returnPage);
+		//查询栏 默认显示的年月
+		AttendanceMonth attendanceMonthReturn = attendanceService.getAttendanceMonth(attendanceMonth);
+		model.addAttribute("attendanceShowAll", attendanceMonthReturn);
+		
 		return "modules/oa/attendanceShowAll";
 	}
 
