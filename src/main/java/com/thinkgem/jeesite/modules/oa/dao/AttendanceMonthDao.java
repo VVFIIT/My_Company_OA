@@ -126,4 +126,12 @@ public class AttendanceMonthDao {
 	    page.setList(list);
 		return page;
 	}
+
+	public List<AttendanceMonth> getNAttendance(AttendanceMonth attendanceMonth) {
+		Query query = new Query();
+		query.addCriteria(Criteria.where("_id").is(attendanceMonth.getId()));
+//		query.with(new Sort(new Sort.Order(Sort.Direction.DESC, "month")));
+		return this.mongoTemplate.find(query, AttendanceMonth.class);
+//		return this.mongoTemplate.findOne(query, AttendanceMonth.class);
+	}
 }

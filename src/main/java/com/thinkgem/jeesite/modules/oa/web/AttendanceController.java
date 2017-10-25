@@ -194,11 +194,11 @@ public class AttendanceController extends BaseController {
 	 * 修改个人考勤
 	 */
 	@RequestMapping(value = "modifyAttendanceInformation")
-	public String modifyAttendanceInformation(AttendanceMonth attendanceMonth, Model model) {
-		if (StringUtils.isNotBlank(attendanceMonth.getId())) {
-			// attendanceMonth =
+	public String modifyAttendanceInformation(AttendanceMonth attendanceMonth, Model model, String id) {
+//		if (StringUtils.isNotBlank(attendanceMonth.getId())) {
+			attendanceMonthService.getR(id);
 			// attendanceService.getRecordList(attendanceMonth);
-		}
+//		}
 		// model.addAttribute("attendanceMonth", attendanceMonth);
 		return "modules/oa/attendanceInsertList";
 	}
