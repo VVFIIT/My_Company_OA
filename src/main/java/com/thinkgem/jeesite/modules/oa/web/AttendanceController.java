@@ -191,16 +191,16 @@ public class AttendanceController extends BaseController {
 	 * 查看个人考勤详情
 	 */
 	@RequestMapping(value = "insertList")
-	public String insertList() {
-
+	public String insertList(AttendanceMonth attendanceMonth) {
+		attendanceMonth = attendanceMonthService.getInformation(attendanceMonth.getId());
 		return "modules/oa/attendanceInsert";
 	}
 
 	/**
 	 * 修改个人考勤
 	 */
-	@RequestMapping(value = "modifyAttendanceInformation")
-	public String modifyAttendanceInformation(AttendanceMonth attendanceMonth, String id) {
+	@RequestMapping(value = "mapping")
+	public String mapping(AttendanceMonth attendanceMonth, String id) {
 		attendanceMonth = attendanceMonthService.getInformation(id);
 		System.out.println("_________________" + attendanceMonth);
 		return "modules/oa/attendanceInsertList";

@@ -111,7 +111,7 @@ public class AttendanceMonthService {
 		AttendanceMonth attendanceMonth=new AttendanceMonth();
 		attendanceMonth.setId(id);
 		//修改为提交状态
-		attendanceMonth.setProcessStatus("3");
+		attendanceMonth.setProcessStatus("2");
 		attendanceMonthDao.update(attendanceMonth);
 		return attendanceMonth;
 	}
