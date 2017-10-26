@@ -180,6 +180,8 @@ public class AttendanceMonthService {
 	public Page<AttendanceMonth> page(Page<AttendanceMonth> page) {
 		AttendanceMonth attendanceMonth=new AttendanceMonth();
 		attendanceMonth.setPage(page);
+		User user = UserUtils.getUser();
+		attendanceMonth.setName(user.getName());
 		return attendanceMonthDao.getAttendancePage(attendanceMonth);	 
 	}
 
