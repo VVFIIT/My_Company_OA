@@ -4,6 +4,11 @@
 <head>
 	<title>考勤修改</title>
 	<meta name="decorator" content="default"/>
+	<script type="text/javascript">
+		function success(){
+			alert("修改成功");
+		}
+	</script>
 </head>
 <body>
 	<ul class="nav nav-tabs" id="updateTitle">
@@ -27,12 +32,9 @@
 					</tr>
 				</c:forEach>
 				<tr>
-					<td></td>
-					<td></td>
-					<td></td>
-					<td>
-						<input id="btnSubmit" class="btn btn-primary" type="submit" value="提交"/>
-					</td>
+					<td></td><td></td><td></td>
+					<td><a href="${ctx}/oa/attendance/returnIndexPage" target="mainFrame"><input class="btn btn-primary" type="button" value="返回"/></a>
+					<input id="btnSubmit" class="btn btn-primary" type="submit" value="修改" onclick="success()" style="margin-left:50px"/></td>
 				</tr>
 			</tbody>
 		</table>

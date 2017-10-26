@@ -248,6 +248,21 @@ public class AttendanceController extends BaseController {
 		model.addAttribute("page", page);
 		return "modules/oa/attendanceList";
 	}
+	
+	/**
+	 * 点击按钮返回首页
+	 */
+	@RequestMapping(value = "returnIndexPage")
+	public String returnIndexPage(Model model, HttpServletRequest request, HttpServletResponse response) {
+		Page<AttendanceMonth> page = attendanceMonthService.page(new Page<AttendanceMonth>(request, response));
+		List<AttendanceMonth> lists = page.getList();
+		List<AttendanceDayStatus> list = attendanceMonthService.getDayStatusSum();
+		for (int i = 0; i < lists.size(); i++) {
+			lists.get(i).setAttendanceDayStatus(list.get(i));
+		}
+		model.addAttribute("page", page);
+		return "modules/oa/attendanceList";
+	}
 
 	/**
 	 * 导出

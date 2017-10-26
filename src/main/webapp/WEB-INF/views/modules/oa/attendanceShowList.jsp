@@ -22,6 +22,10 @@
 						<td>${fns:getDictLabel(attendanceday.status,'oa_attendance_status','')}</td>
 					</tr>
 				</c:forEach>
+				<tr>
+					<td></td><td></td><td></td>
+					<td><a href="${ctx}/oa/attendance/returnIndexPage"><input class="btn btn-primary" type="button" value="返回"/></a></td>
+				</tr>
 			</tbody>
 		</table>
 	</form:form>

@@ -4,6 +4,11 @@
 <head>
 	<title>考勤添加</title>
 	<meta name="decorator" content="default"/>
+	<script type="text/javascript">
+		function success(){
+			alert("添加成功");
+		}
+	</script>
 </head>
 <body>
 	<form:form id="attInsertListForm" modelAttribute="attendanceMonth_InsertList" target="mainFrame" action="${ctx}/oa/attendance/attendanceInsertList" method="post" class="breadcrumb form-search">
@@ -23,12 +28,8 @@
 					</tr>
 				</c:forEach>
 				<tr>
-					<td></td>
-					<td></td>
-					<td></td>
-					<td>
-						<input id="btnSubmit" class="btn btn-primary" type="submit" value="提交"/>
-					</td>
+					<td></td><td></td><td></td>
+					<td><input id="btnSubmit" class="btn btn-primary" type="submit" value="提交" onclick="success()" style="margin-left:110px"/></td>
 				</tr>
 			</tbody>
 		</table>

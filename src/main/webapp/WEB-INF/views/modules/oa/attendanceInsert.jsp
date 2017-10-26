@@ -47,6 +47,7 @@
 				</form:select>
 			</li>
 			<li class="btns"><input id="btnSubmit" class="btn btn-primary" type="submit" value="确定" onclick="isExistMonth()"/></li>
+			<li class="btns"><a href="${ctx}/oa/attendance/returnIndexPage"><input class="btn btn-primary" type="button" value="返回"/></a></li>
 		</ul>
 	</form:form>
 	<div>
