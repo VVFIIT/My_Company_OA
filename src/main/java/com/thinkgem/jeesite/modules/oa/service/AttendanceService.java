@@ -39,6 +39,9 @@ public class AttendanceService {
 	private AttendanceMonthDao attendanceMonthDao;
 	
 	@Autowired
+	private AttendanceMonthService attendanceMonthService;
+	
+	@Autowired
 	private UserDao userDao;
 
 	@Transactional(readOnly = false, rollbackFor = Exception.class)
@@ -181,9 +184,9 @@ public class AttendanceService {
     }
     
     /*
-     * 查询考勤状态列表默认值
+     * 添加考勤状态列表默认值
      */
-    public AttendanceMonth getDefaultAttendanceMonth(AttendanceMonth attendanceMonth){
+    public AttendanceMonth insertPageDefaultAttendanceMonth(AttendanceMonth attendanceMonth){
     	int defaultYear = attendanceMonth.getYear();
     	int defaultMonth = attendanceMonth.getMonth();
     	Calendar calendar = Calendar.getInstance();
@@ -230,6 +233,14 @@ public class AttendanceService {
 		attendanceMonth1.setYear(defaultYear);
 		attendanceMonth1.setMonth(defaultMonth);
     	return attendanceMonth1;
+    }
+    
+    /*
+     * 修改考勤状态列表默认值
+     */
+    public AttendanceMonth updatePageDefaultAttendanceMonth(AttendanceMonth attendanceMonth){
+		attendanceMonth.getAttendanceHelper().updateAttendanceHelperStatus(attendanceMonth.getAttendanceStatus());
+    	return attendanceMonth;
     }
     
     
@@ -380,6 +391,150 @@ public class AttendanceService {
     	attendanceMonth.setDepartment(user.getOffice().getName());
     	attendanceMonthDao.insert(attendanceMonth);
 	}
+    
+    /*
+     * 修改考勤列表
+     */
+    public void updateAttendanceList(AttendanceMonth attendanceMonth){
+    	AttendanceHelper attendanceHelper = attendanceMonth.getAttendanceHelper();
+    	AttendanceMonth attendanceMonth1 = attendanceMonthService.getInformation(attendanceMonth.getId());
+    	List<AttendanceDay> attendanceStatus = attendanceMonth1.getAttendanceStatus();
+    	int count = attendanceStatus.size();
+    	for(int i = 0; i < count; i++) {
+    		AttendanceDay attendanceDay = attendanceStatus.get(i);
+    		switch(i) {
+    		case 0:
+    			attendanceDay.setStatus(attendanceHelper.getStatus_day_1());
+    			attendanceDay.setLocation(attendanceHelper.getLocation_day_1());
+    			break;
+    		case 1:
+    			attendanceDay.setStatus(attendanceHelper.getStatus_day_2());
+    			attendanceDay.setLocation(attendanceHelper.getLocation_day_2());
+    			break;
+    		case 2:
+    			attendanceDay.setStatus(attendanceHelper.getStatus_day_3());
+    			attendanceDay.setLocation(attendanceHelper.getLocation_day_3());
+    			break;
+    		case 3:
+    			attendanceDay.setStatus(attendanceHelper.getStatus_day_4());
+    			attendanceDay.setLocation(attendanceHelper.getLocation_day_4());
+    			break;
+    		case 4:
+    			attendanceDay.setStatus(attendanceHelper.getStatus_day_5());
+    			attendanceDay.setLocation(attendanceHelper.getLocation_day_5());
+    			break;
+    		case 5:
+    			attendanceDay.setStatus(attendanceHelper.getStatus_day_6());
+    			attendanceDay.setLocation(attendanceHelper.getLocation_day_6());
+    			break;
+    		case 6:
+    			attendanceDay.setStatus(attendanceHelper.getStatus_day_7());
+    			attendanceDay.setLocation(attendanceHelper.getLocation_day_7());
+    			break;
+    		case 7:
+    			attendanceDay.setStatus(attendanceHelper.getStatus_day_8());
+    			attendanceDay.setLocation(attendanceHelper.getLocation_day_8());
+    			break;
+    		case 8:
+    			attendanceDay.setStatus(attendanceHelper.getStatus_day_9());
+    			attendanceDay.setLocation(attendanceHelper.getLocation_day_9());
+    			break;
+    		case 9:
+    			attendanceDay.setStatus(attendanceHelper.getStatus_day_10());
+    			attendanceDay.setLocation(attendanceHelper.getLocation_day_10());
+    			break;
+    		case 10:
+    			attendanceDay.setStatus(attendanceHelper.getStatus_day_11());
+    			attendanceDay.setLocation(attendanceHelper.getLocation_day_11());
+    			break;
+    		case 11:
+    			attendanceDay.setStatus(attendanceHelper.getStatus_day_12());
+    			attendanceDay.setLocation(attendanceHelper.getLocation_day_12());
+    			break;
+    		case 12:
+    			attendanceDay.setStatus(attendanceHelper.getStatus_day_13());
+    			attendanceDay.setLocation(attendanceHelper.getLocation_day_13());
+    			break;
+    		case 13:
+    			attendanceDay.setStatus(attendanceHelper.getStatus_day_14());
+    			attendanceDay.setLocation(attendanceHelper.getLocation_day_14());
+    			break;
+    		case 14:
+    			attendanceDay.setStatus(attendanceHelper.getStatus_day_15());
+    			attendanceDay.setLocation(attendanceHelper.getLocation_day_15());
+    			break;
+    		case 15:
+    			attendanceDay.setStatus(attendanceHelper.getStatus_day_16());
+    			attendanceDay.setLocation(attendanceHelper.getLocation_day_16());
+    			break;
+    		case 16:
+    			attendanceDay.setStatus(attendanceHelper.getStatus_day_17());
+    			attendanceDay.setLocation(attendanceHelper.getLocation_day_17());
+    			break;
+    		case 17:
+    			attendanceDay.setStatus(attendanceHelper.getStatus_day_18());
+    			attendanceDay.setLocation(attendanceHelper.getLocation_day_18());
+    			break;
+    		case 18:
+    			attendanceDay.setStatus(attendanceHelper.getStatus_day_19());
+    			attendanceDay.setLocation(attendanceHelper.getLocation_day_19());
+    			break;
+    		case 19:
+    			attendanceDay.setStatus(attendanceHelper.getStatus_day_20());
+    			attendanceDay.setLocation(attendanceHelper.getLocation_day_20());
+    			break;
+    		case 20:
+    			attendanceDay.setStatus(attendanceHelper.getStatus_day_21());
+    			attendanceDay.setLocation(attendanceHelper.getLocation_day_21());
+    			break;
+    		case 21:
+    			attendanceDay.setStatus(attendanceHelper.getStatus_day_22());
+    			attendanceDay.setLocation(attendanceHelper.getLocation_day_22());
+    			break;
+    		case 22:
+    			attendanceDay.setStatus(attendanceHelper.getStatus_day_23());
+    			attendanceDay.setLocation(attendanceHelper.getLocation_day_23());
+    			break;
+    		case 23:
+    			attendanceDay.setStatus(attendanceHelper.getStatus_day_24());
+    			attendanceDay.setLocation(attendanceHelper.getLocation_day_24());
+    			break;
+    		case 24:
+    			attendanceDay.setStatus(attendanceHelper.getStatus_day_25());
+    			attendanceDay.setLocation(attendanceHelper.getLocation_day_25());
+    			break;
+    		case 25:
+    			attendanceDay.setStatus(attendanceHelper.getStatus_day_26());
+    			attendanceDay.setLocation(attendanceHelper.getLocation_day_26());
+    			break;
+    		case 26:
+    			attendanceDay.setStatus(attendanceHelper.getStatus_day_27());
+    			attendanceDay.setLocation(attendanceHelper.getLocation_day_27());
+    			break;
+    		case 27:
+    			attendanceDay.setStatus(attendanceHelper.getStatus_day_28());
+    			attendanceDay.setLocation(attendanceHelper.getLocation_day_28());
+    			break;
+    		case 28:
+    			attendanceDay.setStatus(attendanceHelper.getStatus_day_29());
+    			attendanceDay.setLocation(attendanceHelper.getLocation_day_29());
+    			break;
+    		case 29:
+    			attendanceDay.setStatus(attendanceHelper.getStatus_day_30());
+    			attendanceDay.setLocation(attendanceHelper.getLocation_day_30());
+    			break;
+    		case 30:
+    			attendanceDay.setStatus(attendanceHelper.getStatus_day_31());
+    			attendanceDay.setLocation(attendanceHelper.getLocation_day_31());
+    			break;
+    		default:
+    			break;	
+    		}
+    	}
+    	attendanceMonth.setAttendanceHelper(null);
+    	attendanceMonth.setAttendanceStatus(attendanceStatus);
+    	attendanceMonthDao.update(attendanceMonth);
+    }
 
 	/**
 	 * 插入考勤实体

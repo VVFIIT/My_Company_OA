@@ -82,6 +82,7 @@ public class AttendanceController extends BaseController {
 
 	/**
 	 * 添加考勤跳转
+	 * @author Meng Lingshuai
 	 */
 	@RequestMapping(value = "insert")
 	public String attendanceUpdate(Model model, HttpServletRequest request, HttpServletResponse response) {
@@ -124,17 +125,17 @@ public class AttendanceController extends BaseController {
 		// 查询栏 默认显示的年月
 		AttendanceMonth attendanceMonthReturn = attendanceService.getAttendanceMonth(attendanceMonth);
 		model.addAttribute("attendanceShowAll", attendanceMonthReturn);
-
 		return "modules/oa/attendanceShowAll";
 	}
 
 	/**
-	 * 添加考勤列表
+	 * 添加画面点击确定后出现考勤列表
+	 * @author Meng Lingshuai
 	 */
 	@RequestMapping(value = "attendanceSearchList")
 	public String attendanceList(AttendanceMonth attendanceMonth, Model model) {
 		AttendanceMonth attendanceMonth1 = attendanceService.getAttendanceDateList(attendanceMonth);
-		AttendanceMonth attendanceMonth2 = attendanceService.getDefaultAttendanceMonth(updateAttendanceMonth);
+		AttendanceMonth attendanceMonth2 = attendanceService.insertPageDefaultAttendanceMonth(updateAttendanceMonth);
 		model.addAttribute("attendanceMonth1", attendanceMonth1);
 		model.addAttribute("attendanceMonth_InsertList", attendanceMonth2);
 		return "modules/oa/attendanceInsertList";
@@ -146,7 +147,8 @@ public class AttendanceController extends BaseController {
 	}
 
 	/**
-	 * 提交考勤列表
+	 * 提交添加画面考勤列表
+	 * @author Meng Lingshuai
 	 */
 	@RequestMapping(value = "attendanceInsertList")
 	public String attendanceInsert(AttendanceMonth attendanceMonth, Model model, HttpServletRequest request,
@@ -190,20 +192,49 @@ public class AttendanceController extends BaseController {
 	/**
 	 * 查看个人考勤详情
 	 */
-	@RequestMapping(value = "insertList")
-	public String insertList(AttendanceMonth attendanceMonth) {
+	@RequestMapping(value = "searchAttendanceInformation")
+	public String searchAttendanceInformation(AttendanceMonth attendanceMonth, Model model) {
 		attendanceMonth = attendanceMonthService.getInformation(attendanceMonth.getId());
-		return "modules/oa/attendanceInsert";
+		AttendanceMonth attendanceMonth2 = attendanceService.updatePageDefaultAttendanceMonth(attendanceMonth);
+		model.addAttribute("attendanceMonth", attendanceMonth);
+		model.addAttribute("attendanceMonth_InsertList", attendanceMonth2);
+		return "modules/oa/attendanceSearchList";
 	}
 
 	/**
-	 * 修改个人考勤
+	 * 修改某月考勤列表
+	 * @author Meng Lingshuai
 	 */
-	@RequestMapping(value = "mapping")
-	public String mapping(AttendanceMonth attendanceMonth, String id) {
-		attendanceMonth = attendanceMonthService.getInformation(id);
-		System.out.println("_________________" + attendanceMonth);
-		return "modules/oa/attendanceInsertList";
+	@RequestMapping(value = "modifyAttendanceInformation")
+	public String modifyAttendanceInformation(AttendanceMonth attendanceMonth, Model model) {
+		attendanceMonth = attendanceMonthService.getInformation(attendanceMonth.getId());
+		AttendanceMonth attendanceMonth2 = attendanceService.updatePageDefaultAttendanceMonth(attendanceMonth);
+		model.addAttribute("attendanceMonth1", attendanceMonth);
+		model.addAttribute("attendanceMonth_InsertList", attendanceMonth2);
+		return "modules/oa/attendanceUpdateList";
+	}
+	
+	/**
+	 * 提交修改画面考勤列表
+	 * @author Meng Lingshuai
+	 */
+	@RequestMapping(value = "attendanceUpdateList")
+	public String attendanceUpdate(AttendanceMonth attendanceMonth, Model model, HttpServletRequest request, HttpServletResponse response) {
+		attendanceService.updateAttendanceList(attendanceMonth);
+		Page<AttendanceMonth> page = attendanceMonthService.page(new Page<AttendanceMonth>(request, response));
+		List<AttendanceMonth> lists = page.getList();
+		List<AttendanceDayStatus> list = attendanceMonthService.getDayStatusSum();
+		for (int i = 0; i < lists.size(); i++) {
+			lists.get(i).setAttendanceDayStatus(list.get(i));
+		}
+		AttendanceMonth attendanceMonth1 = attendanceService.getDefaultYearAndMonth();
+		if(attendanceMonth1.getYear()==0) {
+			model.addAttribute("MODE", "noInsertMonth");
+		}else {
+			model.addAttribute("MODE", "yesInsertMonth");
+		}
+		model.addAttribute("page", page);
+		return "modules/oa/attendanceList";
 	}
 
 	/**
