@@ -663,13 +663,13 @@ public class AttendanceService {
     		if(currentMonth==1) {
     			defaultYear = currentYear-1;
     			defaultMonth = 12;
-    		}else {   //指定年和月的查询
+    		}else {  
     			defaultYear = currentYear;
         		defaultMonth = currentMonth-1;
     		}
     		updateAttendanceMonth.setYear(defaultYear);
         	updateAttendanceMonth.setMonth(defaultMonth);
-    	}else{
+    	}else{ //指定年和月的查询
     		updateAttendanceMonth.setYear(year);
         	updateAttendanceMonth.setMonth(month);
     	}

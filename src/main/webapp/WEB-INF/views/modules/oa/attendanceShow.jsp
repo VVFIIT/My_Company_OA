@@ -46,12 +46,13 @@
 						value="${attendanceDay.week}" disabled></td>
 					<td><input type="text" style="width: 120px;"
 						value="${attendanceDay.location}" disabled></td>
-					<td>
-						<%-- <form:select path="${fns:getDefaultStatus(status.count)}" class="input-medium">
-								<form:options items="${fns:getDictList('oa_attendance_status')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
-							</form:select> --%> <input type="text" style="width: 120px;"
-						value="${fns:getDictLabel(attendanceDay.status,'oa_attendance_status','')} "
-						disabled>
+					<td>						
+						<c:if test="${attendanceDay.status ==8}"> 
+							<input type="text" style="width: 120px;color:#FF0000;" value="${fns:getDictLabel(attendanceDay.status,'oa_attendance_status','')}" disabled>
+						</c:if>						
+						<c:if test="${attendanceDay.status !=8}"> 
+							<input type="text" style="width: 120px;" value="${fns:getDictLabel(attendanceDay.status,'oa_attendance_status','')}" disabled>
+						</c:if>
 					</td>
 				</tr>
 			</c:forEach>
