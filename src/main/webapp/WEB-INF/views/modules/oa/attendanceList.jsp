@@ -69,8 +69,8 @@
             <td>${fns:abbr(attendanceMonth.attendanceDayStatus.sickLeaveDay,30)}</td>
             <td>${fns:getDictLabel(attendanceMonth.processStatus,'oa_attendance_check_status','')}</td>
             <td>
-                <a href="${ctx}/oa/attendance/insertList?id=${attendanceMonth.id}">查看</a>
-                <a href="${ctx}/oa/attendance/mapping?id=${attendanceMonth.id}&processStatus=${attendanceMonth.processStatus}" style="${fns:getCheckStatus(attendanceMonth.processStatus)}">修改</a>
+                <a href="${ctx}/oa/attendance/searchAttendanceInformation?id=${attendanceMonth.id}">查看</a>
+                <a href="${ctx}/oa/attendance/modifyAttendanceInformation?id=${attendanceMonth.id}&processStatus=${attendanceMonth.processStatus}" style="${fns:getCheckStatus(attendanceMonth.processStatus)}">修改</a>
                 <a id="processStatus" style="${fns:getCheckStatus(attendanceMonth.processStatus)}"
                    href="${ctx}/oa/attendance/checkProcessStatus?id=${attendanceMonth.id}&processStatus=${attendanceMonth.processStatus}"
                    onclick="return confirmx('确认要提交该考勤吗？', this.href)">提交</a>

@@ -198,7 +198,7 @@ public class AttendanceController extends BaseController {
 		AttendanceMonth attendanceMonth2 = attendanceService.updatePageDefaultAttendanceMonth(attendanceMonth);
 		model.addAttribute("attendanceMonth", attendanceMonth);
 		model.addAttribute("attendanceMonth_InsertList", attendanceMonth2);
-		return "modules/oa/attendanceSearchList";
+		return "modules/oa/attendanceShowList";
 	}
 
 	/**
@@ -226,12 +226,6 @@ public class AttendanceController extends BaseController {
 		List<AttendanceDayStatus> list = attendanceMonthService.getDayStatusSum();
 		for (int i = 0; i < lists.size(); i++) {
 			lists.get(i).setAttendanceDayStatus(list.get(i));
-		}
-		AttendanceMonth attendanceMonth1 = attendanceService.getDefaultYearAndMonth();
-		if(attendanceMonth1.getYear()==0) {
-			model.addAttribute("MODE", "noInsertMonth");
-		}else {
-			model.addAttribute("MODE", "yesInsertMonth");
 		}
 		model.addAttribute("page", page);
 		return "modules/oa/attendanceList";

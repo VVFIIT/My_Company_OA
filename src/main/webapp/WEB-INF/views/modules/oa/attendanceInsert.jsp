@@ -50,7 +50,7 @@
 		</ul>
 	</form:form>
 	<div>
-		<iframe id="downFrame" name="downFrame" scrolling="yes" frameborder="no" width="100%" height="450"></iframe>
+		<iframe id="downFrame" name="downFrame" scrolling="yes" frameborder="no" width="100%" height="400"></iframe>
 	</div>
 </body>
 </html>

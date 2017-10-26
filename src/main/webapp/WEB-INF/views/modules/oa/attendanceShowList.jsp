@@ -8,7 +8,7 @@
 <body>
 	<ul class="nav nav-tabs" id="updateTitle">
 	    <li><a href="${ctx}/oa/attendance/">考勤列表</a></li>
-	    <li class="active"><a href="${ctx}/oa/attendance/insert">考勤查看</a></li>
+	    <li class="active"><a>考勤查看</a></li>
 	</ul>
 	<form:form id="attInsertListForm" modelAttribute="attendanceMonth_InsertList" target="mainFrame" action="${ctx}/oa/attendance/attendanceInsertList" method="post" class="breadcrumb form-search">
 		<table id="attendanceTable" class="table table-striped table-bsordered table-condensed">
@@ -18,12 +18,8 @@
 					<tr>
 						<td>${attendanceMonth.year}/${attendanceMonth.month}/${attendanceday.date}</td>
 						<td>${attendanceday.week}</td>
-						<td><form:input path="${fns:getDefaultLocation(status.count)}" htmlEscape="false" maxlength="50" class="required" disable="true"/></td>
-						<td>
-							<form:select path="${fns:getDefaultStatus(status.count)}" class="input-medium" disable="true">
-								<form:options items="${fns:getDictList('oa_attendance_status')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
-							</form:select>
-						</td>
+						<td>${attendanceday.location}</td>
+						<td>${fns:getDictLabel(attendanceday.status,'oa_attendance_status','')}</td>
 					</tr>
 				</c:forEach>
 			</tbody>
