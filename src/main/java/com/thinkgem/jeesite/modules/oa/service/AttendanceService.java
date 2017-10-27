@@ -7,6 +7,7 @@ import com.thinkgem.jeesite.modules.oa.entity.Attendance;
 import com.thinkgem.jeesite.modules.oa.entity.AttendanceDay;
 import com.thinkgem.jeesite.modules.oa.entity.AttendanceMonth;
 import com.thinkgem.jeesite.modules.oa.helper.AttendanceHelper;
+import com.thinkgem.jeesite.modules.oa.helper.AttendanceUtils;
 import com.thinkgem.jeesite.modules.sys.dao.UserDao;
 import com.thinkgem.jeesite.modules.sys.entity.User;
 import com.thinkgem.jeesite.modules.sys.utils.UserUtils;
@@ -17,8 +18,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
@@ -53,54 +52,19 @@ public class AttendanceService {
 
 	/*
      * 添加考勤列表
+     * @author Meng Lingshuai
      */
     public AttendanceMonth getAttendanceDateList(AttendanceMonth attendanceMonth){
     	int year = attendanceMonth.getYear();
     	int month = attendanceMonth.getMonth();
-    	Calendar calendar = Calendar.getInstance(); 
-		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM");
-		Date dateDay = null;
-		String strDateDay = year + "-" + month;
-		try {
-			dateDay = format.parse(strDateDay);
-		} catch (ParseException e) {
-			e.printStackTrace();
-		}
-		calendar.setTime(dateDay); 
-		int daysCount = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
-		ArrayList<AttendanceDay> attendanceDayList = new ArrayList<AttendanceDay>();
-		for(int i=1; i<=daysCount; i++) {
-			Date dateWeek = null;
-			String[] weekOfDays = {"星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六"};
-			String strDateWeek = year + "-" + month + "-" + i;
-			SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd");
-			try {
-				dateWeek = format1.parse(strDateWeek);
-			} catch (ParseException e) {
-				e.printStackTrace();
-			}
-			Calendar calendar1 = Calendar.getInstance();
-			calendar1.setTime(dateWeek);
-			int w = calendar1.get(Calendar.DAY_OF_WEEK) - 1;
-			String week = weekOfDays[w];
-			String defaultStatus = null;
-			if("星期六".equals(week) || "星期日".equals(week)) {
-				defaultStatus = "公休日";
-			}else {
-				defaultStatus = "正常出勤";
-			}
-			AttendanceDay attendanceInsert = new AttendanceDay();
-			attendanceInsert.setDate(i);
-			attendanceInsert.setWeek(week);
-			attendanceInsert.setStatus(defaultStatus);
-			attendanceDayList.add(attendanceInsert);
-		}
+    	List<AttendanceDay> attendanceDayList = getAttendanceStatusByYearAndMonth(year, month);
 		attendanceMonth.setAttendanceStatus(attendanceDayList);
     	return attendanceMonth;
     }
     
     /*
      * 添加考勤跳转框年份和月份默认值
+     * @author Meng Lingshuai
      */
     public AttendanceMonth getDefaultYearAndMonth(){
     	int defaultYear;
@@ -185,33 +149,35 @@ public class AttendanceService {
     
     /*
      * 添加考勤状态列表默认值
+     * @author Meng Lingshuai
      */
     public AttendanceMonth insertPageDefaultAttendanceMonth(AttendanceMonth attendanceMonth){
     	int defaultYear = attendanceMonth.getYear();
     	int defaultMonth = attendanceMonth.getMonth();
-    	Calendar calendar = Calendar.getInstance();
-		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM");
-		Date dateDay = null;
-		String strDateDay = defaultYear + "-" + defaultMonth;
-		try {
-			dateDay = format.parse(strDateDay);
-		} catch (ParseException e) {
-			e.printStackTrace();
-		}
-		calendar.setTime(dateDay);
+    	List<AttendanceDay> attendanceDayList = getAttendanceStatusByYearAndMonth(defaultYear, defaultMonth);
+		AttendanceMonth attendanceMonth1 = new AttendanceMonth();
+		attendanceMonth1.getAttendanceHelper().updateAttendanceHelperStatus(attendanceDayList);
+		attendanceMonth1.setYear(defaultYear);
+		attendanceMonth1.setMonth(defaultMonth);
+    	return attendanceMonth1;
+    }
+    
+    /*
+     * 获取某个月的考勤状态列表
+     * @author Meng Lingshuai
+     */
+    public List<AttendanceDay> getAttendanceStatusByYearAndMonth(int year, int month){
+    	String strDateDay = year + "-" + month;
+    	Calendar calendar = Calendar.getInstance(); 
+    	Date dateDay = AttendanceUtils.strToDate_yM(strDateDay);
+		calendar.setTime(dateDay); 
 		int daysCount = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
 		ArrayList<AttendanceDay> attendanceDayList = new ArrayList<AttendanceDay>();
 		for(int i=1; i<=daysCount; i++) {
-			Date dateWeek = null;
 			String[] weekOfDays = {"星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六"};
-			String strDateWeek = defaultYear + "-" + defaultMonth + "-" + i;
-			SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd");
-			try {
-				dateWeek = format1.parse(strDateWeek);
-			} catch (ParseException e) {
-				e.printStackTrace();
-			}
+			String strDateWeek = year + "-" + month + "-" + i;
 			Calendar calendar1 = Calendar.getInstance();
+			Date dateWeek = AttendanceUtils.strToDate_yMd(strDateWeek);
 			calendar1.setTime(dateWeek);
 			int w = calendar1.get(Calendar.DAY_OF_WEEK) - 1;
 			String week = weekOfDays[w];
@@ -228,177 +194,51 @@ public class AttendanceService {
 			attendanceInsert.setStatus(defaultStatus);
 			attendanceDayList.add(attendanceInsert);
 		}
-		AttendanceMonth attendanceMonth1 = new AttendanceMonth();
-		attendanceMonth1.getAttendanceHelper().updateAttendanceHelperStatus(attendanceDayList);
-		attendanceMonth1.setYear(defaultYear);
-		attendanceMonth1.setMonth(defaultMonth);
-    	return attendanceMonth1;
+    	return attendanceDayList;
     }
     
     /*
      * 修改考勤状态列表默认值
+     * @author Meng Lingshuai
      */
     public AttendanceMonth updatePageDefaultAttendanceMonth(AttendanceMonth attendanceMonth){
 		attendanceMonth.getAttendanceHelper().updateAttendanceHelperStatus(attendanceMonth.getAttendanceStatus());
     	return attendanceMonth;
     }
     
-    
     /*
      * 插入考勤列表
+     * @author Meng Lingshuai
      */
     public void InsertAttendanceList(AttendanceMonth attendanceMonth){
-    	AttendanceHelper attendanceHelper = attendanceMonth.getAttendanceHelper();
     	List<AttendanceDay> attendanceStatus = attendanceMonth.getAttendanceStatus();
-    	int count = attendanceStatus.size();
-    	for(int i = 0; i < count; i++) {
-    		AttendanceDay attendanceDay = attendanceStatus.get(i);
-    		switch(i) {
-    		case 0:
-    			attendanceDay.setStatus(attendanceHelper.getStatus_day_1());
-    			attendanceDay.setLocation(attendanceHelper.getLocation_day_1());
-    			break;
-    		case 1:
-    			attendanceDay.setStatus(attendanceHelper.getStatus_day_2());
-    			attendanceDay.setLocation(attendanceHelper.getLocation_day_2());
-    			break;
-    		case 2:
-    			attendanceDay.setStatus(attendanceHelper.getStatus_day_3());
-    			attendanceDay.setLocation(attendanceHelper.getLocation_day_3());
-    			break;
-    		case 3:
-    			attendanceDay.setStatus(attendanceHelper.getStatus_day_4());
-    			attendanceDay.setLocation(attendanceHelper.getLocation_day_4());
-    			break;
-    		case 4:
-    			attendanceDay.setStatus(attendanceHelper.getStatus_day_5());
-    			attendanceDay.setLocation(attendanceHelper.getLocation_day_5());
-    			break;
-    		case 5:
-    			attendanceDay.setStatus(attendanceHelper.getStatus_day_6());
-    			attendanceDay.setLocation(attendanceHelper.getLocation_day_6());
-    			break;
-    		case 6:
-    			attendanceDay.setStatus(attendanceHelper.getStatus_day_7());
-    			attendanceDay.setLocation(attendanceHelper.getLocation_day_7());
-    			break;
-    		case 7:
-    			attendanceDay.setStatus(attendanceHelper.getStatus_day_8());
-    			attendanceDay.setLocation(attendanceHelper.getLocation_day_8());
-    			break;
-    		case 8:
-    			attendanceDay.setStatus(attendanceHelper.getStatus_day_9());
-    			attendanceDay.setLocation(attendanceHelper.getLocation_day_9());
-    			break;
-    		case 9:
-    			attendanceDay.setStatus(attendanceHelper.getStatus_day_10());
-    			attendanceDay.setLocation(attendanceHelper.getLocation_day_10());
-    			break;
-    		case 10:
-    			attendanceDay.setStatus(attendanceHelper.getStatus_day_11());
-    			attendanceDay.setLocation(attendanceHelper.getLocation_day_11());
-    			break;
-    		case 11:
-    			attendanceDay.setStatus(attendanceHelper.getStatus_day_12());
-    			attendanceDay.setLocation(attendanceHelper.getLocation_day_12());
-    			break;
-    		case 12:
-    			attendanceDay.setStatus(attendanceHelper.getStatus_day_13());
-    			attendanceDay.setLocation(attendanceHelper.getLocation_day_13());
-    			break;
-    		case 13:
-    			attendanceDay.setStatus(attendanceHelper.getStatus_day_14());
-    			attendanceDay.setLocation(attendanceHelper.getLocation_day_14());
-    			break;
-    		case 14:
-    			attendanceDay.setStatus(attendanceHelper.getStatus_day_15());
-    			attendanceDay.setLocation(attendanceHelper.getLocation_day_15());
-    			break;
-    		case 15:
-    			attendanceDay.setStatus(attendanceHelper.getStatus_day_16());
-    			attendanceDay.setLocation(attendanceHelper.getLocation_day_16());
-    			break;
-    		case 16:
-    			attendanceDay.setStatus(attendanceHelper.getStatus_day_17());
-    			attendanceDay.setLocation(attendanceHelper.getLocation_day_17());
-    			break;
-    		case 17:
-    			attendanceDay.setStatus(attendanceHelper.getStatus_day_18());
-    			attendanceDay.setLocation(attendanceHelper.getLocation_day_18());
-    			break;
-    		case 18:
-    			attendanceDay.setStatus(attendanceHelper.getStatus_day_19());
-    			attendanceDay.setLocation(attendanceHelper.getLocation_day_19());
-    			break;
-    		case 19:
-    			attendanceDay.setStatus(attendanceHelper.getStatus_day_20());
-    			attendanceDay.setLocation(attendanceHelper.getLocation_day_20());
-    			break;
-    		case 20:
-    			attendanceDay.setStatus(attendanceHelper.getStatus_day_21());
-    			attendanceDay.setLocation(attendanceHelper.getLocation_day_21());
-    			break;
-    		case 21:
-    			attendanceDay.setStatus(attendanceHelper.getStatus_day_22());
-    			attendanceDay.setLocation(attendanceHelper.getLocation_day_22());
-    			break;
-    		case 22:
-    			attendanceDay.setStatus(attendanceHelper.getStatus_day_23());
-    			attendanceDay.setLocation(attendanceHelper.getLocation_day_23());
-    			break;
-    		case 23:
-    			attendanceDay.setStatus(attendanceHelper.getStatus_day_24());
-    			attendanceDay.setLocation(attendanceHelper.getLocation_day_24());
-    			break;
-    		case 24:
-    			attendanceDay.setStatus(attendanceHelper.getStatus_day_25());
-    			attendanceDay.setLocation(attendanceHelper.getLocation_day_25());
-    			break;
-    		case 25:
-    			attendanceDay.setStatus(attendanceHelper.getStatus_day_26());
-    			attendanceDay.setLocation(attendanceHelper.getLocation_day_26());
-    			break;
-    		case 26:
-    			attendanceDay.setStatus(attendanceHelper.getStatus_day_27());
-    			attendanceDay.setLocation(attendanceHelper.getLocation_day_27());
-    			break;
-    		case 27:
-    			attendanceDay.setStatus(attendanceHelper.getStatus_day_28());
-    			attendanceDay.setLocation(attendanceHelper.getLocation_day_28());
-    			break;
-    		case 28:
-    			attendanceDay.setStatus(attendanceHelper.getStatus_day_29());
-    			attendanceDay.setLocation(attendanceHelper.getLocation_day_29());
-    			break;
-    		case 29:
-    			attendanceDay.setStatus(attendanceHelper.getStatus_day_30());
-    			attendanceDay.setLocation(attendanceHelper.getLocation_day_30());
-    			break;
-    		case 30:
-    			attendanceDay.setStatus(attendanceHelper.getStatus_day_31());
-    			attendanceDay.setLocation(attendanceHelper.getLocation_day_31());
-    			break;
-    		default:
-    			break;	
-    		}
-    	}
-    	attendanceMonth.setAttendanceHelper(null);
-    	attendanceMonth.setAttendanceStatus(attendanceStatus);
-    	attendanceMonth.setId(UUID.randomUUID().toString());
+    	AttendanceMonth attendanceMonth1 = changeValueToAtendanceStatus(attendanceMonth, attendanceStatus);
+    	attendanceMonth1.setId(UUID.randomUUID().toString());
     	User user = UserUtils.getUser();
-    	attendanceMonth.setName(user.getName());
-    	attendanceMonth.setProcessStatus("1");
-    	attendanceMonth.setDepartment(user.getOffice().getName());
-    	attendanceMonthDao.insert(attendanceMonth);
+    	attendanceMonth1.setName(user.getName());
+    	attendanceMonth1.setProcessStatus("1");
+    	attendanceMonth1.setDepartment(user.getOffice().getName());
+    	attendanceMonthDao.insert(attendanceMonth1);
 	}
     
     /*
      * 修改考勤列表
+     * @author Meng Lingshuai
      */
     public void updateAttendanceList(AttendanceMonth attendanceMonth){
-    	AttendanceHelper attendanceHelper = attendanceMonth.getAttendanceHelper();
     	AttendanceMonth attendanceMonth1 = attendanceMonthService.getInformation(attendanceMonth.getId());
     	List<AttendanceDay> attendanceStatus = attendanceMonth1.getAttendanceStatus();
+    	attendanceMonth.setMonth(attendanceMonth1.getMonth());
+    	AttendanceMonth attendanceMonth2 = changeValueToAtendanceStatus(attendanceMonth, attendanceStatus);
+    	attendanceMonthDao.update(attendanceMonth2);
+    }
+    
+    /*
+	 * 将添加或修改中改变的值赋给阿atendanceStatus
+	 * @author Meng Lingshuai
+	 */
+    public AttendanceMonth changeValueToAtendanceStatus(AttendanceMonth attendanceMonth, List<AttendanceDay> attendanceStatus) {
+    	AttendanceHelper attendanceHelper = attendanceMonth.getAttendanceHelper();
     	int count = attendanceStatus.size();
     	for(int i = 0; i < count; i++) {
     		AttendanceDay attendanceDay = attendanceStatus.get(i);
@@ -533,7 +373,7 @@ public class AttendanceService {
     	}
     	attendanceMonth.setAttendanceHelper(null);
     	attendanceMonth.setAttendanceStatus(attendanceStatus);
-    	attendanceMonthDao.update(attendanceMonth);
+    	return attendanceMonth;
     }
 
 	/**
@@ -688,7 +528,8 @@ public class AttendanceService {
 	}
 	
 	/*
-	 * 获取DB中已经存在的AttendanceMonth
+	 * 获取用户在DB中已经存在的AttendanceMonth
+	 * @author Meng Lingshuai
 	 */
 	public List<AttendanceMonth> getExistAttendanceMonth(){
 		AttendanceMonth existAttendanceMonth = new AttendanceMonth();
@@ -699,15 +540,16 @@ public class AttendanceService {
 	}
 	
 	/*
-	 * 获取入职年月和截止年月
+	 * 获取用户的入职年月和截止年月
+	 * @author Meng Lingshuai
 	 */
 	public List<Integer> getStartDateAndEndDate() {
 		User user = UserUtils.getUser();
 		Date startDate = user.getEntryDate();
-    	Calendar now = Calendar.getInstance();
-    	now.setTime(startDate);
-    	int startYear = now.get(Calendar.YEAR);
-    	int startMonth = now.get(Calendar.MONTH)+1;
+    	Calendar calendar = Calendar.getInstance();
+    	calendar.setTime(startDate);
+    	int startYear = calendar.get(Calendar.YEAR);
+    	int startMonth = calendar.get(Calendar.MONTH)+1;
     	Calendar date = Calendar.getInstance();
     	int year = date.get(Calendar.YEAR);
 		int month = date.get(Calendar.MONTH)+1;
