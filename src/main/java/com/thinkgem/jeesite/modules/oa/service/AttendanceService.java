@@ -111,20 +111,28 @@ public class AttendanceService {
      * @author Meng Lingshuai
      */
     public AttendanceMonth getDefaultYearAndMonth(){
+    	//应该默认的年份
     	int defaultYear;
+    	//应该默认的月份
     	int defaultMonth;
+    	//创建一个attendanceMonth对象
     	AttendanceMonth attendanceMonth = new AttendanceMonth();
-    	User user = UserUtils.getUser();
-    	attendanceMonth.setName(user.getName());
-    	List<AttendanceMonth> list = attendanceMonthDao.getAttendance(attendanceMonth);
+    	//通过用户名找到所有该用户填写过的考勤记录
+    	List<AttendanceMonth> list = getExistAttendanceMonth(attendanceMonth);
     	HashMap<String, Integer> hashMap = new HashMap<String, Integer>();
+    	//获取入职年月和截止年月
     	getStartDateAndEndDate(hashMap);
+    	//获取入职年份
     	int startYear = hashMap.get("startYear");
+    	//获取入职月份
     	int startMonth = hashMap.get("startMonth");
+    	//获取截止年份
     	int endYear = hashMap.get("endYear");
+    	//获取截止月份
     	int endMonth = hashMap.get("endMonth");
 		int resultYear = 0;
 		int resultMonth = 0;
+		//获取该用户从入职日期开始第一个没有填写的日期年月
 		List<Integer> worklist = new ArrayList<Integer>();
 		if(startYear == endYear) {
 	    	for(int j = startMonth; j<=endMonth;j++) {
@@ -193,13 +201,14 @@ public class AttendanceService {
     }
     
     /**
-	 * 获取用户在DB中已经存在的AttendanceMonth
+	 * 获取用户在DB中已经存在的考勤记录
 	 * @author Meng Lingshuai
 	 */
-	public List<AttendanceMonth> getExistAttendanceMonth(){
-		AttendanceMonth existAttendanceMonth = new AttendanceMonth();
+	public List<AttendanceMonth> getExistAttendanceMonth(AttendanceMonth existAttendanceMonth){
+		//获取当前用户
     	User user = UserUtils.getUser();
     	existAttendanceMonth.setName(user.getName());
+    	//调用接口
     	List<AttendanceMonth> list = attendanceMonthDao.getAttendance(existAttendanceMonth);
 		return list;
 	}
@@ -209,12 +218,17 @@ public class AttendanceService {
 	 * @author Meng Lingshuai
 	 */
 	public void getStartDateAndEndDate(HashMap<String, Integer> hashMap) {
+		//获取当前用户
 		User user = UserUtils.getUser();
+		//获取当前用户的入职日期
 		Date startDate = user.getEntryDate();
     	Calendar calendar = Calendar.getInstance();
     	calendar.setTime(startDate);
+    	//获取当前用户的入职年份
     	int startYear = calendar.get(Calendar.YEAR);
+    	//获取当前用户的入职月份
     	int startMonth = calendar.get(Calendar.MONTH)+1;
+    	//获取当前用户的截止年份和月份
     	Calendar date = Calendar.getInstance();
     	int year = date.get(Calendar.YEAR);
 		int month = date.get(Calendar.MONTH)+1;

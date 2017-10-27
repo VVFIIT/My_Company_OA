@@ -88,7 +88,8 @@ public class AttendanceController extends BaseController {
 			model.addAttribute("page", page);
 			return "modules/oa/attendanceList";
 		} else {
-			List<AttendanceMonth> list = attendanceService.getExistAttendanceMonth();
+	    	//通过用户名找到所有该用户填写过的考勤记录
+	    	List<AttendanceMonth> list = attendanceService.getExistAttendanceMonth(attendanceMonth);
 			HashMap<String, Integer> hashMap = new HashMap<String, Integer>();
 			attendanceService.getStartDateAndEndDate(hashMap);
 			model.addAttribute("startYear", hashMap.get("startYear"));
