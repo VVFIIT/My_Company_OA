@@ -1,16 +1,10 @@
 package com.thinkgem.jeesite.modules.oa.service;
 
-import com.thinkgem.jeesite.common.persistence.Page;
-import com.thinkgem.jeesite.modules.oa.dao.AttendanceDao;
-import com.thinkgem.jeesite.modules.oa.dao.AttendanceMonthDao;
-import com.thinkgem.jeesite.modules.oa.entity.Attendance;
-import com.thinkgem.jeesite.modules.oa.entity.AttendanceDay;
-import com.thinkgem.jeesite.modules.oa.entity.AttendanceMonth;
-import com.thinkgem.jeesite.modules.oa.helper.AttendanceHelper;
-import com.thinkgem.jeesite.modules.oa.helper.AttendanceUtils;
-import com.thinkgem.jeesite.modules.sys.dao.UserDao;
-import com.thinkgem.jeesite.modules.sys.entity.User;
-import com.thinkgem.jeesite.modules.sys.utils.UserUtils;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
+import java.util.UUID;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,7 +12,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.*;
+import com.thinkgem.jeesite.common.persistence.Page;
+import com.thinkgem.jeesite.modules.oa.dao.AttendanceMonthDao;
+import com.thinkgem.jeesite.modules.oa.entity.AttendanceDay;
+import com.thinkgem.jeesite.modules.oa.entity.AttendanceMonth;
+import com.thinkgem.jeesite.modules.oa.helper.AttendanceHelper;
+import com.thinkgem.jeesite.modules.oa.helper.AttendanceUtils;
+import com.thinkgem.jeesite.modules.sys.dao.UserDao;
+import com.thinkgem.jeesite.modules.sys.entity.User;
+import com.thinkgem.jeesite.modules.sys.utils.UserUtils;
 
 /**
  * 考勤Service
@@ -30,9 +32,6 @@ import java.util.*;
 public class AttendanceService {
 
 	protected Logger logger = LoggerFactory.getLogger(getClass());
-
-	@Autowired
-	private AttendanceDao attendanceDao;
 	
 	@Autowired
 	private AttendanceMonthDao attendanceMonthDao;
@@ -42,13 +41,6 @@ public class AttendanceService {
 	
 	@Autowired
 	private UserDao userDao;
-
-	@Transactional(readOnly = false, rollbackFor = Exception.class)
-	public void getName() {
-		attendanceDao.findAll();
-		logger.debug("@@@@@@@@@@@@@@@@@");
-		logger.debug("@@@@@@@@@@@@@@@@@");
-	}
 
 	/*
      * 添加考勤列表
@@ -375,65 +367,7 @@ public class AttendanceService {
     	attendanceMonth.setAttendanceStatus(attendanceStatus);
     	return attendanceMonth;
     }
-
-	/**
-	 * 插入考勤实体
-	 */
-	public void insertAtt() {
-		Attendance attendance = new Attendance();
-		attendance.setId(UUID.randomUUID().toString());
-		attendance.setName("张大笋");
-		attendance.setMonth("12");
-		attendance.setYear("2017");
-		attendanceDao.insert(attendance);
-	}
-
-	/**
-	 * 查询根据姓名
-	 */
-	public List<Attendance> getAttendance(Attendance attendance) {
-		attendance.setName("王");
-		List<Attendance> attendanceList = attendanceDao.getAttendance(attendance);
-		return attendanceList;
-	}
-
-	/**
-	 * 查询所有
-	 */
-	public List<Attendance> getAllAttendance(Attendance attendance) {
-		List<Attendance> attendanceList = attendanceDao.getAllAttendance(attendance);
-		return attendanceList;
-	}
-
-	/**
-	 * 更新状态
-	 */
-	public void update() {
-		Attendance attendance = new Attendance();
-		attendance.setName("张大跑");
-		attendanceDao.update(attendance);
-	}
-
-	/**
-	 * 删除
-	 */
-	public void delete() {
-		Attendance attendance = new Attendance();
-		attendance.setId("104856a8-05b9-d878-7311-289817711c8b");
-		attendanceDao.delete(attendance);
-	}
-
-	/**
-	 * 根据年月 查询
-	 */
-	public List<Attendance> getAttendanceByDate() {
-		Attendance attendance = new Attendance();
-		attendance.setYear("2017");
-		attendance.setMonth("12");
-		List<Attendance> attendanceList = attendanceDao.getAttendanceByDate(attendance);
-		return attendanceList;
-	}
-
+	
 	/**
 	 * 查询考勤状态
 	 */

@@ -108,22 +108,22 @@ public class AttendanceMonthService {
 	 */
 	@Transactional(rollbackFor = Exception.class)
 	public AttendanceMonth updateProcessStatus(String id) {
-		AttendanceMonth attendanceMonth=new AttendanceMonth();
+		AttendanceMonth attendanceMonth = new AttendanceMonth();
 		attendanceMonth.setId(id);
-		//修改为提交状态
+		// 修改为提交状态
 		attendanceMonth.setProcessStatus("2");
 		attendanceMonthDao.update(attendanceMonth);
 		return attendanceMonth;
 	}
 
 	/**
-     * 获取一条考勤的所有信息
-     */
-    public AttendanceMonth getInformation(String id) {
-        AttendanceMonth attendanceMonth=new AttendanceMonth();
+	 * 获取一条考勤的所有信息
+	 */
+	public AttendanceMonth getInformation(String id) {
+		AttendanceMonth attendanceMonth = new AttendanceMonth();
 		attendanceMonth.setId(id);
-        attendanceMonth = attendanceMonthDao.getAttendanceEntity(attendanceMonth);
-        return attendanceMonth;
+		attendanceMonth = attendanceMonthDao.getAttendanceEntity(attendanceMonth);
+		return attendanceMonth;
 	}
 
 	/**
@@ -166,23 +166,24 @@ public class AttendanceMonthService {
 			}
 			list.add(attendanceDayStatus);
 		}
-//		for (AttendanceMonth anAttendanceMonthList : attendanceMonthList) {
+		// for (AttendanceMonth anAttendanceMonthList : attendanceMonthList) {
 
-//		}
+		// }
 		return list;
 	}
 
 	/**
 	 * 我的 考勤查询分页
+	 * 
 	 * @param page
 	 * @return
 	 */
 	public Page<AttendanceMonth> page(Page<AttendanceMonth> page) {
-		AttendanceMonth attendanceMonth=new AttendanceMonth();
+		AttendanceMonth attendanceMonth = new AttendanceMonth();
 		attendanceMonth.setPage(page);
 		User user = UserUtils.getUser();
 		attendanceMonth.setName(user.getName());
-		return attendanceMonthDao.getAttendancePage(attendanceMonth);	 
+		return attendanceMonthDao.getAttendancePage(attendanceMonth);
 	}
 
 }
