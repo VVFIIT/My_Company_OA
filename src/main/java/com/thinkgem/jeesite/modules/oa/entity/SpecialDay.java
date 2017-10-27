@@ -5,9 +5,9 @@ import java.util.Date;
 import org.springframework.data.annotation.Id;
 
 /**
- * 节假日
+ * 特殊的日子（法定节假日和因为法定节假日串休的日子）
  */
-public class Holiday {
+public class SpecialDay {
 
 	@Id
 	private String id;
@@ -15,8 +15,11 @@ public class Holiday {
 	// 假日名称
 	private String name;
 
-	// 假日日期
-	private Date holiday;
+	// 类型（special/holiday）
+	private String type;
+
+	// 日期
+	private Date Date;
 
 	public String getId() {
 		return id;
@@ -34,12 +37,20 @@ public class Holiday {
 		this.name = name;
 	}
 
-	public Date getHoliday() {
-		return holiday;
+	public String getType() {
+		return type;
 	}
 
-	public void setHoliday(Date holiday) {
-		this.holiday = holiday;
+	public void setType(String type) {
+		this.type = type;
+	}
+
+	public Date getDate() {
+		return Date;
+	}
+
+	public void setDate(Date date) {
+		Date = date;
 	}
 
 }

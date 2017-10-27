@@ -1,9 +1,7 @@
 package com.thinkgem.jeesite.modules.oa.dao;
 
-import com.thinkgem.jeesite.common.persistence.Page;
-import com.thinkgem.jeesite.common.utils.StringUtils;
-import com.thinkgem.jeesite.modules.oa.entity.Attendance;
-import com.thinkgem.jeesite.modules.oa.entity.AttendanceMonth;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
@@ -13,7 +11,9 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import com.thinkgem.jeesite.common.persistence.Page;
+import com.thinkgem.jeesite.common.utils.StringUtils;
+import com.thinkgem.jeesite.modules.oa.entity.AttendanceMonth;
 
 /**
  * Created by GQR on 2017/10/18.
@@ -79,7 +79,7 @@ public class AttendanceMonthDao {
 		if (StringUtils.isNotBlank(attendanceMonth.getProcessStatus())) {
 			update.set("processStatus", attendanceMonth.getProcessStatus());
 		}
-		mongoTemplate.updateMulti(query, update, Attendance.class);
+		mongoTemplate.updateMulti(query, update, AttendanceMonth.class);
 	}
 
 	/**

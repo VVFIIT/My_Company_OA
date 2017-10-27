@@ -13,7 +13,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.thinkgem.jeesite.common.persistence.Page;
@@ -46,16 +45,6 @@ public class AttendanceController extends BaseController {
 
 	public AttendanceController() {
 		this.updateAttendanceMonth = new AttendanceMonth();
-	}
-
-	/**
-	 * MongoDB测试
-	 */
-	@RequestMapping(value = "mongo1", method = RequestMethod.GET)
-	public String mongo(HttpServletRequest request, HttpServletResponse response, Model model) {
-		attendanceService.getName();
-		logger.debug("MongoDB开始");
-		return "MongoDB开始";
 	}
 
 	/**
@@ -179,14 +168,6 @@ public class AttendanceController extends BaseController {
 		AttendanceMonth attendanceMonth = list.get(0);
 		model.addAttribute("attendanceMonth", attendanceMonth);
 		return "modules/oa/attendanceShow";
-	}
-
-	/**
-	 * test getAttendanceByDate
-	 */
-	@RequestMapping(value = "getAttendanceByDate")
-	public void getAttendanceByDate() {
-		attendanceService.getAttendanceByDate();
 	}
 
 	/**
