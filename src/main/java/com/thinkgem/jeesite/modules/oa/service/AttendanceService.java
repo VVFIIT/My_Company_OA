@@ -3,6 +3,7 @@ package com.thinkgem.jeesite.modules.oa.service;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
@@ -116,11 +117,12 @@ public class AttendanceService {
     	User user = UserUtils.getUser();
     	attendanceMonth.setName(user.getName());
     	List<AttendanceMonth> list = attendanceMonthDao.getAttendance(attendanceMonth);
-    	List<Integer> list1 = getStartDateAndEndDate();
-    	int startYear = list1.get(0);
-    	int startMonth = list1.get(1);
-    	int endYear = list1.get(2);
-    	int endMonth = list1.get(3);
+    	HashMap<String, Integer> hashMap = new HashMap<String, Integer>();
+    	getStartDateAndEndDate(hashMap);
+    	int startYear = hashMap.get("startYear");
+    	int startMonth = hashMap.get("startMonth");
+    	int endYear = hashMap.get("endYear");
+    	int endMonth = hashMap.get("endMonth");
 		int resultYear = 0;
 		int resultMonth = 0;
 		List<Integer> worklist = new ArrayList<Integer>();
@@ -206,7 +208,7 @@ public class AttendanceService {
 	 * 获取用户的入职年月和截止年月
 	 * @author Meng Lingshuai
 	 */
-	public List<Integer> getStartDateAndEndDate() {
+	public void getStartDateAndEndDate(HashMap<String, Integer> hashMap) {
 		User user = UserUtils.getUser();
 		Date startDate = user.getEntryDate();
     	Calendar calendar = Calendar.getInstance();
@@ -225,12 +227,10 @@ public class AttendanceService {
 			endYear = year;
 			endMonth = month-1;
 		}
-    	ArrayList<Integer> list = new ArrayList<Integer>();
-    	list.add(startYear);
-    	list.add(startMonth);
-    	list.add(endYear);
-    	list.add(endMonth);
-		return list;
+    	hashMap.put("startYear", startYear);
+    	hashMap.put("startMonth", startMonth);
+    	hashMap.put("endYear", endYear);
+    	hashMap.put("endMonth", endMonth);
 	}
     
     /**

@@ -2,6 +2,7 @@ package com.thinkgem.jeesite.modules.oa.web;
 
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -88,11 +89,12 @@ public class AttendanceController extends BaseController {
 			return "modules/oa/attendanceList";
 		} else {
 			List<AttendanceMonth> list = attendanceService.getExistAttendanceMonth();
-			List<Integer> list1 = attendanceService.getStartDateAndEndDate();
-			model.addAttribute("startYear", list1.get(0));
-			model.addAttribute("startMonth", list1.get(1));
-			model.addAttribute("endYear", list1.get(2));
-			model.addAttribute("endMonth", list1.get(3));
+			HashMap<String, Integer> hashMap = new HashMap<String, Integer>();
+			attendanceService.getStartDateAndEndDate(hashMap);
+			model.addAttribute("startYear", hashMap.get("startYear"));
+			model.addAttribute("startMonth", hashMap.get("startMonth"));
+			model.addAttribute("endYear", hashMap.get("endYear"));
+			model.addAttribute("endMonth", hashMap.get("endMonth"));
 			model.addAttribute("existAttendanceMonthList", list);
 			model.addAttribute("attendanceMonth_Insert", attendanceMonth);
 			return "modules/oa/attendanceInsert";
