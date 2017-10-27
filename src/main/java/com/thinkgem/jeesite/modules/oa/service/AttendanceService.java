@@ -42,8 +42,8 @@ public class AttendanceService {
 	@Autowired
 	private UserDao userDao;
 
-	/*
-     * 添加考勤列表
+	/**
+     * 添加画面的考勤列表
      * @author Meng Lingshuai
      */
     public AttendanceMonth getAttendanceDateList(AttendanceMonth attendanceMonth){
@@ -54,8 +54,59 @@ public class AttendanceService {
     	return attendanceMonth;
     }
     
-    /*
-     * 添加考勤跳转框年份和月份默认值
+    /**
+     * 将考勤列表插入DB
+     * @author Meng Lingshuai
+     */
+    public void InsertAttendanceList(AttendanceMonth attendanceMonth){
+    	List<AttendanceDay> attendanceStatus = attendanceMonth.getAttendanceStatus();
+    	AttendanceMonth attendanceMonth1 = changeValueToAtendanceStatus(attendanceMonth, attendanceStatus);
+    	attendanceMonth1.setId(UUID.randomUUID().toString());
+    	User user = UserUtils.getUser();
+    	attendanceMonth1.setName(user.getName());
+    	attendanceMonth1.setProcessStatus("1");
+    	attendanceMonth1.setDepartment(user.getOffice().getName());
+    	attendanceMonthDao.insert(attendanceMonth1);
+	}
+    
+    /**
+     * 将考勤列表修改
+     * @author Meng Lingshuai
+     */
+    public void updateAttendanceList(AttendanceMonth attendanceMonth){
+    	AttendanceMonth attendanceMonth1 = attendanceMonthService.getInformation(attendanceMonth.getId());
+    	List<AttendanceDay> attendanceStatus = attendanceMonth1.getAttendanceStatus();
+    	attendanceMonth.setMonth(attendanceMonth1.getMonth());
+    	AttendanceMonth attendanceMonth2 = changeValueToAtendanceStatus(attendanceMonth, attendanceStatus);
+    	attendanceMonthDao.update(attendanceMonth2);
+    }
+    
+    /**
+     * 添加画面考勤列表默认值
+     * @author Meng Lingshuai
+     */
+    public AttendanceMonth insertPageDefaultAttendanceMonth(AttendanceMonth attendanceMonth){
+    	int defaultYear = attendanceMonth.getYear();
+    	int defaultMonth = attendanceMonth.getMonth();
+    	List<AttendanceDay> attendanceDayList = getAttendanceStatusByYearAndMonth(defaultYear, defaultMonth);
+		AttendanceMonth attendanceMonth1 = new AttendanceMonth();
+		attendanceMonth1.getAttendanceHelper().updateAttendanceHelperStatus(attendanceDayList);
+		attendanceMonth1.setYear(defaultYear);
+		attendanceMonth1.setMonth(defaultMonth);
+    	return attendanceMonth1;
+    }
+    
+    /**
+     * 修改画面考勤列表默认值
+     * @author Meng Lingshuai
+     */
+    public AttendanceMonth updatePageDefaultAttendanceMonth(AttendanceMonth attendanceMonth){
+		attendanceMonth.getAttendanceHelper().updateAttendanceHelperStatus(attendanceMonth.getAttendanceStatus());
+    	return attendanceMonth;
+    }
+    
+    /**
+     * 添加考勤跳转后的年份和月份默认值
      * @author Meng Lingshuai
      */
     public AttendanceMonth getDefaultYearAndMonth(){
@@ -139,22 +190,50 @@ public class AttendanceService {
     	return attendanceMonth;
     }
     
-    /*
-     * 添加考勤状态列表默认值
-     * @author Meng Lingshuai
-     */
-    public AttendanceMonth insertPageDefaultAttendanceMonth(AttendanceMonth attendanceMonth){
-    	int defaultYear = attendanceMonth.getYear();
-    	int defaultMonth = attendanceMonth.getMonth();
-    	List<AttendanceDay> attendanceDayList = getAttendanceStatusByYearAndMonth(defaultYear, defaultMonth);
-		AttendanceMonth attendanceMonth1 = new AttendanceMonth();
-		attendanceMonth1.getAttendanceHelper().updateAttendanceHelperStatus(attendanceDayList);
-		attendanceMonth1.setYear(defaultYear);
-		attendanceMonth1.setMonth(defaultMonth);
-    	return attendanceMonth1;
-    }
+    /**
+	 * 获取用户在DB中已经存在的AttendanceMonth
+	 * @author Meng Lingshuai
+	 */
+	public List<AttendanceMonth> getExistAttendanceMonth(){
+		AttendanceMonth existAttendanceMonth = new AttendanceMonth();
+    	User user = UserUtils.getUser();
+    	existAttendanceMonth.setName(user.getName());
+    	List<AttendanceMonth> list = attendanceMonthDao.getAttendance(existAttendanceMonth);
+		return list;
+	}
+	
+	/**
+	 * 获取用户的入职年月和截止年月
+	 * @author Meng Lingshuai
+	 */
+	public List<Integer> getStartDateAndEndDate() {
+		User user = UserUtils.getUser();
+		Date startDate = user.getEntryDate();
+    	Calendar calendar = Calendar.getInstance();
+    	calendar.setTime(startDate);
+    	int startYear = calendar.get(Calendar.YEAR);
+    	int startMonth = calendar.get(Calendar.MONTH)+1;
+    	Calendar date = Calendar.getInstance();
+    	int year = date.get(Calendar.YEAR);
+		int month = date.get(Calendar.MONTH)+1;
+		int endYear;
+		int endMonth;
+    	if(month==1) {
+    		endYear = year-1;
+    		endMonth = 12;
+		}else {
+			endYear = year;
+			endMonth = month-1;
+		}
+    	ArrayList<Integer> list = new ArrayList<Integer>();
+    	list.add(startYear);
+    	list.add(startMonth);
+    	list.add(endYear);
+    	list.add(endMonth);
+		return list;
+	}
     
-    /*
+    /**
      * 获取某个月的考勤状态列表
      * @author Meng Lingshuai
      */
@@ -189,44 +268,8 @@ public class AttendanceService {
     	return attendanceDayList;
     }
     
-    /*
-     * 修改考勤状态列表默认值
-     * @author Meng Lingshuai
-     */
-    public AttendanceMonth updatePageDefaultAttendanceMonth(AttendanceMonth attendanceMonth){
-		attendanceMonth.getAttendanceHelper().updateAttendanceHelperStatus(attendanceMonth.getAttendanceStatus());
-    	return attendanceMonth;
-    }
-    
-    /*
-     * 插入考勤列表
-     * @author Meng Lingshuai
-     */
-    public void InsertAttendanceList(AttendanceMonth attendanceMonth){
-    	List<AttendanceDay> attendanceStatus = attendanceMonth.getAttendanceStatus();
-    	AttendanceMonth attendanceMonth1 = changeValueToAtendanceStatus(attendanceMonth, attendanceStatus);
-    	attendanceMonth1.setId(UUID.randomUUID().toString());
-    	User user = UserUtils.getUser();
-    	attendanceMonth1.setName(user.getName());
-    	attendanceMonth1.setProcessStatus("1");
-    	attendanceMonth1.setDepartment(user.getOffice().getName());
-    	attendanceMonthDao.insert(attendanceMonth1);
-	}
-    
-    /*
-     * 修改考勤列表
-     * @author Meng Lingshuai
-     */
-    public void updateAttendanceList(AttendanceMonth attendanceMonth){
-    	AttendanceMonth attendanceMonth1 = attendanceMonthService.getInformation(attendanceMonth.getId());
-    	List<AttendanceDay> attendanceStatus = attendanceMonth1.getAttendanceStatus();
-    	attendanceMonth.setMonth(attendanceMonth1.getMonth());
-    	AttendanceMonth attendanceMonth2 = changeValueToAtendanceStatus(attendanceMonth, attendanceStatus);
-    	attendanceMonthDao.update(attendanceMonth2);
-    }
-    
-    /*
-	 * 将添加或修改中改变的值赋给阿atendanceStatus
+    /**
+	 * 将添加或修改中改变的值赋给atendanceStatus
 	 * @author Meng Lingshuai
 	 */
     public AttendanceMonth changeValueToAtendanceStatus(AttendanceMonth attendanceMonth, List<AttendanceDay> attendanceStatus) {
@@ -460,48 +503,4 @@ public class AttendanceService {
 				.getIdAttendance(attendanceInsert);
 		return attendanceList;
 	}
-	
-	/*
-	 * 获取用户在DB中已经存在的AttendanceMonth
-	 * @author Meng Lingshuai
-	 */
-	public List<AttendanceMonth> getExistAttendanceMonth(){
-		AttendanceMonth existAttendanceMonth = new AttendanceMonth();
-    	User user = UserUtils.getUser();
-    	existAttendanceMonth.setName(user.getName());
-    	List<AttendanceMonth> list = attendanceMonthDao.getAttendance(existAttendanceMonth);
-		return list;
-	}
-	
-	/*
-	 * 获取用户的入职年月和截止年月
-	 * @author Meng Lingshuai
-	 */
-	public List<Integer> getStartDateAndEndDate() {
-		User user = UserUtils.getUser();
-		Date startDate = user.getEntryDate();
-    	Calendar calendar = Calendar.getInstance();
-    	calendar.setTime(startDate);
-    	int startYear = calendar.get(Calendar.YEAR);
-    	int startMonth = calendar.get(Calendar.MONTH)+1;
-    	Calendar date = Calendar.getInstance();
-    	int year = date.get(Calendar.YEAR);
-		int month = date.get(Calendar.MONTH)+1;
-		int endYear;
-		int endMonth;
-    	if(month==1) {
-    		endYear = year-1;
-    		endMonth = 12;
-		}else {
-			endYear = year;
-			endMonth = month-1;
-		}
-    	ArrayList<Integer> list = new ArrayList<Integer>();
-    	list.add(startYear);
-    	list.add(startMonth);
-    	list.add(endYear);
-    	list.add(endMonth);
-		return list;
-	}
-	
 }

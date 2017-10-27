@@ -68,7 +68,7 @@ public class AttendanceController extends BaseController {
 		model.addAttribute("page", page);
 		return "modules/oa/attendanceList";
 	}
-
+	
 	/**
 	 * 添加考勤跳转
 	 * @author Meng Lingshuai
@@ -98,25 +98,7 @@ public class AttendanceController extends BaseController {
 			return "modules/oa/attendanceInsert";
 		}
 	}
-
-	/**
-	 * 查询考勤状态
-	 */
-	@RequiresPermissions("oa:attendance:view")
-	@RequestMapping(value = "showAll")
-	public String showAllAttendance(AttendanceMonth attendanceMonth, Model model, HttpServletRequest request,
-			HttpServletResponse response) {
-		// 默认查询考勤状态，并分页
-		Page<AttendanceMonth> page = new Page<AttendanceMonth>(request, response);
-		attendanceMonth.setPage(page);
-		Page<AttendanceMonth> returnPage = attendanceService.getAttendanceShowAllPage(attendanceMonth);
-		model.addAttribute("page", returnPage);
-		// 查询栏 默认显示的年月
-		AttendanceMonth attendanceMonthReturn = attendanceService.getAttendanceMonth(attendanceMonth);
-		model.addAttribute("attendanceShowAll", attendanceMonthReturn);
-		return "modules/oa/attendanceShowAll";
-	}
-
+	
 	/**
 	 * 添加画面点击确定后出现考勤列表
 	 * @author Meng Lingshuai
@@ -129,12 +111,7 @@ public class AttendanceController extends BaseController {
 		model.addAttribute("attendanceMonth_InsertList", attendanceMonth2);
 		return "modules/oa/attendanceInsertList";
 	}
-
-	@ModelAttribute("attendanceMonth")
-	public AttendanceMonth getAttendanceMonthModel() {
-		return this.updateAttendanceMonth;
-	}
-
+	
 	/**
 	 * 提交添加画面考勤列表
 	 * @author Meng Lingshuai
@@ -158,20 +135,10 @@ public class AttendanceController extends BaseController {
 		model.addAttribute("page", page);
 		return "modules/oa/attendanceList";
 	}
-
+	
 	/**
-	 * 查看个人考勤
-	 */
-	@RequestMapping(value = "show")
-	public String attendanceShow(AttendanceMonth attendance, Model model) {
-		List<AttendanceMonth> list = attendanceService.getAttendanceShow(attendance);
-		AttendanceMonth attendanceMonth = list.get(0);
-		model.addAttribute("attendanceMonth", attendanceMonth);
-		return "modules/oa/attendanceShow";
-	}
-
-	/**
-	 * 查看个人考勤详情
+	 * 查看某月考勤列表
+	 * @author Meng Lingshuai
 	 */
 	@RequestMapping(value = "searchAttendanceInformation")
 	public String searchAttendanceInformation(AttendanceMonth attendanceMonth, Model model) {
@@ -211,15 +178,13 @@ public class AttendanceController extends BaseController {
 		model.addAttribute("page", page);
 		return "modules/oa/attendanceList";
 	}
-
+	
 	/**
-	 * 提交个人考勤
+	 * 点击按钮返回首页
+	 * @author Meng Lingshuai
 	 */
-	@RequestMapping(value = "checkProcessStatus")
-	public String checkProcessStatus(String id, RedirectAttributes redirectAttributes, Model model,
-			HttpServletRequest request, HttpServletResponse response) {
-		attendanceMonthService.updateProcessStatus(id);
-		addMessage(redirectAttributes, "提交考勤成功");
+	@RequestMapping(value = "returnIndexPage")
+	public String returnIndexPage(Model model, HttpServletRequest request, HttpServletResponse response) {
 		Page<AttendanceMonth> page = attendanceMonthService.page(new Page<AttendanceMonth>(request, response));
 		List<AttendanceMonth> lists = page.getList();
 		List<AttendanceDayStatus> list = attendanceMonthService.getDayStatusSum();
@@ -229,12 +194,49 @@ public class AttendanceController extends BaseController {
 		model.addAttribute("page", page);
 		return "modules/oa/attendanceList";
 	}
-	
+
 	/**
-	 * 点击按钮返回首页
+	 * 查询考勤状态
 	 */
-	@RequestMapping(value = "returnIndexPage")
-	public String returnIndexPage(Model model, HttpServletRequest request, HttpServletResponse response) {
+	@RequiresPermissions("oa:attendance:view")
+	@RequestMapping(value = "showAll")
+	public String showAllAttendance(AttendanceMonth attendanceMonth, Model model, HttpServletRequest request,
+			HttpServletResponse response) {
+		// 默认查询考勤状态，并分页
+		Page<AttendanceMonth> page = new Page<AttendanceMonth>(request, response);
+		attendanceMonth.setPage(page);
+		Page<AttendanceMonth> returnPage = attendanceService.getAttendanceShowAllPage(attendanceMonth);
+		model.addAttribute("page", returnPage);
+		// 查询栏 默认显示的年月
+		AttendanceMonth attendanceMonthReturn = attendanceService.getAttendanceMonth(attendanceMonth);
+		model.addAttribute("attendanceShowAll", attendanceMonthReturn);
+		return "modules/oa/attendanceShowAll";
+	}
+
+	@ModelAttribute("attendanceMonth")
+	public AttendanceMonth getAttendanceMonthModel() {
+		return this.updateAttendanceMonth;
+	}
+
+	/**
+	 * 查看个人考勤
+	 */
+	@RequestMapping(value = "show")
+	public String attendanceShow(AttendanceMonth attendance, Model model) {
+		List<AttendanceMonth> list = attendanceService.getAttendanceShow(attendance);
+		AttendanceMonth attendanceMonth = list.get(0);
+		model.addAttribute("attendanceMonth", attendanceMonth);
+		return "modules/oa/attendanceShow";
+	}
+
+	/**
+	 * 提交个人考勤
+	 */
+	@RequestMapping(value = "checkProcessStatus")
+	public String checkProcessStatus(String id, RedirectAttributes redirectAttributes, Model model,
+			HttpServletRequest request, HttpServletResponse response) {
+		attendanceMonthService.updateProcessStatus(id);
+		addMessage(redirectAttributes, "提交考勤成功");
 		Page<AttendanceMonth> page = attendanceMonthService.page(new Page<AttendanceMonth>(request, response));
 		List<AttendanceMonth> lists = page.getList();
 		List<AttendanceDayStatus> list = attendanceMonthService.getDayStatusSum();

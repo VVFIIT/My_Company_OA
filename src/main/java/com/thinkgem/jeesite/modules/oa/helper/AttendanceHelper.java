@@ -73,10 +73,8 @@ public class AttendanceHelper {
     String location_day_30;
     String location_day_31;
     
-    
-
-    
     public AttendanceHelper() {
+    	
     }
     
     public AttendanceHelper(List<AttendanceDay> attendancedays) {
