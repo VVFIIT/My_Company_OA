@@ -18,10 +18,8 @@
 
 	<table id="contentTable" class="table table-striped table-bordered table-condensed">
 		<tr>
-			<td>姓名：<input type="text" style="width: 120px;"
-				value="${attendanceMonth.name}" disabled></td>
-			<td>部门：<input type="text" style="width: 120px;"
-				value="${attendanceMonth.department}" disabled></td>
+			<td>姓名：${attendanceMonth.name}</td>
+			<td>部门：${attendanceMonth.department}</td>
 		</tr>
 	</table>
 
@@ -42,18 +40,9 @@
 				var="attendanceDay" varStatus="status">
 				<tr>
 					<td>${attendanceMonth.year}/${attendanceMonth.month}/${attendanceDay.date}</td>
-					<td><input type="text" style="width: 120px;"
-						value="${attendanceDay.week}" disabled></td>
-					<td><input type="text" style="width: 120px;"
-						value="${attendanceDay.location}" disabled></td>
-					<td>						
-						<c:if test="${attendanceDay.status ==8}"> 
-							<input type="text" style="width: 120px;color:#FF0000;" value="${fns:getDictLabel(attendanceDay.status,'oa_attendance_status','')}" disabled>
-						</c:if>						
-						<c:if test="${attendanceDay.status !=8}"> 
-							<input type="text" style="width: 120px;" value="${fns:getDictLabel(attendanceDay.status,'oa_attendance_status','')}" disabled>
-						</c:if>
-					</td>
+					<td>${attendanceDay.week}</td>
+					<td>${attendanceDay.location}</td>
+					<td>${fns:getDictLabel(attendanceDay.status,'oa_attendance_status','')}</td>
 				</tr>
 			</c:forEach>
 		</tbody>

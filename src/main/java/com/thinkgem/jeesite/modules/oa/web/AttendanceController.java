@@ -198,31 +198,13 @@ public class AttendanceController extends BaseController {
 		return "modules/oa/attendanceList";
 	}
 
-	/**
-	 * 查询考勤状态
-	 */
-	@RequiresPermissions("oa:attendance:view")
-	@RequestMapping(value = "showAll")
-	public String showAllAttendance(AttendanceMonth attendanceMonth, Model model, HttpServletRequest request,
-			HttpServletResponse response) {
-		// 默认查询考勤状态，并分页
-		Page<AttendanceMonth> page = new Page<AttendanceMonth>(request, response);
-		attendanceMonth.setPage(page);
-		Page<AttendanceMonth> returnPage = attendanceService.getAttendanceShowAllPage(attendanceMonth);
-		model.addAttribute("page", returnPage);
-		// 查询栏 默认显示的年月
-		AttendanceMonth attendanceMonthReturn = attendanceService.getAttendanceMonth(attendanceMonth);
-		model.addAttribute("attendanceShowAll", attendanceMonthReturn);
-		return "modules/oa/attendanceShowAll";
-	}
-
 	@ModelAttribute("attendanceMonth")
 	public AttendanceMonth getAttendanceMonthModel() {
 		return this.updateAttendanceMonth;
 	}
 
 	/**
-	 * 查看个人考勤
+	 * 查看考勤：查看个人考勤
 	 */
 	@RequestMapping(value = "show")
 	public String attendanceShow(AttendanceMonth attendance, Model model) {
@@ -307,4 +289,37 @@ public class AttendanceController extends BaseController {
 		return "redirect:" + adminPath + "/modules/oa/attendanceShowAll";
 	}
 
+	/**
+	 * 查询考勤：默认显示
+	 */
+	@RequestMapping(value = "showAll")
+	public String showAllAttendanceDefault(AttendanceMonth attendanceMonth, Model model, HttpServletRequest request,
+			HttpServletResponse response) {
+		//查询默认考勤 并 分页
+		Page<AttendanceMonth> page = new Page<AttendanceMonth>(request, response);
+		attendanceMonth.setPage(page);
+		Page<AttendanceMonth> defaultAttendance = attendanceService.getAttendanceShowAllDefault(attendanceMonth);
+		model.addAttribute("page", defaultAttendance);
+		//查询默认考勤的年和月
+		AttendanceMonth defaultAttendanceDate = attendanceService.getAttendanceDateDefault();
+		model.addAttribute("attendanceShowAll", defaultAttendanceDate);
+		return "modules/oa/attendanceShowAll";
+	}
+	
+	/**
+	 * 查询考勤：根据年和月显示
+	 */
+	@RequestMapping(value = "showAllExact")
+	public String showAllAttendanceExact(AttendanceMonth attendanceMonth, Model model, HttpServletRequest request,
+			HttpServletResponse response) {
+		//根据年和月查询考勤并分页
+		Page<AttendanceMonth> page = new Page<AttendanceMonth>(request, response);
+		attendanceMonth.setPage(page);
+		Page<AttendanceMonth> defaultAttendance = attendanceService.getAttendanceShowAllExact(attendanceMonth);
+		model.addAttribute("page", defaultAttendance);		
+		//根据查询的年和月显示
+		AttendanceMonth defaultAttendanceDate = attendanceService.getAttendanceDateExact(attendanceMonth);
+		model.addAttribute("attendanceShowAll", defaultAttendanceDate);
+		return "modules/oa/attendanceShowAll";
+	}
 }

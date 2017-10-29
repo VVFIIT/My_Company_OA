@@ -424,91 +424,10 @@ public class AttendanceService {
     	attendanceMonth.setAttendanceStatus(attendanceStatus);
     	return attendanceMonth;
     }
-	
-	/**
-	 * 查询考勤状态
-	 */
-	public Page<AttendanceMonth> getAttendanceShowAllPage(AttendanceMonth attendance) {
-		int defaultYear;
-		int defaultMonth;
-		Integer month = attendance.getMonth();
-		Integer year = attendance.getYear();
-		User user = new User();
-		List<User> userList = userDao.findList(user);
 
-		Page<AttendanceMonth> returnPage = attendance.getPage();
-		List<AttendanceMonth> returnList = returnPage.getList();
-
-		for (User userInformation : userList) {
-			String name = userInformation.getName();
-			AttendanceMonth attendanceInsert = new AttendanceMonth();
-			if (month == null && year == null) {
-				Calendar date = Calendar.getInstance();
-				int currentYear = date.get(Calendar.YEAR);
-				int currentMonth = date.get(Calendar.MONTH) + 1;
-				if (currentMonth == 1) {
-					defaultYear = currentYear - 1;
-					defaultMonth = 12;
-				} else {
-					defaultYear = currentYear;
-					defaultMonth = currentMonth - 1;
-				}
-				attendanceInsert.setName(name);
-				attendanceInsert.setYear(defaultYear);
-				attendanceInsert.setMonth(defaultMonth);
-			} else {
-				attendanceInsert.setName(name);
-				attendanceInsert.setYear(year);
-				attendanceInsert.setMonth(month);
-			}
-			List<AttendanceMonth> attendanceList = attendanceMonthDao
-					.getAttendance(attendanceInsert);
-		
-			if (0 == attendanceList.size()) {
-				// 根据姓名，年，月，没有记录，此人还没有提交过，页面需要显示 姓名 和 空状态
-				attendanceList.add(attendanceInsert);
-			}
-			// 正常情况下 根据姓名，年，月，会精确查出一条记录
-			returnList.add(attendanceList.get(0));
-		}
-		
-		returnPage.setCount(returnList.size()); 
-		returnPage.setList(returnList);
-		
-		return returnPage;
-	}
-	
 	/**
-	 * 查询考勤:下拉框显示的年和月
+	 * 查看考勤：查询个人考勤信息
 	 */
-	public AttendanceMonth getAttendanceMonth(AttendanceMonth attendance){		
-		int defaultYear;
-    	int defaultMonth;
-    	Integer month = attendance.getMonth();
-		Integer year = attendance.getYear();
-    	AttendanceMonth updateAttendanceMonth = new AttendanceMonth();
-    	if(month == null && year == null){    //默认显示
-    		Calendar date = Calendar.getInstance();
-    		int currentYear = date.get(Calendar.YEAR);
-    		int currentMonth = date.get(Calendar.MONTH)+1;
-    		if(currentMonth==1) {
-    			defaultYear = currentYear-1;
-    			defaultMonth = 12;
-    		}else {  
-    			defaultYear = currentYear;
-        		defaultMonth = currentMonth-1;
-    		}
-    		updateAttendanceMonth.setYear(defaultYear);
-        	updateAttendanceMonth.setMonth(defaultMonth);
-    	}else{ //指定年和月的查询
-    		updateAttendanceMonth.setYear(year);
-        	updateAttendanceMonth.setMonth(month);
-    	}
-    	
-    	return updateAttendanceMonth;
-    	
-    }
-	
 	public List<AttendanceMonth> getAttendanceShow(AttendanceMonth attendance) {
 		AttendanceMonth attendanceInsert = new AttendanceMonth();
 		String id = attendance.getId();		
@@ -517,4 +436,111 @@ public class AttendanceService {
 				.getIdAttendance(attendanceInsert);
 		return attendanceList;
 	}
+	
+	/**
+	 * 查看考勤：默认查询考勤信息
+	 */
+	public Page<AttendanceMonth> getAttendanceShowAllDefault(AttendanceMonth attendanceMonth) {
+		int defaultYear;
+		int defaultMonth;
+		User user = new User();
+		List<User> userList = userDao.findList(user);
+		Page<AttendanceMonth> returnPage = attendanceMonth.getPage();
+		List<AttendanceMonth> returnList = returnPage.getList();
+		for (User userInformation : userList) {
+			String name = userInformation.getName();
+			AttendanceMonth attendanceInsert = new AttendanceMonth();
+		
+			Calendar date = Calendar.getInstance();
+			int currentYear = date.get(Calendar.YEAR);
+			int currentMonth = date.get(Calendar.MONTH) + 1;
+			if (currentMonth == 1) {
+				defaultYear = currentYear - 1;
+				defaultMonth = 12;
+			} else {
+				defaultYear = currentYear;
+				defaultMonth = currentMonth - 1;
+			}
+			attendanceInsert.setName(name);
+			attendanceInsert.setYear(defaultYear);
+			attendanceInsert.setMonth(defaultMonth);			
+			List<AttendanceMonth> attendanceList = attendanceMonthDao
+					.getAttendance(attendanceInsert);		
+			if (0 == attendanceList.size()) {
+				// 根据姓名，年，月，没有记录，此人还没有提交过，页面需要显示 姓名 和 空状态
+				attendanceList.add(attendanceInsert);
+			}
+			// 正常情况下 根据姓名，年，月，会精确查出一条记录
+			returnList.add(attendanceList.get(0));
+		}		
+		returnPage.setCount(returnList.size()); 
+		returnPage.setList(returnList);
+		
+		return returnPage;
+	}
+	
+	/**
+	 * 查看考勤：根据年月查询考勤信息
+	 */
+	public Page<AttendanceMonth> getAttendanceShowAllExact(AttendanceMonth attendanceMonth) {
+		Integer month = attendanceMonth.getMonth();
+		Integer year = attendanceMonth.getYear();
+		User user = new User();
+		List<User> userList = userDao.findList(user);
+		Page<AttendanceMonth> returnPage = attendanceMonth.getPage();
+		List<AttendanceMonth> returnList = returnPage.getList();
+		for (User userInformation : userList) {
+			String name = userInformation.getName();
+			AttendanceMonth attendanceInsert = new AttendanceMonth();
+			attendanceInsert.setName(name);
+			attendanceInsert.setYear(year);
+			attendanceInsert.setMonth(month);			
+			List<AttendanceMonth> attendanceList = attendanceMonthDao
+					.getAttendance(attendanceInsert);		
+			if (0 == attendanceList.size()) {
+				// 根据姓名，年，月，没有记录，此人还没有提交过，页面需要显示 姓名 和 空状态
+				attendanceList.add(attendanceInsert);
+			}
+			// 正常情况下 根据姓名，年，月，会精确查出一条记录
+			returnList.add(attendanceList.get(0));
+		}		
+		returnPage.setCount(returnList.size()); 
+		returnPage.setList(returnList);
+		
+		return returnPage;
+	}
+	
+	/**
+	 * 查看考勤:下拉框默认显示的年和月
+	 */
+	public AttendanceMonth getAttendanceDateDefault(){		
+		int defaultYear;
+    	int defaultMonth;
+    	AttendanceMonth updateAttendanceMonth = new AttendanceMonth();
+    	Calendar date = Calendar.getInstance();
+    	int currentYear = date.get(Calendar.YEAR);
+    	int currentMonth = date.get(Calendar.MONTH)+1;
+    	if(currentMonth==1) {
+    		defaultYear = currentYear-1;
+    		defaultMonth = 12;
+    	}else {  
+    		defaultYear = currentYear;
+        	defaultMonth = currentMonth-1;
+    	}
+    	updateAttendanceMonth.setYear(defaultYear);
+        updateAttendanceMonth.setMonth(defaultMonth);  	
+    	return updateAttendanceMonth;    	
+    }
+	
+	/**
+	 * 查看考勤:根据查询显示下拉框的年和月
+	 */
+	public AttendanceMonth getAttendanceDateExact(AttendanceMonth attendanceMonth){		
+    	Integer month = attendanceMonth.getMonth();//获取查询的月份
+		Integer year = attendanceMonth.getYear();//获取查询日期
+    	AttendanceMonth updateAttendanceMonth = new AttendanceMonth();
+    	updateAttendanceMonth.setYear(year);
+        updateAttendanceMonth.setMonth(month);  	
+    	return updateAttendanceMonth;    	
+    }
 }

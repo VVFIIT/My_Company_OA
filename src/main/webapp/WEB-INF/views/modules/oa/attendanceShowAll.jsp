@@ -43,7 +43,7 @@
 	    <li class="active"><a href="${ctx}/oa/attendance/showAll">考勤列表</a></li>
 	</ul>
 	
-	<form:form id="attSearchListForm" modelAttribute="attendanceShowAll" action="${ctx}/oa/attendance/showAll" method="post" class="breadcrumb form-search">
+	<form:form id="attSearchListForm" modelAttribute="attendanceShowAll" action="${ctx}/oa/attendance/showAllExact" method="post" class="breadcrumb form-search">
 			 <input id="pageNo" name="pageNo" type="hidden" value="${page.pageNo}"/>
 			 <input id="pageSize" name="pageSize" type="hidden" value="${page.pageSize}"/>
 			<ul class="ul-form">
