@@ -8,7 +8,6 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,7 +20,6 @@ import com.thinkgem.jeesite.common.utils.DateUtils;
 import com.thinkgem.jeesite.common.utils.excel.ExportExcel;
 import com.thinkgem.jeesite.common.web.BaseController;
 import com.thinkgem.jeesite.modules.oa.entity.AttendanceDay;
-import com.thinkgem.jeesite.modules.oa.entity.AttendanceDayStatus;
 import com.thinkgem.jeesite.modules.oa.entity.AttendanceMonth;
 import com.thinkgem.jeesite.modules.oa.helper.StringName;
 import com.thinkgem.jeesite.modules.oa.service.AttendanceMonthService;
@@ -54,15 +52,18 @@ public class AttendanceController extends BaseController {
 	@RequestMapping(value = "list")
 	public String list(AttendanceMonth attendanceMonth, Model model, HttpServletRequest request,
 			HttpServletResponse response) {
+		//返回首页并将画面信息传到画面
 		Page<AttendanceMonth> page = attendanceMonthService.attendanceHomeList(new Page<AttendanceMonth>(request, response));
-
+		model.addAttribute("page", page);
+		//判断是否存在可以添加的年份月份，并把MODE传到画面
 		AttendanceMonth attendanceMonth1 = attendanceService.getDefaultYearAndMonth();
 		if (attendanceMonth1.getYear() == 0) {
+			//没有可供添加的考勤月份
 			model.addAttribute("MODE", "noInsertMonth");
 		} else {
+			//有可供添加的考勤月份
 			model.addAttribute("MODE", "yesInsertMonth");
 		}
-		model.addAttribute("page", page);
 		return "modules/oa/attendanceList";
 	}
 	
@@ -72,15 +73,18 @@ public class AttendanceController extends BaseController {
 	 */
 	@RequestMapping(value = "insert")
 	public String attendanceUpdate(Model model, HttpServletRequest request, HttpServletResponse response) {
+		//获取添加考勤跳转后的年份和月份默认值
 		AttendanceMonth attendanceMonth = attendanceService.getDefaultYearAndMonth();
+		//如果没有可以添加的考勤月份，那么返回首页，并通过model把MODE传给画面
 		if (attendanceMonth.getYear() == 0) {
 			Page<AttendanceMonth> page = attendanceMonthService.attendanceHomeList(new Page<AttendanceMonth>(request, response));
 			model.addAttribute("MODE", "noInsertMonth");
 			model.addAttribute("page", page);
 			return "modules/oa/attendanceList";
 		} else {
-	    	//通过用户名找到所有该用户填写过的考勤记录
+	    	//通过用户名找到所有该用户填写过的考勤记录并通过model传到画面
 	    	List<AttendanceMonth> list = attendanceService.getExistAttendanceMonth(attendanceMonth);
+	    	//通过HashMap获取用户的入职年月和截止年月并通过model传到画面供前端JS作逻辑判断
 			HashMap<String, Integer> hashMap = new HashMap<String, Integer>();
 			attendanceService.getStartDateAndEndDate(hashMap);
 			model.addAttribute("startYear", hashMap.get("startYear"));
@@ -88,7 +92,8 @@ public class AttendanceController extends BaseController {
 			model.addAttribute("endYear", hashMap.get("endYear"));
 			model.addAttribute("endMonth", hashMap.get("endMonth"));
 			model.addAttribute("existAttendanceMonthList", list);
-			model.addAttribute("attendanceMonth_Insert", attendanceMonth);
+			//将跳转后的年份和月份默认值和attendanceMonth_InsertDate绑定并通过model传到JSP
+			model.addAttribute("attendanceMonth_InsertDate", attendanceMonth);
 			return "modules/oa/attendanceInsert";
 		}
 	}
@@ -113,15 +118,20 @@ public class AttendanceController extends BaseController {
 	@RequestMapping(value = "attendanceInsertList")
 	public String attendanceInsert(AttendanceMonth attendanceMonth, Model model, HttpServletRequest request,
 			HttpServletResponse response) {
+		//将表单中的值插入DB
 		attendanceService.InsertAttendanceList(attendanceMonth);
+		//返回首页并将画面信息传到画面
 		Page<AttendanceMonth> page = attendanceMonthService.attendanceHomeList(new Page<AttendanceMonth>(request, response));
+		model.addAttribute("page", page);
+		//判断是否存在可以添加的年份月份，并把MODE传到画面
 		AttendanceMonth attendanceMonth1 = attendanceService.getDefaultYearAndMonth();
 		if (attendanceMonth1.getYear() == 0) {
+			//不存在
 			model.addAttribute("MODE", "noInsertMonth");
 		} else {
+			//存在
 			model.addAttribute("MODE", "yesInsertMonth");
 		}
-		model.addAttribute("page", page);
 		return "modules/oa/attendanceList";
 	}
 	
@@ -157,7 +167,9 @@ public class AttendanceController extends BaseController {
 	 */
 	@RequestMapping(value = "attendanceUpdateList")
 	public String attendanceUpdate(AttendanceMonth attendanceMonth, Model model, HttpServletRequest request, HttpServletResponse response) {
+		//修改考勤列表
 		attendanceService.updateAttendanceList(attendanceMonth);
+		//返回首页并将画面信息传到画面
 		Page<AttendanceMonth> page = attendanceMonthService.attendanceHomeList(new Page<AttendanceMonth>(request, response));
 		model.addAttribute("page", page);
 		return "modules/oa/attendanceList";
@@ -169,6 +181,7 @@ public class AttendanceController extends BaseController {
 	 */
 	@RequestMapping(value = "returnIndexPage")
 	public String returnIndexPage(Model model, HttpServletRequest request, HttpServletResponse response) {
+		//返回首页并将画面信息传到画面
 		Page<AttendanceMonth> page = attendanceMonthService.attendanceHomeList(new Page<AttendanceMonth>(request, response));
 		model.addAttribute("page", page);
 		return "modules/oa/attendanceList";
