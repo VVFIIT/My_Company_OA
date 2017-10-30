@@ -104,10 +104,10 @@ public class AttendanceController extends BaseController {
 	 */
 	@RequestMapping(value = "attendanceSearchList")
 	public String attendanceList(AttendanceMonth attendanceMonth, Model model) {
-		AttendanceMonth attendanceMonth1 = attendanceService.getAttendanceDateList(attendanceMonth);
-		AttendanceMonth attendanceMonth2 = attendanceService.insertPageDefaultAttendanceMonth(updateAttendanceMonth);
-		model.addAttribute("attendanceMonth1", attendanceMonth1);
-		model.addAttribute("attendanceMonth_InsertList", attendanceMonth2);
+		//获取添加画面考勤列表默认值
+		AttendanceMonth defaultInsertAttendanceMonth = attendanceService.insertPageDefaultAttendanceMonth(updateAttendanceMonth);
+		//传到JSP
+		model.addAttribute("attendanceMonth_InsertList", defaultInsertAttendanceMonth);
 		return "modules/oa/attendanceInsertList";
 	}
 	
@@ -141,10 +141,10 @@ public class AttendanceController extends BaseController {
 	 */
 	@RequestMapping(value = "searchAttendanceInformation")
 	public String searchAttendanceInformation(AttendanceMonth attendanceMonth, Model model) {
+		//通过UUID获取对应月份的attendanceMonth对象
 		attendanceMonth = attendanceMonthService.getInformation(attendanceMonth.getId());
-		AttendanceMonth attendanceMonth2 = attendanceService.updatePageDefaultAttendanceMonth(attendanceMonth);
-		model.addAttribute("attendanceMonth", attendanceMonth);
-		model.addAttribute("attendanceMonth_InsertList", attendanceMonth2);
+		//传到JSP
+		model.addAttribute("attendanceMonth_ShowList", attendanceMonth);
 		return "modules/oa/attendanceShowList";
 	}
 
@@ -154,10 +154,14 @@ public class AttendanceController extends BaseController {
 	 */
 	@RequestMapping(value = "modifyAttendanceInformation")
 	public String modifyAttendanceInformation(AttendanceMonth attendanceMonth, Model model) {
+		//通过UUID获取对应月份的attendanceMonth对象
 		attendanceMonth = attendanceMonthService.getInformation(attendanceMonth.getId());
-		AttendanceMonth attendanceMonth2 = attendanceService.updatePageDefaultAttendanceMonth(attendanceMonth);
-		model.addAttribute("attendanceMonth1", attendanceMonth);
-		model.addAttribute("attendanceMonth_InsertList", attendanceMonth2);
+		//获取修改画面考勤列表默认地点和考勤状态
+		AttendanceMonth attendanceMonth1 = attendanceService.updatePageDefaultAttendanceMonth(attendanceMonth);
+		//获取修改画面考勤列表默认日期星期
+		attendanceMonth1.setAttendanceStatus(attendanceMonth.getAttendanceStatus());
+		//将最后的默认AttendanceMonth对象传到JSP
+		model.addAttribute("attendanceMonth_UpdateList", attendanceMonth1);
 		return "modules/oa/attendanceUpdateList";
 	}
 	

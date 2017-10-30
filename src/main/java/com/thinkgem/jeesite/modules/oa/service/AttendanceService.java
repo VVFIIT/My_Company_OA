@@ -43,24 +43,12 @@ public class AttendanceService {
 	@Autowired
 	private UserDao userDao;
 
-	/**
-     * 添加画面的考勤列表
-     * @author Meng Lingshuai
-     */
-    public AttendanceMonth getAttendanceDateList(AttendanceMonth attendanceMonth){
-    	int year = attendanceMonth.getYear();
-    	int month = attendanceMonth.getMonth();
-    	List<AttendanceDay> attendanceDayList = getAttendanceStatusByYearAndMonth(year, month);
-		attendanceMonth.setAttendanceStatus(attendanceDayList);
-    	return attendanceMonth;
-    }
-    
     /**
      * 将考勤列表插入DB
      * @author Meng Lingshuai
      */
     public void InsertAttendanceList(AttendanceMonth attendanceMonth){
-    	List<AttendanceDay> attendanceStatus = attendanceMonth.getAttendanceStatus();
+    	List<AttendanceDay> attendanceStatus = insertPageDefaultAttendanceMonth(attendanceMonth).getAttendanceStatus();
     	AttendanceMonth attendanceMonth1 = changeValueToAtendanceStatus(attendanceMonth, attendanceStatus);
     	attendanceMonth1.setId(UUID.randomUUID().toString());
     	User user = UserUtils.getUser();
@@ -77,6 +65,7 @@ public class AttendanceService {
     public void updateAttendanceList(AttendanceMonth attendanceMonth){
     	AttendanceMonth attendanceMonth1 = attendanceMonthService.getInformation(attendanceMonth.getId());
     	List<AttendanceDay> attendanceStatus = attendanceMonth1.getAttendanceStatus();
+    	attendanceMonth.setYear(attendanceMonth1.getYear());
     	attendanceMonth.setMonth(attendanceMonth1.getMonth());
     	AttendanceMonth attendanceMonth2 = changeValueToAtendanceStatus(attendanceMonth, attendanceStatus);
     	attendanceMonthDao.update(attendanceMonth2);
@@ -92,6 +81,7 @@ public class AttendanceService {
     	List<AttendanceDay> attendanceDayList = getAttendanceStatusByYearAndMonth(defaultYear, defaultMonth);
 		AttendanceMonth attendanceMonth1 = new AttendanceMonth();
 		attendanceMonth1.getAttendanceHelper().updateAttendanceHelperStatus(attendanceDayList);
+		attendanceMonth1.setAttendanceStatus(attendanceDayList);
 		attendanceMonth1.setYear(defaultYear);
 		attendanceMonth1.setMonth(defaultMonth);
     	return attendanceMonth1;
