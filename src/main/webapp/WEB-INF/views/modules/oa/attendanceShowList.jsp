@@ -12,7 +12,7 @@
 	</ul>
 	<form:form id="attInsertListForm" modelAttribute="attendanceMonth_ShowList" target="mainFrame" action="${ctx}/oa/attendance/attendanceInsertList" method="post" class="breadcrumb form-search">
 		<table id="attendanceTable" class="table table-striped table-bsordered table-condensed">
-			<thead><tr><th>日期</th><th>星期</th><th>工作地点</th><th>考勤状态</th></thead>
+			<thead><tr><th style="width:25%">日期</th><th style="width:25%">星期</th><th style="width:25%">工作地点</th><th style="width:25%">考勤状态</th></thead>
 			<tbody>
 				<c:forEach items="${attendanceMonth_ShowList.attendanceStatus}" var="attendanceday" varStatus="status">
 					<tr>
