@@ -51,15 +51,11 @@ public class AttendanceController extends BaseController {
 	/**
 	 * 考勤首页数据显示
 	 */
-	@RequestMapping(value = { "list", "" })
+	@RequestMapping(value = "list")
 	public String list(AttendanceMonth attendanceMonth, Model model, HttpServletRequest request,
 			HttpServletResponse response) {
-		Page<AttendanceMonth> page = attendanceMonthService.page(new Page<AttendanceMonth>(request, response));
-		List<AttendanceMonth> lists = page.getList();
-		List<AttendanceDayStatus> list = attendanceMonthService.getDayStatusSum();
-		for (int i = 0; i < lists.size(); i++) {
-			lists.get(i).setAttendanceDayStatus(list.get(i));
-		}
+		Page<AttendanceMonth> page = attendanceMonthService.attendanceHomeList(new Page<AttendanceMonth>(request, response));
+
 		AttendanceMonth attendanceMonth1 = attendanceService.getDefaultYearAndMonth();
 		if (attendanceMonth1.getYear() == 0) {
 			model.addAttribute("MODE", "noInsertMonth");
@@ -78,12 +74,7 @@ public class AttendanceController extends BaseController {
 	public String attendanceUpdate(Model model, HttpServletRequest request, HttpServletResponse response) {
 		AttendanceMonth attendanceMonth = attendanceService.getDefaultYearAndMonth();
 		if (attendanceMonth.getYear() == 0) {
-			Page<AttendanceMonth> page = attendanceMonthService.page(new Page<AttendanceMonth>(request, response));
-			List<AttendanceMonth> lists = page.getList();
-			List<AttendanceDayStatus> list = attendanceMonthService.getDayStatusSum();
-			for (int i = 0; i < lists.size(); i++) {
-				lists.get(i).setAttendanceDayStatus(list.get(i));
-			}
+			Page<AttendanceMonth> page = attendanceMonthService.attendanceHomeList(new Page<AttendanceMonth>(request, response));
 			model.addAttribute("MODE", "noInsertMonth");
 			model.addAttribute("page", page);
 			return "modules/oa/attendanceList";
@@ -123,12 +114,7 @@ public class AttendanceController extends BaseController {
 	public String attendanceInsert(AttendanceMonth attendanceMonth, Model model, HttpServletRequest request,
 			HttpServletResponse response) {
 		attendanceService.InsertAttendanceList(attendanceMonth);
-		Page<AttendanceMonth> page = attendanceMonthService.page(new Page<AttendanceMonth>(request, response));
-		List<AttendanceMonth> lists = page.getList();
-		List<AttendanceDayStatus> list = attendanceMonthService.getDayStatusSum();
-		for (int i = 0; i < lists.size(); i++) {
-			lists.get(i).setAttendanceDayStatus(list.get(i));
-		}
+		Page<AttendanceMonth> page = attendanceMonthService.attendanceHomeList(new Page<AttendanceMonth>(request, response));
 		AttendanceMonth attendanceMonth1 = attendanceService.getDefaultYearAndMonth();
 		if (attendanceMonth1.getYear() == 0) {
 			model.addAttribute("MODE", "noInsertMonth");
@@ -172,12 +158,7 @@ public class AttendanceController extends BaseController {
 	@RequestMapping(value = "attendanceUpdateList")
 	public String attendanceUpdate(AttendanceMonth attendanceMonth, Model model, HttpServletRequest request, HttpServletResponse response) {
 		attendanceService.updateAttendanceList(attendanceMonth);
-		Page<AttendanceMonth> page = attendanceMonthService.page(new Page<AttendanceMonth>(request, response));
-		List<AttendanceMonth> lists = page.getList();
-		List<AttendanceDayStatus> list = attendanceMonthService.getDayStatusSum();
-		for (int i = 0; i < lists.size(); i++) {
-			lists.get(i).setAttendanceDayStatus(list.get(i));
-		}
+		Page<AttendanceMonth> page = attendanceMonthService.attendanceHomeList(new Page<AttendanceMonth>(request, response));
 		model.addAttribute("page", page);
 		return "modules/oa/attendanceList";
 	}
@@ -188,12 +169,7 @@ public class AttendanceController extends BaseController {
 	 */
 	@RequestMapping(value = "returnIndexPage")
 	public String returnIndexPage(Model model, HttpServletRequest request, HttpServletResponse response) {
-		Page<AttendanceMonth> page = attendanceMonthService.page(new Page<AttendanceMonth>(request, response));
-		List<AttendanceMonth> lists = page.getList();
-		List<AttendanceDayStatus> list = attendanceMonthService.getDayStatusSum();
-		for (int i = 0; i < lists.size(); i++) {
-			lists.get(i).setAttendanceDayStatus(list.get(i));
-		}
+		Page<AttendanceMonth> page = attendanceMonthService.attendanceHomeList(new Page<AttendanceMonth>(request, response));
 		model.addAttribute("page", page);
 		return "modules/oa/attendanceList";
 	}
@@ -222,12 +198,7 @@ public class AttendanceController extends BaseController {
 			HttpServletRequest request, HttpServletResponse response) {
 		attendanceMonthService.updateProcessStatus(id);
 		addMessage(redirectAttributes, "提交考勤成功");
-		Page<AttendanceMonth> page = attendanceMonthService.page(new Page<AttendanceMonth>(request, response));
-		List<AttendanceMonth> lists = page.getList();
-		List<AttendanceDayStatus> list = attendanceMonthService.getDayStatusSum();
-		for (int i = 0; i < lists.size(); i++) {
-			lists.get(i).setAttendanceDayStatus(list.get(i));
-		}
+		Page<AttendanceMonth> page = attendanceMonthService.attendanceHomeList(new Page<AttendanceMonth>(request, response));
 		model.addAttribute("page", page);
 		return "modules/oa/attendanceList";
 	}

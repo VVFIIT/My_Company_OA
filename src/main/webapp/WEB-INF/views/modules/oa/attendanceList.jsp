@@ -8,13 +8,6 @@
         $(document).ready(function () {
 
         });
-
-        <%--function insertAttendance() {--%>
-            <%--&lt;%&ndash;loading('正在跳转，请稍等...');&ndash;%&gt;--%>
-            <%--&lt;%&ndash;$("#listForm").attr("action", "${ctx}/oa/attendance/insert");&ndash;%&gt;--%>
-            <%--&lt;%&ndash;$("#listForm").submit();&ndash;%&gt;--%>
-            <%--window.location.href = "${ctx}/oa/attendance/insert";--%>
-        <%--}--%>
         function page(n, s) {
             $("#pageNo").val(n);
             $("#pageSize").val(s);
@@ -32,10 +25,10 @@
 </head>
 <body>
 <ul class="nav nav-tabs">
-    <li class="active"><a href="${ctx}/oa/attendance/">考勤列表</a></li>
+    <li class="active"><a href="${ctx}/oa/attendance/list">考勤列表</a></li>
     <li><a href="${ctx}/oa/attendance/insert" onclick="noInsertMonth()">考勤添加</a></li>
 </ul>
-<form:form id="searchForm" modelAttribute="attendanceMonth" action="${ctx}/oa/attendance/"
+<form:form id="searchForm" modelAttribute="attendanceMonth" action="${ctx}/oa/attendance/list"
            class="breadcrumb form-search">
     <input id="pageNo" name="pageNo" type="hidden" value="${page.pageNo}"/>
     <input id="pageSize" name="pageSize" type="hidden" value="${page.pageSize}"/>
@@ -45,7 +38,7 @@
     <thead>
     <tr>
         <th>日期</th>
-        <th>正常出勤</th>
+        <th>出勤天数</th>
         <th>出差-短期</th>
         <th>出差-长期</th>
         <th>加班</th>
@@ -74,8 +67,6 @@
                 <a id="processStatus" style="${fns:getCheckStatus(attendanceMonth.processStatus)}"
                    href="${ctx}/oa/attendance/checkProcessStatus?id=${attendanceMonth.id}&processStatus=${attendanceMonth.processStatus}"
                    onclick="return confirmx('确认要提交该考勤吗？', this.href)">提交</a>
-                    <%--<a href=""--%>
-                    <%--onclick="return confirmx('确认要删除该考勤吗？', this.href)">删除</a>--%>
             </td>
         </tr>
     </c:forEach>

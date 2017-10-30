@@ -12,7 +12,7 @@
 </head>
 <body>
 	<ul class="nav nav-tabs" id="updateTitle">
-	    <li><a href="${ctx}/oa/attendance/">考勤列表</a></li>
+	    <li><a href="${ctx}/oa/attendance/list">考勤列表</a></li>
 	    <li class="active"><a>考勤修改</a></li>
 	</ul>
 	<form:form id="attInsertListForm" modelAttribute="attendanceMonth_InsertList" target="mainFrame" action="${ctx}/oa/attendance/attendanceUpdateList" method="post" class="breadcrumb form-search">

@@ -139,36 +139,33 @@ public class AttendanceMonthService {
 		for (AttendanceMonth list1 : lists) {
 			AttendanceDayStatus attendanceDayStatus = new AttendanceDayStatus();
 			// 正常出勤,出差-短期,出差-长期,加班,请假,其它带薪假,病假,--公休日,--法定节假日
-			int q = 0, w = 0, a = 0, b = 0, c = 0, d = 0, e = 0;
+			int normalDay = 0, travelDayShort = 0, travelDayLong = 0, overtimeDay = 0, leaveDay = 0, paidLeaveDay = 0, sickLeaveDay = 0;
 			for (int j = 0; j < list1.getAttendanceStatus().size(); j++) {
 				if ("1".equals(list1.getAttendanceStatus().get(j).getStatus())) {
-					q++;
-					attendanceDayStatus.setNormalDay(q);
+					normalDay++;
+					attendanceDayStatus.setNormalDay(normalDay);
 				} else if ("2".equals(list1.getAttendanceStatus().get(j).getStatus())) {
-					w++;
-					attendanceDayStatus.setTravelDayShort(w);
+					travelDayShort++;
+					attendanceDayStatus.setTravelDayShort(travelDayShort);
 				} else if ("3".equals(list1.getAttendanceStatus().get(j).getStatus())) {
-					a++;
-					attendanceDayStatus.setTravelDayLong(a);
+					travelDayLong++;
+					attendanceDayStatus.setTravelDayLong(travelDayLong);
 				} else if ("4".equals(list1.getAttendanceStatus().get(j).getStatus())) {
-					b++;
-					attendanceDayStatus.setOvertimeDay(b);
+					overtimeDay++;
+					attendanceDayStatus.setOvertimeDay(overtimeDay);
 				} else if ("5".equals(list1.getAttendanceStatus().get(j).getStatus())) {
-					c++;
-					attendanceDayStatus.setLeaveDay(c);
+					leaveDay++;
+					attendanceDayStatus.setLeaveDay(leaveDay);
 				} else if ("6".equals(list1.getAttendanceStatus().get(j).getStatus())) {
-					d++;
-					attendanceDayStatus.setPaidLeaveDay(d);
+					paidLeaveDay++;
+					attendanceDayStatus.setPaidLeaveDay(paidLeaveDay);
 				} else if ("7".equals(list1.getAttendanceStatus().get(j).getStatus())) {
-					e++;
-					attendanceDayStatus.setSickLeaveDay(e);
+					sickLeaveDay++;
+					attendanceDayStatus.setSickLeaveDay(sickLeaveDay);
 				}
 			}
 			list.add(attendanceDayStatus);
 		}
-		// for (AttendanceMonth anAttendanceMonthList : attendanceMonthList) {
-
-		// }
 		return list;
 	}
 
@@ -186,4 +183,22 @@ public class AttendanceMonthService {
 		return attendanceMonthDao.getAttendancePage(attendanceMonth);
 	}
 
+	/**
+	 * 首页考勤信息
+	 * @param page
+	 * @return
+	 */
+	public Page<AttendanceMonth> attendanceHomeList(Page<AttendanceMonth> page){
+		AttendanceMonth attendanceMonth = new AttendanceMonth();
+		attendanceMonth.setPage(page);
+		User user = UserUtils.getUser();
+		attendanceMonth.setName(user.getName());
+		attendanceMonthDao.getAttendancePage(attendanceMonth);
+		List<AttendanceMonth> lists = page.getList();
+		List<AttendanceDayStatus> list = getDayStatusSum();
+		for (int i = 0; i < lists.size(); i++) {
+			lists.get(i).setAttendanceDayStatus(list.get(i));
+		}
+		return page;
+	}
 }

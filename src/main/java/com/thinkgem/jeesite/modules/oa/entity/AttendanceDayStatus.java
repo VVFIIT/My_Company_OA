@@ -8,7 +8,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Document
 public class AttendanceDayStatus {
 
-    //正常出勤
+    //出勤天数
     private int normalDay;
 
     //出差-短期

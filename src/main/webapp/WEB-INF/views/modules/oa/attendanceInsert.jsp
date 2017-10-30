@@ -31,7 +31,7 @@
 </head>
 <body>
 	<ul class="nav nav-tabs">
-	    <li><a href="${ctx}/oa/attendance/">考勤列表</a></li>
+	    <li><a href="${ctx}/oa/attendance/list">考勤列表</a></li>
 	    <li class="active"><a href="${ctx}/oa/attendance/insert">考勤添加</a></li>
 	</ul>
 	<form:form id="attSearchListForm" modelAttribute="attendanceMonth_Insert" target="downFrame" action="${ctx}/oa/attendance/attendanceSearchList" method="post" class="breadcrumb form-search">
