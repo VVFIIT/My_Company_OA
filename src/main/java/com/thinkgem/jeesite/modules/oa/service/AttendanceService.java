@@ -211,7 +211,8 @@ public class AttendanceService {
 		//获取当前用户
 		User user = UserUtils.getUser();
 		//获取当前用户的入职日期
-		Date startDate = user.getEntryDate();
+		String startDateStr = user.getEntryDate();
+		Date startDate = AttendanceUtils.strToDate_yMd(startDateStr);
     	Calendar calendar = Calendar.getInstance();
     	calendar.setTime(startDate);
     	//获取当前用户的入职年份
