@@ -35,7 +35,7 @@
 		    var dateStr = document.getElementById("entryDate").value;
             var reg = /^((?:19|20)\d\d)-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])$/;
             if(reg.test(dateStr)) {
-                alert("日期格式正确");
+//                alert("日期格式正确");
             } else {
                 alert("日期格式不正确");
             }
