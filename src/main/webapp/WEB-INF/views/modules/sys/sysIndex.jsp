@@ -222,8 +222,7 @@
 				</div>
 			</div>
 		    <div id="footer" class="row-fluid">
-	            Copyright &copy; 2012-${fns:getConfig('copyrightYear')} ${fns:getConfig('productName')} - Powered By <a href="http://jeesite.com" target="_blank">JeeSite</a> ${fns:getConfig('version')}
-			</div>
+	           ${fns:getConfig('productName')} - Powered By <a href="http://www.hongshenol.com" target="_blank">HongShen</a> 
 		</div>
 	</div>
 	<script type="text/javascript"> 
