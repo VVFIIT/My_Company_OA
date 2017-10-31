@@ -55,7 +55,12 @@ public class AttendanceService {
     	attendanceMonth1.setName(user.getName());
     	attendanceMonth1.setProcessStatus("1");
     	attendanceMonth1.setDepartment(user.getOffice().getName());
-    	attendanceMonthDao.insert(attendanceMonth1);
+    	try {
+    		attendanceMonthDao.insert(attendanceMonth1);
+		} catch (Exception e) {
+			System.out.print("数据插入数据库时错误");
+			e.printStackTrace();
+		}
 	}
     
     /**
@@ -68,7 +73,12 @@ public class AttendanceService {
     	attendanceMonth.setYear(attendanceMonth1.getYear());
     	attendanceMonth.setMonth(attendanceMonth1.getMonth());
     	AttendanceMonth attendanceMonth2 = changeValueToAtendanceStatus(attendanceMonth, attendanceStatus);
-    	attendanceMonthDao.update(attendanceMonth2);
+    	try {
+    		attendanceMonthDao.update(attendanceMonth2);
+		} catch (Exception e) {
+			System.out.print("数据库修改数据时错误");
+			e.printStackTrace();
+		}
     }
     
     /**
