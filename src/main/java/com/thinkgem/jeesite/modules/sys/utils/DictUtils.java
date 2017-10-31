@@ -296,7 +296,7 @@ public class DictUtils {
 		return location;
 	}
 
-	//(如果是确认状态则隐藏修改按钮)
+	//(如果是提交状态则隐藏修改按钮)
 	public static String getCheckStatus(String processStatus) {
 		String status = "";
 		if ("2".equals(processStatus)) {
@@ -308,10 +308,10 @@ public class DictUtils {
 		return status;
 	}
 	
-	//确认状态显示 导出按钮
+	//提交状态显示 导出按钮
 	public static String getCheckStatusShow(String processStatus) {
 		String status = "";
-		if ("3".equals(processStatus)) {
+		if ("2".equals(processStatus)) {
 			status = "inline";
 		} else {
 			status = "none;";
