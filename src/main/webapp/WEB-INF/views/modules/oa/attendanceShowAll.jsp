@@ -19,8 +19,9 @@
         }
         
         function page(n,s){
-        	 $("#pageNo").val(n);
-        	 $("#pageSize").val(s);
+        	 if(n) $("#pageNo").val(n);
+			 if(s) $("#pageSize").val(s);
+        	 $("#searchForm").attr("action","${ctx}/oa/attendance/showAllExact");
         	 $("#searchForm").submit();
         	 return false;
         }
@@ -36,6 +37,7 @@
 			},{buttonsFocus:1});
 			top.$('.jbox-body .jbox-icon').css('top','55px');
         }
+        
     </script>
 </head>
 <body>
@@ -83,10 +85,9 @@
 					<c:if test="${attendance.processStatus ==3}"> 确认</c:if>	
 				</td>
 				<td>
-					<c:if test="${empty attendance.processStatus}"><a href="" onclick="return confirmx('用户未创建!', this.href)">查看</a></c:if>
-					
+					<c:if test="${empty attendance.processStatus}"><a href="${ctx}/oa/attendance/showAllExact?year=${attendance.year}&month=${attendance.month}" onclick="return confirmx('该用户未创建', this.href)">查看</a></c:if>					
 					<c:if test="${attendance.processStatus ==2}"> <a href="${ctx}/oa/attendance/show?id=${attendance.id}">查看</a></c:if>
-					<c:if test="${attendance.processStatus ==1}"> <a href="" onclick="return confirmx('用户未提交!', this.href)">查看</a></c:if>
+					<c:if test="${attendance.processStatus ==1}"> <a href="${ctx}/oa/attendance/showAllExact?year=${attendance.year}&month=${attendance.month}" onclick="return confirmx('该用户未提交', this.href)">查看</a></c:if>
 					<c:if test="${attendance.processStatus ==3}"> <a href="${ctx}/oa/attendance/show?id=${attendance.id}">查看</a></c:if>
 				
 				 	<a id="btnAttExport1" style="${fns:getCheckStatusShow(attendance.processStatus)}" onclick="showExport('${attendance.id}')"  >导出</a> 
@@ -96,6 +97,6 @@
 		</c:forEach>
 		</tbody>
 	</table>
-	<div class="pagination">${page}</div>
+	<%-- <div class="pagination">${page}</div> --%>
 </body>
 </html>
