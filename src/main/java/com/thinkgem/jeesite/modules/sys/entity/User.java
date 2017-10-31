@@ -3,6 +3,7 @@
  */
 package com.thinkgem.jeesite.modules.sys.entity;
 
+import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
 
@@ -55,13 +56,18 @@ public class User extends DataEntity<User> {
 
 	private List<Role> roleList = Lists.newArrayList(); // 拥有角色列表
 
-	private Date entryDate;// 入职时间
+	private String entryDate;// 入职时间
 
-	public Date getEntryDate() {
+	@JsonFormat(pattern = "yyyy-MM-dd")
+//	@ExcelField(title = "最后登录日期", type = 1, align = 1, sort = 110)
+	public String getEntryDate() {
+		if (entryDate == null) {
+			return entryDate;
+		}
 		return entryDate;
 	}
 
-	public void setEntryDate(Date entryDate) {
+	public void setEntryDate(String entryDate) {
 		this.entryDate = entryDate;
 	}
 

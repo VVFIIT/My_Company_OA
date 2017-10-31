@@ -51,7 +51,8 @@
 			create_date, 
 			update_by, 
 			update_date, 
-			remarks, 
+			remarks,
+			entry_date,
 			del_flag
 		) VALUES (
 			#{id}, 
@@ -60,7 +61,8 @@
 			#{createDate}, 
 			#{updateBy.id}, 
 			#{updateDate}, 
-			#{remarks}, 
+			#{remarks},
+			#{entryDate},
 			#{delFlag}
 		)
 	</insert>
