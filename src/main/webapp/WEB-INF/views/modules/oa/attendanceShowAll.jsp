@@ -69,7 +69,7 @@
 	<table id="contentTable" class="table table-striped table-bordered table-condensed">
 		<thead><tr>
 			<th>姓名</th>
-			<th>考勤提交状态</th>
+			<th>考勤状态</th>
 			<th>操作</th>
 		</tr></thead>
 		<tbody>
@@ -79,7 +79,7 @@
 				 	<input id="attendanceIdShow" name="id" type="hidden" value="${attendance.id}"/>  	 
 					${attendance.name}
 				<td>
-					<c:if test="${empty attendance.processStatus}"></c:if>
+					<font color=red><c:if test="${empty attendance.processStatus}">无</c:if></font>
 					<font color=red><c:if test="${attendance.processStatus ==1}"> 未提交</c:if></font>
 					<c:if test="${attendance.processStatus ==2}"> 提交</c:if>
 					<c:if test="${attendance.processStatus ==3}"> 确认</c:if>	
