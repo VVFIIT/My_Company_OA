@@ -141,25 +141,31 @@ public class AttendanceMonthService {
 			// 正常出勤,出差-短期,出差-长期,加班,请假,其它带薪假,病假,--公休日,--法定节假日
 			int normalDay = 0, travelDayShort = 0, travelDayLong = 0, overtimeDay = 0, leaveDay = 0, paidLeaveDay = 0, sickLeaveDay = 0;
 			for (int j = 0; j < list1.getAttendanceStatus().size(); j++) {
-				if ("1".equals(list1.getAttendanceStatus().get(j).getStatus())) {
+				if ("1".equals(list1.getAttendanceStatus().get(j).getStatus()) || "2".equals(list1.getAttendanceStatus().get(j).getStatus()) || "3".equals(list1.getAttendanceStatus().get(j).getStatus()) || "4".equals(list1.getAttendanceStatus().get(j).getStatus())) {
 					normalDay++;
 					attendanceDayStatus.setNormalDay(normalDay);
-				} else if ("2".equals(list1.getAttendanceStatus().get(j).getStatus())) {
+				}
+				if ("2".equals(list1.getAttendanceStatus().get(j).getStatus())) {
 					travelDayShort++;
 					attendanceDayStatus.setTravelDayShort(travelDayShort);
-				} else if ("3".equals(list1.getAttendanceStatus().get(j).getStatus())) {
+				}
+				if ("3".equals(list1.getAttendanceStatus().get(j).getStatus())) {
 					travelDayLong++;
 					attendanceDayStatus.setTravelDayLong(travelDayLong);
-				} else if ("4".equals(list1.getAttendanceStatus().get(j).getStatus())) {
+				}
+				if ("4".equals(list1.getAttendanceStatus().get(j).getStatus())) {
 					overtimeDay++;
 					attendanceDayStatus.setOvertimeDay(overtimeDay);
-				} else if ("5".equals(list1.getAttendanceStatus().get(j).getStatus())) {
+				}
+				if ("5".equals(list1.getAttendanceStatus().get(j).getStatus())) {
 					leaveDay++;
 					attendanceDayStatus.setLeaveDay(leaveDay);
-				} else if ("6".equals(list1.getAttendanceStatus().get(j).getStatus())) {
+				}
+				if ("6".equals(list1.getAttendanceStatus().get(j).getStatus())) {
 					paidLeaveDay++;
 					attendanceDayStatus.setPaidLeaveDay(paidLeaveDay);
-				} else if ("7".equals(list1.getAttendanceStatus().get(j).getStatus())) {
+				}
+				if ("7".equals(list1.getAttendanceStatus().get(j).getStatus())) {
 					sickLeaveDay++;
 					attendanceDayStatus.setSickLeaveDay(sickLeaveDay);
 				}
