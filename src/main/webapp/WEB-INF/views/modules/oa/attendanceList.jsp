@@ -8,18 +8,20 @@
         $(document).ready(function () {
 
         });
-        function page(n, s) {
-            $("#pageNo").val(n);
-            $("#pageSize").val(s);
-            $("#searchForm").submit();
-            return false;
-        }
-        
+
+        <%--function page(n,s){--%>
+        <%--if(n) $("#pageNo").val(n);--%>
+        <%--if(s) $("#pageSize").val(s);--%>
+        <%--$("#searchForm").attr("action","${ctx}/oa/attendance/list");--%>
+        <%--$("#searchForm").submit();--%>
+        <%--return false;--%>
+        <%--}--%>
+
         function noInsertMonth() {
-        	var mode = "${MODE}";
-        	if(mode == "noInsertMonth"){
-        		alert("您没有可以添加的月份！");
-        	}
+            var mode = "${MODE}";
+            if(mode == "noInsertMonth"){
+                alert("您没有可以添加的月份！");
+            }
         }
     </script>
 </head>
@@ -30,8 +32,9 @@
 </ul>
 <form:form id="searchForm" modelAttribute="attendanceMonth" action="${ctx}/oa/attendance/list"
            class="breadcrumb form-search">
-    <input id="pageNo" name="pageNo" type="hidden" value="${page.pageNo}"/>
-    <input id="pageSize" name="pageSize" type="hidden" value="${page.pageSize}"/>
+    <%--<input id="pageNo" name="pageNo" type="hidden" value="${page.pageNo}"/>--%>
+    <%--<input id="pageSize" name="pageSize" type="hidden" value="${page.pageSize}"/>--%>
+    <%--<sys:tableSort id="orderBy" name="orderBy" value="${page.orderBy}" callback="page();"/>--%>
 </form:form>
 <sys:message content="${message}"/>
 <table id="contentTable" class="table table-striped table-bordered table-condensed">
@@ -72,6 +75,6 @@
     </c:forEach>
     </tbody>
 </table>
-<div class="pagination">${page}</div>
+<%--<div class="pagination">${page}</div>--%>
 </body>
 </html>
