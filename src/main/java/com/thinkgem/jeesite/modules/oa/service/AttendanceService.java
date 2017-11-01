@@ -477,17 +477,19 @@ public class AttendanceService {
 	/**
 	 * 查看考勤：默认查询考勤信息
 	 */
-	public Page<AttendanceMonth> getAttendanceShowAllDefault(AttendanceMonth attendanceMonth) {
+	public Page<AttendanceMonth> getAttendanceShowAllDefault(Page<User> page,AttendanceMonth attendanceMonth) {
 		int defaultYear;
 		int defaultMonth;
 		User user = new User();
-		List<User> userList = userDao.findList(user);
+		user.setPage(page);  // 设置分页参数
+		List<User> userList = userDao.findList(user);  //执行分页查询
 		Page<AttendanceMonth> returnPage = attendanceMonth.getPage();
 		List<AttendanceMonth> returnList = returnPage.getList();
+		
 		for (User userInformation : userList) {
 			String name = userInformation.getName();
 			AttendanceMonth attendanceInsert = new AttendanceMonth();
-		
+			//默认当前月份的前一个月
 			Calendar date = Calendar.getInstance();
 			int currentYear = date.get(Calendar.YEAR);
 			int currentMonth = date.get(Calendar.MONTH) + 1;
@@ -510,7 +512,7 @@ public class AttendanceService {
 			// 正常情况下 根据姓名，年，月，会精确查出一条记录
 			returnList.add(attendanceList.get(0));
 		}		
-		returnPage.setCount(returnList.size()); 
+		returnPage.setCount(page.getCount());
 		returnPage.setList(returnList);
 		
 		return returnPage;
@@ -519,11 +521,12 @@ public class AttendanceService {
 	/**
 	 * 查看考勤：根据年月查询考勤信息
 	 */
-	public Page<AttendanceMonth> getAttendanceShowAllExact(AttendanceMonth attendanceMonth) {
+	public Page<AttendanceMonth> getAttendanceShowAllExact(Page<User> page,AttendanceMonth attendanceMonth) {
 		Integer month = attendanceMonth.getMonth();
 		Integer year = attendanceMonth.getYear();
 		User user = new User();
-		List<User> userList = userDao.findList(user);
+		user.setPage(page);   // 设置分页参数
+		List<User> userList = userDao.findList(user);   //执行分页查询
 		Page<AttendanceMonth> returnPage = attendanceMonth.getPage();
 		List<AttendanceMonth> returnList = returnPage.getList();
 		for (User userInformation : userList) {
@@ -533,7 +536,9 @@ public class AttendanceService {
 			attendanceInsert.setYear(year);
 			attendanceInsert.setMonth(month);			
 			List<AttendanceMonth> attendanceList = attendanceMonthDao
-					.getAttendance(attendanceInsert);		
+					.getAttendance(attendanceInsert);	
+//			List<AttendanceMonth> attendanceList = attendanceMonthDao
+//					.getAttendanceListForPageSort(attendanceMonthPage,attendanceInsert);
 			if (0 == attendanceList.size()) {
 				// 根据姓名，年，月，没有记录，此人还没有提交过，页面需要显示 姓名 和 空状态
 				attendanceList.add(attendanceInsert);
@@ -541,7 +546,7 @@ public class AttendanceService {
 			// 正常情况下 根据姓名，年，月，会精确查出一条记录
 			returnList.add(attendanceList.get(0));
 		}		
-		returnPage.setCount(returnList.size()); 
+		returnPage.setCount(page.getCount());
 		returnPage.setList(returnList);
 		
 		return returnPage;

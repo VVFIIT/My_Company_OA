@@ -24,6 +24,7 @@ import com.thinkgem.jeesite.modules.oa.entity.AttendanceMonth;
 import com.thinkgem.jeesite.modules.oa.helper.StringName;
 import com.thinkgem.jeesite.modules.oa.service.AttendanceMonthService;
 import com.thinkgem.jeesite.modules.oa.service.AttendanceService;
+import com.thinkgem.jeesite.modules.sys.entity.User;
 
 /**
  * 考勤Controller
@@ -284,7 +285,7 @@ public class AttendanceController extends BaseController {
 		//查询默认考勤 并 分页
 		Page<AttendanceMonth> page = new Page<AttendanceMonth>(request, response);
 		attendanceMonth.setPage(page);
-		Page<AttendanceMonth> defaultAttendance = attendanceService.getAttendanceShowAllDefault(attendanceMonth);
+		Page<AttendanceMonth> defaultAttendance = attendanceService.getAttendanceShowAllDefault(new Page<User>(request, response),attendanceMonth);
 		model.addAttribute("page", defaultAttendance);
 		//查询默认考勤的年和月
 		AttendanceMonth defaultAttendanceDate = attendanceService.getAttendanceDateDefault();
@@ -301,7 +302,7 @@ public class AttendanceController extends BaseController {
 		//根据年和月查询考勤并分页
 		Page<AttendanceMonth> page = new Page<AttendanceMonth>(request, response);
 		attendanceMonth.setPage(page);
-		Page<AttendanceMonth> defaultAttendance = attendanceService.getAttendanceShowAllExact(attendanceMonth);
+		Page<AttendanceMonth> defaultAttendance = attendanceService.getAttendanceShowAllExact(new Page<User>(request, response),attendanceMonth);
 		model.addAttribute("page", defaultAttendance);		
 		//根据查询的年和月显示
 		AttendanceMonth defaultAttendanceDate = attendanceService.getAttendanceDateExact(attendanceMonth);

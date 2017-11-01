@@ -18,13 +18,13 @@
             $("#listForm").submit();
         }
         
-        function page(n,s){
-        	 if(n) $("#pageNo").val(n);
-			 if(s) $("#pageSize").val(s);
-        	 $("#searchForm").attr("action","${ctx}/oa/attendance/showAllExact");
-        	 $("#searchForm").submit();
-        	 return false;
-        }
+		function page(n,s){
+			if(n) $("#pageNo").val(n);
+			if(s) $("#pageSize").val(s);
+			$("#searchForm").attr("action","${ctx}/oa/attendance/showAllExact");
+			$("#searchForm").submit();
+	    	return false;
+	    }
         
         function showExport(id) {
             top.$.jBox.confirm("确认要导出员工考勤数据吗？","系统提示",function(v,h,f){
@@ -45,7 +45,7 @@
 	    <li class="active"><a href="${ctx}/oa/attendance/showAll">考勤列表</a></li>
 	</ul>
 	
-	<form:form id="attSearchListForm" modelAttribute="attendanceShowAll" action="${ctx}/oa/attendance/showAllExact" method="post" class="breadcrumb form-search">
+	<form:form id="searchForm" modelAttribute="attendanceShowAll" action="${ctx}/oa/attendance/showAllExact" method="post" class="breadcrumb form-search">
 			 <input id="pageNo" name="pageNo" type="hidden" value="${page.pageNo}"/>
 			 <input id="pageSize" name="pageSize" type="hidden" value="${page.pageSize}"/>
 			 <sys:tableSort id="orderBy" name="orderBy" value="${page.orderBy}" callback="page();"/>
@@ -70,7 +70,7 @@
 	<table id="contentTable" class="table table-striped table-bordered table-condensed">
 		<thead><tr>
 			<th class="sort-column name">姓名</th>
-			<th class="sort-column processStatus">考勤状态</th>
+			<th>考勤状态</th>
 			<th>操作</th>
 		</tr></thead>
 		<tbody>
@@ -98,6 +98,6 @@
 		</c:forEach>
 		</tbody>
 	</table>
-	<%-- <div class="pagination">${page}</div> --%>
+	<div class="pagination">${page}</div>
 </body>
 </html>
