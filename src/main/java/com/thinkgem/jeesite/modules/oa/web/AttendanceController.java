@@ -57,6 +57,7 @@ public class AttendanceController extends BaseController {
 		model.addAttribute("page", page);
 		//判断是否存在可以添加的年份月份，并把MODE传到画面
 		attendanceService.insertMonthToModel(model);
+		this.updateAttendanceMonth = new AttendanceMonth();
 		return "modules/oa/attendanceList";
 	}
 	
@@ -73,6 +74,7 @@ public class AttendanceController extends BaseController {
 			Page<AttendanceMonth> page = attendanceMonthService.attendanceHomeList(new Page<AttendanceMonth>(request, response));
 			model.addAttribute("MODE", "noInsertMonth");
 			model.addAttribute("page", page);
+			this.updateAttendanceMonth = new AttendanceMonth();
 			return "modules/oa/attendanceList";
 		} else {
 	    	//通过用户名找到所有该用户填写过的考勤记录并通过model传到画面
@@ -118,6 +120,7 @@ public class AttendanceController extends BaseController {
 		model.addAttribute("page", page);
 		//判断是否存在可以添加的年份月份，并把MODE传到画面
 		attendanceService.insertMonthToModel(model);
+		this.updateAttendanceMonth = new AttendanceMonth();
 		return "modules/oa/attendanceList";
 	}
 	
@@ -164,6 +167,7 @@ public class AttendanceController extends BaseController {
 		model.addAttribute("page", page);
 		//判断是否存在可以添加的年份月份，并把MODE传到画面
 		attendanceService.insertMonthToModel(model);
+		this.updateAttendanceMonth = new AttendanceMonth();
 		return "modules/oa/attendanceList";
 	}
 	
@@ -178,6 +182,7 @@ public class AttendanceController extends BaseController {
 		model.addAttribute("page", page);
 		//判断是否存在可以添加的年份月份，并把MODE传到画面
 		attendanceService.insertMonthToModel(model);
+		this.updateAttendanceMonth = new AttendanceMonth();
 		return "modules/oa/attendanceList";
 	}
 
@@ -209,6 +214,7 @@ public class AttendanceController extends BaseController {
 		model.addAttribute("page", page);
 		//判断是否存在可以添加的年份月份，并把MODE传到画面
 		attendanceService.insertMonthToModel(model);
+		this.updateAttendanceMonth = new AttendanceMonth();
 		return "modules/oa/attendanceList";
 	}
 
