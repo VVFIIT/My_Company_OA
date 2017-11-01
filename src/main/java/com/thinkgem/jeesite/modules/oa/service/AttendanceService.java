@@ -78,6 +78,8 @@ public class AttendanceService {
     	List<AttendanceDay> attendanceStatus = attendanceMonth1.getAttendanceStatus();
     	attendanceMonth.setYear(attendanceMonth1.getYear());
     	attendanceMonth.setMonth(attendanceMonth1.getMonth());
+    	attendanceMonth.setName(attendanceMonth1.getName());
+    	attendanceMonth.setDepartment(attendanceMonth1.getDepartment());
     	AttendanceMonth attendanceMonth2 = changeValueToAtendanceStatus(attendanceMonth, attendanceStatus);
     	try {
     		attendanceMonthDao.update(attendanceMonth2);
