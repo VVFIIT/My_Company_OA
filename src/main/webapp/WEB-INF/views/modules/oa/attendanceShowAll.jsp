@@ -29,10 +29,9 @@
         function showExport(id) {
             top.$.jBox.confirm("确认要导出员工考勤数据吗？","系统提示",function(v,h,f){
 				if(v=="ok"){	
-					var href = "${ctx}/oa/attendance/showAllExport?id="+id;
-					
-					$("#attSearchListForm").attr("action",href); 					
-					$("#attSearchListForm").submit();
+					var href = "${ctx}/oa/attendance/showAllExport?id="+id;				
+					$("#searchForm").attr("action",href); 					
+					$("#searchForm").submit();
 				}
 			},{buttonsFocus:1});
 			top.$('.jbox-body .jbox-icon').css('top','55px');
