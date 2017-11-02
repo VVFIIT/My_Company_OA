@@ -71,7 +71,7 @@ public class AttendanceController extends BaseController {
 			return "modules/oa/attendanceList";
 		} else {
 	    	//通过用户名找到所有该用户填写过的考勤记录并通过model传到画面
-	    	List<AttendanceMonth> list = attendanceService.getExistAttendanceMonth(attendanceMonth);
+	    	List<AttendanceMonth> list = attendanceService.getExistAttendanceMonth();
 	    	//通过HashMap获取用户的入职年月和截止年月并通过model传到画面供前端JS作逻辑判断
 			HashMap<String, Integer> hashMap = new HashMap<String, Integer>();
 			attendanceService.getStartDateAndEndDate(hashMap);
@@ -106,8 +106,14 @@ public class AttendanceController extends BaseController {
 	@RequestMapping(value = "attendanceInsertList")
 	public String attendanceInsert(AttendanceMonth attendanceMonth, Model model, HttpServletRequest request,
 			HttpServletResponse response) {
-		//将表单中的值插入DB
-		attendanceService.InsertAttendanceList(attendanceMonth);
+		boolean isExistInDB = attendanceService.isExistAttendanceMonth(attendanceMonth);
+		if(isExistInDB) {
+			addMessage(model, "添加失败！您已经添加过" + attendanceMonth.getYear() + "年" + attendanceMonth.getMonth() + "月的考勤");
+		}else {
+			//将表单中的值插入DB
+			attendanceService.InsertAttendanceList(attendanceMonth);
+			addMessage(model, "添加" + attendanceMonth.getYear() + "年" + attendanceMonth.getMonth() + "月考勤成功");
+		}
 		//返回首页并将画面信息传到画面
 		Page<AttendanceMonth> page = attendanceMonthService.attendanceHomeList(new Page<AttendanceMonth>(request, response));
 		model.addAttribute("page", page);
@@ -154,6 +160,8 @@ public class AttendanceController extends BaseController {
 	public String attendanceUpdate(AttendanceMonth attendanceMonth, Model model, HttpServletRequest request, HttpServletResponse response) {
 		//修改考勤列表
 		attendanceService.updateAttendanceList(attendanceMonth);
+		//修改成功，返回首页时弹窗提示
+		addMessage(model, "修改" + attendanceMonth.getYear() + "年" + attendanceMonth.getMonth() + "月考勤成功");
 		//返回首页并将画面信息传到画面
 		Page<AttendanceMonth> page = attendanceMonthService.attendanceHomeList(new Page<AttendanceMonth>(request, response));
 		model.addAttribute("page", page);

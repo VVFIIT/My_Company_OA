@@ -5,9 +5,14 @@
 	<title>考勤添加</title>
 	<meta name="decorator" content="default"/>
 	<script type="text/javascript">
-		function success(){
-			alert("添加成功");
-		}
+		$(document).ready(function() {
+			$("#attInsertListForm").validate({
+				submitHandler: function(form){
+					loading('正在添加，请稍等...');
+					form.submit();
+				},
+			});
+		});
 	</script>
 </head>
 <body>

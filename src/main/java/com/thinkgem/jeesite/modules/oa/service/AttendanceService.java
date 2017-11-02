@@ -126,7 +126,7 @@ public class AttendanceService {
     	//创建一个attendanceMonth对象
     	AttendanceMonth attendanceMonth = new AttendanceMonth();
     	//通过用户名找到所有该用户填写过的考勤记录
-    	List<AttendanceMonth> list = getExistAttendanceMonth(attendanceMonth);
+    	List<AttendanceMonth> list = getExistAttendanceMonth();
     	HashMap<String, Integer> hashMap = new HashMap<String, Integer>();
     	//获取入职年月和截止年月
     	getStartDateAndEndDate(hashMap);
@@ -227,13 +227,30 @@ public class AttendanceService {
 	 * 获取用户在DB中已经存在的考勤记录
 	 * @author Meng Lingshuai
 	 */
-	public List<AttendanceMonth> getExistAttendanceMonth(AttendanceMonth existAttendanceMonth){
+	public List<AttendanceMonth> getExistAttendanceMonth(){
 		//获取当前用户
     	User user = UserUtils.getUser();
+    	AttendanceMonth existAttendanceMonth =new AttendanceMonth();
     	existAttendanceMonth.setName(user.getName());
     	//调用接口
     	List<AttendanceMonth> list = attendanceMonthDao.getAttendanceByName(existAttendanceMonth);
 		return list;
+	}
+	
+	/**
+	 * 判断DB中是否存在所添加的考勤记录
+	 * @author Meng Lingshuai
+	 */
+	public boolean isExistAttendanceMonth(AttendanceMonth attendanceMonth){
+		boolean isExistInDB = false;
+    	List<AttendanceMonth> existAttendanceMonthList = getExistAttendanceMonth();
+    	for(AttendanceMonth existAttendanceMonth : existAttendanceMonthList) {
+    		if(attendanceMonth.getYear().equals(existAttendanceMonth.getYear()) && attendanceMonth.getMonth().equals(existAttendanceMonth.getMonth())) {
+    			isExistInDB = true;
+    			break;
+    		}
+    	}
+		return isExistInDB;
 	}
 	
 	/**
