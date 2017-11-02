@@ -310,10 +310,10 @@ public class AttendanceController extends BaseController {
 	 * 查看考勤：退回考勤
 	 */
 	@RequestMapping(value = "sendBack")
-	public String sendBackAttendanceStatus(AttendanceMonth attendanceMonth, RedirectAttributes redirectAttributes, Model model,
+	public String sendBackAttendanceStatus(AttendanceMonth attendanceMonth,Model model,
 			HttpServletRequest request, HttpServletResponse response) {
 		attendanceMonthService.getSendBackAttendaceStatus(attendanceMonth);
-		addMessage(redirectAttributes, "退回成功");
+		addMessage(model, "退回成功");
 		//显示考勤并分页
 		Page<AttendanceMonth> page = new Page<AttendanceMonth>(request, response);
 		attendanceMonth.setPage(page);

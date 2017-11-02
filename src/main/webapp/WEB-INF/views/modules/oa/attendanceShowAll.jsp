@@ -67,7 +67,7 @@
 	<sys:message content="${message}"/>
 
 	<table id="contentTable" class="table table-striped table-bordered table-condensed">
-		<thead><tr>
+		<thead><tr>                                                                               
 			<th class="sort-column name">姓名</th>
 			<th>考勤状态</th>
 			<th>操作</th>
@@ -84,6 +84,7 @@
 					<c:if test="${attendance.processStatus ==2}"> 提交</c:if>
 					<c:if test="${attendance.processStatus ==3}"> 确认</c:if>	
 				</td>
+<<<<<<< HEAD
 				<td>
 					<%-- <c:if test="${empty attendance.processStatus}"><a href="${ctx}/oa/attendance/showAllExact?year=${attendance.year}&month=${attendance.month}" onclick="return confirmx('该用户未创建', this.href)">查看</a></c:if> --%>					
 					<c:if test="${attendance.processStatus ==2}"> <a href="${ctx}/oa/attendance/show?id=${attendance.id}">查看</a></c:if>
@@ -94,6 +95,12 @@
 				 	<c:if test="${attendance.processStatus ==2}"> 
 				 		<a id="sendBack" href="${ctx}/oa/attendance/sendBack?id=${attendance.id}&year=${attendance.year}&month=${attendance.month}" onclick="return confirmx('该用户未提交', this.href)">退回</a>
 				 	</c:if>
+=======
+				<td>					
+					<a id="showAttendance" style="${fns:getCheckStatusShow(attendance.processStatus)}" href="${ctx}/oa/attendance/show?id=${attendance.id}">查看</a>
+				 	<a id="btnAttExport1" style="${fns:getCheckStatusShow(attendance.processStatus)}" onclick="showExport('${attendance.id}')"  >导出</a> 
+				 	<a id="sendBack" style="${fns:getCheckStatusShow(attendance.processStatus)}" href="${ctx}/oa/attendance/sendBack?id=${attendance.id}&year=${attendance.year}&month=${attendance.month}" onclick="return confirmx('是否退回考勤？', this.href)">退回</a>				 	
+>>>>>>> update attendanceShowAll.jsp
 				</td>
 
 			</tr>
