@@ -290,11 +290,30 @@ public class AttendanceController extends BaseController {
 		//根据年和月查询考勤并分页
 		Page<AttendanceMonth> page = new Page<AttendanceMonth>(request, response);
 		attendanceMonth.setPage(page);
-		Page<AttendanceMonth> defaultAttendance = attendanceService.getAttendanceShowAllExact(new Page<User>(request, response),attendanceMonth);
-		model.addAttribute("page", defaultAttendance);		
+		Page<AttendanceMonth> exactAttendance = attendanceService.getAttendanceShowAllExact(new Page<User>(request, response),attendanceMonth);
+		model.addAttribute("page", exactAttendance);		
 		//根据查询的年和月显示
-		AttendanceMonth defaultAttendanceDate = attendanceService.getAttendanceDateExact(attendanceMonth);
-		model.addAttribute("attendanceShowAll", defaultAttendanceDate);
+		AttendanceMonth exactAttendanceDate = attendanceService.getAttendanceDateExact(attendanceMonth);
+		model.addAttribute("attendanceShowAll", exactAttendanceDate);
+		return "modules/oa/attendanceShowAll";
+	}
+	
+	/**
+	 * 查看考勤：退回考勤
+	 */
+	@RequestMapping(value = "sendBack")
+	public String sendBackAttendanceStatus(AttendanceMonth attendanceMonth, RedirectAttributes redirectAttributes, Model model,
+			HttpServletRequest request, HttpServletResponse response) {
+		attendanceMonthService.getSendBackAttendaceStatus(attendanceMonth);
+		addMessage(redirectAttributes, "退回成功");
+		//显示考勤并分页
+		Page<AttendanceMonth> page = new Page<AttendanceMonth>(request, response);
+		attendanceMonth.setPage(page);
+		Page<AttendanceMonth> backAttendance = attendanceService.getAttendanceShowAllExact(new Page<User>(request, response),attendanceMonth);
+		model.addAttribute("page", backAttendance);
+		//显示年和月
+		AttendanceMonth backAttendanceDate = attendanceService.getAttendanceDateExact(attendanceMonth);
+		model.addAttribute("attendanceShowAll", backAttendanceDate);
 		return "modules/oa/attendanceShowAll";
 	}
 }

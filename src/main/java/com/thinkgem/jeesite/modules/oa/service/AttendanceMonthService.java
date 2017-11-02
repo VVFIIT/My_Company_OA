@@ -207,4 +207,17 @@ public class AttendanceMonthService {
 		}
 		return page;
 	}
+	
+	/**
+	 * 查看考勤（退回）：改变考勤状态
+	 */
+	@Transactional(rollbackFor = Exception.class)
+	public AttendanceMonth getSendBackAttendaceStatus(AttendanceMonth attendanceMonth) {
+		AttendanceMonth attendanceStatus = new AttendanceMonth();
+		attendanceStatus.setId(attendanceMonth.getId());
+		// 修改为提交状态
+		attendanceStatus.setProcessStatus("1");
+		attendanceMonthDao.update(attendanceStatus);
+		return attendanceStatus;
+	}
 }

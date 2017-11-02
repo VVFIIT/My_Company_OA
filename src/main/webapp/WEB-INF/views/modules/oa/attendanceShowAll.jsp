@@ -91,6 +91,9 @@
 					<c:if test="${attendance.processStatus ==3}"> <a href="${ctx}/oa/attendance/show?id=${attendance.id}">查看</a></c:if>
 				
 				 	<a id="btnAttExport1" style="${fns:getCheckStatusShow(attendance.processStatus)}" onclick="showExport('${attendance.id}')"  >导出</a> 
+				 	<c:if test="${attendance.processStatus ==2}"> 
+				 		<a id="sendBack" href="${ctx}/oa/attendance/sendBack?id=${attendance.id}&year=${attendance.year}&month=${attendance.month}" onclick="return confirmx('该用户未提交', this.href)">退回</a>
+				 	</c:if>
 				</td>
 
 			</tr>
