@@ -12,3 +12,4 @@
 	<link href="${ctxStaticTheme}/style.css" type="text/css" rel="stylesheet" />
 	<script src="${ctxStaticTheme}/script.js" type="text/javascript"></script>
 </c:if>
+<link rel="icon" href="favicon.ico" type="image/x-icon"/> 

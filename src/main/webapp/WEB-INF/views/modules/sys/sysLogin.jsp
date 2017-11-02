@@ -3,7 +3,9 @@
 <%@ include file="/WEB-INF/views/include/taglib.jsp"%>
 <html>
 <head>
+<link rel="icon" href="favicon.ico" type="image/x-icon"/> 
 	<title>${fns:getConfig('productName')} 登录</title>
+	 <link rel="icon" href="favicon.ico" type="image/x-icon"/>  
 	<meta name="decorator" content="blank"/>
 	<style type="text/css">
       html,body,table{background-color:#f5f5f5;width:100%;text-align:center;}.form-signin-heading{font-family:Helvetica, Georgia, Arial, sans-serif, 黑体;font-size:36px;margin-bottom:20px;color:#0663a2;}
