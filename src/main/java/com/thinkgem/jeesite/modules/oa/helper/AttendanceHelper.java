@@ -76,10 +76,6 @@ public class AttendanceHelper {
     public AttendanceHelper() {
     	
     }
-    
-    public AttendanceHelper(List<AttendanceDay> attendancedays) {
-        this.updateAttendanceHelperStatus(attendancedays);
-    }
 
     public void updateAttendanceHelperStatus(List<AttendanceDay> attendancedays){
     	int size = attendancedays.size();

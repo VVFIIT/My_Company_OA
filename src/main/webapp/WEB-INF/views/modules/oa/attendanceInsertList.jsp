@@ -32,10 +32,12 @@
 					<td><input id="btnSubmit" class="btn btn-primary" type="submit" value="提交" onclick="success()" style="margin-left:110px"/></td>
 				</tr>
 			</tbody>
-			<td><form:input path="name" htmlEscape="false" maxlength="50" class="required" style="width:150px;display:none"/></td>
-			<td><form:input path="month" htmlEscape="false" maxlength="50" class="required" style="width:150px;display:none"/></td>
-			<td><form:input path="year" htmlEscape="false" maxlength="50" class="required" style="width:150px;display:none"/></td>
-			<td><form:input path="id" htmlEscape="false" maxlength="50" class="required" style="width:150px;display:none"/></td>
+			<tr>
+				<td><form:input path="name" htmlEscape="false" maxlength="50" class="required" style="width:150px;display:none"/></td>
+				<td><form:input path="month" htmlEscape="false" maxlength="50" class="required" style="width:150px;display:none"/></td>
+				<td><form:input path="year" htmlEscape="false" maxlength="50" class="required" style="width:150px;display:none"/></td>
+				<td><form:input path="id" htmlEscape="false" maxlength="50" class="required" style="width:150px;display:none"/></td>
+			</tr>
 		</table>
 
 	</form:form>
