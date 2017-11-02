@@ -1256,8 +1256,8 @@ jQuery.validator.addMethod("realName", function(value, element) {
 
 // 字符验证
 jQuery.validator.addMethod("userName", function(value, element) {
-    return this.optional(element) || /^[\u0391-\uFFE5\w]+$/.test(value);
-}, "登录名只能包括中文字、英文字母、数字和下划线");
+    return this.optional(element) || /^[A-Za-z][\.A-Za-z1-9_\u4e00-\u9fa5]+$/.test(value);
+}, "登录名以字母开头只能包括中文字、英文字母、数字、小数点和下划线");
 
 // 手机号码验证
 jQuery.validator.addMethod("mobile", function(value, element) {
