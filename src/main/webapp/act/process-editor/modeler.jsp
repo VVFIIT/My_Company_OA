@@ -25,7 +25,6 @@
 
 	<link rel="stylesheet" href="editor-app/css/style-common.css">
     <link rel="stylesheet" href="editor-app/css/style-editor.css">
-	<link rel="icon" href="favicon.ico" type="image/x-icon"/>  
 </head>
 <body>
 <script type="text/javascript">
