@@ -20,3 +20,4 @@
 <script src="${ctxStatic}/common/jeesite.js" type="text/javascript"></script>
 <script type="text/javascript">var ctx = '${ctx}', ctxStatic='${ctxStatic}';</script>
 <link rel="icon" href="favicon.ico" type="image/x-icon"/> 
+
