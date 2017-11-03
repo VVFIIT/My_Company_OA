@@ -22,7 +22,7 @@ public class AttendanceDay {
     //考勤状态
     private String status;
 
-    @ExcelField(title="日期", align=2, sort=0)
+    @ExcelField(title="日期", align=1, sort=0)
 	public Integer getDate() {
 		return date;
 	}
