@@ -77,23 +77,28 @@
 	<table id="contentTable"
 		class="table table-striped table-bordered table-condensed">
 		<thead>
-			<tr>
+			<tr>	
+				<th>序号</th>		
 				<th class="sort-column name">姓名</th>
 				<th>考勤状态</th>
 				<th>操作</th>
 			</tr>
 		</thead>
 		<tbody>
-			<c:forEach items="${page.list}" var="attendance">
+			<% int number=0; %>
+			<c:forEach items="${page.list}" var="attendance" >
 				<tr>
-					<td><input id="attendanceIdShow" name="id" type="hidden"
-						value="${attendance.id}" /> ${attendance.name}
-					<td><font color=red><c:if
-								test="${empty attendance.processStatus}">无</c:if></font> <font
-						color=red><c:if test="${attendance.processStatus ==1}"> 未提交</c:if></font>
-						<c:if test="${attendance.processStatus ==2}"> 提交</c:if> <c:if
-							test="${attendance.processStatus ==3}"> 确认</c:if></td>
-					<td><a id="showAttendance"
+				  <% number++; %>
+					<td><%=number%></td>
+					<td>${attendance.name}</td>
+					<td>
+						<font color=red><c:if test="${empty attendance.processStatus}">无</c:if></font> 
+						<font color=red><c:if test="${attendance.processStatus ==1}"> 未提交</c:if></font>
+						<c:if test="${attendance.processStatus ==2}"> 提交</c:if> 
+						<c:if test="${attendance.processStatus ==3}"> 确认</c:if>
+					</td>
+					<td>
+						<a id="showAttendance"
 						style="${fns:getCheckStatusShow(attendance.processStatus)}"
 						href="${ctx}/oa/attendance/show?id=${attendance.id}">查看</a> 
 						<a id="btnAttExport1"
@@ -102,8 +107,8 @@
 						<a id="sendBack"
 						style="${fns:getCheckStatusShow(attendance.processStatus)}"
 						href="${ctx}/oa/attendance/sendBack?id=${attendance.id}&year=${attendance.year}&month=${attendance.month}"
-						onclick="return confirmx('是否退回考勤？', this.href)">退回</a></td>
-
+						onclick="return confirmx('是否退回考勤？', this.href)">退回</a>
+					</td>
 				</tr>
 			</c:forEach>
 		</tbody>
