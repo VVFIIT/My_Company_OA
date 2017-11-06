@@ -26,14 +26,22 @@ public class AttendanceMonthDao {
 
 	/**
 	 * 插入考勤
+	 * 
+	 * @param attendanceMonth
+	 * @author Grace
+	 * @date 2017年10月23日  下午5:19:25
 	 */
 	public void insert(AttendanceMonth attendanceMonth) {
 		this.mongoTemplate.insert(attendanceMonth);
-
 	}
-
-	/*
-	 * 查询
+	
+	/**
+	 * 根据条件查询
+	 * 
+	 * @param attendanceMonth
+	 * @return
+	 * @author Grace
+	 * @date 2017年10月23日 下午5:18:58
 	 */
 	public List<AttendanceMonth> getAttendance(AttendanceMonth attendanceMonth) {
 		Query query = new Query();
@@ -49,7 +57,6 @@ public class AttendanceMonthDao {
 		if (attendanceMonth.getMonth() != null) {
 			query.addCriteria(Criteria.where("month").is(attendanceMonth.getMonth()));
 		}
-
 		query.with(new Sort(new Sort.Order(Sort.Direction.DESC, "year")));
 		query.with(new Sort(new Sort.Order(Sort.Direction.DESC, "month")));
 		return this.mongoTemplate.find(query, AttendanceMonth.class);
@@ -67,8 +74,12 @@ public class AttendanceMonthDao {
 		return this.mongoTemplate.find(query, AttendanceMonth.class);
 	}
 
-	/*
+	/**
 	 * 更新考勤
+	 * 
+	 * @param attendanceMonth
+	 * @author Grace
+	 * @date 2017年11月6日 下午5:20:25
 	 */
 	public void update(AttendanceMonth attendanceMonth) {
 		Query query = new Query(Criteria.where("_id").is(attendanceMonth.getId()));
@@ -109,11 +120,14 @@ public class AttendanceMonthDao {
 		query.addCriteria(Criteria.where("_id").is(attendanceMonth.getId()));
 		return this.mongoTemplate.find(query, AttendanceMonth.class);
 	}
-
+	
 	/**
-	 * 考勤分页
+	 * 查询考勤分页
+	 * 
 	 * @param attendanceMonth
 	 * @return
+	 * @author Grace
+	 * @date 2017年10月23日 下午5:20:46
 	 */
 	public Page<AttendanceMonth> getAttendancePage(AttendanceMonth attendanceMonth) {
 		Query query = new Query();

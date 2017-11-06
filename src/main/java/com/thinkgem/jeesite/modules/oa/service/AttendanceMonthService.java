@@ -1,21 +1,20 @@
 package com.thinkgem.jeesite.modules.oa.service;
 
-import com.thinkgem.jeesite.common.persistence.Page;
-import com.thinkgem.jeesite.modules.oa.dao.AttendanceMonthDao;
-import com.thinkgem.jeesite.modules.oa.entity.AttendanceDay;
-import com.thinkgem.jeesite.modules.oa.entity.AttendanceDayStatus;
-import com.thinkgem.jeesite.modules.oa.entity.AttendanceMonth;
-import com.thinkgem.jeesite.modules.sys.entity.User;
-import com.thinkgem.jeesite.modules.sys.utils.UserUtils;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import com.thinkgem.jeesite.common.persistence.Page;
+import com.thinkgem.jeesite.modules.oa.dao.AttendanceMonthDao;
+import com.thinkgem.jeesite.modules.oa.entity.AttendanceDayStatus;
+import com.thinkgem.jeesite.modules.oa.entity.AttendanceMonth;
+import com.thinkgem.jeesite.modules.sys.entity.User;
+import com.thinkgem.jeesite.modules.sys.utils.UserUtils;
 
 /**
  * Created by GQR on 2017/10/18.
@@ -39,58 +38,6 @@ public class AttendanceMonthService {
 	@Transactional(rollbackFor = Exception.class)
 	public List<AttendanceMonth> getAttendance(AttendanceMonth attendanceMonth) {
 		return attendanceMonthDao.getAttendance(attendanceMonth);
-	}
-
-	/**
-	 * 插入考勤实体
-	 */
-	@Transactional(rollbackFor = Exception.class)
-	public void insertAttendanceMonth() {
-		AttendanceMonth attendanceMonth = new AttendanceMonth();
-		List<AttendanceDay> attendanceDayList = new ArrayList<AttendanceDay>();
-		AttendanceDay attendanceDay = new AttendanceDay();
-		attendanceDay.setLocation("大连");
-		attendanceDay.setDate(2);
-		attendanceDay.setStatus("公休日");
-		attendanceDay.setWeek("周六");
-
-		attendanceDayList.add(attendanceDay);
-
-		attendanceMonth.setAttendanceStatus(attendanceDayList);
-		attendanceMonth.setId(UUID.randomUUID().toString());
-		attendanceMonth.setDepartment("研发一部");
-		attendanceMonth.setMonth(11);
-		attendanceMonth.setName("张大天");
-		attendanceMonth.setProcessStatus("2");
-		attendanceMonth.setYear(2017);
-
-		attendanceMonthDao.insert(attendanceMonth);
-	}
-
-	/**
-	 * 更新
-	 */
-	@Transactional(rollbackFor = Exception.class)
-	public void update() {
-		AttendanceMonth attendanceMonth = new AttendanceMonth();
-		List<AttendanceDay> attendanceDayList = new ArrayList<AttendanceDay>();
-		AttendanceDay attendanceDay = new AttendanceDay();
-		attendanceDay.setLocation("南海");
-		attendanceDay.setDate(3);
-		attendanceDay.setStatus("工作日");
-		attendanceDay.setWeek("周二");
-
-		attendanceDayList.add(attendanceDay);
-
-		attendanceMonth.setAttendanceStatus(attendanceDayList);
-		attendanceMonth.setId("9017cd60-5c7c-450c-b710-f98aad2dd756");
-		attendanceMonth.setDepartment("研发5部");
-		attendanceMonth.setMonth(5);
-		attendanceMonth.setName("如来");
-		attendanceMonth.setProcessStatus("3");
-		attendanceMonth.setYear(2014);
-
-		attendanceMonthDao.update(attendanceMonth);
 	}
 
 	/**
@@ -139,9 +86,13 @@ public class AttendanceMonthService {
 		for (AttendanceMonth list1 : lists) {
 			AttendanceDayStatus attendanceDayStatus = new AttendanceDayStatus();
 			// 正常出勤,出差-短期,出差-长期,加班,请假,其它带薪假,病假,--公休日,--法定节假日
-			int normalDay = 0, travelDayShort = 0, travelDayLong = 0, overtimeDay = 0, leaveDay = 0, paidLeaveDay = 0, sickLeaveDay = 0;
+			int normalDay = 0, travelDayShort = 0, travelDayLong = 0, overtimeDay = 0, leaveDay = 0, paidLeaveDay = 0,
+					sickLeaveDay = 0;
 			for (int j = 0; j < list1.getAttendanceStatus().size(); j++) {
-				if ("1".equals(list1.getAttendanceStatus().get(j).getStatus()) || "2".equals(list1.getAttendanceStatus().get(j).getStatus()) || "3".equals(list1.getAttendanceStatus().get(j).getStatus()) || "4".equals(list1.getAttendanceStatus().get(j).getStatus())) {
+				if ("1".equals(list1.getAttendanceStatus().get(j).getStatus())
+						|| "2".equals(list1.getAttendanceStatus().get(j).getStatus())
+						|| "3".equals(list1.getAttendanceStatus().get(j).getStatus())
+						|| "4".equals(list1.getAttendanceStatus().get(j).getStatus())) {
 					normalDay++;
 					attendanceDayStatus.setNormalDay(normalDay);
 				}
@@ -191,10 +142,11 @@ public class AttendanceMonthService {
 
 	/**
 	 * 首页考勤信息
+	 * 
 	 * @param page
 	 * @return
 	 */
-	public Page<AttendanceMonth> attendanceHomeList(Page<AttendanceMonth> page){
+	public Page<AttendanceMonth> attendanceHomeList(Page<AttendanceMonth> page) {
 		AttendanceMonth attendanceMonth = new AttendanceMonth();
 		attendanceMonth.setPage(page);
 		User user = UserUtils.getUser();
@@ -207,7 +159,7 @@ public class AttendanceMonthService {
 		}
 		return page;
 	}
-	
+
 	/**
 	 * 查看考勤（退回）：改变考勤状态
 	 */
