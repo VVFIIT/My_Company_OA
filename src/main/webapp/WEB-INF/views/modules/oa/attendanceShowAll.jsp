@@ -101,9 +101,7 @@
 						<a id="showAttendance"
 						style="${fns:getCheckStatusShow(attendance.processStatus)}"
 						href="${ctx}/oa/attendance/show?id=${attendance.id}">查看</a> 
-						<a id="btnAttExport1"
-						style="${fns:getCheckStatusShow(attendance.processStatus)}"
-						onclick="showExport('${attendance.id}')">导出</a> 
+						<a id="btnAttExport1" href='#' style="${fns:getCheckStatusShow(attendance.processStatus)}" onclick="showExport('${attendance.id}')">导出</a> 
 						<a id="sendBack"
 						style="${fns:getCheckStatusShow(attendance.processStatus)}"
 						href="${ctx}/oa/attendance/sendBack?id=${attendance.id}&year=${attendance.year}&month=${attendance.month}"
