@@ -19,6 +19,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.poi.hssf.util.HSSFColor;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.Comment;
@@ -31,6 +32,7 @@ import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.xssf.streaming.SXSSFWorkbook;
 import org.apache.poi.xssf.usermodel.XSSFCellStyle;
 import org.apache.poi.xssf.usermodel.XSSFClientAnchor;
+import org.apache.poi.xssf.usermodel.XSSFColor;
 import org.apache.poi.xssf.usermodel.XSSFRichTextString;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -402,8 +404,9 @@ public class ExportExcel {
 				Font dataFont = wb.createFont();
 				dataFont.setFontName("Arial");
 				dataFont.setFontHeightInPoints((short) 10);
+				dataFont.setColor(IndexedColors.BLACK.getIndex());
 				style.setFont(dataFont);
-
+				
 				// 设置边框样式
 				style.setBorderRight(CellStyle.BORDER_THIN);
 				style.setRightBorderColor(IndexedColors.GREY_50_PERCENT.getIndex());
@@ -429,6 +432,9 @@ public class ExportExcel {
 						style.setFillForegroundColor(IndexedColors.RED.getIndex());
 					} else if (StringName.s7.equals(val)) {
 						style.setFillForegroundColor(IndexedColors.GREEN.getIndex());
+					}else{
+						//没有特殊的背景设为白色
+						style.setFillForegroundColor(IndexedColors.WHITE.getIndex());
 					}
 				}
 				style.setAlignment(CellStyle.ALIGN_CENTER);// 字体水平居中
