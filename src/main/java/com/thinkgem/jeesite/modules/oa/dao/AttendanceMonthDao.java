@@ -161,24 +161,12 @@ public class AttendanceMonthDao {
      * @return
      */
     public AttendanceMonth getAttendanceEntity(AttendanceMonth attendanceMonth) {
-        Query query = new Query();
-        if (StringUtils.isNotBlank(attendanceMonth.getId())) {
-            query.addCriteria(Criteria.where("_id").is(attendanceMonth.getId()));
-        }
-        if (StringUtils.isNotBlank(attendanceMonth.getName())) {
-            query.addCriteria(Criteria.where("name").regex(attendanceMonth.getName()));
-        }
-        if (attendanceMonth.getYear() != null) {
-            query.addCriteria(Criteria.where("year").is(attendanceMonth.getYear()));
-        }
-        if (attendanceMonth.getMonth() != null) {
-            query.addCriteria(Criteria.where("month").is(attendanceMonth.getMonth()));
-        }
-        query.with(new Sort(Direction.DESC, "year", "month"));
-        query.skip((attendanceMonth.getPage().getPageNo() - 1) * attendanceMonth.getPage().getPageSize()).limit(attendanceMonth.getPage().getPageSize());
+		Query query = new Query();
+		query.addCriteria(Criteria.where("_id").is(attendanceMonth.getId()));
+		query.skip((attendanceMonth.getPage().getPageNo() - 1) * attendanceMonth.getPage().getPageSize()).limit(attendanceMonth.getPage().getPageSize());
 
-        List<AttendanceMonth> list = this.mongoTemplate.find(query, AttendanceMonth.class);
-        return list.get(0);
-    }
+		attendanceMonth = this.mongoTemplate.findOne(query, AttendanceMonth.class);
+		return attendanceMonth;
+	}
 
 }
