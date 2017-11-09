@@ -163,8 +163,6 @@ public class AttendanceMonthDao {
     public AttendanceMonth getAttendanceEntity(AttendanceMonth attendanceMonth) {
 		Query query = new Query();
 		query.addCriteria(Criteria.where("_id").is(attendanceMonth.getId()));
-		query.skip((attendanceMonth.getPage().getPageNo() - 1) * attendanceMonth.getPage().getPageSize()).limit(attendanceMonth.getPage().getPageSize());
-
 		attendanceMonth = this.mongoTemplate.findOne(query, AttendanceMonth.class);
 		return attendanceMonth;
 	}

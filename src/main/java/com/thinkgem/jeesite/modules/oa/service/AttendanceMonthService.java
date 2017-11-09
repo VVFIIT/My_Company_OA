@@ -76,12 +76,10 @@ public class AttendanceMonthService {
 	/**
 	 * 计算考勤状态和
 	 */
-	public List<AttendanceDayStatus> getDayStatusSum() {
+	public List<AttendanceDayStatus> getDayStatusSum(List<AttendanceMonth> lists) {
 		AttendanceMonth attendanceMonth = new AttendanceMonth();
 		User user = UserUtils.getUser();
 		attendanceMonth.setName(user.getName());
-		Page<AttendanceMonth> page = attendanceMonthDao.getAttendancePage(attendanceMonth);
-		List<AttendanceMonth> lists = page.getList();
 		List<AttendanceDayStatus> list = new ArrayList<AttendanceDayStatus>();
 		for (AttendanceMonth list1 : lists) {
 			AttendanceDayStatus attendanceDayStatus = new AttendanceDayStatus();
@@ -151,9 +149,9 @@ public class AttendanceMonthService {
 		attendanceMonth.setPage(page);
 		User user = UserUtils.getUser();
 		attendanceMonth.setName(user.getName());
-		attendanceMonthDao.getAttendancePage(attendanceMonth);
-		List<AttendanceMonth> lists = page.getList();
-		List<AttendanceDayStatus> list = getDayStatusSum();
+		Page<AttendanceMonth> attendanceList = attendanceMonthDao.getAttendancePage(attendanceMonth);
+		List<AttendanceMonth> lists = attendanceList.getList();
+		List<AttendanceDayStatus> list = getDayStatusSum(lists);
 		for (int i = 0; i < lists.size(); i++) {
 			lists.get(i).setAttendanceDayStatus(list.get(i));
 		}
