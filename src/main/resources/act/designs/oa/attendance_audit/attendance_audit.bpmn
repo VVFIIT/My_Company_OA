@@ -1,0 +1,32 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:activiti="http://activiti.org/bpmn" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC" xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI" typeLanguage="http://www.w3.org/2001/XMLSchema" expressionLanguage="http://www.w3.org/1999/XPath" targetNamespace="http://www.activiti.org/processdef">
+<process id="attendance_audit" name="attendance_audit" isExecutable="true">
+<documentation>attendance audit</documentation>
+<startEvent id="startAttendance" name="startAttendance" activiti:initiator="admin" activiti:formKey="/oa/attendance/checkProcessStatus"/>
+<userTask id="approvalAttendance" name="approval" activiti:assignee="thinkgem"/>
+<endEvent id="endAttendance" name="endApproval"/>
+<sequenceFlow id="sid-ceb6962e768364d63b1e48210fbd8eda2" sourceRef="startAttendance" targetRef="approvalAttendance"/>
+<sequenceFlow id="sid-qob0987e768364d63b1e54320fbd80ol7" sourceRef="approvalAttendance" targetRef="endAttendance"/>
+</process>
+<bpmndi:BPMNDiagram id="BPMNDiagram_attendance_audit">
+<bpmndi:BPMNPlane bpmnElement="attendance_audit" id="BPMNPlane_attendance_audit">
+<bpmndi:BPMNShape bpmnElement="startAttendance" id="BPMNShape_startAttendance">
+<omgdc:Bounds height="30.0" width="30.0" x="244.671875" y="101.0"/>
+</bpmndi:BPMNShape>
+<bpmndi:BPMNShape bpmnElement="approvalAttendance" id="BPMNShape_approvalAttendance">
+<omgdc:Bounds height="80.0" width="100.0" x="435.0" y="76.0"/>
+</bpmndi:BPMNShape>
+<bpmndi:BPMNShape bpmnElement="endAttendance" id="BPMNShape_endAttendance">
+<omgdc:Bounds height="28.0" width="28.0" x="705.0" y="102.0"/>
+</bpmndi:BPMNShape>
+<bpmndi:BPMNEdge bpmnElement="sid-ceb6962e768364d63b1e48210fbd8eda2" id="BPMNEdge_sid-ceb6962e768364d63b1e48210fbd8eda2">
+<omgdi:waypoint x="274.671875" y="116.0"/>
+<omgdi:waypoint x="435.0" y="116.0"/>
+</bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge bpmnElement="sid-qob0987e768364d63b1e54320fbd80ol7" id="BPMNEdge_sid-qob0987e768364d63b1e54320fbd80ol7">
+<omgdi:waypoint x="535.0" y="116.0"/>
+<omgdi:waypoint x="705.0" y="116.0"/>
+</bpmndi:BPMNEdge>
+</bpmndi:BPMNPlane>
+</bpmndi:BPMNDiagram>
+</definitions>
