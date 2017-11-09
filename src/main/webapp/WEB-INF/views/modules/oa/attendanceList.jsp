@@ -37,7 +37,7 @@
     <%--<sys:tableSort id="orderBy" name="orderBy" value="${page.orderBy}" callback="page();"/>--%>
 </form:form>
 <sys:message content="${message}"/>
-<table id="contentTable" class="table table-striped table-bordered table-condensed">
+<table id="contentTable" class="table table-striped table-bordered table-condensed" style="table-layout:fixed;">
     <thead>
     <tr>
         <th>日期</th>
