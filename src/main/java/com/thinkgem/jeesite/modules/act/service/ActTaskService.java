@@ -426,12 +426,13 @@ public class ActTaskService extends BaseService {
 		ProcessInstance procIns = runtimeService.startProcessInstanceByKey(procDefKey, businessTable+":"+businessId, vars);
 		
 		// 更新业务表流程实例ID
-		Act act = new Act();
-		act.setBusinessTable(businessTable);// 业务表名
-		act.setBusinessId(businessId);	// 业务表ID
-		act.setProcInsId(procIns.getId());
-		actDao.updateProcInsIdByBusinessId(act);
-		return act.getProcInsId();
+//		Act act = new Act();
+//		act.setBusinessTable(businessTable);// 业务表名
+//		act.setBusinessId(businessId);	// 业务表ID
+//		act.setProcInsId(procIns.getId());
+//		actDao.updateProcInsIdByBusinessId(act);
+//		return act.getProcInsId();
+		return procIns.getId();
 	}
 
 	/**
