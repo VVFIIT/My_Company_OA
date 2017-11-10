@@ -541,32 +541,47 @@ public class AttendanceService {
 	 * 查看考勤：根据年月查询考勤信息
 	 */
 	public Page<AttendanceMonth> getAttendanceShowAllExact(Page<User> page,AttendanceMonth attendanceMonth) {
-		Integer month = attendanceMonth.getMonth();
-		Integer year = attendanceMonth.getYear();
-		User user = new User();
-		user.setPage(page);   // 设置分页参数
-		List<User> userList = userDao.findList(user);   //执行分页查询
+		Integer month = attendanceMonth.getMonth();  //获取页面月份
+		Integer year = attendanceMonth.getYear();    //获取页面年份
 		Page<AttendanceMonth> returnPage = attendanceMonth.getPage();
 		List<AttendanceMonth> returnList = returnPage.getList();
-		for (User userInformation : userList) {
-			String name = userInformation.getName();
-			AttendanceMonth attendanceInsert = new AttendanceMonth();
-			attendanceInsert.setName(name);
-			attendanceInsert.setYear(year);
-			attendanceInsert.setMonth(month);			
-			List<AttendanceMonth> attendanceList = attendanceMonthDao
-					.getAttendance(attendanceInsert);	
-//			List<AttendanceMonth> attendanceList = attendanceMonthDao
-//					.getAttendanceListForPageSort(attendanceMonthPage,attendanceInsert);
-			if (0 == attendanceList.size()) {
-				// 根据姓名，年，月，没有记录，此人还没有提交过，页面需要显示 姓名 和 空状态
-				attendanceList.add(attendanceInsert);
-			}
-			// 正常情况下 根据姓名，年，月，会精确查出一条记录
-			returnList.add(attendanceList.get(0));
-		}		
-		returnPage.setCount(page.getCount());
-		returnPage.setList(returnList);
+		if( "0".equals(attendanceMonth.getProcessStatus()) || "4".equals(attendanceMonth.getProcessStatus())){ 
+			User user = new User();
+			user.setPage(page);   // 设置分页参数
+			List<User> userList = userDao.findList(user);   //执行分页查询			
+			for (User userInformation : userList) {
+				String name = userInformation.getName();    //获取用户名
+				AttendanceMonth attendanceInsert = new AttendanceMonth();
+				attendanceInsert.setName(name);
+				attendanceInsert.setYear(year);
+				attendanceInsert.setMonth(month);
+				List<AttendanceMonth> attendanceList = attendanceMonthDao
+						.getAttendance(attendanceInsert);
+				if("4".equals(attendanceMonth.getProcessStatus())){
+					if (0 == attendanceList.size()) {
+						// 根据姓名，年，月，没有记录，此人还没有提交过，页面需要显示 姓名 和 空状态
+						attendanceList.add(attendanceInsert);
+						returnList.add(attendanceList.get(0));
+					}
+//					returnPage.setCount(returnList.size());
+//					returnPage.setList(returnList);
+				}else{
+					if (0 == attendanceList.size()) {
+						// 根据姓名，年，月，没有记录，此人还没有提交过，页面需要显示 姓名 和 空状态
+						attendanceList.add(attendanceInsert);
+					}
+					// 正常情况下 根据姓名，年，月，会精确查出一条记录
+					returnList.add(attendanceList.get(0));
+						
+				}										
+			}		
+			returnPage.setCount(page.getCount());
+			returnPage.setList(returnList);	
+		}else{
+			Page<AttendanceMonth> attendanceList = attendanceMonthDao.getAttendancePage(attendanceMonth); //根据年月和考勤状态查询
+			returnPage.setCount(attendanceList.getCount());
+			returnPage.setList(attendanceList.getList());
+		}
 		
 		return returnPage;
 	}
@@ -577,7 +592,7 @@ public class AttendanceService {
 	public AttendanceMonth getAttendanceDateDefault(){		
 		int defaultYear;
     	int defaultMonth;
-    	AttendanceMonth updateAttendanceMonth = new AttendanceMonth();
+    	AttendanceMonth attendanceDateDefault = new AttendanceMonth();
     	Calendar date = Calendar.getInstance();
     	int currentYear = date.get(Calendar.YEAR);
     	int currentMonth = date.get(Calendar.MONTH)+1;
@@ -588,9 +603,10 @@ public class AttendanceService {
     		defaultYear = currentYear;
         	defaultMonth = currentMonth-1;
     	}
-    	updateAttendanceMonth.setYear(defaultYear);
-        updateAttendanceMonth.setMonth(defaultMonth);  	
-    	return updateAttendanceMonth;    	
+    	attendanceDateDefault.setYear(defaultYear);
+    	attendanceDateDefault.setMonth(defaultMonth);  
+    	attendanceDateDefault.setProcessStatus("0");
+    	return attendanceDateDefault;    	
     }
 	
 	/**
@@ -601,7 +617,8 @@ public class AttendanceService {
 		Integer year = attendanceMonth.getYear();//获取查询日期
     	AttendanceMonth updateAttendanceMonth = new AttendanceMonth();
     	updateAttendanceMonth.setYear(year);
-        updateAttendanceMonth.setMonth(month);  	
+        updateAttendanceMonth.setMonth(month);
+        updateAttendanceMonth.setProcessStatus(attendanceMonth.getProcessStatus());
     	return updateAttendanceMonth;    	
     }
 }

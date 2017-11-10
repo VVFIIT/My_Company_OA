@@ -57,8 +57,12 @@ public class AttendanceMonthDao {
 		if (attendanceMonth.getMonth() != null) {
 			query.addCriteria(Criteria.where("month").is(attendanceMonth.getMonth()));
 		}
+		if (attendanceMonth.getProcessStatus() != null && !"0".equals(attendanceMonth.getProcessStatus()) &&  !"4".equals(attendanceMonth.getProcessStatus())) {
+			query.addCriteria(Criteria.where("processStatus").is(attendanceMonth.getProcessStatus()));
+		}
 		query.with(new Sort(new Sort.Order(Sort.Direction.DESC, "year")));
 		query.with(new Sort(new Sort.Order(Sort.Direction.DESC, "month")));
+		query.with(new Sort(new Sort.Order(Sort.Direction.DESC, "processStatus")));
 		return this.mongoTemplate.find(query, AttendanceMonth.class);
 	}
 	
@@ -115,6 +119,9 @@ public class AttendanceMonthDao {
 		return this.mongoTemplate.find(query, AttendanceMonth.class);
 	}
 	
+	/**
+	 * 根据id查询
+	 */
 	public List<AttendanceMonth> getIdAttendance(AttendanceMonth attendanceMonth) {
 		Query query = new Query();
 		query.addCriteria(Criteria.where("_id").is(attendanceMonth.getId()));
@@ -134,7 +141,7 @@ public class AttendanceMonthDao {
 		if (StringUtils.isNotBlank(attendanceMonth.getId())) {
 			query.addCriteria(Criteria.where("_id").is(attendanceMonth.getId()));
 		}
-		if (StringUtils.isNotBlank(attendanceMonth.getName())) {
+		if (StringUtils.isNotBlank(attendanceMonth.getName())) { 
 			query.addCriteria(Criteria.where("name").regex(attendanceMonth.getName()));
 		}
 		if (attendanceMonth.getYear() != null) {
@@ -143,12 +150,15 @@ public class AttendanceMonthDao {
 		if (attendanceMonth.getMonth() != null) {
 			query.addCriteria(Criteria.where("month").is(attendanceMonth.getMonth()));
 		}
+		if (attendanceMonth.getProcessStatus() != null && !"0".equals(attendanceMonth.getProcessStatus()) &&  !"4".equals(attendanceMonth.getProcessStatus())) {
+			query.addCriteria(Criteria.where("processStatus").is(attendanceMonth.getProcessStatus()));
+		}		
+		Long countAll=this.mongoTemplate.count(query, AttendanceMonth.class);		 
 		query.with(new Sort(Direction.DESC,"year","month"));
-	    query.skip((attendanceMonth.getPage().getPageNo()-1)*attendanceMonth.getPage().getPageSize()).limit(attendanceMonth.getPage().getPageSize());  
-	   
-	    List<AttendanceMonth> list=this.mongoTemplate.find(query, AttendanceMonth.class);
+	    query.skip((attendanceMonth.getPage().getPageNo()-1)*attendanceMonth.getPage().getPageSize()).limit(attendanceMonth.getPage().getPageSize());  	   
+	    List<AttendanceMonth> list=this.mongoTemplate.find(query, AttendanceMonth.class);	       
 	    Page<AttendanceMonth> page = attendanceMonth.getPage();
-	    page.setCount(list.size());
+	    page.setCount(countAll);
 	    page.setList(list);
 		return page;
 	}
@@ -161,10 +171,32 @@ public class AttendanceMonthDao {
      * @return
      */
     public AttendanceMonth getAttendanceEntity(AttendanceMonth attendanceMonth) {
+<<<<<<< HEAD
 		Query query = new Query();
 		query.addCriteria(Criteria.where("_id").is(attendanceMonth.getId()));
 		attendanceMonth = this.mongoTemplate.findOne(query, AttendanceMonth.class);
 		return attendanceMonth;
 	}
 
+=======
+        Query query = new Query();
+        if (StringUtils.isNotBlank(attendanceMonth.getId())) {
+            query.addCriteria(Criteria.where("_id").is(attendanceMonth.getId()));
+        }
+        if (StringUtils.isNotBlank(attendanceMonth.getName())) {
+            query.addCriteria(Criteria.where("name").regex(attendanceMonth.getName()));
+        }
+        if (attendanceMonth.getYear() != null) {
+            query.addCriteria(Criteria.where("year").is(attendanceMonth.getYear()));
+        }
+        if (attendanceMonth.getMonth() != null) {
+            query.addCriteria(Criteria.where("month").is(attendanceMonth.getMonth()));
+        }
+        query.with(new Sort(Direction.DESC, "year", "month"));
+        query.skip((attendanceMonth.getPage().getPageNo() - 1) * attendanceMonth.getPage().getPageSize()).limit(attendanceMonth.getPage().getPageSize());
+
+        List<AttendanceMonth> list = this.mongoTemplate.find(query, AttendanceMonth.class);
+        return list.get(0);
+    }
+>>>>>>> update
 }

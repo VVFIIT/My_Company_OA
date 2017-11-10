@@ -51,25 +51,25 @@
 		action="${ctx}/oa/attendance/showAllExact" method="post"
 		class="breadcrumb form-search">
 		<input id="pageNo" name="pageNo" type="hidden" value="${page.pageNo}" />
-		<input id="pageSize" name="pageSize" type="hidden"
-			value="${page.pageSize}" />
-		<sys:tableSort id="orderBy" name="orderBy" value="${page.orderBy}"
-			callback="page();" />
+		<input id="pageSize" name="pageSize" type="hidden" value="${page.pageSize}" />
+		<sys:tableSort id="orderBy" name="orderBy" value="${page.orderBy}" callback="page();" />
 		<ul class="ul-form">
-			<li><label>请选择年份：</label> <form:select path="year"
-					class="input-medium">
+			<li><label>请选择年份：</label> 
+				<form:select path="year" class="input-medium">
 					<form:option value="" label="" />
-					<form:options items="${fns:getDictList('oa_year_type')}"
-						itemLabel="label" itemValue="value" htmlEscape="false" />
+					<form:options items="${fns:getDictList('oa_year_type')}" itemLabel="label" itemValue="value" htmlEscape="false" />
 				</form:select></li>
-			<li><label>请选择月份：</label> <form:select path="month"
-					class="input-medium">
+			<li><label>请选择月份：</label> 
+				<form:select path="month" class="input-medium">
 					<form:option value="" label="" />
-					<form:options items="${fns:getDictList('oa_month_type')}"
-						itemLabel="label" itemValue="value" htmlEscape="false" />
+					<form:options items="${fns:getDictList('oa_month_type')}" itemLabel="label" itemValue="value" htmlEscape="false" />
 				</form:select></li>
-			<li class="btns"><input id="btnSubmit" class="btn btn-primary"
-				type="submit" value="查询" /></li>
+			<li><label>考勤状态：</label> 
+				<form:select path="processStatus" class="input-medium">
+					<form:option value="" label="" />
+					<form:options items="${fns:getDictList('oa_processStatus_type')}" itemLabel="label" itemValue="value" htmlEscape="false" />
+				</form:select></li>
+		<li class="btns"><input id="btnSubmit" class="btn btn-primary" type="submit" value="查询" /></li>
 		</ul>
 	</form:form>
 	<sys:message content="${message}" />
@@ -87,12 +87,14 @@
 		<tbody>
 			<% int number=0; %>
 			<c:forEach items="${page.list}" var="attendance" >
+			
 				<tr>
 				  <% number++; %>
 					<td><%=number%></td>
 					<td>${attendance.name}</td>
 					<td>
-						<font color=red><c:if test="${empty attendance.processStatus}">无</c:if></font> 
+						<font color=blue><c:if test="${empty attendance.processStatus}">无</c:if></font>
+						<font color=blue><c:if test="${attendance.processStatus ==0}">无</c:if></font> 
 						<font color=red><c:if test="${attendance.processStatus ==1}"> 未提交</c:if></font>
 						<c:if test="${attendance.processStatus ==2}"> 提交</c:if> 
 						<c:if test="${attendance.processStatus ==3}"> 确认</c:if>
