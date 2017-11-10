@@ -54,7 +54,7 @@
 				<th>标题</th>
 				<th>当前环节</th><%--
 				<th>任务内容</th> --%>
-				<th>流程名称</th>
+				<th>流程名称</th>	
 				<th>流程版本</th>
 				<th>创建时间</th>
 				<th>操作</th>
@@ -89,7 +89,7 @@
 						</c:if>
 						<c:if test="${not empty task.assignee}"><%--
 							<a href="${ctx}${procExecUrl}/exec/${task.taskDefinitionKey}?procInsId=${task.processInstanceId}&act.taskId=${task.id}">办理</a> --%>
-							<a href="${ctx}/act/task/form?taskId=${task.id}&taskName=${fns:urlEncode(task.name)}&taskDefKey=${task.taskDefinitionKey}&procInsId=${task.processInstanceId}&procDefId=${task.processDefinitionId}&status=${status}">任务办理</a>
+							<a href="${ctx}/act/task/form?taskId=${task.id}&taskName=${fns:urlEncode(task.name)}&taskDefKey=${task.taskDefinitionKey}&procInsId=${task.processInstanceId}&procDefId=${task.processDefinitionId}&status=${status}&resourceName=${procDef.resourceName}">任务办理</a>
 						</c:if>
 						<shiro:hasPermission name="act:process:edit">
 							<c:if test="${empty task.executionId}">

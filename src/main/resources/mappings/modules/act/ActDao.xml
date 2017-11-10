@@ -6,6 +6,6 @@
 		UPDATE ${businessTable} SET 
 			proc_ins_id = #{procInsId}
 		WHERE id = #{businessId}
-	</update>
+	</update>	
 	
 </mapper>

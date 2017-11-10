@@ -34,6 +34,11 @@ public class AttendanceMonthService {
 
 	/**
 	 * 根据年月 姓名查询
+	 * 
+	 * @param attendanceMonth
+	 * @return
+	 * @author Grace
+	 * @date 2017年10月23日 上午10:39:06
 	 */
 	@Transactional(rollbackFor = Exception.class)
 	public List<AttendanceMonth> getAttendance(AttendanceMonth attendanceMonth) {
@@ -48,19 +53,6 @@ public class AttendanceMonthService {
 		User user = UserUtils.getUser();
 		attendanceMonth.setName(user.getName());
 		return attendanceMonthDao.getNameAttendance(attendanceMonth);
-	}
-
-	/**
-	 * 更新提交状态属性
-	 */
-	@Transactional(rollbackFor = Exception.class)
-	public AttendanceMonth updateProcessStatus(String id) {
-		AttendanceMonth attendanceMonth = new AttendanceMonth();
-		attendanceMonth.setId(id);
-		// 修改为提交状态
-		attendanceMonth.setProcessStatus("2");
-		attendanceMonthDao.update(attendanceMonth);
-		return attendanceMonth;
 	}
 
 	/**

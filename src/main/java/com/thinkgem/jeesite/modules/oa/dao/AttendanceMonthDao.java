@@ -57,6 +57,10 @@ public class AttendanceMonthDao {
 		if (attendanceMonth.getMonth() != null) {
 			query.addCriteria(Criteria.where("month").is(attendanceMonth.getMonth()));
 		}
+		if (attendanceMonth.getProcInsId() != null) {
+			query.addCriteria(Criteria.where("procInsId").is(attendanceMonth.getProcInsId()));
+		}
+		
 		query.with(new Sort(new Sort.Order(Sort.Direction.DESC, "year")));
 		query.with(new Sort(new Sort.Order(Sort.Direction.DESC, "month")));
 		return this.mongoTemplate.find(query, AttendanceMonth.class);
@@ -101,6 +105,9 @@ public class AttendanceMonthDao {
 		}
 		if (StringUtils.isNotBlank(attendanceMonth.getProcessStatus())) {
 			update.set("processStatus", attendanceMonth.getProcessStatus());
+		}
+		if (StringUtils.isNotBlank(attendanceMonth.getProcInsId())) {
+			update.set("procInsId", attendanceMonth.getProcInsId());
 		}
 		mongoTemplate.updateMulti(query, update, AttendanceMonth.class);
 	}

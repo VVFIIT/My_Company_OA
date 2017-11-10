@@ -99,7 +99,8 @@
 			update_by, 
 			update_date, 
 			remarks, 
-			del_flag
+			del_flag,
+			PROC_INS_ID
 		) VALUES (
 			#{id}, 
 			#{user.id}, 
@@ -121,7 +122,8 @@
 			#{updateBy.id}, 
 			#{updateDate}, 
 			#{remarks}, 
-			#{delFlag}
+			#{delFlag},
+			#{procInsId}
 		)
 	</insert>
 	
