@@ -7,14 +7,21 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.thinkgem.jeesite.common.persistence.Page;
+import com.thinkgem.jeesite.modules.act.service.ActTaskService;
+import com.thinkgem.jeesite.modules.act.utils.ActUtils;
 import com.thinkgem.jeesite.modules.oa.dao.AttendanceMonthDao;
 import com.thinkgem.jeesite.modules.oa.dao.SpecialDayDao;
 import com.thinkgem.jeesite.modules.oa.entity.AttendanceDay;
@@ -25,6 +32,7 @@ import com.thinkgem.jeesite.modules.oa.helper.AttendanceUtils;
 import com.thinkgem.jeesite.modules.sys.dao.UserDao;
 import com.thinkgem.jeesite.modules.sys.entity.User;
 import com.thinkgem.jeesite.modules.sys.utils.UserUtils;
+
 
 /**
  * 考勤Service
@@ -49,6 +57,9 @@ public class AttendanceService {
 	@Autowired
 	private UserDao userDao;
 
+	@Autowired
+	private ActTaskService actTaskService;
+	
     /**
      * 将考勤列表插入DB
      * @author Meng Lingshuai
@@ -621,4 +632,35 @@ public class AttendanceService {
         updateAttendanceMonth.setProcessStatus(attendanceMonth.getProcessStatus());
     	return updateAttendanceMonth;    	
     }
+	
+	/**
+	 * 提交个人考勤
+	 * 
+	 * @author Jiqing Lingshuai Grace
+	 * @param redirectAttributes
+	 * @param id
+	 * @param response
+	 * @param request
+	 * @param model
+	 * @date 2017年11月10日 上午11:32:56
+	 */
+	@Transactional(propagation = Propagation.NOT_SUPPORTED)
+	public Page<AttendanceMonth> submitOwnAttendance(String id, RedirectAttributes redirectAttributes,
+			HttpServletRequest request, HttpServletResponse response) {
+
+		AttendanceMonth attendanceMonth = attendanceMonthService.getInformation(id);
+
+		// 启动Activity
+		String title = attendanceMonth.getName() + " " + attendanceMonth.getYear() + "年" + attendanceMonth.getMonth()
+				+ "月考勤";
+		String procInsId = actTaskService.startProcess(ActUtils.PD_ATTENDANCE_AUDIT[0], ActUtils.PD_ATTENDANCE_AUDIT[1],
+				attendanceMonth.getId(), title);
+
+		// 修改为提交状态
+		attendanceMonth.setProcessStatus("2");
+		attendanceMonth.setProcInsId(procInsId);
+		attendanceMonthDao.update(attendanceMonth);
+
+		return attendanceMonthService.attendanceHomeList(new Page<AttendanceMonth>(request, response));
+	}
 }
