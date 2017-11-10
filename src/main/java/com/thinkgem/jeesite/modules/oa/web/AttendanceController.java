@@ -18,8 +18,6 @@ import com.thinkgem.jeesite.common.persistence.Page;
 import com.thinkgem.jeesite.common.utils.DateUtils;
 import com.thinkgem.jeesite.common.utils.excel.ExportExcel;
 import com.thinkgem.jeesite.common.web.BaseController;
-import com.thinkgem.jeesite.modules.act.service.ActTaskService;
-import com.thinkgem.jeesite.modules.act.utils.ActUtils;
 import com.thinkgem.jeesite.modules.oa.entity.AttendanceDay;
 import com.thinkgem.jeesite.modules.oa.entity.AttendanceMonth;
 import com.thinkgem.jeesite.modules.oa.helper.StringName;
@@ -41,9 +39,6 @@ public class AttendanceController extends BaseController {
 
 	@Autowired
 	private AttendanceMonthService attendanceMonthService;
-	
-	@Autowired
-	private ActTaskService actTaskService;
 
 	/**
 	 * 考勤首页数据显示
@@ -221,17 +216,15 @@ public class AttendanceController extends BaseController {
 	/**
 	 * 提交个人考勤
 	 */
-	@RequestMapping(value = "checkProcessStatus")
-	public String checkProcessStatus(String id, RedirectAttributes redirectAttributes, Model model,
+	@RequestMapping(value = "submitOwnAttendance")
+	public String submitOwnAttendance(String id, RedirectAttributes redirectAttributes, Model model,
 			HttpServletRequest request, HttpServletResponse response) {
-		attendanceMonthService.updateProcessStatus(id);
-		AttendanceMonth attendanceMonth = attendanceMonthService.getInformation(id);
-		String title = attendanceMonth.getName()+attendanceMonth.getYear()+"年"+attendanceMonth.getMonth()+"月考勤";
-		actTaskService.startProcess(ActUtils.PD_ATTENDANCE_AUDIT[0], ActUtils.PD_ATTENDANCE_AUDIT[1], attendanceMonth.getId(), title);
-		addMessage(redirectAttributes, "提交考勤成功");
-		Page<AttendanceMonth> page = attendanceMonthService
-				.attendanceHomeList(new Page<AttendanceMonth>(request, response));
+
+		Page<AttendanceMonth> page = attendanceService.submitOwnAttendance(id,redirectAttributes,request,response);
 		model.addAttribute("page", page);
+		addMessage(redirectAttributes, "提交考勤成功");
+		
+		
 		// 判断是否存在可以添加的年份月份，并把MODE传到画面
 		attendanceService.insertMonthToModel(model);
 		return "modules/oa/attendanceList";

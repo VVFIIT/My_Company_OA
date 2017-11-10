@@ -8,7 +8,7 @@ import java.util.List;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import com.thinkgem.jeesite.common.persistence.BaseEntity;
+import com.thinkgem.jeesite.common.persistence.ActEntity;
 import com.thinkgem.jeesite.common.utils.excel.annotation.ExcelField;
 import com.thinkgem.jeesite.modules.oa.helper.AttendanceHelper;
 
@@ -19,7 +19,7 @@ import com.thinkgem.jeesite.modules.oa.helper.AttendanceHelper;
  */
 @SuppressWarnings("serial")
 @Document(collection = "attendance")
-public class AttendanceMonth extends BaseEntity<AttendanceMonth>{
+public class AttendanceMonth extends ActEntity<AttendanceMonth> {
 
 	@Id
 	private String id;
@@ -46,6 +46,16 @@ public class AttendanceMonth extends BaseEntity<AttendanceMonth>{
 	// 审批流程状态
 	private String processStatus;
 
+	private String procInsId;
+
+	public String getProcInsId() {
+		return procInsId;
+	}
+
+	public void setProcInsId(String procInsId) {
+		this.procInsId = procInsId;
+	}
+
 	public AttendanceMonth() {
 		attendanceHelper = new AttendanceHelper();
 	}
@@ -58,7 +68,7 @@ public class AttendanceMonth extends BaseEntity<AttendanceMonth>{
 		this.id = id;
 	}
 
-	@ExcelField(title="姓名", align=2, sort=20)
+	@ExcelField(title = "姓名", align = 2, sort = 20)
 	public String getName() {
 		return name;
 	}
@@ -67,7 +77,7 @@ public class AttendanceMonth extends BaseEntity<AttendanceMonth>{
 		this.name = name;
 	}
 
-	@ExcelField(title="部门", align=2, sort=20)
+	@ExcelField(title = "部门", align = 2, sort = 20)
 	public String getDepartment() {
 		return department;
 	}
@@ -76,7 +86,7 @@ public class AttendanceMonth extends BaseEntity<AttendanceMonth>{
 		this.department = department;
 	}
 
-	@ExcelField(title="年", align=2, sort=20)
+	@ExcelField(title = "年", align = 2, sort = 20)
 	public Integer getYear() {
 		return year;
 	}
@@ -84,8 +94,8 @@ public class AttendanceMonth extends BaseEntity<AttendanceMonth>{
 	public void setYear(Integer year) {
 		this.year = year;
 	}
-	
-	@ExcelField(title="月", align=2, sort=20)
+
+	@ExcelField(title = "月", align = 2, sort = 20)
 	public Integer getMonth() {
 		return month;
 	}
@@ -129,12 +139,12 @@ public class AttendanceMonth extends BaseEntity<AttendanceMonth>{
 	@Override
 	public void preInsert() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void preUpdate() {
 		// TODO Auto-generated method stub
-		
+
 	}
 }
