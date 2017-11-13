@@ -48,6 +48,26 @@ public class AttendanceMonth extends ActEntity<AttendanceMonth> {
 
 	private String procInsId;
 
+	private String PMComment;
+
+	private String HRComment;
+
+	public String getPMComment() {
+		return PMComment;
+	}
+
+	public void setPMComment(String pMComment) {
+		PMComment = pMComment;
+	}
+
+	public String getHRComment() {
+		return HRComment;
+	}
+
+	public void setHRComment(String hRComment) {
+		HRComment = hRComment;
+	}
+
 	public String getProcInsId() {
 		return procInsId;
 	}

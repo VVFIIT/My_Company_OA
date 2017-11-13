@@ -55,7 +55,7 @@ import com.google.common.collect.Maps;
 import com.thinkgem.jeesite.common.persistence.Page;
 import com.thinkgem.jeesite.common.service.BaseService;
 import com.thinkgem.jeesite.common.utils.StringUtils;
-import com.thinkgem.jeesite.modules.act.dao.ActDao;
+//import com.thinkgem.jeesite.modules.act.dao.ActDao;
 import com.thinkgem.jeesite.modules.act.entity.Act;
 import com.thinkgem.jeesite.modules.act.service.cmd.CreateAndTakeTransitionCmd;
 import com.thinkgem.jeesite.modules.act.service.cmd.JumpTaskCmd;
@@ -66,7 +66,6 @@ import com.thinkgem.jeesite.modules.act.service.creator.SimpleRuntimeActivityDef
 import com.thinkgem.jeesite.modules.act.utils.ActUtils;
 import com.thinkgem.jeesite.modules.act.utils.ProcessDefCache;
 import com.thinkgem.jeesite.modules.act.utils.ProcessDefUtils;
-import com.thinkgem.jeesite.modules.oa.dao.TestAuditDao;
 import com.thinkgem.jeesite.modules.sys.entity.User;
 import com.thinkgem.jeesite.modules.sys.utils.UserUtils;
 
@@ -80,8 +79,8 @@ import com.thinkgem.jeesite.modules.sys.utils.UserUtils;
 @Transactional(readOnly = true)
 public class ActTaskService extends BaseService {
 
-	@Autowired
-	private ActDao actDao;
+//	@Autowired
+//	private ActDao actDao;
 	
 	@Autowired
 	private ProcessEngineFactoryBean processEngineFactory;
@@ -101,8 +100,8 @@ public class ActTaskService extends BaseService {
 	@Autowired
 	private IdentityService identityService;
 
-	@Autowired
-	private TestAuditDao testAuditDao;
+//	@Autowired
+//	private TestAuditDao testAuditDao;
 	/**
 	 * 获取待办列表
 	 * 
