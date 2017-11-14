@@ -568,15 +568,13 @@ public class AttendanceService {
 				attendanceInsert.setMonth(month);
 				List<AttendanceMonth> attendanceList = attendanceMonthDao
 						.getAttendance(attendanceInsert);
-				if("4".equals(attendanceMonth.getProcessStatus())){
+				if("4".equals(attendanceMonth.getProcessStatus())){  //判断状态为未创建
 					if (0 == attendanceList.size()) {
 						// 根据姓名，年，月，没有记录，此人还没有提交过，页面需要显示 姓名 和 空状态
 						attendanceList.add(attendanceInsert);
 						returnList.add(attendanceList.get(0));
 					}
-//					returnPage.setCount(returnList.size());
-//					returnPage.setList(returnList);
-				}else{
+				}else{  //状态显示全部
 					if (0 == attendanceList.size()) {
 						// 根据姓名，年，月，没有记录，此人还没有提交过，页面需要显示 姓名 和 空状态
 						attendanceList.add(attendanceInsert);
@@ -588,7 +586,7 @@ public class AttendanceService {
 			}		
 			returnPage.setCount(page.getCount());
 			returnPage.setList(returnList);	
-		}else{
+		}else{   //状态为提交或未提交
 			Page<AttendanceMonth> attendanceList = attendanceMonthDao.getAttendancePage(attendanceMonth); //根据年月和考勤状态查询
 			returnPage.setCount(attendanceList.getCount());
 			returnPage.setList(attendanceList.getList());

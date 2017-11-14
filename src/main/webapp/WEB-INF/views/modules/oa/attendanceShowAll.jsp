@@ -50,8 +50,9 @@
 	<form:form id="searchForm" modelAttribute="attendanceShowAll"
 		action="${ctx}/oa/attendance/showAllExact" method="post"
 		class="breadcrumb form-search">
-		<input id="pageNo" name="pageNo" type="hidden" value="${page.pageNo}" />
+		<input id="pageNo" name="pageNo" type="hidden" value="1" />
 		<input id="pageSize" name="pageSize" type="hidden" value="${page.pageSize}" />
+
 		<sys:tableSort id="orderBy" name="orderBy" value="${page.orderBy}" callback="page();" />
 		<ul class="ul-form">
 			<li><label>请选择年份：</label> 
@@ -94,7 +95,6 @@
 					<td>${attendance.name}</td>
 					<td>
 						<font color=blue><c:if test="${empty attendance.processStatus}">无</c:if></font>
-						<font color=blue><c:if test="${attendance.processStatus ==0}">无</c:if></font> 
 						<font color=red><c:if test="${attendance.processStatus ==1}"> 未提交</c:if></font>
 						<c:if test="${attendance.processStatus ==2}"> 提交</c:if> 
 						<c:if test="${attendance.processStatus ==3}"> 确认</c:if>
@@ -106,7 +106,7 @@
 						<a id="btnAttExport1" href='#' style="${fns:getCheckStatusShow(attendance.processStatus)}" onclick="showExport('${attendance.id}')">导出</a> 
 						<a id="sendBack"
 						style="${fns:getCheckStatusShow(attendance.processStatus)}"
-						href="${ctx}/oa/attendance/sendBack?id=${attendance.id}&year=${attendance.year}&month=${attendance.month}"
+						href="${ctx}/oa/attendance/sendBack?id=${attendance.id}&year=${attendance.year}&month=${attendance.month}&processStatus=0"
 						onclick="return confirmx('是否退回考勤？', this.href)">退回</a>
 					</td>
 				</tr>
