@@ -5,6 +5,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
@@ -660,5 +661,35 @@ public class AttendanceService {
 		attendanceMonthDao.update(attendanceMonth);
 
 		return attendanceMonthService.attendanceHomeList(new Page<AttendanceMonth>(request, response));
+	}
+	
+	/**
+	 * 测试代码
+	 * 
+	 * @param page
+	 * @param attendanceMonth
+	 * @return
+	 * @author Grace
+	 * @date 2017年11月15日 下午3:58:04
+	 */
+	public Page<AttendanceMonth> test(Page<User> page, AttendanceMonth attendanceMonth) {
+		Page<AttendanceMonth> returnPage = attendanceMonth.getPage();
+		User user = new User();
+		user.setPage(page);
+
+		List<User> userList = userDao.findList(user);
+
+		List<User> userListNew = new ArrayList<User>();
+		userListNew.add(userList.get(0));
+		userListNew.add(userList.get(1));
+
+		Map<Object, Object> map = new HashMap<Object, Object>();
+
+		map.put("list", userListNew);
+		map.put("page", page);
+		map.put("begin", (page.getPageNo() - 1) * page.getPageSize());
+		List<User> returnList = userDao.findListByUserList(map);
+
+		return returnPage;
 	}
 }

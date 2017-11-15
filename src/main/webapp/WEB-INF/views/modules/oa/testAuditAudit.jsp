@@ -57,7 +57,7 @@
 					<td>${testAudit.olda}</td>
 					<td class="tit" rowspan="3">拟调整标准</td>
 					<td class="tit">薪酬档级</td>
-					<td>${testAudit.newa}</td>
+					 
 				</tr>
 				<tr>
 					<td class="tit">月工资额</td>

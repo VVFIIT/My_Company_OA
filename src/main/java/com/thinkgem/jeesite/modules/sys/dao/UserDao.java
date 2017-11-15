@@ -4,6 +4,7 @@
 package com.thinkgem.jeesite.modules.sys.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import com.thinkgem.jeesite.common.persistence.CrudDao;
 import com.thinkgem.jeesite.common.persistence.annotation.MyBatisDao;
@@ -72,4 +73,14 @@ public interface UserDao extends CrudDao<User> {
 	 */
 	public int updateUserInfo(User user);
 
+	/**
+	 * 根据用户名list ,查出userList 为了带分页
+	 * 
+	 * @param userList
+	 * @return
+	 * @author Grace
+	 * @param page 
+	 * @date 2017年11月14日 下午2:53:50
+	 */
+	public List<User> findListByUserList(Map<Object,Object> map);
 }
