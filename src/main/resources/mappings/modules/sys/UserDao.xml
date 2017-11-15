@@ -344,4 +344,15 @@
 		WHERE id = #{id}
 	</update>
 	
+	<select id="findListByUserList" resultType="User" parameterType="java.util.Map"> 
+		SELECT
+			*
+		FROM sys_user 
+		WHERE id in
+		 <foreach collection="list" index = "index" item = "currentUser" open="(" separator="OR" close=")">
+   			#{currentUser.id}
+  		</foreach>
+  		 LIMIT #{begin},#{page.pageSize}  
+	</select>
+	
 </mapper>
