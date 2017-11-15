@@ -679,13 +679,23 @@ public class AttendanceService {
 
 		List<User> userList = userDao.findList(user);
 
-		List<User> userListNew = new ArrayList<User>();
-		userListNew.add(userList.get(0));
-		userListNew.add(userList.get(1));
+//		List<User> userListNew = new ArrayList<User>();
+//		userListNew.add(userList.get(0));
+//		userListNew.add(userList.get(1));
 
+		List<AttendanceMonth> attendanceMonthListNew = new ArrayList<AttendanceMonth>();
+		AttendanceMonth attendanceMonth1=new AttendanceMonth();
+		attendanceMonth1.setName("高振东");
+		
+		AttendanceMonth attendanceMonth2=new AttendanceMonth();
+		attendanceMonth2.setName("王鲁杰");
+		attendanceMonthListNew.add(attendanceMonth1);
+		attendanceMonthListNew.add(attendanceMonth2);
+	
+		
 		Map<Object, Object> map = new HashMap<Object, Object>();
-
-		map.put("list", userListNew);
+		
+		map.put("list", attendanceMonthListNew);
 		map.put("page", page);
 		map.put("begin", (page.getPageNo() - 1) * page.getPageSize());
 		List<User> returnList = userDao.findListByUserList(map);

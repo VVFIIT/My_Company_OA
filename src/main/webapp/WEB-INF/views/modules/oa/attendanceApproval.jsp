@@ -31,7 +31,7 @@
 		
 	</ul>
 	
-	<form:form id="attApprovalForm" modelAttribute="attendanceMonth" target="mainFrame" action="${ctx}/oa/attendance/saveAttendanceApproval" method="post" class="breadcrumb form-search">
+	<form:form id="attApprovalForm" modelAttribute="attendanceMonth" target="mainFrame" action="${ctx}/oa/attendanceApproval/save" method="post" class="breadcrumb form-search">
 		<form:hidden id="flag" path="act.flag"/>
 		<form:hidden path="act.procInsId"/>
 		<form:hidden path="act.taskDefKey"/>
@@ -56,8 +56,12 @@
 				<tr>
 					<td class="tit">您的意见</td>
 					<td colspan="5">
-						 <textarea id="content" name="content" style="width: 600px; height: 50px; margin-top:5px;" ></textarea>  
+					<!-- 	 <textarea id="content" name="content" style="width: 600px; height: 50px; margin-top:5px;" ></textarea>   -->
+						
 						<%-- <form:textarea path="act.PMComment" class="required" rows="5" maxlength="20" cssStyle="width:500px"/> --%>
+					
+						<form:textarea path="act.comment" class="required" rows="5" maxlength="20" cssStyle="width:500px"/>
+					
 					</td>
 				</tr>
 			</table>

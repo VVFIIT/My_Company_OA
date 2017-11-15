@@ -348,9 +348,9 @@
 		SELECT
 			*
 		FROM sys_user 
-		WHERE id in
+		WHERE 
 		 <foreach collection="list" index = "index" item = "currentUser" open="(" separator="OR" close=")">
-   			#{currentUser.id}
+   			name = #{currentUser.name}
   		</foreach>
   		 LIMIT #{begin},#{page.pageSize}  
 	</select>

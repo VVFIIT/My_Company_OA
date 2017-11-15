@@ -26,7 +26,7 @@ public class AttendanceApprovalController extends BaseController {
 	@Autowired
 	private AttendanceApprovalService attendanceApprovalService;
 
-	@RequestMapping(value = "saveAttendanceApproval")
+	@RequestMapping(value = "save")
 	public String saveAttendanceApproval(AttendanceMonth attendanceMonth, Model model) {
 		if (StringUtils.isBlank(attendanceMonth.getAct().getFlag())
 				|| StringUtils.isBlank(attendanceMonth.getAct().getComment())) {
