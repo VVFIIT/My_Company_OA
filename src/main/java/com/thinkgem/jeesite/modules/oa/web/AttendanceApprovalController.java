@@ -1,5 +1,7 @@
 package com.thinkgem.jeesite.modules.oa.web;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -8,9 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.thinkgem.jeesite.common.web.BaseController;
 import com.thinkgem.jeesite.modules.oa.entity.AttendanceMonth;
-import com.thinkgem.jeesite.modules.oa.entity.TestAudit;
 import com.thinkgem.jeesite.modules.oa.service.AttendanceApprovalService;
-import com.thinkgem.jeesite.modules.oa.service.AttendanceMonthService;
 
 /**
  * 考勤审批
@@ -27,14 +27,20 @@ public class AttendanceApprovalController extends BaseController {
 	private AttendanceApprovalService attendanceApprovalService;
 
 	@RequestMapping(value = "save")
-	public String saveAttendanceApproval(AttendanceMonth attendanceMonth, Model model) {
+	public String saveAttendanceApproval(AttendanceMonth attendanceMonth, Model model,HttpServletRequest request) {
+	 
 		if (StringUtils.isBlank(attendanceMonth.getAct().getFlag())
 				|| StringUtils.isBlank(attendanceMonth.getAct().getComment())) {
 			addMessage(model, "请填写审核意见。");
 			// return form(attendanceMonth, model);
-		}
+		}		
+
+		String taskDefKey=request.getParameter("taskDefKey").toString();
+		String taskId=request.getParameter("taskId").toString();
+		attendanceMonth.getAct().setTaskDefKey(taskDefKey);
+		attendanceMonth.getAct().setTaskId(taskId);
 		attendanceApprovalService.saveAttendanceApproval(attendanceMonth);
-		return "redirect:" + adminPath + "/act/task/todo/";
+		return "redirect:" + adminPath + "/act/task/todo/"; 
 	}
 
 	@RequestMapping(value = "form")

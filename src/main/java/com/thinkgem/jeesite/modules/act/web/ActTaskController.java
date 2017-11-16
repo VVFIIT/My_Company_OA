@@ -167,6 +167,7 @@ public class ActTaskController extends BaseController {
 					attendanceMonth = attendanceMonthList.get(0);
 				}
 				model.addAttribute("attendanceMonth", attendanceMonth);
+				model.addAttribute("act", act);
 				return "modules/oa/attendanceApproval";
 			}
 		}

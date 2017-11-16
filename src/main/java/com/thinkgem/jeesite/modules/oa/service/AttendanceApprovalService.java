@@ -2,6 +2,7 @@ package com.thinkgem.jeesite.modules.oa.service;
 
 import java.util.Map;
 
+import org.activiti.engine.TaskService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,7 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.google.common.collect.Maps;
-import com.thinkgem.jeesite.modules.act.service.ActTaskService;
+import com.thinkgem.jeesite.common.utils.StringUtils;
 import com.thinkgem.jeesite.modules.oa.dao.AttendanceMonthDao;
 import com.thinkgem.jeesite.modules.oa.entity.AttendanceMonth;
 
@@ -30,8 +31,8 @@ public class AttendanceApprovalService {
 	private AttendanceMonthDao attendanceMonthDao;
 
 	@Autowired
-	private ActTaskService actTaskService;
-
+	private TaskService taskService;
+	
 	/**
 	 * 保存考勤审批
 	 * 
@@ -45,7 +46,8 @@ public class AttendanceApprovalService {
 		attendanceMonth.getAct().setComment(("yes".equals(attendanceMonth.getAct().getFlag()) ? "[同意] " : "[驳回] ")
 				+ attendanceMonth.getAct().getComment());
 
-		attendanceMonth.preUpdate();
+		
+		//attendanceMonth.preUpdate();
 
 		// 对不同环节的业务逻辑进行操作
 		String taskDefKey = attendanceMonth.getAct().getTaskDefKey();
@@ -54,12 +56,13 @@ public class AttendanceApprovalService {
 		if ("startAttendance".equals(taskDefKey)) {
 
 		} else if ("PMApprovalAttendance".equals(taskDefKey)) {
+			attendanceMonth.setProcessStatus("3");
 			attendanceMonth.setPMComment(attendanceMonth.getAct().getComment());
-			attendanceMonthDao.update(attendanceMonth);
+			attendanceMonthDao.updateAttanceMonthByProcInsId(attendanceMonth);
 		} else if ("HRApprovalAttendance".equals(taskDefKey)) {
+			attendanceMonth.setProcessStatus("4");
 			attendanceMonth.setHRComment(attendanceMonth.getAct().getComment());
-
-			attendanceMonthDao.update(attendanceMonth);
+			attendanceMonthDao.updateAttanceMonthByProcInsId(attendanceMonth);
 		} else if ("endAttendance".equals(taskDefKey)) {
 
 		}
@@ -71,10 +74,33 @@ public class AttendanceApprovalService {
 
 		// 提交流程任务
 		Map<String, Object> vars = Maps.newHashMap();
-		vars.put("pass", "yes".equals(attendanceMonth.getAct().getFlag()) ? "1" : "0");
-		actTaskService.complete(attendanceMonth.getAct().getTaskId(), attendanceMonth.getAct().getProcInsId(),
-				attendanceMonth.getAct().getComment(), vars);
+		vars.put("pass", "yes".equals(attendanceMonth.getAct().getFlag()) ? "1" : "0");	
+		
+		complete(attendanceMonth.getAct().getTaskId(), attendanceMonth.getAct().getProcInsId(),
+				attendanceMonth.getAct().getComment(),taskDefKey, vars);
 
+	}
+	
+	
+	public void complete(String taskId, String procInsId, String comment, String title, Map<String, Object> vars) {
+		// 添加意见
+		if (StringUtils.isNotBlank(procInsId) && StringUtils.isNotBlank(comment)) {
+			//封装
+			taskService.addComment(taskId, procInsId, comment);
+		}
+
+		// 设置流程变量
+		if (vars == null) {
+			vars = Maps.newHashMap();
+		}
+
+		// 设置流程标题
+		if (StringUtils.isNotBlank(title)) {
+			vars.put("title", title);
+		}
+
+		// 提交任务（封装）
+		taskService.complete(taskId, vars);
 	}
 
 }

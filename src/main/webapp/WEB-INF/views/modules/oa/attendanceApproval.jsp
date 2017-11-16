@@ -32,9 +32,10 @@
 	</ul>
 	
 	<form:form id="attApprovalForm" modelAttribute="attendanceMonth" target="mainFrame" action="${ctx}/oa/attendanceApproval/save" method="post" class="breadcrumb form-search">
-		<form:hidden id="flag" path="act.flag"/>
-		<form:hidden path="act.procInsId"/>
-		<form:hidden path="act.taskDefKey"/>
+		<form:hidden id="flag" path="act.flag"/>	
+		<input name="procInsId" type="hidden" value="${act.procInsId}"/>		
+		<input id="taskDefKey" type="hidden" name="taskDefKey" value="${act.taskDefKey}"/>
+		<input id="taskId" type="hidden" name="taskId" value="${act.taskId}"/>
 		
 		<sys:message content="${message}"/>
 		<fieldset>
@@ -60,7 +61,7 @@
 						
 						<%-- <form:textarea path="act.PMComment" class="required" rows="5" maxlength="20" cssStyle="width:500px"/> --%>
 					
-						<form:textarea path="act.comment" class="required" rows="5" maxlength="20" cssStyle="width:500px"/>
+						<form:textarea path="act.comment" class="required" rows="3" maxlength="20" cssStyle="width:700px"/>
 					
 					</td>
 				</tr>
