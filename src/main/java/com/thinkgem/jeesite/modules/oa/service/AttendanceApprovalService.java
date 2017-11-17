@@ -40,6 +40,8 @@ public class AttendanceApprovalService {
 	 * @author Grace
 	 * @date 2017年11月13日 下午3:16:35
 	 */
+	
+	@Transactional(readOnly = false)
 	public void saveAttendanceApproval(AttendanceMonth attendanceMonth) {
 
 		// 设置意见
@@ -81,7 +83,7 @@ public class AttendanceApprovalService {
 
 	}
 	
-	
+	@Transactional(readOnly = false)
 	public void complete(String taskId, String procInsId, String comment, String title, Map<String, Object> vars) {
 		// 添加意见
 		if (StringUtils.isNotBlank(procInsId) && StringUtils.isNotBlank(comment)) {

@@ -344,7 +344,7 @@
 		WHERE id = #{id}
 	</update>
 	
-	<select id="findListByUserList" resultType="User" parameterType="java.util.Map"> 
+	<select id="findListByUserList" resultType="AttendanceMonth" parameterType="java.util.Map"> 
 		SELECT
 			*
 		FROM sys_user 

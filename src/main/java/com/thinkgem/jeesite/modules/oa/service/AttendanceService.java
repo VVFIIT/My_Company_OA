@@ -698,7 +698,7 @@ public class AttendanceService {
 		map.put("list", attendanceMonthListNew);
 		map.put("page", page);
 		map.put("begin", (page.getPageNo() - 1) * page.getPageSize());
-		List<User> returnList = userDao.findListByUserList(map);
+		List<AttendanceMonth> returnList = userDao.findListByUserList(map);
 
 		return returnPage;
 	}

@@ -306,6 +306,9 @@ public class AttendanceController extends BaseController {
 		attendanceMonth.setPage(page);
 		Page<AttendanceMonth> defaultAttendance = attendanceService
 				.getAttendanceShowAllDefault(new Page<User>(request, response), attendanceMonth);
+	
+		 attendanceService.test(new Page<User>(request, response), attendanceMonth);			
+		 
 		model.addAttribute("page", defaultAttendance);
 		// 查询默认考勤的年和月
 		AttendanceMonth defaultAttendanceDate = attendanceService.getAttendanceDateDefault();
@@ -324,6 +327,9 @@ public class AttendanceController extends BaseController {
 		attendanceMonth.setPage(page);
 		Page<AttendanceMonth> exactAttendance = attendanceService
 				.getAttendanceShowAllExact(new Page<User>(request, response), attendanceMonth);
+		
+		 attendanceService.test(new Page<User>(request, response), attendanceMonth);
+		
 		model.addAttribute("page", exactAttendance);
 		// 根据查询的年和月显示
 		AttendanceMonth exactAttendanceDate = attendanceService.getAttendanceDateExact(attendanceMonth);

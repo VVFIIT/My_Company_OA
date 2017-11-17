@@ -8,6 +8,7 @@ import java.util.Map;
 
 import com.thinkgem.jeesite.common.persistence.CrudDao;
 import com.thinkgem.jeesite.common.persistence.annotation.MyBatisDao;
+import com.thinkgem.jeesite.modules.oa.entity.AttendanceMonth;
 import com.thinkgem.jeesite.modules.sys.entity.User;
 
 /**
@@ -74,7 +75,7 @@ public interface UserDao extends CrudDao<User> {
 	public int updateUserInfo(User user);
 
 	/**
-	 * 根据用户名list ,查出userList 为了带分页
+	 * 根据用户名list ,查出AttendanceMonthList 为了带分页
 	 * 
 	 * @param userList
 	 * @return
@@ -82,5 +83,5 @@ public interface UserDao extends CrudDao<User> {
 	 * @param page 
 	 * @date 2017年11月14日 下午2:53:50
 	 */
-	public List<User> findListByUserList(Map<Object,Object> map);
+	public List<AttendanceMonth> findListByUserList(Map<Object,Object> map);
 }
