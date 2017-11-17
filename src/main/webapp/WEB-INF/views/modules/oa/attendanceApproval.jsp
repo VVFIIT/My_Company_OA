@@ -42,44 +42,30 @@
 			<legend>${testAudit.act.taskName}</legend>
 			<table class="table-form">
 				<tr>
-					<td class="tit">姓名</td><td>${attendanceMonth.name}</td>
-					<td class="tit">部门</td><td>${attendanceMonth.department}</td>
-					
+					<td class="tit">姓名：${attendanceMonth.name}</td>
+					<td class="tit">部门：${attendanceMonth.department}</td>					
 				</tr>
 			
-			<%-- 	<tr>
-					<td class="tit">人力资源部意见</td>
-					<td colspan="5">
-						${testAudit.hrText}
-					</td>
-				</tr> --%>
-			
+				<c:if test="${act.taskDefKey eq 'HRApprovalAttendance'}">
 				<tr>
-					<td class="tit">您的意见</td>
-					<td colspan="5">
-					<!-- 	 <textarea id="content" name="content" style="width: 600px; height: 50px; margin-top:5px;" ></textarea>   -->
-						
-						<%-- <form:textarea path="act.PMComment" class="required" rows="5" maxlength="20" cssStyle="width:500px"/> --%>
+					<td class="tit">部门经理意见:${attendanceMonth.PMComment}</td>
+				
 					
-						<form:textarea path="act.comment" class="required" rows="3" maxlength="20" cssStyle="width:700px"/>
-					
+				</tr> 
+				</c:if>
+				<tr>
+					<td class="tit">您的意见:</td>
+					<td colspan="5">					
+						<form:textarea path="act.comment" class="required" rows="3" maxlength="20" cssStyle="width:700px"/>					
 					</td>
 				</tr>
 			</table>
 		</fieldset>
 		<div class="form-actions">
-			<shiro:hasPermission name="oa:testAudit:edit">
-				<c:if test="${testAudit.act.taskDefKey eq 'apply_end'}">
-					<input id="btnSubmit" class="btn btn-primary" type="submit" value="兑 现" onclick="$('#flag').val('yes')"/>&nbsp;
-				</c:if>
-				<c:if test="${testAudit.act.taskDefKey ne 'apply_end'}">
-					<input id="btnSubmit" class="btn btn-primary" type="submit" value="同 意" onclick="$('#flag').val('yes')"/>&nbsp;
-					<input id="btnSubmit" class="btn btn-inverse" type="submit" value="驳 回" onclick="$('#flag').val('no')"/>&nbsp;
-				</c:if>
-			</shiro:hasPermission>
+			<input id="btnSubmit" class="btn btn-primary" type="submit" value="同 意" onclick="$('#flag').val('yes')"/>&nbsp;
+			<input id="btnSubmit" class="btn btn-inverse" type="submit" value="驳 回" onclick="$('#flag').val('no')"/>&nbsp;	
 			<input id="btnCancel" class="btn" type="button" value="返 回" onclick="history.go(-1)"/>
-		</div>
-		
+		</div>		
 	
 		<table id="attendanceTable" class="table table-striped table-bsordered table-condensed">
 			<thead><tr><th style="width:25%">日期</th><th style="width:25%">星期</th><th style="width:25%">工作地点</th><th style="width:25%">考勤状态</th></thead>

@@ -75,7 +75,7 @@ public interface UserDao extends CrudDao<User> {
 	public int updateUserInfo(User user);
 
 	/**
-	 * 根据用户名list ,查出AttendanceMonthList 为了带分页
+	 * 根据用户名list ,查出AttendanceMonthList 
 	 * 
 	 * @param userList
 	 * @return

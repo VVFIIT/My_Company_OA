@@ -32,9 +32,9 @@ public class AttendanceApprovalController extends BaseController {
 		if (StringUtils.isBlank(attendanceMonth.getAct().getFlag())
 				|| StringUtils.isBlank(attendanceMonth.getAct().getComment())) {
 			addMessage(model, "请填写审核意见。");
-			// return form(attendanceMonth, model);
 		}		
 
+		//环节KEY
 		String taskDefKey=request.getParameter("taskDefKey").toString();
 		String taskId=request.getParameter("taskId").toString();
 		attendanceMonth.getAct().setTaskDefKey(taskDefKey);
@@ -43,52 +43,7 @@ public class AttendanceApprovalController extends BaseController {
 		return "redirect:" + adminPath + "/act/task/todo/"; 
 	}
 
-	@RequestMapping(value = "form")
-	public String form(AttendanceMonth attendanceMonth, Model model) {
-
-		String view = "testAuditForm";
-
-		// 查看审批申请单
-		if (StringUtils.isNotBlank(attendanceMonth.getId())) {// .getAct().getProcInsId())){
-
-			// 环节编号
-			String taskDefKey = attendanceMonth.getAct().getTaskDefKey();
-
-			// 查看工单
-			if (attendanceMonth.getAct().isFinishTask()) {
-				view = "testAuditView";
-			}
-			// 修改环节
-			else if ("modify".equals(taskDefKey)) {
-				view = "testAuditForm";
-			}
-			// 审核环节
-			else if ("audit".equals(taskDefKey)) {
-				view = "testAuditAudit";
-				// String formKey = "/oa/testAudit";
-				// return "redirect:" + ActUtils.getFormUrl(formKey,
-				// testAudit.getAct());
-			}
-			// 审核环节2
-			else if ("audit2".equals(taskDefKey)) {
-				view = "testAuditAudit";
-			}
-			// 审核环节3
-			else if ("audit3".equals(taskDefKey)) {
-				view = "testAuditAudit";
-			}
-			// 审核环节4
-			else if ("audit4".equals(taskDefKey)) {
-				view = "testAuditAudit";
-			}
-			// 兑现环节
-			else if ("apply_end".equals(taskDefKey)) {
-				view = "testAuditAudit";
-			}
-		}
-		model.addAttribute("attendanceMonth", attendanceMonth);
-		return "modules/oa/" + view;
-	}
+	
 	
 	
 	

@@ -32,7 +32,7 @@ public class AttendanceApprovalService {
 
 	@Autowired
 	private TaskService taskService;
-	
+
 	/**
 	 * 保存考勤审批
 	 * 
@@ -40,7 +40,6 @@ public class AttendanceApprovalService {
 	 * @author Grace
 	 * @date 2017年11月13日 下午3:16:35
 	 */
-	
 	@Transactional(readOnly = false)
 	public void saveAttendanceApproval(AttendanceMonth attendanceMonth) {
 
@@ -48,27 +47,35 @@ public class AttendanceApprovalService {
 		attendanceMonth.getAct().setComment(("yes".equals(attendanceMonth.getAct().getFlag()) ? "[同意] " : "[驳回] ")
 				+ attendanceMonth.getAct().getComment());
 
-		
-		//attendanceMonth.preUpdate();
-
 		// 对不同环节的业务逻辑进行操作
 		String taskDefKey = attendanceMonth.getAct().getTaskDefKey();
+		AttendanceMonth attendanceMonthReturn = new AttendanceMonth();
 
 		// 审核环节
 		if ("startAttendance".equals(taskDefKey)) {
 
 		} else if ("PMApprovalAttendance".equals(taskDefKey)) {
-			attendanceMonth.setProcessStatus("3");
+			// 如果PM或者人事驳回 都转到个人让重新提交
+			if ("no".equals(attendanceMonth.getAct().getFlag())) {
+				// 新建状态
+				attendanceMonth.setProcessStatus("1");
+			} else {
+				attendanceMonth.setProcessStatus("3");
+			}
 			attendanceMonth.setPMComment(attendanceMonth.getAct().getComment());
-			attendanceMonthDao.updateAttanceMonthByProcInsId(attendanceMonth);
+			attendanceMonthReturn = attendanceMonthDao.updateAttanceMonthByProcInsId(attendanceMonth);
 		} else if ("HRApprovalAttendance".equals(taskDefKey)) {
-			attendanceMonth.setProcessStatus("4");
+			if ("no".equals(attendanceMonth.getAct().getFlag())) {
+				// 新建状态
+				attendanceMonth.setProcessStatus("1");
+			} else {
+				attendanceMonth.setProcessStatus("4");
+			}
 			attendanceMonth.setHRComment(attendanceMonth.getAct().getComment());
-			attendanceMonthDao.updateAttanceMonthByProcInsId(attendanceMonth);
+			attendanceMonthReturn = attendanceMonthDao.updateAttanceMonthByProcInsId(attendanceMonth);
 		} else if ("endAttendance".equals(taskDefKey)) {
 
 		}
-
 		// 未知环节，直接返回
 		else {
 			return;
@@ -76,18 +83,32 @@ public class AttendanceApprovalService {
 
 		// 提交流程任务
 		Map<String, Object> vars = Maps.newHashMap();
-		vars.put("pass", "yes".equals(attendanceMonth.getAct().getFlag()) ? "1" : "0");	
-		
+		vars.put("pass", "yes".equals(attendanceMonth.getAct().getFlag()) ? "1" : "0");
+
+		String title = attendanceMonthReturn.getName() + " " + attendanceMonthReturn.getYear() + "年"
+				+ attendanceMonthReturn.getMonth() + "月考勤";
+
 		complete(attendanceMonth.getAct().getTaskId(), attendanceMonth.getAct().getProcInsId(),
-				attendanceMonth.getAct().getComment(),taskDefKey, vars);
+				attendanceMonth.getAct().getComment(), title, vars);
 
 	}
-	
+
+	/**
+	 * 调用Activiti
+	 * 
+	 * @param taskId
+	 * @param procInsId
+	 * @param comment
+	 * @param title
+	 * @param vars
+	 * @author Grace
+	 * @date 2017年11月17日 上午11:47:42
+	 */
 	@Transactional(readOnly = false)
 	public void complete(String taskId, String procInsId, String comment, String title, Map<String, Object> vars) {
 		// 添加意见
 		if (StringUtils.isNotBlank(procInsId) && StringUtils.isNotBlank(comment)) {
-			//封装
+			// 封装
 			taskService.addComment(taskId, procInsId, comment);
 		}
 

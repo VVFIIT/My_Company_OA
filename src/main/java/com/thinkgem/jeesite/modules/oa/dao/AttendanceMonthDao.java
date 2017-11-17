@@ -112,12 +112,6 @@ public class AttendanceMonthDao {
 		if (StringUtils.isNotBlank(attendanceMonth.getProcInsId())) {
 			update.set("procInsId", attendanceMonth.getProcInsId());
 		}
-		if (StringUtils.isNotBlank(attendanceMonth.getHRComment())) {
-			update.set("HRComment", attendanceMonth.getHRComment());
-		}
-		if (StringUtils.isNotBlank(attendanceMonth.getPMComment())) {
-			update.set("PMComment", attendanceMonth.getPMComment());
-		}
 		mongoTemplate.updateMulti(query, update, AttendanceMonth.class);
 	}
 
