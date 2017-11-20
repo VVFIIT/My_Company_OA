@@ -20,7 +20,10 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.google.common.collect.Maps;
 import com.thinkgem.jeesite.common.persistence.Page;
+import com.thinkgem.jeesite.modules.act.dao.ActHiTaskInstDao;
+import com.thinkgem.jeesite.modules.act.entity.Act;
 import com.thinkgem.jeesite.modules.act.service.ActTaskService;
 import com.thinkgem.jeesite.modules.act.utils.ActUtils;
 import com.thinkgem.jeesite.modules.oa.dao.AttendanceMonthDao;
@@ -60,6 +63,12 @@ public class AttendanceService {
 
 	@Autowired
 	private ActTaskService actTaskService;
+	
+	@Autowired
+	private ActHiTaskInstDao actHiTaskInstDao;
+	
+	@Autowired
+	private AttendanceApprovalService attendanceApprovalService;
 	
     /**
      * 将考勤列表插入DB
@@ -678,6 +687,15 @@ public class AttendanceService {
 		attendanceMonth.setProcInsId(procInsId);
 		attendanceMonthDao.update(attendanceMonth);
 
+		// 触发Acitiviti个人申请流程
+		Map<String, Object> vars = Maps.newHashMap();
+		vars.put("pass","1");
+		//根据procinstId查taskId
+		Act act=actHiTaskInstDao.findIdByProcInsId(procInsId);
+		String taskId=act.getTaskId();
+		attendanceApprovalService.complete(taskId, attendanceMonth.getAct().getProcInsId(),
+				"apply", title, vars);
+		
 		return attendanceMonthService.attendanceHomeList(new Page<AttendanceMonth>(request, response));
 	}
 	

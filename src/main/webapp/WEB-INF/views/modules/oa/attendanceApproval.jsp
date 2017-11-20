@@ -43,6 +43,7 @@
 			<table class="table-form">
 				<tr>
 					<td class="tit">姓名：${attendanceMonth.name}</td>
+					<td> </td>
 					<td class="tit">部门：${attendanceMonth.department}</td>					
 				</tr>
 			
