@@ -80,7 +80,7 @@
 		<thead>
 			<tr>	
 				<th>序号</th>		
-				<th class="sort-column name">姓名</th>
+				<th>姓名</th>
 				<th>考勤状态</th>
 				<th>操作</th>
 			</tr>

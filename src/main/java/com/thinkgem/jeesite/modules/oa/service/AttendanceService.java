@@ -557,42 +557,60 @@ public class AttendanceService {
 		Integer year = attendanceMonth.getYear();    //获取页面年份
 		Page<AttendanceMonth> returnPage = attendanceMonth.getPage();
 		List<AttendanceMonth> returnList = returnPage.getList();
-		if( "0".equals(attendanceMonth.getProcessStatus()) || "4".equals(attendanceMonth.getProcessStatus())){ 
+		List<AttendanceMonth> attendanceMonthListNew = new ArrayList<AttendanceMonth>();
+		if("0".equals(attendanceMonth.getProcessStatus())){
 			User user = new User();
 			user.setPage(page);   // 设置分页参数
 			List<User> userList = userDao.findList(user);   //执行分页查询			
-			for (User userInformation : userList) {
+			for (User userInformation : userList) {         
 				String name = userInformation.getName();    //获取用户名
+				AttendanceMonth attendanceInsert = new AttendanceMonth();
+				attendanceInsert.setName(name);
+				attendanceInsert.setYear(year);
+				attendanceInsert.setMonth(month);
+				//查询MongoDB
+				List<AttendanceMonth> attendanceList = attendanceMonthDao
+						.getAttendance(attendanceInsert);
+					if (0 == attendanceList.size()) {
+						// 根据姓名，年，月，没有记录，此人还没有提交过，页面需要显示 姓名 和 空状态
+						attendanceList.add(attendanceInsert);
+					}
+					// 正常情况下 根据姓名，年，月，会精确查出一条记录
+					returnList.add(attendanceList.get(0));						
+				}										
+					
+			returnPage.setCount(page.getCount());
+			returnPage.setList(returnList);
+		}else if("4".equals(attendanceMonth.getProcessStatus())){ //判断状态为：未创建
+			User user = new User();
+			List<User> userAllList = userDao.findAllList(user);
+			for(User userAllInformation : userAllList){
+				String name = userAllInformation.getName();
 				AttendanceMonth attendanceInsert = new AttendanceMonth();
 				attendanceInsert.setName(name);
 				attendanceInsert.setYear(year);
 				attendanceInsert.setMonth(month);
 				List<AttendanceMonth> attendanceList = attendanceMonthDao
 						.getAttendance(attendanceInsert);
-				if("4".equals(attendanceMonth.getProcessStatus())){  //判断状态为未创建
-					if (0 == attendanceList.size()) {
-						// 根据姓名，年，月，没有记录，此人还没有提交过，页面需要显示 姓名 和 空状态
-						attendanceList.add(attendanceInsert);
-						returnList.add(attendanceList.get(0));
-					}
-				}else{  //状态显示全部
-					if (0 == attendanceList.size()) {
-						// 根据姓名，年，月，没有记录，此人还没有提交过，页面需要显示 姓名 和 空状态
-						attendanceList.add(attendanceInsert);
-					}
-					// 正常情况下 根据姓名，年，月，会精确查出一条记录
-					returnList.add(attendanceList.get(0));
-						
-				}										
-			}		
-			returnPage.setCount(page.getCount());
-			returnPage.setList(returnList);	
-		}else{   //状态为提交或未提交
+				if (0 == attendanceList.size()) {
+					// 根据姓名，年，月，没有记录，此人还没有提交过，页面需要显示 姓名 和 空状态
+					attendanceList.add(attendanceInsert);
+					attendanceMonthListNew.add(attendanceList.get(0));
+				}
+			}
+			Map<Object, Object> map = new HashMap<Object, Object>();
+			
+			map.put("list", attendanceMonthListNew);
+			map.put("page", page);
+			map.put("begin", (page.getPageNo() - 1) * page.getPageSize());
+			List<AttendanceMonth> attendancePageList = userDao.findListByUserList(map); 
+			returnPage.setCount(attendanceMonthListNew.size());
+			returnPage.setList(attendancePageList);
+		}else{ //判断状态：未提交 提交 确认
 			Page<AttendanceMonth> attendanceList = attendanceMonthDao.getAttendancePage(attendanceMonth); //根据年月和考勤状态查询
 			returnPage.setCount(attendanceList.getCount());
 			returnPage.setList(attendanceList.getList());
 		}
-		
 		return returnPage;
 	}
 	
