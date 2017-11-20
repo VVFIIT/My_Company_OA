@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.thinkgem.jeesite.modules.act.dao.ActHiTaskInstDao">
+	<select id="findIdByProcInsId" resultType="com.thinkgem.jeesite.modules.act.entity.Act">
+		select id_ as taskId 
+		from act_hi_taskinst
+		WHERE proc_inst_id_ = #{procInsId}
+	</select>	
+	
+</mapper>

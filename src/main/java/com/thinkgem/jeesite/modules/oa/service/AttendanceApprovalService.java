@@ -60,6 +60,7 @@ public class AttendanceApprovalService {
 				// 新建状态
 				attendanceMonth.setProcessStatus("1");
 			} else {
+				//PM已审批
 				attendanceMonth.setProcessStatus("3");
 			}
 			attendanceMonth.setPMComment(attendanceMonth.getAct().getComment());
@@ -69,6 +70,7 @@ public class AttendanceApprovalService {
 				// 新建状态
 				attendanceMonth.setProcessStatus("1");
 			} else {
+				//人事已审批
 				attendanceMonth.setProcessStatus("4");
 			}
 			attendanceMonth.setHRComment(attendanceMonth.getAct().getComment());
@@ -76,7 +78,7 @@ public class AttendanceApprovalService {
 		} else if ("endAttendance".equals(taskDefKey)) {
 
 		}
-		// 未知环节，直接返回
+		// 未知环节，直接返回 
 		else {
 			return;
 		}
