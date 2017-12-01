@@ -15,8 +15,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.thinkgem.jeesite.common.persistence.Page;
 import com.thinkgem.jeesite.modules.oa.dao.AttendanceMonthDao;
+import com.thinkgem.jeesite.modules.oa.dao.SpecialDayDao;
 import com.thinkgem.jeesite.modules.oa.entity.AttendanceDay;
 import com.thinkgem.jeesite.modules.oa.entity.AttendanceMonth;
+import com.thinkgem.jeesite.modules.oa.entity.SpecialDay;
 import com.thinkgem.jeesite.modules.oa.helper.AttendanceHelper;
 import com.thinkgem.jeesite.modules.oa.helper.AttendanceUtils;
 import com.thinkgem.jeesite.modules.sys.dao.UserDao;
@@ -39,6 +41,9 @@ public class AttendanceService {
 	
 	@Autowired
 	private AttendanceMonthService attendanceMonthService;
+	
+	@Autowired
+	private SpecialDayDao specialDayDao;
 	
 	@Autowired
 	private UserDao userDao;
@@ -272,6 +277,21 @@ public class AttendanceService {
 				defaultStatus = "公休日";
 			}else {
 				defaultStatus = "正常出勤";
+			}
+			SpecialDay specialDay = new SpecialDay();
+			specialDay.setType("holiday");
+			List<SpecialDay> holidayList = specialDayDao.findByType(specialDay);
+			specialDay.setType("special");
+			List<SpecialDay> specialList = specialDayDao.findByType(specialDay);
+			for(SpecialDay eachSpecialDay : holidayList) {
+				if(eachSpecialDay.getDate().equals(dateWeek)) {
+					defaultStatus = "法定节假日";
+				}
+			}
+			for(SpecialDay eachSpecialDay : specialList) {
+				if(eachSpecialDay.getDate().equals(dateWeek)) {
+					defaultStatus = "正常出勤";
+				}
 			}
 			AttendanceDay attendanceInsert = new AttendanceDay();
 			attendanceInsert.setDate(i);
