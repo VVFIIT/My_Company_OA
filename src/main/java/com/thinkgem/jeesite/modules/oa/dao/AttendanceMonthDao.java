@@ -41,7 +41,7 @@ public class AttendanceMonthDao {
 			query.addCriteria(Criteria.where("_id").is(attendanceMonth.getId()));
 		}
 		if (StringUtils.isNotBlank(attendanceMonth.getName())) {
-			query.addCriteria(Criteria.where("name").regex(".*?\\" + attendanceMonth.getName() + ".*"));
+			query.addCriteria(Criteria.where("name").regex(attendanceMonth.getName()));
 		}
 		if (attendanceMonth.getYear() != null) {
 			query.addCriteria(Criteria.where("year").is(attendanceMonth.getYear()));
@@ -52,6 +52,18 @@ public class AttendanceMonthDao {
 
 		query.with(new Sort(new Sort.Order(Sort.Direction.DESC, "year")));
 		query.with(new Sort(new Sort.Order(Sort.Direction.DESC, "month")));
+		return this.mongoTemplate.find(query, AttendanceMonth.class);
+	}
+	
+	/*
+	 * 查询
+	 */
+	public List<AttendanceMonth> getAttendanceByName(AttendanceMonth attendanceMonth) {
+		Query query = new Query();
+		
+		if (StringUtils.isNotBlank(attendanceMonth.getName())) {
+			query.addCriteria(Criteria.where("name").regex(attendanceMonth.getName()));
+		}
 		return this.mongoTemplate.find(query, AttendanceMonth.class);
 	}
 
@@ -109,7 +121,7 @@ public class AttendanceMonthDao {
 			query.addCriteria(Criteria.where("_id").is(attendanceMonth.getId()));
 		}
 		if (StringUtils.isNotBlank(attendanceMonth.getName())) {
-			query.addCriteria(Criteria.where("name").regex(".*?\\" + attendanceMonth.getName() + ".*"));
+			query.addCriteria(Criteria.where("name").regex(attendanceMonth.getName()));
 		}
 		if (attendanceMonth.getYear() != null) {
 			query.addCriteria(Criteria.where("year").is(attendanceMonth.getYear()));
@@ -140,7 +152,7 @@ public class AttendanceMonthDao {
             query.addCriteria(Criteria.where("_id").is(attendanceMonth.getId()));
         }
         if (StringUtils.isNotBlank(attendanceMonth.getName())) {
-            query.addCriteria(Criteria.where("name").regex(".*?\\" + attendanceMonth.getName() + ".*"));
+            query.addCriteria(Criteria.where("name").regex(attendanceMonth.getName()));
         }
         if (attendanceMonth.getYear() != null) {
             query.addCriteria(Criteria.where("year").is(attendanceMonth.getYear()));

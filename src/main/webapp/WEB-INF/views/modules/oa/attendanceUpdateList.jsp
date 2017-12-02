@@ -33,7 +33,7 @@
 				</c:forEach>
 				<tr>
 					<td></td><td></td><td></td>
-					<td><a href="${ctx}/oa/attendance/returnIndexPage" target="mainFrame"><input class="btn btn-primary" type="button" value="返回"/></a>
+					<td><input class="btn btn-primary" type="button" name="goback" value="返回" onclick="location.href='${ctx}/oa/attendance/returnIndexPage'"/>
 					<input id="btnSubmit" class="btn btn-primary" type="submit" value="修改" onclick="success()" style="margin-left:50px"/></td>
 				</tr>
 			</tbody>

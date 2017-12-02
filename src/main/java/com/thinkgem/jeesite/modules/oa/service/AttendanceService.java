@@ -230,7 +230,7 @@ public class AttendanceService {
     	User user = UserUtils.getUser();
     	existAttendanceMonth.setName(user.getName());
     	//调用接口
-    	List<AttendanceMonth> list = attendanceMonthDao.getAttendance(existAttendanceMonth);
+    	List<AttendanceMonth> list = attendanceMonthDao.getAttendanceByName(existAttendanceMonth);
 		return list;
 	}
 	

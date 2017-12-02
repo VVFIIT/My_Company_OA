@@ -24,7 +24,7 @@
 				</c:forEach>
 				<tr>
 					<td></td><td></td><td></td>
-					<td><a href="${ctx}/oa/attendance/returnIndexPage"><input class="btn btn-primary" type="button" value="返回"/></a></td>
+					<td><input class="btn btn-primary" type="button" name="goback" value="返回" onclick="location.href='${ctx}/oa/attendance/returnIndexPage'"/></td>
 				</tr>
 			</tbody>
 		</table>

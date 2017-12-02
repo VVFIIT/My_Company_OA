@@ -27,6 +27,11 @@
         		}
         	</c:forEach>
         }
+        
+        function hiddenDownFrame(){
+        	var iframe = document.getElementById("downFrame");
+        	iframe.style.display = "none";
+        }
     </script>
 </head>
 <body>
@@ -37,17 +42,17 @@
 	<form:form id="attSearchListForm" modelAttribute="attendanceMonth_InsertDate" target="downFrame" action="${ctx}/oa/attendance/attendanceSearchList" method="post" class="breadcrumb form-search">
 		<ul class="ul-form">
 			<li><label>请选择年份：</label>
-				<form:select path="year" id="inputYear" class="input-medium">
+				<form:select path="year" id="inputYear" class="input-medium" onchange="hiddenDownFrame()">
 					<form:options items="${fns:getDictList('oa_year_type')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
 				</form:select>
 			</li>
 			<li><label>请选择月份：</label>
-				<form:select path="month" id="inputMonth" class="input-medium">
+				<form:select path="month" id="inputMonth" class="input-medium" onchange="hiddenDownFrame()">
 					<form:options items="${fns:getDictList('oa_month_type')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
 				</form:select>
 			</li>
 			<li class="btns"><input id="btnSubmit" class="btn btn-primary" type="submit" value="确定" onclick="isExistMonth()"/></li>
-			<li class="btns"><a href="${ctx}/oa/attendance/returnIndexPage"><input class="btn btn-primary" type="button" value="返回"/></a></li>
+			<li class="btns"><input class="btn btn-primary" type="button" name="goback" value="返回" onclick="location.href='${ctx}/oa/attendance/returnIndexPage'"/></li>
 		</ul>
 	</form:form>
 	<div>
