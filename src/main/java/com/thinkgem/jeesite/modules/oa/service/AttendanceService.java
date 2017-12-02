@@ -12,6 +12,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.ui.Model;
 
 import com.thinkgem.jeesite.common.persistence.Page;
 import com.thinkgem.jeesite.modules.oa.dao.AttendanceMonthDao;
@@ -204,6 +205,21 @@ public class AttendanceService {
     	attendanceMonth.setMonth(defaultMonth);
     	return attendanceMonth;
     }
+    
+    /**
+	 * 判断是否存在可以添加的年份月份，并把MODE传到画面
+	 * @author Meng Lingshuai
+	 */
+	public void insertMonthToModel(Model model){
+		AttendanceMonth attendanceMonth1 = getDefaultYearAndMonth();
+		if (attendanceMonth1.getYear() == 0) {
+			//没有可供添加的考勤月份
+			model.addAttribute("MODE", "noInsertMonth");
+		} else {
+			//有可供添加的考勤月份
+			model.addAttribute("MODE", "yesInsertMonth");
+		}
+	}
     
     /**
 	 * 获取用户在DB中已经存在的考勤记录

@@ -56,14 +56,7 @@ public class AttendanceController extends BaseController {
 		Page<AttendanceMonth> page = attendanceMonthService.attendanceHomeList(new Page<AttendanceMonth>(request, response));
 		model.addAttribute("page", page);
 		//判断是否存在可以添加的年份月份，并把MODE传到画面
-		AttendanceMonth attendanceMonth1 = attendanceService.getDefaultYearAndMonth();
-		if (attendanceMonth1.getYear() == 0) {
-			//没有可供添加的考勤月份
-			model.addAttribute("MODE", "noInsertMonth");
-		} else {
-			//有可供添加的考勤月份
-			model.addAttribute("MODE", "yesInsertMonth");
-		}
+		attendanceService.insertMonthToModel(model);
 		return "modules/oa/attendanceList";
 	}
 	
@@ -124,14 +117,7 @@ public class AttendanceController extends BaseController {
 		Page<AttendanceMonth> page = attendanceMonthService.attendanceHomeList(new Page<AttendanceMonth>(request, response));
 		model.addAttribute("page", page);
 		//判断是否存在可以添加的年份月份，并把MODE传到画面
-		AttendanceMonth attendanceMonth1 = attendanceService.getDefaultYearAndMonth();
-		if (attendanceMonth1.getYear() == 0) {
-			//不存在
-			model.addAttribute("MODE", "noInsertMonth");
-		} else {
-			//存在
-			model.addAttribute("MODE", "yesInsertMonth");
-		}
+		attendanceService.insertMonthToModel(model);
 		return "modules/oa/attendanceList";
 	}
 	
@@ -176,6 +162,8 @@ public class AttendanceController extends BaseController {
 		//返回首页并将画面信息传到画面
 		Page<AttendanceMonth> page = attendanceMonthService.attendanceHomeList(new Page<AttendanceMonth>(request, response));
 		model.addAttribute("page", page);
+		//判断是否存在可以添加的年份月份，并把MODE传到画面
+		attendanceService.insertMonthToModel(model);
 		return "modules/oa/attendanceList";
 	}
 	
@@ -189,14 +177,7 @@ public class AttendanceController extends BaseController {
 		Page<AttendanceMonth> page = attendanceMonthService.attendanceHomeList(new Page<AttendanceMonth>(request, response));
 		model.addAttribute("page", page);
 		//判断是否存在可以添加的年份月份，并把MODE传到画面
-		AttendanceMonth attendanceMonth1 = attendanceService.getDefaultYearAndMonth();
-		if (attendanceMonth1.getYear() == 0) {
-			//不存在
-			model.addAttribute("MODE", "noInsertMonth");
-		} else {
-			//存在
-			model.addAttribute("MODE", "yesInsertMonth");
-		}
+		attendanceService.insertMonthToModel(model);
 		return "modules/oa/attendanceList";
 	}
 
@@ -226,6 +207,8 @@ public class AttendanceController extends BaseController {
 		addMessage(redirectAttributes, "提交考勤成功");
 		Page<AttendanceMonth> page = attendanceMonthService.attendanceHomeList(new Page<AttendanceMonth>(request, response));
 		model.addAttribute("page", page);
+		//判断是否存在可以添加的年份月份，并把MODE传到画面
+		attendanceService.insertMonthToModel(model);
 		return "modules/oa/attendanceList";
 	}
 
