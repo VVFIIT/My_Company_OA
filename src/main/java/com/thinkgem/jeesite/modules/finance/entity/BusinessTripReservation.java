@@ -11,7 +11,7 @@ import org.springframework.data.annotation.Id;
  * @date 2017年12月25日 下午3:46:14
  * @since 1.0.0
  */
-public class BusinesstripReservation {
+public class BusinessTripReservation {
 
 	@Id
 	private String id;
