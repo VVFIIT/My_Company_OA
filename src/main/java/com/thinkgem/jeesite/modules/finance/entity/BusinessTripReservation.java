@@ -24,6 +24,15 @@ public class BusinessTripReservation {
 	private String remark;// 出差是由
 	private Date createDate;// 创建时间
 	private Date updateDate;// 更新时间
+	private Integer days;// 天数
+
+	public Integer getDays() {
+		return days;
+	}
+
+	public void setDays(Integer days) {
+		this.days = days;
+	}
 
 	public String getId() {
 		return id;
