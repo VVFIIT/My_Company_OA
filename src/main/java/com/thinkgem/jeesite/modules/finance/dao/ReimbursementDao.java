@@ -1,6 +1,8 @@
 package com.thinkgem.jeesite.modules.finance.dao;
 
-import org.springframework.stereotype.Service;
+import com.thinkgem.jeesite.common.persistence.CrudDao;
+import com.thinkgem.jeesite.common.persistence.annotation.MyBatisDao;
+import com.thinkgem.jeesite.modules.finance.entity.ReimbursementMain;
 
 /**
  * 报销
@@ -9,9 +11,7 @@ import org.springframework.stereotype.Service;
  * @date 2017年12月25日 下午4:03:29
  * @since 1.0.0
  */
-@Service
-public class ReimbursementDao {
-	
-}
+@MyBatisDao
+public interface ReimbursementDao extends CrudDao<ReimbursementMain> {
 
-	
+}

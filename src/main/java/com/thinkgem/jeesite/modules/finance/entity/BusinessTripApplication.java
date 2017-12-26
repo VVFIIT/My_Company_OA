@@ -18,7 +18,7 @@ public class BusinessTripApplication {
 	private String procInstId; // 流程相关Id
 	private String officeId;// 部门
 	private String applicantId;// 申请人
-	private String projectId;// 长途车费
+	private String projectId;// 项目Id
 	private String togetherId; // 共同出差人
 	private Date beginDate;// 出差开始日期
 	private Date endDate;// 出差结束日期
