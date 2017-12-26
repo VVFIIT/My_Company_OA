@@ -5,18 +5,23 @@ import java.util.Date;
 
 import org.springframework.data.annotation.Id;
 
-public class Hospitality {
+/**
+ * 特殊的日子（法定节假日和因为法定节假日串休的日子）
+ * 
+ * @author Grace
+ * @date 2017年11月6日 下午5:28:06
+ * @since 1.0.0
+ */
+public class ReimburseOther {
 
 	@Id
 	private String id;
+
 	private String mainId; // 主表主键
 	private String projectId; // 项目
-	private String clientName; // 客户名称
-	private String inviteesName;// 受邀人姓名
-	private Date createDate;// 日期
-	private String invitedPosition;// 受邀人职务
-	private Integer number; // 人数
+	private String remark; // 摘要
 	private BigDecimal amount;// 金额
+	private Date createDate;// 创建时间
 	private Date updateDate; // 更新时间
 
 	public String getId() {
@@ -43,44 +48,12 @@ public class Hospitality {
 		this.projectId = projectId;
 	}
 
-	public String getClientName() {
-		return clientName;
+	public String getRemark() {
+		return remark;
 	}
 
-	public void setClientName(String clientName) {
-		this.clientName = clientName;
-	}
-
-	public String getInviteesName() {
-		return inviteesName;
-	}
-
-	public void setInviteesName(String inviteesName) {
-		this.inviteesName = inviteesName;
-	}
-
-	public Date getCreateDate() {
-		return createDate;
-	}
-
-	public void setCreateDate(Date createDate) {
-		this.createDate = createDate;
-	}
-
-	public String getInvitedPosition() {
-		return invitedPosition;
-	}
-
-	public void setInvitedPosition(String invitedPosition) {
-		this.invitedPosition = invitedPosition;
-	}
-
-	public Integer getNumber() {
-		return number;
-	}
-
-	public void setNumber(Integer number) {
-		this.number = number;
+	public void setRemark(String remark) {
+		this.remark = remark;
 	}
 
 	public BigDecimal getAmount() {
@@ -89,6 +62,14 @@ public class Hospitality {
 
 	public void setAmount(BigDecimal amount) {
 		this.amount = amount;
+	}
+
+	public Date getCreateDate() {
+		return createDate;
+	}
+
+	public void setCreateDate(Date createDate) {
+		this.createDate = createDate;
 	}
 
 	public Date getUpdateDate() {

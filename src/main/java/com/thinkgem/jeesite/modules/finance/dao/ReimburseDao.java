@@ -2,7 +2,7 @@ package com.thinkgem.jeesite.modules.finance.dao;
 
 import com.thinkgem.jeesite.common.persistence.CrudDao;
 import com.thinkgem.jeesite.common.persistence.annotation.MyBatisDao;
-import com.thinkgem.jeesite.modules.finance.entity.ReimbursementMain;
+import com.thinkgem.jeesite.modules.finance.entity.ReimburseMain;
 
 /**
  * 报销
@@ -12,6 +12,6 @@ import com.thinkgem.jeesite.modules.finance.entity.ReimbursementMain;
  * @since 1.0.0
  */
 @MyBatisDao
-public interface ReimbursementDao extends CrudDao<ReimbursementMain> {
+public interface ReimburseDao extends CrudDao<ReimburseMain> {
 
 }

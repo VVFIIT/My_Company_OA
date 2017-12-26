@@ -4,7 +4,7 @@ import java.util.Date;
 
 import org.springframework.data.annotation.Id;
 
-public class ReimbursementMain {
+public class ReimburseMain {
 
 	@Id
 	private String id;

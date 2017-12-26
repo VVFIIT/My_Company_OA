@@ -5,23 +5,18 @@ import java.util.Date;
 
 import org.springframework.data.annotation.Id;
 
-/**
- * 特殊的日子（法定节假日和因为法定节假日串休的日子）
- * 
- * @author Grace
- * @date 2017年11月6日 下午5:28:06
- * @since 1.0.0
- */
-public class LongDistance {
+public class ReimburseHospitality {
 
 	@Id
 	private String id;
-
 	private String mainId; // 主表主键
 	private String projectId; // 项目
-	private String remark; // 摘要
+	private String clientName; // 客户名称
+	private String inviteesName;// 受邀人姓名
+	private Date createDate;// 日期
+	private String invitedPosition;// 受邀人职务
+	private Integer number; // 人数
 	private BigDecimal amount;// 金额
-	private Date createDate;// 创建时间
 	private Date updateDate; // 更新时间
 
 	public String getId() {
@@ -48,20 +43,20 @@ public class LongDistance {
 		this.projectId = projectId;
 	}
 
-	public String getRemark() {
-		return remark;
+	public String getClientName() {
+		return clientName;
 	}
 
-	public void setRemark(String remark) {
-		this.remark = remark;
+	public void setClientName(String clientName) {
+		this.clientName = clientName;
 	}
 
-	public BigDecimal getAmount() {
-		return amount;
+	public String getInviteesName() {
+		return inviteesName;
 	}
 
-	public void setAmount(BigDecimal amount) {
-		this.amount = amount;
+	public void setInviteesName(String inviteesName) {
+		this.inviteesName = inviteesName;
 	}
 
 	public Date getCreateDate() {
@@ -70,6 +65,30 @@ public class LongDistance {
 
 	public void setCreateDate(Date createDate) {
 		this.createDate = createDate;
+	}
+
+	public String getInvitedPosition() {
+		return invitedPosition;
+	}
+
+	public void setInvitedPosition(String invitedPosition) {
+		this.invitedPosition = invitedPosition;
+	}
+
+	public Integer getNumber() {
+		return number;
+	}
+
+	public void setNumber(Integer number) {
+		this.number = number;
+	}
+
+	public BigDecimal getAmount() {
+		return amount;
+	}
+
+	public void setAmount(BigDecimal amount) {
+		this.amount = amount;
 	}
 
 	public Date getUpdateDate() {
