@@ -1,19 +1,5 @@
 package com.thinkgem.jeesite.modules.oa.web;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
 import com.thinkgem.jeesite.common.persistence.Page;
 import com.thinkgem.jeesite.common.utils.DateUtils;
 import com.thinkgem.jeesite.common.utils.excel.ExportExcel;
@@ -23,7 +9,22 @@ import com.thinkgem.jeesite.modules.oa.entity.AttendanceMonth;
 import com.thinkgem.jeesite.modules.oa.helper.StringName;
 import com.thinkgem.jeesite.modules.oa.service.AttendanceMonthService;
 import com.thinkgem.jeesite.modules.oa.service.AttendanceService;
+import com.thinkgem.jeesite.modules.oa.helper.EmailUtil;
 import com.thinkgem.jeesite.modules.sys.entity.User;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import javax.mail.MessagingException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 /**
  * 考勤Controller
@@ -139,6 +140,13 @@ public class AttendanceController extends BaseController {
 		attendanceMonth = attendanceMonthService.getInformation(attendanceMonth.getId());
 		// 传到JSP
 		model.addAttribute("attendanceMonth_ShowList", attendanceMonth);
+		try {
+			//发送邮件
+			EmailUtil.sendTextEmail("jiqing.jiang@hongshenol.com", "1606528102@qq.com", "进度提示", "你好");
+		} catch (IOException | MessagingException e) {
+			e.printStackTrace();
+		}
+//		MailUtil.singleMail("1606528102@qq.com","进度提示","你好");
 		return "modules/oa/attendanceShowList";
 	}
 
