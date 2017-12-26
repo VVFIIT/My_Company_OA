@@ -53,27 +53,6 @@ public class EmailUtil {
         });
     }
 
-    public static void main(String[] args) {
-        try {
-            String html = "<html><head>" +
-                    "</head><body>" +
-//                    "<audio src='http://219.128.78.22/m10.music.126.net/20160423105749/3cee5688a7dc87d28a265fd992ecb0a2/ymusic/8c94/b9af/69e3/7ebe35b8e00154120822550b21b0c9c5.mp3?wshc_tag=1&wsts_tag=571aded1&wsid_tag=b73f773e&wsiphost=ipdbm' autoplay='autoplay' controls='controls' loop='-1'>爱你</audio>"+
-                    "<video controls='controls'>" +
-                    "<source src='http://v2.mukewang.com/45ad4643-87d7-444b-a3b9-fbf32de63811/H.mp4?auth_key=1461379796-0-0-e86cefa71cef963875fd68f8a419dd8a' type='video/mp4' />" +
-                    "Your browser does not support the video tag." +
-                    "</video>" +
-                    "<h1>Hello,nice to fuck you!</h1>" +
-//                    "<span style='color:red;font-size:36px;'>并抓了一把你的小鸡鸡</span>"+
-                    "</body></html>";
-
-            //sendEmail("785427346@qq.com", "yeah", html, true);
-            sendFileEmail("435022701@qq.com", "yeah", html, new File("E:/xiaoming.zip"));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-
     /**
      * @param to      邮件接收者
      * @param content 邮件内容
