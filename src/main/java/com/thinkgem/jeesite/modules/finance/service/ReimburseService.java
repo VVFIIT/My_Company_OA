@@ -29,12 +29,16 @@ public class ReimburseService {
     public Page<ReimburseMain> reimburseMainList(Page<ReimburseMain> page) {
         ReimburseMain reimburseMain = new ReimburseMain();
         reimburseMain.setPage(page);
-//        reimburseMain.setOfficeId();
-//        User user = UserUtils.getUser();
+        User user = UserUtils.getUser();
+        reimburseMain.setId(user.getId());
+        System.out.println("_____________________________"+reimburseDao.findAllNameList(reimburseMain));
+        System.out.println("_____________________________"+reimburseDao.findOnlyNameList(reimburseMain));
         if("2".equals(reimburseMain.getOfficeId()) || "8".equals(reimburseMain.getOfficeId())){
             List<ReimburseMain> reimburseMainLists = reimburseDao.findAllNameList(reimburseMain);
+            page.setList(reimburseMainLists);
         } else {
             List<ReimburseMain> reimburseMainLists = reimburseDao.findOnlyNameList(reimburseMain);
+            page.setList(reimburseMainLists);
         }
 
         return page;

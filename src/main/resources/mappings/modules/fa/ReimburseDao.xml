@@ -4,19 +4,19 @@
 
     <sql id="reimburseColumns">
         f.id,
-        f.proc_inst_id AS "procInstId",
-        f.office_id AS "officeId",
-        f.applicant_id AS "applicantId",
+        f.PROCINSTID AS "procInstId",
+        f.OFFICEID AS "officeId",
+        f.APPLICANTID AS "applicantId",
         f.status,
-        f.apply_date AS "applyDate",
-        f.begin_date AS "beginDate",
-        f.end_date AS "endDate",
-        f.remake,
-        f.total_Amount AS "totalAmount",
-        f.update_Date AS "updateDate",
-        f.manager_Flag AS "managerFlag",
+        f.APPLYDATE AS "applyDate",
+        f.BEGINDATE AS "beginDate",
+        f.ENDDATE AS "endDate",
+        f.remark,
+        f.TOTALAMOUNT AS "totalAmount",
+        f.UPDATEDATE AS "updateDate",
+        f.MANAGERFLAG AS "managerFlag",
         f.FAFlag AS "fa_flag",
-        f.manager_Comment AS "managerComment",
+        f.MANAGERCOMMENT AS "managerComment",
         f.FAComment AS "fa_comment",
         u.name AS "user.name",
 		o.name AS "user.office.name"
@@ -32,7 +32,7 @@
         <include refid="reimburseColumns"/>
         FROM fa_reimburse_main f
         <include refid="reimburseJoins"/>
-        WHERE a.id = #{id}
+        WHERE f.id = #{id}
     </select>
 
 

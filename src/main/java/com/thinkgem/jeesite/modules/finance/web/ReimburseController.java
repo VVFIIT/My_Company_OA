@@ -3,6 +3,7 @@ package com.thinkgem.jeesite.modules.finance.web;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.thinkgem.jeesite.common.persistence.Page;
 import com.thinkgem.jeesite.modules.finance.entity.ReimburseMain;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -52,8 +53,9 @@ public class ReimburseController extends BaseController {
 	@RequestMapping(value = "list")
 	public String list(ReimburseMain reimburseMain, Model model, HttpServletRequest request,
 					   HttpServletResponse response) {
-//        Page<ReimburseMain> page = reimburseService.(new Page<ReimburseMain>(request, response));
-//        model.addAttribute("page", page);
+		System.out.println("_______________________1111111111111");
+        Page<ReimburseMain> page = reimburseService.reimburseMainList(new Page<ReimburseMain>(request, response));
+        model.addAttribute("page", page);
 //        reimburseService.insertMonthToModel(model);
 		return "modules/fa/reimburseList";
 	}
