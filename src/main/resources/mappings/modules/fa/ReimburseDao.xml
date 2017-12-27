@@ -27,7 +27,7 @@
         JOIN sys_office o ON o.id = f.officeId
     </sql>
 
-    <select id="findOnlyNameList" resultType="Reimburse">
+    <select id="findOnlyNameList" resultType="ReimburseMain">
         SELECT
         <include refid="reimburseColumns"/>
         FROM fa_reimburse_main f
@@ -36,7 +36,7 @@
     </select>
 
 
-    <select id="findAllNameList" resultType="Reimburse">
+    <select id="findAllNameList" resultType="ReimburseMain">
         SELECT
         <include refid="reimburseColumns"/>
         FROM fa_reimburse_main f
