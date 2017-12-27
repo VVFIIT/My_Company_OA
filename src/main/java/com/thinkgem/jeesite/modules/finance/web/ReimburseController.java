@@ -3,6 +3,7 @@ package com.thinkgem.jeesite.modules.finance.web;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.thinkgem.jeesite.modules.finance.entity.ReimburseMain;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -28,7 +29,7 @@ public class ReimburseController extends BaseController {
 
 	
 	@RequestMapping(value = "toApplyForm")
-	public String toApplyForm(AttendanceMonth attendanceMonth, Model model, HttpServletRequest request,
+	public String toApplyForm(ReimburseMain reimburseMain, Model model, HttpServletRequest request,
 			HttpServletResponse response) {
 		
 		
@@ -37,13 +38,25 @@ public class ReimburseController extends BaseController {
 
 	
 	@RequestMapping(value = "commitApplyForm")
-	public String commitApplyForm(AttendanceMonth attendanceMonth, Model model, HttpServletRequest request,
+	public String commitApplyForm(ReimburseMain reimburseMain, Model model, HttpServletRequest request,
 			HttpServletResponse response) {
 		
 		
 		return "modules/fa/reimburse/reimburseApplyForm";
 	}
-	
+
+
+	/**
+	 * 费用报销显示列表
+	 */
+	@RequestMapping(value = "list")
+	public String list(ReimburseMain reimburseMain, Model model, HttpServletRequest request,
+					   HttpServletResponse response) {
+//        Page<ReimburseMain> page = reimburseService.(new Page<ReimburseMain>(request, response));
+//        model.addAttribute("page", page);
+//        reimburseService.insertMonthToModel(model);
+		return "modules/fa/reimburseList";
+	}
 	
 	
 }

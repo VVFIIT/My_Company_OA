@@ -4,6 +4,8 @@ import com.thinkgem.jeesite.common.persistence.CrudDao;
 import com.thinkgem.jeesite.common.persistence.annotation.MyBatisDao;
 import com.thinkgem.jeesite.modules.finance.entity.ReimburseMain;
 
+import java.util.List;
+
 /**
  * 报销
  * 
@@ -13,5 +15,19 @@ import com.thinkgem.jeesite.modules.finance.entity.ReimburseMain;
  */
 @MyBatisDao
 public interface ReimburseDao extends CrudDao<ReimburseMain> {
+
+    /**
+     * 通过applicantId获取个人报销列表
+     * @param reimburseMain
+     * @return
+     */
+    public List<ReimburseMain> findOnlyNameList(ReimburseMain reimburseMain);
+
+    /**
+     * 通过OfficeId获取全部人报销列表
+     * @param reimburseMain
+     * @return
+     */
+    public List<ReimburseMain> findAllNameList(ReimburseMain reimburseMain);
 
 }

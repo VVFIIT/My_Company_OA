@@ -2,9 +2,11 @@ package com.thinkgem.jeesite.modules.finance.entity;
 
 import java.util.Date;
 
+import com.thinkgem.jeesite.common.persistence.DataEntity;
+import com.thinkgem.jeesite.modules.sys.entity.User;
 import org.springframework.data.annotation.Id;
 
-public class ReimburseMain {
+public class ReimburseMain extends DataEntity<ReimburseMain> {
 
 	@Id
 	private String id;

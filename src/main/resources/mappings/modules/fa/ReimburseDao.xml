@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.thinkgem.jeesite.modules.finance.dao.ReimburseDao">
+
+    <sql id="reimburseColumns">
+        f.id,
+        f.proc_inst_id AS "procInstId",
+        f.office_id AS "officeId",
+        f.applicant_id AS "applicantId",
+        f.status,
+        f.apply_date AS "applyDate",
+        f.begin_date AS "beginDate",
+        f.end_date AS "endDate",
+        f.remake,
+        f.total_Amount AS "totalAmount",
+        f.update_Date AS "updateDate",
+        f.manager_Flag AS "managerFlag",
+        f.FAFlag AS "fa_flag",
+        f.manager_Comment AS "managerComment",
+        f.FAComment AS "fa_comment",
+        u.name AS "user.name",
+		o.name AS "user.office.name"
+    </sql>
+
+    <sql id="reimburseJoins">
+        JOIN sys_user u ON u.id = f.applicantId
+        JOIN sys_office o ON o.id = f.officeId
+    </sql>
+
+    <select id="findOnlyNameList" resultType="Reimburse">
+        SELECT
+        <include refid="reimburseColumns"/>
+        FROM fa_reimburse_main f
+        <include refid="reimburseJoins"/>
+        WHERE a.id = #{id}
+    </select>
+
+
+    <select id="findAllNameList" resultType="Reimburse">
+        SELECT
+        <include refid="reimburseColumns"/>
+        FROM fa_reimburse_main f
+        <include refid="reimburseJoins"/>
+    </select>
+
+</mapper>
