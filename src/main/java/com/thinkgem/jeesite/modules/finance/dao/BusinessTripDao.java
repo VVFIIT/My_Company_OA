@@ -6,6 +6,7 @@ package com.thinkgem.jeesite.modules.finance.dao;
 import com.thinkgem.jeesite.common.persistence.CrudDao;
 import com.thinkgem.jeesite.common.persistence.annotation.MyBatisDao;
 import com.thinkgem.jeesite.modules.finance.entity.BusinessTripApplication;
+import com.thinkgem.jeesite.modules.finance.entity.BusinessTripReservation;
 
 /**
  * 报销
@@ -16,6 +17,10 @@ import com.thinkgem.jeesite.modules.finance.entity.BusinessTripApplication;
  */
 @MyBatisDao
 public interface BusinessTripDao extends CrudDao<BusinessTripApplication> {
+
+	public void insertBusinessTripApplication(BusinessTripApplication businessTripApplication);
+
+	public void insertBusinessTripReservation(BusinessTripReservation businessTripReservation);
 	
 	
 }

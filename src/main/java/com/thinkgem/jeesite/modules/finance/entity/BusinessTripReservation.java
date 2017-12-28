@@ -20,7 +20,7 @@ public class BusinessTripReservation {
 	private String city;// 出差城市
 	private String workPlace;// 出差具体工作地点
 	private Date beginDate;// 入住日期
-	private String endDate;// 退房日期
+	private Date endDate;// 退房日期
 	private String remark;// 出差是由
 	private Date createDate;// 创建时间
 	private Date updateDate;// 更新时间
@@ -82,11 +82,11 @@ public class BusinessTripReservation {
 		this.beginDate = beginDate;
 	}
 
-	public String getEndDate() {
+	public Date getEndDate() {
 		return endDate;
 	}
 
-	public void setEndDate(String endDate) {
+	public void setEndDate(Date endDate) {
 		this.endDate = endDate;
 	}
 

@@ -3,19 +3,20 @@
  */
 package com.thinkgem.jeesite.modules.finance.web;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.text.ParseException;
 
+import javax.servlet.http.HttpServletRequest;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.thinkgem.jeesite.common.web.BaseController;
-import com.thinkgem.jeesite.modules.finance.entity.BusinessTripAirTicket;
 import com.thinkgem.jeesite.modules.finance.entity.BusinessTripApplication;
 import com.thinkgem.jeesite.modules.finance.entity.BusinessTripModel;
-import com.thinkgem.jeesite.modules.finance.entity.BusinessTripReservation;
+import com.thinkgem.jeesite.modules.finance.service.BusinessTripService;
 
 /**
  * 出差
@@ -27,6 +28,9 @@ import com.thinkgem.jeesite.modules.finance.entity.BusinessTripReservation;
 @Controller
 @RequestMapping(value = "${adminPath}/fa/businessTrip")
 public class BusinessTripController extends BaseController {
+	
+	@Autowired
+	private BusinessTripService businessTripService;
 
 	@ModelAttribute("businessTripModel")
 	public BusinessTripModel getBusinessTripModel() {
@@ -34,30 +38,21 @@ public class BusinessTripController extends BaseController {
 	}
 	
 	@RequestMapping(value = "toApplyForm")
-	public String toApply(BusinessTripModel businessTripModel, Model model) {
+	public String toApply(BusinessTripModel businessTripModel, Model model) throws ParseException {
 		BusinessTripApplication businessTripApplication = new BusinessTripApplication();
-		List<BusinessTripReservation> businessTripReservationList = new ArrayList<BusinessTripReservation>();
-		List<BusinessTripAirTicket> businessTripAirTicketList = new ArrayList<BusinessTripAirTicket>();
 		businessTripApplication.setApplicantId("苗群");
 		businessTripApplication.setOfficeId("研发一部");
-		for(int i=0;i<2;i++) {
-			BusinessTripReservation businessTripReservation = new BusinessTripReservation();
-			BusinessTripAirTicket businessTripAirTicket = new BusinessTripAirTicket();
-			businessTripReservationList.add(businessTripReservation);
-			businessTripAirTicketList.add(businessTripAirTicket);
-		}
-		businessTripModel.setBusinessTripReservationList(businessTripReservationList);
-		businessTripModel.setBusinessTripAirTicketList(businessTripAirTicketList);
 		businessTripModel.setBusinessTripApplication(businessTripApplication);
 		model.addAttribute("businessTripModel", businessTripModel);
 		return "modules/fa/businessTripApplyForm";
 	}
 	
 	@RequestMapping(value = "commitApplyForm")
-	public String commitApplyForm(BusinessTripModel businessTripModel, Model model) {
+	public String commitApplyForm(HttpServletRequest request) throws ParseException {
+		businessTripService.insertBusinessTripApplication(request);
+		businessTripService.insertBusinessTripReservation(request);
 		return "modules/fa/businessTripApplyForm";
 	}
-	
 	
 	
 	
