@@ -19,7 +19,7 @@
         f.MANAGERCOMMENT AS "managerComment",
         f.FAComment AS "fa_comment",
         u.name AS "user.name",
-		o.name AS "user.office.name"
+        o.name AS "user.office.name"
     </sql>
 
     <sql id="reimburseJoins">
@@ -32,9 +32,8 @@
         <include refid="reimburseColumns"/>
         FROM fa_reimburse_main f
         <include refid="reimburseJoins"/>
-        WHERE f.id = #{id}
+        WHERE f.applicantId = #{applicantId}
     </select>
-
 
     <select id="findAllNameList" resultType="ReimburseMain">
         SELECT

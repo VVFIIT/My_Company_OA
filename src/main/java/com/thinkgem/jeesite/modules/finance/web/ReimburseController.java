@@ -5,6 +5,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.thinkgem.jeesite.common.persistence.Page;
 import com.thinkgem.jeesite.modules.finance.entity.ReimburseMain;
+import com.thinkgem.jeesite.modules.sys.entity.User;
+import com.thinkgem.jeesite.modules.sys.utils.UserUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -54,11 +56,14 @@ public class ReimburseController extends BaseController {
 	public String list(ReimburseMain reimburseMain, Model model, HttpServletRequest request,
 					   HttpServletResponse response) {
 		System.out.println("_______________________1111111111111");
-        Page<ReimburseMain> page = reimburseService.reimburseMainList(new Page<ReimburseMain>(request, response));
-        model.addAttribute("page", page);
-//        reimburseService.insertMonthToModel(model);
+		Page<ReimburseMain> page = reimburseService.reimburseMainList(new Page<ReimburseMain>(request, response));
+		model.addAttribute("page", page);
+		User user = UserUtils.getUser();
+		reimburseMain.setApplicantId(user.getId());
+		model.addAttribute("reimburseMainName", reimburseMain);
 		return "modules/fa/reimburseList";
 	}
-	
-	
+
+
+
 }
