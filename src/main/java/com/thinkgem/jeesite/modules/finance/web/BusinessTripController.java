@@ -12,7 +12,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.thinkgem.jeesite.common.config.Global;
 import com.thinkgem.jeesite.common.web.BaseController;
 import com.thinkgem.jeesite.modules.finance.entity.BusinessTripApplication;
 import com.thinkgem.jeesite.modules.finance.entity.BusinessTripModel;
@@ -48,13 +50,17 @@ public class BusinessTripController extends BaseController {
 	}
 	
 	@RequestMapping(value = "commitApplyForm")
-	public String commitApplyForm(HttpServletRequest request) throws ParseException {
+	public void commitApplyForm(HttpServletRequest request) throws ParseException {
 		businessTripService.insertBusinessTripApplication(request);
 		businessTripService.insertBusinessTripReservation(request);
-		return "modules/fa/businessTripApplyForm";
+		businessTripService.insertBusinessTripAirTicket(request);
 	}
 	
-	
+	@RequestMapping(value = "commitApplyFormSoncend")
+	public String commitApplyFormSoncend(RedirectAttributes redirectAttributes) {
+		addMessage(redirectAttributes, "出差申请成功!");
+		return "redirect:" + Global.getAdminPath() + "/fa/businessTrip/toApplyForm?repage";
+	}
 	
 	
 	
