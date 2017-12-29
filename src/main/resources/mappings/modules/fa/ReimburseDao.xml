@@ -33,6 +33,9 @@
         FROM fa_reimburse_main f
         <include refid="reimburseJoins"/>
         WHERE f.applicantId = #{applicantId}
+        <if test="status != null and status != ''">
+            AND f.status = #{status}
+        </if>
     </select>
 
     <select id="findAllNameList" resultType="ReimburseMain">
@@ -40,6 +43,21 @@
         <include refid="reimburseColumns"/>
         FROM fa_reimburse_main f
         <include refid="reimburseJoins"/>
+        <!--<if test="title != null and title != ''">-->
+        <!--AND a.TITLE LIKE-->
+        <!--<if test="dbName == 'oracle'">'%'||#{title}||'%'</if>-->
+        <!--<if test="dbName == 'mssql'">'%'+#{title}+'%'</if>-->
+        <!--<if test="dbName == 'mysql'">CONCAT('%', #{title}, '%')</if>-->
+        <!--</if>-->
+        <if test="status != null and status != ''">
+            AND f.status = #{status}
+        </if>
+        <!--<if test="status != null and status != ''">-->
+        <!--AND a.STATUS = #{status}-->
+        <!--</if>-->
+        <!--<if test="isSelf">-->
+        <!--AND a.STATUS = '1'-->
+        <!--</if>-->
     </select>
 
 </mapper>

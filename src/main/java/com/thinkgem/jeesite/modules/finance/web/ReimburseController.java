@@ -55,15 +55,12 @@ public class ReimburseController extends BaseController {
 	@RequestMapping(value = "list")
 	public String list(ReimburseMain reimburseMain, Model model, HttpServletRequest request,
 					   HttpServletResponse response) {
-		System.out.println("_______________________1111111111111");
-		Page<ReimburseMain> page = reimburseService.reimburseMainList(new Page<ReimburseMain>(request, response));
+		Page<ReimburseMain> page = reimburseService.reimburseMainList(new Page<ReimburseMain>(request, response),reimburseMain);
 		model.addAttribute("page", page);
 		User user = UserUtils.getUser();
 		reimburseMain.setApplicantId(user.getId());
 		model.addAttribute("reimburseMainName", reimburseMain);
 		return "modules/fa/reimburseList";
 	}
-
-
 
 }

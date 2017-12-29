@@ -27,8 +27,7 @@ public class ReimburseService {
     /**
      * 报销列表数据
      */
-    public Page<ReimburseMain> reimburseMainList(Page<ReimburseMain> page) {
-        ReimburseMain reimburseMain = new ReimburseMain();
+    public Page<ReimburseMain> reimburseMainList(Page<ReimburseMain> page, ReimburseMain reimburseMain) {
         reimburseMain.setPage(page);
         User user = UserUtils.getUser();
         reimburseMain.setApplicantId(user.getId());
@@ -42,4 +41,5 @@ public class ReimburseService {
         }
         return page;
     }
+
 }
