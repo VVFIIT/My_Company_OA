@@ -7,12 +7,17 @@
 		m.procInsId AS "procInstId",
 		m.officeId AS "officeId"
     </sql>
-    
-    <!-- <select id="getProjectByName" resultType="com.thinkgem.jeesite.modules.finance.entity.Project">
-    	SELECT id, itemNo, name 
+    <select id="getProjectByName" resultType="com.thinkgem.jeesite.modules.finance.entity.Project" parameterType="string">
+    	SELECT *
     	FROM fa_project
-    	WHERE name = #{projectName}
-    </select> -->
+    	WHERE name = #{_projectName}
+    </select>
+    
+    <select id="getUserByName" resultType="User" parameterType="string">
+    	SELECT *
+    	FROM sys_user
+    	WHERE name = #{_userName}
+    </select>
     
     <insert id="insertBusinessTripApplication">
 		INSERT INTO fa_businesstrip_application(

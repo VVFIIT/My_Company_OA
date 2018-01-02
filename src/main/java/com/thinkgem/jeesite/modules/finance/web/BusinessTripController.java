@@ -4,6 +4,7 @@
 package com.thinkgem.jeesite.modules.finance.web;
 
 import java.text.ParseException;
+import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -16,9 +17,10 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.thinkgem.jeesite.common.config.Global;
 import com.thinkgem.jeesite.common.web.BaseController;
-import com.thinkgem.jeesite.modules.finance.entity.BusinessTripApplication;
 import com.thinkgem.jeesite.modules.finance.entity.BusinessTripModel;
 import com.thinkgem.jeesite.modules.finance.service.BusinessTripService;
+import com.thinkgem.jeesite.modules.sys.entity.User;
+import com.thinkgem.jeesite.modules.sys.utils.UserUtils;
 
 /**
  * 出差
@@ -39,26 +41,34 @@ public class BusinessTripController extends BaseController {
 		return new BusinessTripModel();
 	}
 	
+	/**
+	 * 进入出差申请页面
+	 * @author Meng
+	 */
 	@RequestMapping(value = "toApplyForm")
-	public String toApply(BusinessTripModel businessTripModel, Model model) throws ParseException {
-		BusinessTripApplication businessTripApplication = new BusinessTripApplication();
-		businessTripApplication.setApplicantId("苗群");
-		businessTripApplication.setOfficeId("研发一部");
-		businessTripModel.setBusinessTripApplication(businessTripApplication);
-		model.addAttribute("businessTripModel", businessTripModel);
+	public String toApply(BusinessTripModel businessTripModel, Model model) {
+		User user = UserUtils.getUser();
+		model.addAttribute("applicantName", user.getName());
+		model.addAttribute("officeName", user.getOffice().getName());
 		return "modules/fa/businessTripApplyForm";
 	}
 	
+	/**
+	 * 出差申请页面提交
+	 * @author Meng
+	 */
 	@RequestMapping(value = "commitApplyForm")
-	public void commitApplyForm(HttpServletRequest request) throws ParseException {
-		businessTripService.insertBusinessTripApplication(request);
-		businessTripService.insertBusinessTripReservation(request);
-		businessTripService.insertBusinessTripAirTicket(request);
-	}
-	
-	@RequestMapping(value = "commitApplyFormSoncend")
-	public String commitApplyFormSoncend(RedirectAttributes redirectAttributes) {
-		addMessage(redirectAttributes, "出差申请成功!");
+	public String commitApplyFormSoncend(HttpServletRequest request, RedirectAttributes redirectAttributes) {
+		String applicationId = UUID.randomUUID().toString();
+		try {
+			businessTripService.insertBusinessTripApplication(request, applicationId);
+			businessTripService.insertBusinessTripReservation(request, applicationId);
+			businessTripService.insertBusinessTripAirTicket(request, applicationId);
+			addMessage(redirectAttributes, "出差申请成功!");
+		} catch (ParseException e) {
+			e.printStackTrace();
+			addMessage(redirectAttributes, "出差申请失败!");
+		}
 		return "redirect:" + Global.getAdminPath() + "/fa/businessTrip/toApplyForm?repage";
 	}
 	

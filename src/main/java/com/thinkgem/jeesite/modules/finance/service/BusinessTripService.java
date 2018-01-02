@@ -3,8 +3,6 @@ package com.thinkgem.jeesite.modules.finance.service;
 import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
@@ -17,7 +15,6 @@ import com.thinkgem.jeesite.modules.finance.dao.BusinessTripDao;
 import com.thinkgem.jeesite.modules.finance.entity.BusinessTripAirTicket;
 import com.thinkgem.jeesite.modules.finance.entity.BusinessTripApplication;
 import com.thinkgem.jeesite.modules.finance.entity.BusinessTripReservation;
-import com.thinkgem.jeesite.modules.sys.dao.UserDao;
 import com.thinkgem.jeesite.modules.sys.entity.User;
 import com.thinkgem.jeesite.modules.sys.utils.UserUtils;
 
@@ -37,11 +34,12 @@ public class BusinessTripService {
 	@Autowired
 	private BusinessTripDao businessTripDao;
 	
-	@Autowired
-	private UserDao userDao;
-	
+	/**
+	 * 将出差信息插入db
+	 * @author Meng
+	 */
 	@Transactional(readOnly = false)
-	public void insertBusinessTripApplication(HttpServletRequest request) throws ParseException {
+	public void insertBusinessTripApplication(HttpServletRequest request, String applicationId) throws ParseException {
 		BusinessTripApplication businessTripApplication = new BusinessTripApplication();
 		SimpleDateFormat sdf= new SimpleDateFormat("yyyy-MM-dd");
 		String togetherName = request.getParameter("togetherId");
@@ -52,42 +50,42 @@ public class BusinessTripService {
 		String remark = request.getParameter("remark");
 		String begindate = request.getParameter(("beginDate"));
 		String managerName = request.getParameter("managerId");
-//		User togetherUser = new User();
-//		togetherUser.setName(togetherName);
-//		businessTripApplication.setTogetherId(userDao.get(togetherUser).getId());
-		businessTripApplication.setTogetherId("134b1ea7caa64112962b97db8b4ad2a7");
+		businessTripApplication.setTogetherId(businessTripDao.getUserByName(togetherName).getId());
 		businessTripApplication.setPhone(phone);
 		businessTripApplication.setIDNo(IDNo);
-//		String projectId = businessTripDao.getProjectByName(projectName).getId();
-		businessTripApplication.setProjectId("1");
+		businessTripApplication.setProjectId(businessTripDao.getProjectByName(projectName).getId());
 		businessTripApplication.setType(type);
 		businessTripApplication.setRemark(remark);
 		if(begindate != null && !"".equals(begindate)) {
 			businessTripApplication.setBeginDate(sdf.parse(begindate));
 		}
-//		User managerUser = new User();
-//		managerUser.setName(managerName);
-		businessTripApplication.setManagerId("4d07105c85a7427ea477cbdb0acb51ed");
-		businessTripApplication.setId(UUID.randomUUID().toString());
+		businessTripApplication.setManagerId(businessTripDao.getUserByName(managerName).getId());
+		businessTripApplication.setId(applicationId);
 		User user = UserUtils.getUser();
 		businessTripApplication.setOfficeId(user.getOffice().getId());
 		businessTripApplication.setApplicantId(user.getId());
 		businessTripDao.insertBusinessTripApplication(businessTripApplication);
 	}
 
+	/**
+	 * 将订房信息插入db
+	 * @author Meng
+	 */
 	@Transactional(readOnly = false)
-	public void insertBusinessTripReservation(HttpServletRequest request) throws ParseException {
+	public void insertBusinessTripReservation(HttpServletRequest request, String applicationId) throws ParseException {
 		SimpleDateFormat sdf= new SimpleDateFormat("yyyy-MM-dd");
-		List<BusinessTripReservation> list1 = new ArrayList<BusinessTripReservation>();
-		int reservationNum = Integer.valueOf(request.getParameter("reservationNum"));
-		for(int i=1;i<reservationNum+1;i++) {
+		String reservationEveryNum = request.getParameter("reservationEveryNum");
+		String[] reservationNum = reservationEveryNum.split("");
+		for (int i = 0; i < reservationNum.length; i++) {
 			BusinessTripReservation businessTripReservation = new BusinessTripReservation();
-			String reservationType = request.getParameter(("reservationType"+i));
-			String reservationCity = request.getParameter(("reservationCity"+i));
-			String reservationWorkPlace = request.getParameter(("reservationWorkPlace"+i));
-			String reservationBeginDate = request.getParameter(("reservationBeginDate"+i));
-			String reservationEndDate = request.getParameter(("reservationEndDate"+i));
-			String reservationDays = request.getParameter(("reservationDays"+i));
+			String reservationType = request.getParameter(("reservationType"+reservationNum[i]));
+			String reservationCity = request.getParameter(("reservationCity"+reservationNum[i]));
+			String reservationWorkPlace = request.getParameter(("reservationWorkPlace"+reservationNum[i]));
+			String reservationBeginDate = request.getParameter(("reservationBeginDate"+reservationNum[i]));
+			String reservationEndDate = request.getParameter(("reservationEndDate"+reservationNum[i]));
+			String reservationDays = request.getParameter(("reservationDays"+reservationNum[i]));
+			businessTripReservation.setId(UUID.randomUUID().toString());
+			businessTripReservation.setApplicationId(applicationId);
 			businessTripReservation.setType(reservationType);
 			businessTripReservation.setCity(reservationCity);
 			businessTripReservation.setWorkPlace(reservationWorkPlace);
@@ -100,22 +98,28 @@ public class BusinessTripService {
 			if(reservationDays != null && !"".equals(reservationDays)) {
 				businessTripReservation.setDays(Integer.valueOf(reservationDays));
 			}
-			list1.add(businessTripReservation);
-//			businessTripDao.insertBusinessTripReservation(businessTripReservation);
+			businessTripDao.insertBusinessTripReservation(businessTripReservation);
 		}
 	}
 
-	public void insertBusinessTripAirTicket(HttpServletRequest request) throws ParseException {
+	/**
+	 * 将机票信息插入db
+	 * @author Meng
+	 */
+	@Transactional(readOnly = false)
+	public void insertBusinessTripAirTicket(HttpServletRequest request, String applicationId) throws ParseException {
 		SimpleDateFormat sdf= new SimpleDateFormat("yyyy-MM-dd HH:mm");
-		List<BusinessTripAirTicket> list2 = new ArrayList<BusinessTripAirTicket>();
-		int airTicketNum = Integer.valueOf(request.getParameter("airTicketNum"));
-		for(int i=1;i<airTicketNum+1;i++) {
+		String airTicketEveryNum = request.getParameter("airTicketEveryNum");
+		String[] airTicketNum = airTicketEveryNum.split("");
+		for (int i = 0; i < airTicketNum.length; i++) {
 			BusinessTripAirTicket businessTripAirTicket = new BusinessTripAirTicket();
-			String airTicketFlyDate = request.getParameter(("airTicketFlyDate"+i));
-			String airTicketAmount = request.getParameter(("airTicketAmount"+i));
-			String airTicketStartLocation = request.getParameter(("airTicketStartLocation"+i));
-			String airTicketArrivedLocation = request.getParameter(("airTicketArrivedLocation"+i));
-			String airTicketRemark = request.getParameter(("airTicketRemark"+i));
+			String airTicketFlyDate = request.getParameter(("airTicketFlyDate"+airTicketNum[i]));
+			String airTicketAmount = request.getParameter(("airTicketAmount"+airTicketNum[i]));
+			String airTicketStartLocation = request.getParameter(("airTicketStartLocation"+airTicketNum[i]));
+			String airTicketArrivedLocation = request.getParameter(("airTicketArrivedLocation"+airTicketNum[i]));
+			String airTicketRemark = request.getParameter(("airTicketRemark"+airTicketNum[i]));
+			businessTripAirTicket.setId(UUID.randomUUID().toString());
+			businessTripAirTicket.setApplicationId(applicationId);
 			if(airTicketFlyDate != null && !"".equals(airTicketFlyDate)) {
 				businessTripAirTicket.setFlyDate(sdf.parse(airTicketFlyDate));
 			}
@@ -125,8 +129,7 @@ public class BusinessTripService {
 			businessTripAirTicket.setStartLocation(airTicketStartLocation);
 			businessTripAirTicket.setArrivedLocation(airTicketArrivedLocation);
 			businessTripAirTicket.setRemark(airTicketRemark);
-			list2.add(businessTripAirTicket);
-//			businessTripDao.insertBusinessTripAirTicket(businessTripAirTicket);
+			businessTripDao.insertBusinessTripAirTicket(businessTripAirTicket);
 		}
 	}
 
