@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.thinkgem.jeesite.modules.finance.dao.BusinessTripDao">
+
+	<sql id="businessTripColumns">
+		m.id,
+		m.procInsId AS "procInstId",
+		m.officeId AS "officeId"
+    </sql>
+    
+    <!-- <select id="getProjectByName" resultType="com.thinkgem.jeesite.modules.finance.entity.Project">
+    	SELECT id, itemNo, name 
+    	FROM fa_project
+    	WHERE name = #{projectName}
+    </select> -->
+    
+    <insert id="insertBusinessTripApplication">
+		INSERT INTO fa_businesstrip_application(
+			id, 
+			procInstId, 
+			officeId, 
+			applicantId, 
+			projectId, 
+			togetherId, 
+			beginDate, 
+			endDate, 
+			IDNo, 
+			remark,
+			type, 
+			managerId, 
+			phone, 
+			status, 
+			managerFlag, 
+			FAFlag, 
+			ManagerComment, 
+			FAComment
+		) VALUES (
+			#{id}, 
+			#{procInstId}, 
+			#{officeId}, 
+			#{applicantId}, 
+			#{projectId}, 
+			#{togetherId}, 
+			#{beginDate}, 
+			#{endDate}, 
+			#{IDNo}, 
+			#{remark},
+			#{type}, 
+			#{managerId}, 
+			#{phone}, 
+			#{status}, 
+			#{managerFlag}, 
+			#{FAFlag}, 
+			#{ManagerComment}, 
+			#{FAComment}
+		)
+	</insert>
+    
+    <insert id="insertBusinessTripReservation">
+		INSERT INTO fa_businesstrip_reservation(
+			id, 
+			applicationId, 
+			type, 
+			city, 
+			workPlace, 
+			beginDate, 
+			endDate, 
+			remark, 
+			createDate, 
+			updateDate
+		) VALUES (
+			#{id}, 
+			#{applicationId}, 
+			#{type}, 
+			#{city}, 
+			#{workPlace}, 
+			#{beginDate}, 
+			#{endDate}, 
+			#{remark}, 
+			#{createDate},
+			#{updateDate} 
+		)
+	</insert>
+	
+	<insert id="insertBusinessTripAirTicket">
+		INSERT INTO fa_businesstrip_airticket(
+			id, 
+			applicationId, 
+			flyDate, 
+			applyDate, 
+			amount, 
+			remark, 
+			startLocation, 
+			arrivedLocation, 
+			updateDate
+		) VALUES (
+			#{id}, 
+			#{applicationId}, 
+			#{flyDate}, 
+			#{applyDate}, 
+			#{amount}, 
+			#{remark}, 
+			#{startLocation}, 
+			#{arrivedLocation}, 
+			#{updateDate}
+		)
+	</insert>
+    
+</mapper>
