@@ -18,10 +18,28 @@ import com.thinkgem.jeesite.modules.finance.entity.ReimburseTaxi;
 public class ReimburseModel {
 
 	private ReimburseMain reimbursementMain;
+	private String officeName;
+	private String userName;
 	private List<ReimburseHospitality> hospitalityList;
 	private List<ReimburseLongDistance> longDistanceList;
 	private List<ReimburseOther> otherList;
 	private List<ReimburseTaxi> taxiList;
+
+	public String getOfficeName() {
+		return officeName;
+	}
+
+	public void setOfficeName(String officeName) {
+		this.officeName = officeName;
+	}
+
+	public String getUserName() {
+		return userName;
+	}
+
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
 
 	public ReimburseMain getReimbursementMain() {
 		return reimbursementMain;
