@@ -9,8 +9,12 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.thinkgem.jeesite.common.web.BaseController;
+import com.thinkgem.jeesite.modules.finance.entity.ReimburseMain;
+import com.thinkgem.jeesite.modules.finance.helper.ReimburseModel;
 import com.thinkgem.jeesite.modules.finance.service.ReimburseService;
 import com.thinkgem.jeesite.modules.oa.entity.AttendanceMonth;
+import com.thinkgem.jeesite.modules.sys.entity.User;
+import com.thinkgem.jeesite.modules.sys.utils.UserUtils;
 
 /**
  * 报销
@@ -30,14 +34,18 @@ public class ReimburseController extends BaseController {
 	@RequestMapping(value = "toApplyForm")
 	public String toApplyForm(AttendanceMonth attendanceMonth, Model model, HttpServletRequest request,
 			HttpServletResponse response) {
-		
-		
+		ReimburseModel reimburseModel=new ReimburseModel();
+		User user=UserUtils.getUser();
+		reimburseModel.setUserName(user.getName());
+		reimburseModel.setOfficeName(user.getOffice().getName());
+	
+		model.addAttribute("reimburseModel", reimburseModel);
 		return "modules/fa/reimburse/reimburseApplyForm";
 	}
 
 	
 	@RequestMapping(value = "commitApplyForm")
-	public String commitApplyForm(AttendanceMonth attendanceMonth, Model model, HttpServletRequest request,
+	public String commitApplyForm(ReimburseModel reimburseModel, Model model, HttpServletRequest request,
 			HttpServletResponse response) {
 		
 		
