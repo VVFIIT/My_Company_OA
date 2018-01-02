@@ -63,4 +63,18 @@ public class ReimburseController extends BaseController {
 		return "modules/fa/reimburseList";
 	}
 
+
+	/**
+	 * 报销费用综合申报表查看
+	 */
+	@RequestMapping(value = "formList")
+	public String formList(ReimburseMain reimburseMain, Model model, HttpServletRequest request,
+					   HttpServletResponse response) {
+//		Page<ReimburseMain> page = reimburseService.reimburseMainList(new Page<ReimburseMain>(request, response),reimburseMain);
+//		model.addAttribute("page", page);
+//		User user = UserUtils.getUser();
+//		reimburseMain.setApplicantId(user.getId());
+//		model.addAttribute("reimburseMainName", reimburseMain);
+		return "modules/fa/reimburseFormList";
+	}
 }

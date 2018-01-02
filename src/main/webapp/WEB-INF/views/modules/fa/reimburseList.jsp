@@ -20,6 +20,7 @@
 <body>
 <ul class="nav nav-tabs">
     <li class="active"><a href="${ctx}/fa/reimburse/list${reimburseMain.id}">费用报销列表</a></li>
+    <li><a href="${ctx}/fa/reimburse/formList">报销费用综合申报表查看</a></li>
 </ul>
 <form:form id="searchForm"
            modelAttribute="reimburseMainName" action="${ctx}/fa/reimburse/list" class="breadcrumb form-search">
