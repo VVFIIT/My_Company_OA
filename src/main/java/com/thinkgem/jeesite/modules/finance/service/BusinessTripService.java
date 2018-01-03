@@ -3,14 +3,26 @@ package com.thinkgem.jeesite.modules.finance.service;
 import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.activiti.engine.TaskService;
+import org.activiti.engine.impl.persistence.entity.TaskEntity;
+import org.activiti.engine.task.Task;
+import org.activiti.engine.task.TaskQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.google.common.collect.Maps;
+import com.thinkgem.jeesite.common.persistence.Page;
+import com.thinkgem.jeesite.modules.act.entity.Act;
+import com.thinkgem.jeesite.modules.act.service.ActTaskService;
+import com.thinkgem.jeesite.modules.act.utils.ActUtils;
 import com.thinkgem.jeesite.modules.finance.dao.BusinessTripDao;
 import com.thinkgem.jeesite.modules.finance.entity.BusinessTripAirTicket;
 import com.thinkgem.jeesite.modules.finance.entity.BusinessTripApplication;
@@ -33,6 +45,12 @@ public class BusinessTripService {
 	
 	@Autowired
 	private BusinessTripDao businessTripDao;
+	
+	@Autowired
+	private TaskService taskService;
+	
+	@Autowired
+	private ActTaskService actTaskService;
 	
 	/**
 	 * 将出差信息插入db
@@ -62,8 +80,8 @@ public class BusinessTripService {
 		businessTripApplication.setManagerId(businessTripDao.getUserByName(managerName).getId());
 		businessTripApplication.setId(applicationId);
 		User user = UserUtils.getUser();
-		businessTripApplication.setOfficeId(user.getOffice().getId());
-		businessTripApplication.setApplicantId(user.getId());
+		businessTripApplication.setOffice(user.getOffice());
+		businessTripApplication.setApplicant(user);
 		businessTripDao.insertBusinessTripApplication(businessTripApplication);
 	}
 
@@ -132,6 +150,94 @@ public class BusinessTripService {
 			businessTripDao.insertBusinessTripAirTicket(businessTripAirTicket);
 		}
 	}
+	
+	/**
+	 * 获取出差任务列表
+	 * @author Meng
+	 */
+	public List<BusinessTripApplication> businessTripTaskList(){
+		List<BusinessTripApplication> resultList = new ArrayList<BusinessTripApplication>();
+		// 获取当前用户
+		String userId = UserUtils.getUser().getLoginName();
+		TaskQuery todoTaskQuery = taskService.createTaskQuery().taskAssignee(userId).active().includeProcessVariables()
+				.orderByTaskCreateTime().asc();
+		// 获取当前用户的任务列表
+		List<Task> todoList = todoTaskQuery.list();
+		// 循环任务列表，将处理好的vehicleProcess对象放到resultList中
+		for (Task task : todoList) {
+			// 获取任务的procInsId
+			String procInstId = ((TaskEntity) task).getProcessInstanceId();
+			BusinessTripApplication businessTripApplication = new BusinessTripApplication();
+			businessTripApplication.setProcInstId(procInstId);
+			// 通过procInsId获取相应对象
+			List<BusinessTripApplication> businessTripApplicationList = businessTripDao.findList(businessTripApplication);
+			if(businessTripApplicationList!=null&&businessTripApplicationList.size()>0){
+				// 正常情况下vehicleProcessList中只有一个vehicleProcess对象
+				businessTripApplication = businessTripApplicationList.get(0);
+				// 将task和流程变量都赋给这个vehicleProcess对象
+				Act act = new Act();
+				act.setTask(task);
+				act.setVars(task.getProcessVariables());
+				businessTripApplication.setAct(act);
+				// 将该对象放到resultList中
+				resultList.add(businessTripApplication);
+			}
+		}
+		return resultList;
+	}
 
+	/**
+	 * 翻页
+	 * @author Meng
+	 */
+	public Page<BusinessTripApplication> findPage(Page<BusinessTripApplication> page,
+			List<BusinessTripApplication> list) {
+		// 将数据个数赋给page
+		page.setCount(list.size());
+		// 将数据list赋给page
+		page.setList(list);
+		return page;
+	}
+
+	/**
+	 * 启动出差工作流
+	 * @author Meng
+	 */
+	@Transactional(readOnly = false)
+	public String startBusinessTripProcess(String applicationId) {
+		// 流程标题
+		String title = "出差审批";
+		Map<String, Object> startVars = Maps.newHashMap();
+		startVars.put("businessTripApplicant", UserUtils.getUser().getLoginName());
+		// 启动流程 获取procInsId
+		String procInsId = actTaskService.startProcess(ActUtils.PD_BUSINESSTRIP[0], ActUtils.PD_BUSINESSTRIP[1],
+				applicationId, title, startVars);
+		// 更新主表的procInsId
+		businessTripDao.updateProcInsIdByApplicationId(procInsId, applicationId);
+		return procInsId;
+	}
+
+	/**
+	 * complete出差申请工作流
+	 * @author Meng
+	 */
+	@Transactional(readOnly = false)
+	public void completeApplicantProcess(String procInsId, String applicationId) {
+		// 流程标题
+		String title = "出差审批";
+		// 通过ProcInsId获取TaskId
+		String taskId = businessTripDao.findTaskIdByProcInsId(procInsId, "BusinessTripApply");
+		// 创建流程变量
+		Map<String, Object> vars = Maps.newHashMap();
+		// 添加流程变量-标题
+		vars.put("title", title);
+		// 完成流程节点
+		actTaskService.complete(taskId, procInsId, "", vars);
+		// 更新流程状态
+		businessTripDao.updateStatus("10", applicationId);
+	}
+
+
+	
 	
 }
