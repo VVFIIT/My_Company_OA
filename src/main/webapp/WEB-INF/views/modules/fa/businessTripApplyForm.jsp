@@ -56,7 +56,7 @@
 		/* 移除一条订房信息 */
 		function removeBusinessTripReservation(reservationId){
 			var reservationEveryNum = $("#reservationEveryNum").val();
-			var idNum = reservationId.substring(11);
+			var idNum = reservationId.substring(11); 
 			var EveryNum = "";
 			var a= reservationEveryNum.split("");
 			for(var i=0;i<a.length;i++){
