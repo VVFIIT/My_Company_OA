@@ -2,11 +2,34 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.thinkgem.jeesite.modules.finance.dao.BusinessTripDao">
 
-	<sql id="businessTripColumns">
-		m.id,
-		m.procInsId AS "procInstId",
-		m.officeId AS "officeId"
+	<sql id="businessTripApplicationColumns">
+		a.id, 
+		a.procInstId, 
+		o.id AS "office.id", 
+		o.name AS "office.name", 
+		u.id AS "applicant.id", 
+		u.name AS "applicant.name", 
+		a.projectId, 
+		a.togetherId, 
+		a.beginDate, 
+		a.endDate, 
+		a.IDNo, 
+		a.remark,
+		a.type, 
+		a.managerId, 
+		a.phone, 
+		a.status, 
+		a.managerFlag, 
+		a.FAFlag, 
+		a.ManagerComment, 
+		a.FAComment
     </sql>
+    
+    <sql id="businessTripApplicationJoins">
+		JOIN sys_user u ON u.id=a.applicantId
+		JOIN sys_office o ON o.id=a.officeId
+    </sql>
+    
     <select id="getProjectByName" resultType="com.thinkgem.jeesite.modules.finance.entity.Project" parameterType="string">
     	SELECT *
     	FROM fa_project
@@ -18,6 +41,23 @@
     	FROM sys_user
     	WHERE name = #{_userName}
     </select>
+    
+    <select id="findTaskIdByProcInsId" resultType="string">
+		select id_ as taskId 
+		from act_hi_taskinst
+		WHERE proc_inst_id_ = #{0} and TASK_DEF_KEY_ = #{1}
+	</select>
+	
+	<select id="findList" resultType="businessTripApplication">
+		SELECT 
+			<include refid="businessTripApplicationColumns"/>
+		FROM fa_businesstrip_application a
+		<include refid="businessTripApplicationJoins"/>
+		<if test="procInstId != null and procInstId != ''">
+			WHERE a.procInstId = #{procInstId}
+		</if>
+		ORDER BY a.beginDate ASC
+	</select>
     
     <insert id="insertBusinessTripApplication">
 		INSERT INTO fa_businesstrip_application(
@@ -42,8 +82,8 @@
 		) VALUES (
 			#{id}, 
 			#{procInstId}, 
-			#{officeId}, 
-			#{applicantId}, 
+			#{office.id}, 
+			#{applicant.id}, 
 			#{projectId}, 
 			#{togetherId}, 
 			#{beginDate}, 
@@ -110,5 +150,17 @@
 			#{updateDate}
 		)
 	</insert>
+	
+	<update id="updateProcInsIdByApplicationId">
+		UPDATE fa_businesstrip_application SET 
+			procInstId = #{0}
+		WHERE id = #{1}
+	</update>
+	
+	<update id="updateStatus">
+		UPDATE fa_businesstrip_application SET 
+			status = #{0}
+		WHERE id = #{1}
+	</update>
     
 </mapper>
