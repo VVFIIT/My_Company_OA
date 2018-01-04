@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.List;
 
 /**
  * 报销
@@ -90,7 +89,7 @@ public class ReimburseController extends BaseController {
 		User user = UserUtils.getUser();
 		reimburseMain.setApplicantId(user.getId());
 		model.addAttribute("reimburseMainName", reimburseMain);
-		return "modules/fa/reimburseList";
+		return "modules/fa/reimburse/reimburseList";
 	}
 
 
@@ -102,8 +101,8 @@ public class ReimburseController extends BaseController {
 						   HttpServletResponse response, String id) {
 		ReimburseMain reimburseMains = reimburseService.reimburseInformation(id);
 		model.addAttribute("reimburseMain", reimburseMains);
-		List<ReimburseHospitality> reimburseHospitalityList=reimburseHospitalityService.reimburseHospitalityInformation(id);
-		System.out.println("_________________________________"+reimburseHospitalityList);
-		return "modules/fa/reimburseFormList";
+		Page<ReimburseHospitality> reimburseHospitalityPage = reimburseHospitalityService.reimburseHospitalityInformation(new Page<ReimburseHospitality>(request, response), id);
+		model.addAttribute("reimburseHospitalityPage", reimburseHospitalityPage);
+		return "modules/fa/reimburse/reimburseFormList";
 	}
 }

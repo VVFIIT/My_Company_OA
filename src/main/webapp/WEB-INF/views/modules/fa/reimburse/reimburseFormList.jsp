@@ -46,7 +46,7 @@
     </tr>
     </thead>
     <tbody>
-    <c:forEach items="${page.list}" var="reimburseMain">
+    <%--<c:forEach items="${page.list}" var="reimburseMain">--%>
         <tr>
             <td><fmt:formatDate value="${reimburseMain.applyDate}" type="both" pattern="yyyy-MM-dd"/></td>
             <td>${fns:abbr(reimburseMain.user.office.name,30)} </td>
@@ -54,7 +54,7 @@
             <td>${fns:abbr(reimburseMain.totalAmount,30)}</td>
             <td>${fns:getDictLabel(reimburseMain.status,'fa_reimburseMain_status','')}</td>
         </tr>
-    </c:forEach>
+    <%--</c:forEach>--%>
     </tbody>
 </table>
 
@@ -72,7 +72,7 @@
     </tr>
     </thead>
     <tbody>
-    <c:forEach items="${page.list}" var="reimburseMain">
+    <%--<c:forEach items="${page.list}" var="reimburseMain">--%>
         <tr>
             <td><fmt:formatDate value="${reimburseMain.applyDate}" type="both" pattern="yyyy-MM-dd"/></td>
             <td>${fns:abbr(reimburseMain.user.office.name,30)} </td>
@@ -83,7 +83,7 @@
             <td>${fns:getDictLabel(reimburseMain.status,'fa_reimburseMain_status','')}</td>
             <td>${fns:getDictLabel(reimburseMain.status,'fa_reimburseMain_status','')}</td>
         </tr>
-    </c:forEach>
+    <%--</c:forEach>--%>
     </tbody>
 </table>
 
@@ -101,16 +101,16 @@
     </tr>
     </thead>
     <tbody>
-    <c:forEach items="${page.list}" var="reimburseMain">
+    <c:forEach items="${reimburseHospitalityPage.list}" var="reimburseHospitality">
         <tr>
-            <td><fmt:formatDate value="${reimburseMain.applyDate}" type="both" pattern="yyyy-MM-dd"/></td>
-            <td>${fns:abbr(reimburseMain.user.office.name,30)} </td>
-            <td><fmt:formatDate value="${reimburseMain.beginDate}" type="both" pattern="yyyy-MM-dd"/></td>
-            <td><fmt:formatDate value="${reimburseMain.endDate}" type="both" pattern="yyyy-MM-dd"/></td>
-            <td>${fns:abbr(reimburseMain.totalAmount,30)}</td>
-            <td>${fns:getDictLabel(reimburseMain.status,'fa_reimburseMain_status','')}</td>
-            <td>${fns:getDictLabel(reimburseMain.status,'fa_reimburseMain_status','')}</td>
-            <td>${fns:getDictLabel(reimburseMain.status,'fa_reimburseMain_status','')}</td>
+            <td><fmt:formatDate value="${reimburseHospitality.createDate}" type="both" pattern="yyyy-MM-dd"/></td>
+            <td>>${reimburseHospitality.project.itemNo}</td>
+            <td>${reimburseHospitality.project.name}</td>
+            <td></td>
+            <td>${reimburseHospitality.inviteesName}</td>
+            <td>${reimburseHospitality.invitedPosition}</td>
+            <td>${reimburseHospitality.number}</td>
+            <td>${reimburseHospitality.amount}</td>
         </tr>
     </c:forEach>
     </tbody>
@@ -127,7 +127,7 @@
     </tr>
     </thead>
     <tbody>
-    <c:forEach items="${page.list}" var="reimburseMain">
+    <%--<c:forEach items="${page.list}" var="reimburseMain">--%>
         <tr>
             <td><fmt:formatDate value="${reimburseMain.applyDate}" type="both" pattern="yyyy-MM-dd"/></td>
             <td>${fns:abbr(reimburseMain.user.office.name,30)} </td>
@@ -135,7 +135,7 @@
             <td>${fns:abbr(reimburseMain.totalAmount,30)}</td>
             <td>${fns:getDictLabel(reimburseMain.status,'fa_reimburseMain_status','')}</td>
         </tr>
-    </c:forEach>
+    <%--</c:forEach>--%>
     </tbody>
 </table>
 
