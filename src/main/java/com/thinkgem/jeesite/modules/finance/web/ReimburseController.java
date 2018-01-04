@@ -1,28 +1,22 @@
 package com.thinkgem.jeesite.modules.finance.web;
-import java.text.ParseException;
 
-import java.util.List;
-import java.util.UUID;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
+import com.thinkgem.jeesite.common.persistence.Page;
+import com.thinkgem.jeesite.common.web.BaseController;
 import com.thinkgem.jeesite.modules.finance.entity.ReimburseHospitality;
+import com.thinkgem.jeesite.modules.finance.entity.ReimburseMain;
+import com.thinkgem.jeesite.modules.finance.helper.ReimburseModel;
 import com.thinkgem.jeesite.modules.finance.service.ReimburseHospitalityService;
+import com.thinkgem.jeesite.modules.finance.service.ReimburseService;
+import com.thinkgem.jeesite.modules.sys.entity.User;
+import com.thinkgem.jeesite.modules.sys.utils.UserUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.thinkgem.jeesite.common.config.Global;
-import com.thinkgem.jeesite.common.persistence.Page;
-import com.thinkgem.jeesite.common.web.BaseController;
-import com.thinkgem.jeesite.modules.finance.entity.ReimburseMain;
-import com.thinkgem.jeesite.modules.finance.helper.ReimburseModel;
-import com.thinkgem.jeesite.modules.finance.service.ReimburseService;
-import com.thinkgem.jeesite.modules.sys.entity.User;
-import com.thinkgem.jeesite.modules.sys.utils.UserUtils;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.util.List;
 
 /**
  * 报销
@@ -40,6 +34,7 @@ public class ReimburseController extends BaseController {
 
 	@Autowired
 	private ReimburseHospitalityService reimburseHospitalityService;
+
 
 	/**
 	 * 报销申请页
@@ -77,17 +72,10 @@ public class ReimburseController extends BaseController {
 	 * @date 2018年1月3日 下午5:00:03
 	 */
 	@RequestMapping(value = "commitApplyForm")
-	public String commitApplyForm(ReimburseModel reimburseModel, HttpServletRequest request,
-								  RedirectAttributes redirectAttributes) {
-		String mainId = UUID.randomUUID().toString();
-		try {
-			reimburseService.insertReimburse(request,mainId);
-			addMessage(redirectAttributes, "出差申请成功!");
-		} catch (Exception e) {
-			e.printStackTrace();
-			addMessage(redirectAttributes, "出差申请失败!");
-		}
-		return "redirect:" + Global.getAdminPath() + "/fa/reimburse/toApplyForm?repage";
+	public String commitApplyForm(ReimburseModel reimburseModel, Model model, HttpServletRequest request,
+								  HttpServletResponse response) {
+
+		return "modules/fa/reimburse/reimburseApplyForm";
 	}
 
 

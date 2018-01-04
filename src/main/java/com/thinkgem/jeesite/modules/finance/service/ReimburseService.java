@@ -9,9 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 /**
  * 报销
@@ -44,6 +43,15 @@ public class ReimburseService {
         return page;
     }
 
+
+    /**
+     * 报销信息详情
+     */
+    public ReimburseMain reimburseInformation(String id) {
+        ReimburseMain reimburseMain = reimburseDao.findOnly(id);
+        return reimburseMain;
+    }
+
     /**
      * 提交报销申请
      *
@@ -56,14 +64,6 @@ public class ReimburseService {
 
         String longDistanceEveryNum = request.getParameter("longDistanceEveryNum");
         String itemNoLongDistance1 = request.getParameter("itemNoLongDistance1");
-    }
-
-    /**
-     * 报销信息详情
-     */
-    public ReimburseMain reimburseInformation(String id) {
-        ReimburseMain reimburseMain = reimburseDao.findOnly(id);
-        return reimburseMain;
     }
 
 }
