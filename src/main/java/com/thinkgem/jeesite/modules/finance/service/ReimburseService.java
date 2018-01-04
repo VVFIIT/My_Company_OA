@@ -44,15 +44,6 @@ public class ReimburseService {
         return page;
     }
 
-
-    /**
-     * 报销信息详情
-     */
-    public ReimburseMain reimburseInformation(String id) {
-        ReimburseMain reimburseMain = reimburseDao.findOnly(id);
-        return reimburseMain;
-    }
-
     /**
      * 提交报销申请
      *
@@ -61,10 +52,18 @@ public class ReimburseService {
      * @author Grace
      * @date 2018年1月3日 下午5:00:19
      */
-	public void insertReimburse(HttpServletRequest request, String mainId) {
+    public void insertReimburse(HttpServletRequest request, String mainId) {
 
-		String longDistanceEveryNum = request.getParameter("longDistanceEveryNum");
-		String itemNoLongDistance1 = request.getParameter("itemNoLongDistance1");
-	}
+        String longDistanceEveryNum = request.getParameter("longDistanceEveryNum");
+        String itemNoLongDistance1 = request.getParameter("itemNoLongDistance1");
+    }
+
+    /**
+     * 报销信息详情
+     */
+    public ReimburseMain reimburseInformation(String id) {
+        ReimburseMain reimburseMain = reimburseDao.findOnly(id);
+        return reimburseMain;
+    }
 
 }
