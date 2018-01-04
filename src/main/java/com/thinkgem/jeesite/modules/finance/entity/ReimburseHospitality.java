@@ -3,9 +3,10 @@ package com.thinkgem.jeesite.modules.finance.entity;
 import java.math.BigDecimal;
 import java.util.Date;
 
+import com.thinkgem.jeesite.common.persistence.DataEntity;
 import org.springframework.data.annotation.Id;
 
-public class ReimburseHospitality {
+public class ReimburseHospitality extends DataEntity<ReimburseHospitality> {
 
 	@Id
 	private String id;

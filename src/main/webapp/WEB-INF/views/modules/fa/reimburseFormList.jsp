@@ -12,16 +12,26 @@
 </head>
 <body>
 <ul class="nav nav-tabs">
-    <li><a href="${ctx}/fa/reimburse/list${reimburseMain.id}">费用报销列表</a></li>
+    <li><a href="${ctx}/fa/reimburse/list">费用报销列表</a></li>
     <li class="active"><a href="${ctx}/fa/reimburse/formList">报销费用综合申报表查看</a></li>
 </ul>
-<%--<form:form id="searchForm" modelAttribute="reimburseMainName" action="${ctx}/fa/reimburse/list" class="breadcrumb form-search">--%>
+<%--<form:form id="searchForm" action="${ctx}/fa/reimburse/list" class="breadcrumb form-search">--%>
 <%--</form:form>--%>
-
-<sys:message content="${message}"/>
+<%--<sys:message content="${message}"/>--%>
 
 <table id="contentTable4" class="table table-striped table-bordered table-condensed">
-    <tr><td>部门</td><td>软件研发一部</td><td>申请人</td><td>苗群</td><td>申请日期</td><td>2017/11/30</td><td>申报日期</td><td>2017/11/13</td><td>至</td><td>2017/12/13</td></tr>
+    <tr>
+        <td><strong>部门</strong></td>
+        <td>${reimburseMain.user.office.name}</td>
+        <td><strong>申请人</strong></td>
+        <td>${reimburseMain.user.name}</td>
+        <td><strong>申请日期</strong></td>
+        <td><fmt:formatDate value="${reimburseMain.applyDate}" type="both" pattern="yyyy-MM-dd"/></td>
+        <td><strong>申报日期</strong></td>
+        <td><fmt:formatDate value="${reimburseMain.beginDate}" type="both" pattern="yyyy-MM-dd"/></td>
+        <td><strong>至</strong></td>
+        <td><fmt:formatDate value="${reimburseMain.endDate}" type="both" pattern="yyyy-MM-dd"/></td>
+    </tr>
 </table>
 
 <table id="contentTable" class="table table-striped table-bordered table-condensed">
@@ -38,9 +48,9 @@
     <tbody>
     <c:forEach items="${page.list}" var="reimburseMain">
         <tr>
-            <td><fmt:formatDate value="${reimburseMain.applyDate}" type="both" pattern="yyyy-MM-dd HH:mm:ss"/></td>
+            <td><fmt:formatDate value="${reimburseMain.applyDate}" type="both" pattern="yyyy-MM-dd"/></td>
             <td>${fns:abbr(reimburseMain.user.office.name,30)} </td>
-            <td><fmt:formatDate value="${reimburseMain.beginDate}" type="both" pattern="yyyy-MM-dd HH:mm:ss"/></td>
+            <td><fmt:formatDate value="${reimburseMain.beginDate}" type="both" pattern="yyyy-MM-dd"/></td>
             <td>${fns:abbr(reimburseMain.totalAmount,30)}</td>
             <td>${fns:getDictLabel(reimburseMain.status,'fa_reimburseMain_status','')}</td>
         </tr>
@@ -64,10 +74,10 @@
     <tbody>
     <c:forEach items="${page.list}" var="reimburseMain">
         <tr>
-            <td><fmt:formatDate value="${reimburseMain.applyDate}" type="both" pattern="yyyy-MM-dd HH:mm:ss"/></td>
+            <td><fmt:formatDate value="${reimburseMain.applyDate}" type="both" pattern="yyyy-MM-dd"/></td>
             <td>${fns:abbr(reimburseMain.user.office.name,30)} </td>
-            <td><fmt:formatDate value="${reimburseMain.beginDate}" type="both" pattern="yyyy-MM-dd HH:mm:ss"/></td>
-            <td><fmt:formatDate value="${reimburseMain.endDate}" type="both" pattern="yyyy-MM-dd HH:mm:ss"/></td>
+            <td><fmt:formatDate value="${reimburseMain.beginDate}" type="both" pattern="yyyy-MM-dd"/></td>
+            <td><fmt:formatDate value="${reimburseMain.endDate}" type="both" pattern="yyyy-MM-dd"/></td>
             <td>${fns:abbr(reimburseMain.totalAmount,30)}</td>
             <td>${fns:getDictLabel(reimburseMain.status,'fa_reimburseMain_status','')}</td>
             <td>${fns:getDictLabel(reimburseMain.status,'fa_reimburseMain_status','')}</td>
@@ -93,10 +103,10 @@
     <tbody>
     <c:forEach items="${page.list}" var="reimburseMain">
         <tr>
-            <td><fmt:formatDate value="${reimburseMain.applyDate}" type="both" pattern="yyyy-MM-dd HH:mm:ss"/></td>
+            <td><fmt:formatDate value="${reimburseMain.applyDate}" type="both" pattern="yyyy-MM-dd"/></td>
             <td>${fns:abbr(reimburseMain.user.office.name,30)} </td>
-            <td><fmt:formatDate value="${reimburseMain.beginDate}" type="both" pattern="yyyy-MM-dd HH:mm:ss"/></td>
-            <td><fmt:formatDate value="${reimburseMain.endDate}" type="both" pattern="yyyy-MM-dd HH:mm:ss"/></td>
+            <td><fmt:formatDate value="${reimburseMain.beginDate}" type="both" pattern="yyyy-MM-dd"/></td>
+            <td><fmt:formatDate value="${reimburseMain.endDate}" type="both" pattern="yyyy-MM-dd"/></td>
             <td>${fns:abbr(reimburseMain.totalAmount,30)}</td>
             <td>${fns:getDictLabel(reimburseMain.status,'fa_reimburseMain_status','')}</td>
             <td>${fns:getDictLabel(reimburseMain.status,'fa_reimburseMain_status','')}</td>
@@ -119,9 +129,9 @@
     <tbody>
     <c:forEach items="${page.list}" var="reimburseMain">
         <tr>
-            <td><fmt:formatDate value="${reimburseMain.applyDate}" type="both" pattern="yyyy-MM-dd HH:mm:ss"/></td>
+            <td><fmt:formatDate value="${reimburseMain.applyDate}" type="both" pattern="yyyy-MM-dd"/></td>
             <td>${fns:abbr(reimburseMain.user.office.name,30)} </td>
-            <td><fmt:formatDate value="${reimburseMain.beginDate}" type="both" pattern="yyyy-MM-dd HH:mm:ss"/></td>
+            <td><fmt:formatDate value="${reimburseMain.beginDate}" type="both" pattern="yyyy-MM-dd"/></td>
             <td>${fns:abbr(reimburseMain.totalAmount,30)}</td>
             <td>${fns:getDictLabel(reimburseMain.status,'fa_reimburseMain_status','')}</td>
         </tr>

@@ -30,4 +30,11 @@ public interface ReimburseDao extends CrudDao<ReimburseMain> {
      */
     public List<ReimburseMain> findAllNameList(ReimburseMain reimburseMain);
 
+    /**
+     * 通过Id获取指定人报销详情
+     * @param string
+     * @return
+     */
+    public ReimburseMain findOnly(String string);
+
 }

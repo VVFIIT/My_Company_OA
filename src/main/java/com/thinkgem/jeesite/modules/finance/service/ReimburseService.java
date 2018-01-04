@@ -42,4 +42,13 @@ public class ReimburseService {
         return page;
     }
 
+
+    /**
+     * 报销信息详情
+     */
+    public ReimburseMain reimburseInformation(String id) {
+        ReimburseMain reimburseMain = reimburseDao.findOnly(id);
+        return reimburseMain;
+    }
+
 }

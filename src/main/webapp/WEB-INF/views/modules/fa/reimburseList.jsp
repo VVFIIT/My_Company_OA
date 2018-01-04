@@ -70,7 +70,7 @@
     <tbody>
     <c:forEach items="${page.list}" var="reimburseMain">
         <tr>
-            <td><fmt:formatDate value="${reimburseMain.applyDate}" type="both" pattern="yyyy-MM-dd HH:mm:ss"/></td>
+            <td><fmt:formatDate value="${reimburseMain.applyDate}" type="both" pattern="yyyy-MM-dd"/></td>
             <td>${fns:abbr(reimburseMain.user.office.name,30)} </td>
             <c:choose>
                 <c:when test="${reimburseMainName.applicantId =='1' || reimburseMainName.applicantId =='8' }">
@@ -79,11 +79,11 @@
                 <c:otherwise>
                 </c:otherwise>
             </c:choose>
-            <td><fmt:formatDate value="${reimburseMain.beginDate}" type="both" pattern="yyyy-MM-dd HH:mm:ss"/></td>
-            <td><fmt:formatDate value="${reimburseMain.endDate}" type="both" pattern="yyyy-MM-dd HH:mm:ss"/></td>
+            <td><fmt:formatDate value="${reimburseMain.beginDate}" type="both" pattern="yyyy-MM-dd"/></td>
+            <td><fmt:formatDate value="${reimburseMain.endDate}" type="both" pattern="yyyy-MM-dd"/></td>
             <td>${fns:abbr(reimburseMain.totalAmount,30)}</td>
             <td>${fns:getDictLabel(reimburseMain.status,'fa_reimburseMain_status','')}</td>
-            <td><a href="${ctx}/oa/attendance/searchAttendanceInformation?id=${reimburseMain.id}">查看</a></td>
+            <td><a href="${ctx}/fa/reimburse/formList?id=${reimburseMain.id}&applyDate=${reimburseMain.applyDate}&user.name=${reimburseMain.user.name}&user.office.name=${reimburseMain.user.office.name}&beginDate=${reimburseMain.beginDate}&endDate=${reimburseMain.endDate}">查看</a></td>
         </tr>
     </c:forEach>
     </tbody>

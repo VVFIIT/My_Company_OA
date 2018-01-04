@@ -3,6 +3,8 @@ package com.thinkgem.jeesite.modules.finance.web;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.thinkgem.jeesite.modules.finance.entity.ReimburseHospitality;
+import com.thinkgem.jeesite.modules.finance.service.ReimburseHospitalityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,6 +17,8 @@ import com.thinkgem.jeesite.modules.finance.helper.ReimburseModel;
 import com.thinkgem.jeesite.modules.finance.service.ReimburseService;
 import com.thinkgem.jeesite.modules.sys.entity.User;
 import com.thinkgem.jeesite.modules.sys.utils.UserUtils;
+
+import java.util.List;
 
 /**
  * 报销
@@ -29,6 +33,9 @@ public class ReimburseController extends BaseController {
 
 	@Autowired
 	private ReimburseService reimburseService;
+
+	@Autowired
+	private ReimburseHospitalityService reimburseHospitalityService;
 
 	
 	@RequestMapping(value = "toApplyForm")
@@ -72,12 +79,11 @@ public class ReimburseController extends BaseController {
 	 */
 	@RequestMapping(value = "formList")
 	public String formList(ReimburseMain reimburseMain, Model model, HttpServletRequest request,
-					   HttpServletResponse response) {
-//		Page<ReimburseMain> page = reimburseService.reimburseMainList(new Page<ReimburseMain>(request, response),reimburseMain);
-//		model.addAttribute("page", page);
-//		User user = UserUtils.getUser();
-//		reimburseMain.setApplicantId(user.getId());
-//		model.addAttribute("reimburseMainName", reimburseMain);
+					   HttpServletResponse response, String id) {
+		ReimburseMain reimburseMains = reimburseService.reimburseInformation(id);
+		model.addAttribute("reimburseMain", reimburseMains);
+		List<ReimburseHospitality> reimburseHospitalityList=reimburseHospitalityService.reimburseHospitalityInformation(id);
+		System.out.println("_________________________________"+reimburseHospitalityList);
 		return "modules/fa/reimburseFormList";
 	}
 }

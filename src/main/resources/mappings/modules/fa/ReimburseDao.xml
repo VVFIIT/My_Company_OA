@@ -60,4 +60,13 @@
         <!--</if>-->
     </select>
 
+
+    <select id="findOnly" resultType="ReimburseMain">
+        SELECT
+        <include refid="reimburseColumns"/>
+        FROM fa_reimburse_main f
+        <include refid="reimburseJoins"/>
+        WHERE f.id = #{id}
+    </select>
+
 </mapper>
