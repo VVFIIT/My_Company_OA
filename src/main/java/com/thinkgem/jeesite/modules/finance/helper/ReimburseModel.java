@@ -25,6 +25,17 @@ public class ReimburseModel {
 	private List<ReimburseOther> otherList;
 	private List<ReimburseTaxi> taxiList;
 
+	private String longDistanceEveryNum;
+
+
+	public String getLongDistanceEveryNum() {
+		return longDistanceEveryNum;
+	}
+
+	public void setLongDistanceEveryNum(String longDistanceEveryNum) {
+		this.longDistanceEveryNum = longDistanceEveryNum;
+	}
+
 	public String getOfficeName() {
 		return officeName;
 	}

@@ -56,7 +56,7 @@
 		/* 移除一条订房信息 */
 		function removeBusinessTripReservation(reservationId){
 			var reservationEveryNum = $("#reservationEveryNum").val();
-			var idNum = reservationId.substring(11); 
+			var idNum = reservationId.substring(11);
 			var EveryNum = "";
 			var a= reservationEveryNum.split("");
 			for(var i=0;i<a.length;i++){
@@ -91,7 +91,8 @@
 </head>
 <body>
 	<ul class="nav nav-tabs" id="updateTitle">
-	    <li class="active"><a href="${ctx}/fa/businessTrip/toApplyForm">出差申请</a></li>
+		<li><a href="${ctx}/fa/businessTrip/toBusinessTripTaskList">出差任务列表</a></li>
+	    <li class="active"><a href="${ctx}/fa/businessTrip/toupdateBusinessTripInfo">出差信息修改</a></li>
 	</ul>
 	<form id="businessTripApplyForm" target="mainFrame" action="${ctx}/fa/businessTrip/commitApplyForm" method="post" class="breadcrumb form-search">
 		<sys:message content="${message}"/>

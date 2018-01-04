@@ -4,9 +4,11 @@
 package com.thinkgem.jeesite.modules.finance.web;
 
 import java.text.ParseException;
+import java.util.List;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -16,7 +18,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.thinkgem.jeesite.common.config.Global;
+import com.thinkgem.jeesite.common.persistence.Page;
 import com.thinkgem.jeesite.common.web.BaseController;
+import com.thinkgem.jeesite.modules.finance.entity.BusinessTripApplication;
 import com.thinkgem.jeesite.modules.finance.entity.BusinessTripModel;
 import com.thinkgem.jeesite.modules.finance.service.BusinessTripService;
 import com.thinkgem.jeesite.modules.sys.entity.User;
@@ -41,12 +45,17 @@ public class BusinessTripController extends BaseController {
 		return new BusinessTripModel();
 	}
 	
+	@ModelAttribute("businessTripApplication")
+	public BusinessTripApplication getBusinessTripApplication() {
+		return new BusinessTripApplication();
+	}
+	
 	/**
 	 * 进入出差申请页面
 	 * @author Meng
 	 */
 	@RequestMapping(value = "toApplyForm")
-	public String toApply(BusinessTripModel businessTripModel, Model model) {
+	public String toApply(Model model) {
 		User user = UserUtils.getUser();
 		model.addAttribute("applicantName", user.getName());
 		model.addAttribute("officeName", user.getOffice().getName());
@@ -64,12 +73,37 @@ public class BusinessTripController extends BaseController {
 			businessTripService.insertBusinessTripApplication(request, applicationId);
 			businessTripService.insertBusinessTripReservation(request, applicationId);
 			businessTripService.insertBusinessTripAirTicket(request, applicationId);
+			String procInsId = businessTripService.startBusinessTripProcess(applicationId);
+			businessTripService.completeApplicantProcess(procInsId, applicationId);
 			addMessage(redirectAttributes, "出差申请成功!");
 		} catch (ParseException e) {
 			e.printStackTrace();
 			addMessage(redirectAttributes, "出差申请失败!");
 		}
 		return "redirect:" + Global.getAdminPath() + "/fa/businessTrip/toApplyForm?repage";
+	}
+	
+	/**
+	 * 出差任务列表
+	 * @author Meng
+	 */
+	@RequestMapping(value = "toBusinessTripTaskList")
+	public String toBusinessTripTaskList(BusinessTripApplication businessTripApplication, HttpServletRequest request, HttpServletResponse response,
+			Model model) {
+		List<BusinessTripApplication> list = businessTripService.businessTripTaskList();
+		Page<BusinessTripApplication> page = businessTripService.findPage(new Page<BusinessTripApplication>(request, response), list);
+		model.addAttribute("page", page);
+		return "modules/fa/businessTripTaskList";
+	}
+	
+	/**
+	 * 进入出差信息更新页面
+	 * @author Meng
+	 */
+	@RequestMapping(value = "toupdateBusinessTripInfo")
+	public String toupdateBusinessTripInfo() {
+		
+		return "modules/fa/businessTripUpdateForm";
 	}
 	
 	

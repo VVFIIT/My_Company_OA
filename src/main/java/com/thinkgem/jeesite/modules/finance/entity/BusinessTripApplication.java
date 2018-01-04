@@ -4,6 +4,10 @@ import java.util.Date;
 
 import org.springframework.data.annotation.Id;
 
+import com.thinkgem.jeesite.common.persistence.ActEntity;
+import com.thinkgem.jeesite.modules.sys.entity.Office;
+import com.thinkgem.jeesite.modules.sys.entity.User;
+
 /**
  * 出差申请
  * 
@@ -11,13 +15,17 @@ import org.springframework.data.annotation.Id;
  * @date 2017年12月25日 下午3:26:28
  * @since 1.0.0
  */
-public class BusinessTripApplication {
+public class BusinessTripApplication extends ActEntity<BusinessTripApplication>{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	@Id
 	private String id;
 	private String procInstId; // 流程相关Id
-	private String officeId;// 部门
-	private String applicantId;// 申请人
+	private Office office;// 部门
+	private User applicant;// 申请人
 	private String projectId;// 项目Id
 	private String togetherId; // 共同出差人
 	private Date beginDate;// 出差开始日期
@@ -49,21 +57,6 @@ public class BusinessTripApplication {
 		this.procInstId = procInstId;
 	}
 
-	public String getOfficeId() {
-		return officeId;
-	}
-
-	public void setOfficeId(String officeId) {
-		this.officeId = officeId;
-	}
-
-	public String getApplicantId() {
-		return applicantId;
-	}
-
-	public void setApplicantId(String applicantId) {
-		this.applicantId = applicantId;
-	}
 
 	public String getProjectId() {
 		return projectId;
@@ -176,5 +169,23 @@ public class BusinessTripApplication {
 	public void setFAComment(String fAComment) {
 		FAComment = fAComment;
 	}
+
+	public Office getOffice() {
+		return office;
+	}
+
+	public void setOffice(Office office) {
+		this.office = office;
+	}
+
+	public User getApplicant() {
+		return applicant;
+	}
+
+	public void setApplicant(User applicant) {
+		this.applicant = applicant;
+	}
+
+	
 
 }

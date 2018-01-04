@@ -11,6 +11,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 /**
  * 报销
  * @author Grace
@@ -50,5 +52,19 @@ public class ReimburseService {
         ReimburseMain reimburseMain = reimburseDao.findOnly(id);
         return reimburseMain;
     }
+
+    /**
+     * 提交报销申请
+     *
+     * @param request
+     * @param mainId
+     * @author Grace
+     * @date 2018年1月3日 下午5:00:19
+     */
+	public void insertReimburse(HttpServletRequest request, String mainId) {
+
+		String longDistanceEveryNum = request.getParameter("longDistanceEveryNum");
+		String itemNoLongDistance1 = request.getParameter("itemNoLongDistance1");
+	}
 
 }

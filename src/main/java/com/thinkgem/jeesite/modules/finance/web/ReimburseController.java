@@ -9,7 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.thinkgem.jeesite.common.config.Global;
 import com.thinkgem.jeesite.common.persistence.Page;
 import com.thinkgem.jeesite.common.web.BaseController;
 import com.thinkgem.jeesite.modules.finance.entity.ReimburseMain;
@@ -37,7 +39,18 @@ public class ReimburseController extends BaseController {
 	@Autowired
 	private ReimburseHospitalityService reimburseHospitalityService;
 
-	
+
+	/**
+	 * 报销申请页
+	 *
+	 * @param reimburseMain
+	 * @param model
+	 * @param request
+	 * @param response
+	 * @return
+	 * @author Grace
+	 * @date 2018年1月3日 下午4:59:54
+	 */
 	@RequestMapping(value = "toApplyForm")
 	public String toApplyForm(ReimburseMain reimburseMain, Model model, HttpServletRequest request,
 			HttpServletResponse response) {
@@ -50,7 +63,18 @@ public class ReimburseController extends BaseController {
 		return "modules/fa/reimburse/reimburseApplyForm";
 	}
 
-	
+	/**
+	 * 提交报销申请
+	 *
+	 * @param reimburseModel
+	 * @param model
+	 * @param request
+	 * @param response
+	 * @param redirectAttributes
+	 * @return
+	 * @author Grace
+	 * @date 2018年1月3日 下午5:00:03
+	 */
 	@RequestMapping(value = "commitApplyForm")
 	public String commitApplyForm(ReimburseModel reimburseModel, Model model, HttpServletRequest request,
 			HttpServletResponse response) {

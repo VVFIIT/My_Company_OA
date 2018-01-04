@@ -31,5 +31,11 @@ public interface BusinessTripDao extends CrudDao<BusinessTripApplication> {
 	
 	public User getUserByName(String userName);
 
+	public void updateProcInsIdByApplicationId(String procInsId, String applicationId);
+
+	public String findTaskIdByProcInsId(String procInsId, String noteID);
+
+	public void updateStatus(String status, String applicationId);
+
 	
 }
