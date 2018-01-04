@@ -104,7 +104,7 @@
     <c:forEach items="${reimburseHospitalityPage.list}" var="reimburseHospitality">
         <tr>
             <td><fmt:formatDate value="${reimburseHospitality.createDate}" type="both" pattern="yyyy-MM-dd"/></td>
-            <td>>${reimburseHospitality.project.itemNo}</td>
+            <td>${reimburseHospitality.project.itemNo}</td>
             <td>${reimburseHospitality.project.name}</td>
             <td></td>
             <td>${reimburseHospitality.inviteesName}</td>
