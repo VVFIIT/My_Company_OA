@@ -13,7 +13,6 @@ import java.util.List;
 @MyBatisDao
 public interface ReimburseHospitalityDao extends CrudDao<ReimburseHospitality> {
 
-//    findList
 
     /**
      * 通过Id获取list

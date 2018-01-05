@@ -1,11 +1,13 @@
 package com.thinkgem.jeesite.modules.finance.service;
 
+import com.thinkgem.jeesite.common.persistence.Page;
 import com.thinkgem.jeesite.modules.finance.dao.ReimburseHospitalityDao;
 import com.thinkgem.jeesite.modules.finance.entity.ReimburseHospitality;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 /**
@@ -21,12 +23,13 @@ public class ReimburseHospitalityService {
 
 
     /**
-     *
+     * 招待费详情
      */
-    public List<ReimburseHospitality> reimburseHospitalityInformation(String id) {
-
-        List<ReimburseHospitality> reimburseHospitality = reimburseHospitalityDao.findList(id);
-        return reimburseHospitality;
+    public Page<ReimburseHospitality> reimburseHospitalityInformation(Page<ReimburseHospitality> page, String id) {
+        ReimburseHospitality reimburseHospitality = new ReimburseHospitality();
+        reimburseHospitality.setPage(page);
+        List<ReimburseHospitality> reimburseHospitalitys = reimburseHospitalityDao.findList(id);
+        page.setList(reimburseHospitalitys);
+        return page;
     }
-
 }

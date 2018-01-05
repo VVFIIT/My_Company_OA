@@ -1,10 +1,10 @@
 package com.thinkgem.jeesite.modules.finance.entity;
 
-import java.math.BigDecimal;
-import java.util.Date;
-
 import com.thinkgem.jeesite.common.persistence.DataEntity;
 import org.springframework.data.annotation.Id;
+
+import java.math.BigDecimal;
+import java.util.Date;
 
 public class ReimburseHospitality extends DataEntity<ReimburseHospitality> {
 
@@ -19,6 +19,16 @@ public class ReimburseHospitality extends DataEntity<ReimburseHospitality> {
 	private Integer number; // 人数
 	private BigDecimal amount;// 金额
 	private Date updateDate; // 更新时间
+
+	private Project project;
+
+	public Project getProject() {
+		return project;
+	}
+
+	public void setProject(Project project) {
+		this.project = project;
+	}
 
 	public String getId() {
 		return id;
