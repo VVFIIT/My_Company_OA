@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * 报销
@@ -72,9 +73,10 @@ public class ReimburseController extends BaseController {
 	 * @date 2018年1月3日 下午5:00:03
 	 */
 	@RequestMapping(value = "commitApplyForm")
-	public String commitApplyForm(ReimburseModel reimburseModel, Model model, HttpServletRequest request,
+	public String commitApplyForm(ReimburseModel reimburseModel,  HttpServletRequest request,
 								  HttpServletResponse response) {
-
+		String mainId = UUID.randomUUID().toString();
+		reimburseService.insertReimburse(reimburseModel,request,mainId);
 		return "modules/fa/reimburse/reimburseApplyForm";
 	}
 
