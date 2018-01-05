@@ -72,10 +72,11 @@
 				<c:if test="${businessTripApplication.status=='40'}"><td>财务审批驳回</td></c:if>
 				<c:if test="${businessTripApplication.status=='50'}"><td>审批通过</td></c:if>
 				<td>
-    				<a href="${ctx}/fa/businessTrip/toupdateBusinessTripInfo?id=${businessTripApplication.id}">修改</a>
-					<a href="${ctx}/fa/businessTrip/deleteBusinessTripInfo?id=${businessTripApplication.id}" onclick="return confirmx('确认要删除吗？', this.href)">删除</a>
-					<a href="${ctx}/fa/businessTrip/approveBusinessTripInfo?id=${businessTripApplication.id}">审批</a>
-					<a href="${ctx}/fa/businessTrip/showBusinessTripInfo?id=${businessTripApplication.id}">查看</a>
+    				<%-- <a href="${ctx}/fa/businessTrip/toupdateBusinessTripInfo?id=${businessTripApplication.id}">修改</a>
+					<a href="${ctx}/fa/businessTrip/deleteBusinessTripInfo?id=${businessTripApplication.id}" onclick="return confirmx('确认要删除吗？', this.href)">删除</a> --%>
+					<a href="${ctx}/fa/businessTrip/toApproveBusinessTripInfo_Manager?id=${businessTripApplication.id}">审批</a>
+					<a href="${ctx}/fa/businessTrip/toApproveBusinessTripInfo_FA?id=${businessTripApplication.id}">审批</a>
+					<a href="${ctx}/fa/businessTrip/toShowBusinessTripInfo?id=${businessTripApplication.id}">查看</a>
 				</td>
 			</tr>
 		</c:forEach>

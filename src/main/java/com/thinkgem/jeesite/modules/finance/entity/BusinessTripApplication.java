@@ -26,14 +26,14 @@ public class BusinessTripApplication extends ActEntity<BusinessTripApplication>{
 	private String procInstId; // 流程相关Id
 	private Office office;// 部门
 	private User applicant;// 申请人
-	private String projectId;// 项目Id
-	private String togetherId; // 共同出差人
+	private Project project;// 项目Id
+	private User together; // 共同出差人
 	private Date beginDate;// 出差开始日期
 	private Date endDate;// 出差结束日期
 	private String IDNo; // 身份证号
 	private String remark;// 出差是由
 	private String type;// 出差类型
-	private String managerId; // 客户经理
+	private User manager; // 客户经理
 	private String phone;// 电话
 	private String status; // 状态
 	private String managerFlag; // 经理是否同意
@@ -58,20 +58,20 @@ public class BusinessTripApplication extends ActEntity<BusinessTripApplication>{
 	}
 
 
-	public String getProjectId() {
-		return projectId;
+	public Project getProject() {
+		return project;
 	}
 
-	public void setProjectId(String projectId) {
-		this.projectId = projectId;
+	public void setProject(Project project) {
+		this.project = project;
 	}
 
-	public String getTogetherId() {
-		return togetherId;
+	public User getTogether() {
+		return together;
 	}
 
-	public void setTogetherId(String togetherId) {
-		this.togetherId = togetherId;
+	public void setTogether(User together) {
+		this.together = together;
 	}
 
 	public Date getBeginDate() {
@@ -114,14 +114,14 @@ public class BusinessTripApplication extends ActEntity<BusinessTripApplication>{
 		this.type = type;
 	}
 
-	public String getManagerId() {
-		return managerId;
+	public User getManager() {
+		return manager;
 	}
 
-	public void setManagerId(String managerId) {
-		this.managerId = managerId;
+	public void setManager(User manager) {
+		this.manager = manager;
 	}
-
+	
 	public String getPhone() {
 		return phone;
 	}

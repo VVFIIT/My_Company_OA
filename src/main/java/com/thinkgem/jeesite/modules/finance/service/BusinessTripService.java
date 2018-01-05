@@ -26,6 +26,8 @@ import com.thinkgem.jeesite.modules.act.utils.ActUtils;
 import com.thinkgem.jeesite.modules.finance.dao.BusinessTripDao;
 import com.thinkgem.jeesite.modules.finance.entity.BusinessTripAirTicket;
 import com.thinkgem.jeesite.modules.finance.entity.BusinessTripApplication;
+import com.thinkgem.jeesite.modules.finance.entity.BusinessTripHotel;
+import com.thinkgem.jeesite.modules.finance.entity.BusinessTripHotelHelper;
 import com.thinkgem.jeesite.modules.finance.entity.BusinessTripReservation;
 import com.thinkgem.jeesite.modules.sys.entity.User;
 import com.thinkgem.jeesite.modules.sys.utils.UserUtils;
@@ -68,16 +70,16 @@ public class BusinessTripService {
 		String remark = request.getParameter("remark");
 		String begindate = request.getParameter(("beginDate"));
 		String managerName = request.getParameter("managerId");
-		businessTripApplication.setTogetherId(businessTripDao.getUserByName(togetherName).getId());
+		businessTripApplication.setTogether(businessTripDao.getUserByName(togetherName));
 		businessTripApplication.setPhone(phone);
 		businessTripApplication.setIDNo(IDNo);
-		businessTripApplication.setProjectId(businessTripDao.getProjectByName(projectName).getId());
+		businessTripApplication.setProject(businessTripDao.getProjectByName(projectName));
 		businessTripApplication.setType(type);
 		businessTripApplication.setRemark(remark);
 		if(begindate != null && !"".equals(begindate)) {
 			businessTripApplication.setBeginDate(sdf.parse(begindate));
 		}
-		businessTripApplication.setManagerId(businessTripDao.getUserByName(managerName).getId());
+		businessTripApplication.setManager(businessTripDao.getUserByName(managerName));
 		businessTripApplication.setId(applicationId);
 		User user = UserUtils.getUser();
 		businessTripApplication.setOffice(user.getOffice());
@@ -206,7 +208,7 @@ public class BusinessTripService {
 	@Transactional(readOnly = false)
 	public String startBusinessTripProcess(String applicationId) {
 		// 流程标题
-		String title = "出差审批";
+		String title = "出差审批-经理";
 		Map<String, Object> startVars = Maps.newHashMap();
 		startVars.put("businessTripApplicant", UserUtils.getUser().getLoginName());
 		// 启动流程 获取procInsId
@@ -224,7 +226,7 @@ public class BusinessTripService {
 	@Transactional(readOnly = false)
 	public void completeApplicantProcess(String procInsId, String applicationId) {
 		// 流程标题
-		String title = "出差审批";
+		String title = "出差审批-经理";
 		// 通过ProcInsId获取TaskId
 		String taskId = businessTripDao.findTaskIdByProcInsId(procInsId, "BusinessTripApply");
 		// 创建流程变量
@@ -237,7 +239,105 @@ public class BusinessTripService {
 		businessTripDao.updateStatus("10", applicationId);
 	}
 
+	/**
+	 * 修改页面出差信息默认值
+	 * @author Meng
+	 */
+	public BusinessTripApplication getBusinessTripApplicationInfo(String id) {
+		BusinessTripApplication businessTripApplication = businessTripDao.getBusinessTripApplicationInfo(id);
+		return businessTripApplication;
+	}
 
+	/**
+	 * 修改页面订房信息默认值
+	 * @author Meng
+	 */
+	public List<BusinessTripReservation> getBusinessTripReservationList(String id) {
+		List<BusinessTripReservation> businessTripReservationList = businessTripDao.getBusinessTripReservationList(id);
+		return businessTripReservationList;
+	}
+	
+	/**
+	 * 修改页面机票信息默认值
+	 * @author Meng
+	 */
+	public List<BusinessTripAirTicket> getBusinessTripAirTicketList(String id) {
+		List<BusinessTripAirTicket> businessTripAirTicketList = businessTripDao.getBusinessTripAirTicketList(id);
+		return businessTripAirTicketList;
+	}
+
+	/**
+	 * 出差审批--经理
+	 * @author Meng
+	 */
+	@Transactional(readOnly = false)
+	public void managerApprove(BusinessTripApplication businessTripApplication) {
+		String applicationId = businessTripApplication.getId();
+		String managerFlag = businessTripApplication.getManagerFlag();
+		String ManagerComment = businessTripApplication.getManagerComment();
+		businessTripDao.updateManagerApproveInfo(managerFlag, ManagerComment, applicationId);
+		
+	}
+
+	/**
+	 * complete出差经理审批工作流
+	 * @author Meng
+	 */
+	@Transactional(readOnly = false)
+	public void completeManagerProcess(String applicationId) {
+		// 流程标题
+		String title = "出差审批-财务";
+		String procInsId = businessTripDao.getBusinessTripApplicationInfo(applicationId).getProcInstId();
+		// 通过ProcInsId获取TaskId
+		String taskId = businessTripDao.findTaskIdByProcInsId(procInsId, "BusinessTripManagerApproval");
+		// 创建流程变量
+		Map<String, Object> vars = Maps.newHashMap();
+		// 添加流程变量-标题
+		vars.put("title", title);
+		vars.put("pass", "1");
+		// 完成流程节点
+		actTaskService.complete(taskId, procInsId, "", vars);
+		// 更新流程状态
+		businessTripDao.updateStatus("20", applicationId);
+	}
+	
+	/**
+	 * 出差审批--财务
+	 * @author Meng
+	 */
+	@Transactional(readOnly = false)
+	public void FAApprove(BusinessTripHotelHelper businessTripHotelHelper) {
+		BusinessTripApplication businessTripApplication = businessTripHotelHelper.getBusinessTripApplication();
+		String applicationId = businessTripApplication.getId();
+		String FAFlag = businessTripApplication.getFAFlag();
+		String FAComment = businessTripApplication.getFAComment();
+		businessTripDao.updateFAApproveInfo(FAFlag, FAComment, applicationId);
+		BusinessTripHotel businessTripHotel = businessTripHotelHelper.getBusinessTripHotel();
+		businessTripHotel.setId(UUID.randomUUID().toString());
+		businessTripHotel.setApplicationId(applicationId);
+		businessTripDao.insertBusinessTripHotel(businessTripHotel);
+	}
+
+	/**
+	 * complete出差财务审批工作流
+	 * @author Meng
+	 */
+	@Transactional(readOnly = false)
+	public void completeFAProcess(String applicationId) {
+		String procInsId = businessTripDao.getBusinessTripApplicationInfo(applicationId).getProcInstId();
+		// 通过ProcInsId获取TaskId
+		String taskId = businessTripDao.findTaskIdByProcInsId(procInsId, "BusinessTripFinancialApproval");
+		// 创建流程变量
+		Map<String, Object> vars = Maps.newHashMap();
+		// 添加流程变量-标题
+		vars.put("pass", "1");
+		// 完成流程节点
+		actTaskService.complete(taskId, procInsId, "", vars);
+		// 更新流程状态
+		businessTripDao.updateStatus("50", applicationId);
+	}
+
+	
 	
 	
 }

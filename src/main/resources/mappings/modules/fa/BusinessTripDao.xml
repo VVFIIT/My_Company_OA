@@ -9,14 +9,18 @@
 		o.name AS "office.name", 
 		u.id AS "applicant.id", 
 		u.name AS "applicant.name", 
-		a.projectId, 
-		a.togetherId, 
+		p.id AS "project.id",
+		p.itemNo AS "project.itemNo",
+		p.name AS "project.name",
+		t.id AS "together.id", 
+		t.name AS "together.name", 
 		a.beginDate, 
 		a.endDate, 
 		a.IDNo, 
 		a.remark,
 		a.type, 
-		a.managerId, 
+		m.id AS "manager.id", 
+		m.name AS "manager.name", 
 		a.phone, 
 		a.status, 
 		a.managerFlag, 
@@ -27,7 +31,10 @@
     
     <sql id="businessTripApplicationJoins">
 		JOIN sys_user u ON u.id=a.applicantId
+		JOIN sys_user t ON t.id=a.togetherId
+		JOIN sys_user m ON m.id=a.managerId
 		JOIN sys_office o ON o.id=a.officeId
+		JOIN fa_project p ON p.id=a.projectId
     </sql>
     
     <select id="getProjectByName" resultType="com.thinkgem.jeesite.modules.finance.entity.Project" parameterType="string">
@@ -58,7 +65,27 @@
 		</if>
 		ORDER BY a.beginDate ASC
 	</select>
-    
+	
+	<select id="getBusinessTripApplicationInfo" resultType="businessTripApplication">
+		SELECT 
+			<include refid="businessTripApplicationColumns"/>
+		FROM fa_businesstrip_application a
+		<include refid="businessTripApplicationJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="getBusinessTripReservationList" resultType="com.thinkgem.jeesite.modules.finance.entity.BusinessTripReservation">
+		SELECT * 
+		FROM fa_businesstrip_reservation 
+		WHERE applicationId = #{applicationId}
+	</select>
+	
+	<select id="getBusinessTripAirTicketList" resultType="com.thinkgem.jeesite.modules.finance.entity.BusinessTripAirTicket">
+		SELECT * 
+		FROM fa_businesstrip_airticket 
+		WHERE applicationId = #{applicationId}
+	</select>
+	
     <insert id="insertBusinessTripApplication">
 		INSERT INTO fa_businesstrip_application(
 			id, 
@@ -84,14 +111,14 @@
 			#{procInstId}, 
 			#{office.id}, 
 			#{applicant.id}, 
-			#{projectId}, 
-			#{togetherId}, 
+			#{project.id}, 
+			#{together.id}, 
 			#{beginDate}, 
 			#{endDate}, 
 			#{IDNo}, 
 			#{remark},
 			#{type}, 
-			#{managerId}, 
+			#{manager.id}, 
 			#{phone}, 
 			#{status}, 
 			#{managerFlag}, 
@@ -110,6 +137,7 @@
 			workPlace, 
 			beginDate, 
 			endDate, 
+			days, 
 			remark, 
 			createDate, 
 			updateDate
@@ -121,6 +149,7 @@
 			#{workPlace}, 
 			#{beginDate}, 
 			#{endDate}, 
+			#{days}, 
 			#{remark}, 
 			#{createDate},
 			#{updateDate} 
@@ -151,6 +180,30 @@
 		)
 	</insert>
 	
+	<insert id="insertBusinessTripHotel">
+		INSERT INTO fa_businesstrip_hotel(
+			id, 
+			applicationId, 
+			hotel, 
+			address, 
+			contact, 
+			contactPhone, 
+			staff, 
+			createDate, 
+			updateDate
+		) VALUES (
+			#{id}, 
+			#{applicationId}, 
+			#{hotel}, 
+			#{address}, 
+			#{contact}, 
+			#{contactPhone}, 
+			#{staff}, 
+			#{createDate}, 
+			#{updateDate}
+		)
+	</insert>
+	
 	<update id="updateProcInsIdByApplicationId">
 		UPDATE fa_businesstrip_application SET 
 			procInstId = #{0}
@@ -161,6 +214,18 @@
 		UPDATE fa_businesstrip_application SET 
 			status = #{0}
 		WHERE id = #{1}
+	</update>
+	
+	<update id="updateManagerApproveInfo">
+		UPDATE fa_businesstrip_application SET 
+			managerFlag = #{0}, ManagerComment = #{1} 
+		WHERE id = #{2}
+	</update>
+	
+	<update id="updateFAApproveInfo">
+		UPDATE fa_businesstrip_application SET 
+			FAFlag = #{0}, FAComment = #{1} 
+		WHERE id = #{2}
 	</update>
     
 </mapper>

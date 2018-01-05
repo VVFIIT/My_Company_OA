@@ -20,8 +20,10 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.thinkgem.jeesite.common.config.Global;
 import com.thinkgem.jeesite.common.persistence.Page;
 import com.thinkgem.jeesite.common.web.BaseController;
+import com.thinkgem.jeesite.modules.finance.entity.BusinessTripAirTicket;
 import com.thinkgem.jeesite.modules.finance.entity.BusinessTripApplication;
-import com.thinkgem.jeesite.modules.finance.entity.BusinessTripModel;
+import com.thinkgem.jeesite.modules.finance.entity.BusinessTripHotelHelper;
+import com.thinkgem.jeesite.modules.finance.entity.BusinessTripReservation;
 import com.thinkgem.jeesite.modules.finance.service.BusinessTripService;
 import com.thinkgem.jeesite.modules.sys.entity.User;
 import com.thinkgem.jeesite.modules.sys.utils.UserUtils;
@@ -40,9 +42,9 @@ public class BusinessTripController extends BaseController {
 	@Autowired
 	private BusinessTripService businessTripService;
 
-	@ModelAttribute("businessTripModel")
-	public BusinessTripModel getBusinessTripModel() {
-		return new BusinessTripModel();
+	@ModelAttribute("businessTripHotelHelper")
+	public BusinessTripHotelHelper getBusinessTripHotelHelper() {
+		return new BusinessTripHotelHelper();
 	}
 	
 	@ModelAttribute("businessTripApplication")
@@ -98,18 +100,94 @@ public class BusinessTripController extends BaseController {
 	
 	/**
 	 * 进入出差信息更新页面
+	 * 未完成
 	 * @author Meng
 	 */
 	@RequestMapping(value = "toupdateBusinessTripInfo")
-	public String toupdateBusinessTripInfo() {
-		
+	public String toupdateBusinessTripInfo(String id, Model model) {
+		BusinessTripApplication businessTripApplication = businessTripService.getBusinessTripApplicationInfo(id);
+		List<BusinessTripReservation> businessTripReservationList = businessTripService.getBusinessTripReservationList(id);
+		model.addAttribute("reservationEveryNum", businessTripReservationList.size());
+		model.addAttribute("businessTripReservationList", businessTripReservationList);
+		model.addAttribute("businessTripApplication", businessTripApplication);
 		return "modules/fa/businessTripUpdateForm";
 	}
 	
+	/**
+	 * 提交更新出差信息
+	 * 未完成
+	 * @author Meng
+	 */
+	@RequestMapping(value = "updateBusinessTripInfo")
+	public String updateBusinessTripInfo(HttpServletRequest request, RedirectAttributes redirectAttributes) {
+		return "redirect:" + Global.getAdminPath() + "/fa/businessTrip/toBusinessTripTaskList?repage";
+	}
+	
+	/**
+	 * 进入出差审批页面--经理
+	 * @author Meng
+	 */
+	@RequestMapping(value = "toApproveBusinessTripInfo_Manager")
+	public String toApproveBusinessTripInfo_Manager(String id, Model model) {
+		BusinessTripApplication businessTripApplication = new BusinessTripApplication();
+		businessTripApplication.setId(id);
+		model.addAttribute("businessTripApplication", businessTripApplication);
+		return "modules/fa/businessTripManagerApprove";
+	}
+	
+	/**
+	 * 出差审批--经理
+	 * @author Meng
+	 */
+	@RequestMapping(value = "approveBusinessTripInfo_Manager")
+	public String approveBusinessTripInfo_Manager(BusinessTripApplication businessTripApplication, RedirectAttributes redirectAttributes) {
+		businessTripService.managerApprove(businessTripApplication);
+		businessTripService.completeManagerProcess(businessTripApplication.getId());
+		addMessage(redirectAttributes, "审批成功!");
+		return "redirect:" + Global.getAdminPath() + "/fa/businessTrip/toBusinessTripTaskList?repage";
+	}
+	
+	/**
+	 * 进入出差审批页面--财务
+	 * @author Meng
+	 */
+	@RequestMapping(value = "toApproveBusinessTripInfo_FA")
+	public String toApproveBusinessTripInfo_FA(String id, Model model) {
+		BusinessTripHotelHelper businessTripHotelHelper = new BusinessTripHotelHelper();
+		BusinessTripApplication businessTripApplication = new BusinessTripApplication();
+		businessTripApplication.setId(id);
+		businessTripHotelHelper.setBusinessTripApplication(businessTripApplication);
+		model.addAttribute("businessTripHotelHelper", businessTripHotelHelper);
+		return "modules/fa/businessTripFAApprove";
+	}
+	
+	/**
+	 * 出差审批--财务
+	 * @author Meng
+	 */
+	@RequestMapping(value = "approveBusinessTripInfo_FA")
+	public String approveBusinessTripInfo_FA(BusinessTripHotelHelper businessTripHotelHelper, RedirectAttributes redirectAttributes) {
+		businessTripService.FAApprove(businessTripHotelHelper);
+		businessTripService.completeFAProcess(businessTripHotelHelper.getBusinessTripApplication().getId());
+		addMessage(redirectAttributes, "审批成功!");
+		return "redirect:" + Global.getAdminPath() + "/fa/businessTrip/toBusinessTripTaskList?repage";
+	}
 	
 	
-	
-	
+	/**
+	 * 出差审批--财务
+	 * @author Meng
+	 */
+	@RequestMapping(value = "toShowBusinessTripInfo")
+	public String toShowBusinessTripInfo(String id, Model model) {
+		BusinessTripApplication businessTripApplication = businessTripService.getBusinessTripApplicationInfo(id);
+		List<BusinessTripReservation> businessTripReservationList = businessTripService.getBusinessTripReservationList(id);
+		List<BusinessTripAirTicket> businessTripAirTicketList = businessTripService.getBusinessTripAirTicketList(id);
+		model.addAttribute("businessTripApplication", businessTripApplication);
+		model.addAttribute("businessTripReservationList", businessTripReservationList);
+		model.addAttribute("businessTripAirTicketList", businessTripAirTicketList);
+		return "modules/fa/businessTripInfoShow";
+	}
 	
 	
 	

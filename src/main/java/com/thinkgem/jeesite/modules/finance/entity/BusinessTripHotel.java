@@ -19,7 +19,7 @@ public class BusinessTripHotel {
 	private String hotel;// 酒店名
 	private String address;// 酒店地址
 	private String contact;// 酒店联系人
-	private Date contactPhone;// 入住日期
+	private String contactPhone;// 联系电话
 	private String staff;// 住宿员工
 	private Date createDate;// 创建时间
 	private Date updateDate;// 更新时间
@@ -64,11 +64,11 @@ public class BusinessTripHotel {
 		this.contact = contact;
 	}
 
-	public Date getContactPhone() {
+	public String getContactPhone() {
 		return contactPhone;
 	}
 
-	public void setContactPhone(Date contactPhone) {
+	public void setContactPhone(String contactPhone) {
 		this.contactPhone = contactPhone;
 	}
 

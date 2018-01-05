@@ -3,10 +3,13 @@
  */
 package com.thinkgem.jeesite.modules.finance.dao;
 
+import java.util.List;
+
 import com.thinkgem.jeesite.common.persistence.CrudDao;
 import com.thinkgem.jeesite.common.persistence.annotation.MyBatisDao;
 import com.thinkgem.jeesite.modules.finance.entity.BusinessTripAirTicket;
 import com.thinkgem.jeesite.modules.finance.entity.BusinessTripApplication;
+import com.thinkgem.jeesite.modules.finance.entity.BusinessTripHotel;
 import com.thinkgem.jeesite.modules.finance.entity.BusinessTripReservation;
 import com.thinkgem.jeesite.modules.finance.entity.Project;
 import com.thinkgem.jeesite.modules.sys.entity.User;
@@ -26,6 +29,8 @@ public interface BusinessTripDao extends CrudDao<BusinessTripApplication> {
 	public void insertBusinessTripReservation(BusinessTripReservation businessTripReservation);
 
 	public void insertBusinessTripAirTicket(BusinessTripAirTicket BusinessTripAirTicket);
+	
+	public void insertBusinessTripHotel(BusinessTripHotel businessTripHotel);
 
 	public Project getProjectByName(String projectName);
 	
@@ -37,5 +42,16 @@ public interface BusinessTripDao extends CrudDao<BusinessTripApplication> {
 
 	public void updateStatus(String status, String applicationId);
 
+	public BusinessTripApplication getBusinessTripApplicationInfo(String id);
+
+	public List<BusinessTripReservation> getBusinessTripReservationList(String applicationId);
+	
+	public List<BusinessTripAirTicket> getBusinessTripAirTicketList(String applicationId);
+
+	public void updateManagerApproveInfo(String managerFlag, String managerComment, String applicationId);
+
+	public void updateFAApproveInfo(String fAFlag, String fAComment, String applicationId);
+
+	
 	
 }
