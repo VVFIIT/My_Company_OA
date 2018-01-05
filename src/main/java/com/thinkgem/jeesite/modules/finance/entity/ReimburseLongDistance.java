@@ -6,7 +6,7 @@ import java.util.Date;
 import org.springframework.data.annotation.Id;
 
 /**
- * 特殊的日子（法定节假日和因为法定节假日串休的日子）
+ * 长途汽车费
  * 
  * @author Grace
  * @date 2017年11月6日 下午5:28:06

@@ -6,10 +6,10 @@ import java.util.Date;
 import org.springframework.data.annotation.Id;
 
 /**
- * 特殊的日子（法定节假日和因为法定节假日串休的日子）
+ * 其他费用
  * 
  * @author Grace
- * @date 2017年11月6日 下午5:28:06
+ * @date 2018年1月5日 上午11:44:34
  * @since 1.0.0
  */
 public class ReimburseOther {

@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.thinkgem.jeesite.modules.finance.dao.ReimburseMainDao">
+    
+	<sql id="faReimburseMainColumns">
+		a.id AS "id",
+		a.procinstid AS "procinstid",
+		a.officeid AS "officeid",
+		a.applicantid AS "applicantid",
+		a.status AS "status",
+		a.applydate AS "applydate",
+		a.begindate AS "begindate",
+		a.enddate AS "enddate",
+		a.remark AS "remark",
+		a.totalamount AS "totalamount",
+		a.updatedate AS "updatedate",
+		a.managerflag AS "managerflag",
+		a.faflag AS "faflag",
+		a.managercomment AS "managercomment",
+		a.facomment AS "facomment"
+	</sql>
+	
+	<sql id="faReimburseMainJoins">
+	</sql>
+    
+	<select id="get" resultType="ReimburseMain">
+		SELECT 
+			<include refid="faReimburseMainColumns"/>
+		FROM fa_reimburse_main a
+		<include refid="faReimburseMainJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="ReimburseMain">
+		SELECT 
+			<include refid="faReimburseMainColumns"/>
+		FROM fa_reimburse_main a
+		<include refid="faReimburseMainJoins"/>
+		<where>
+			
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="ReimburseMain">
+		SELECT 
+			<include refid="faReimburseMainColumns"/>
+		FROM fa_reimburse_main a
+		<include refid="faReimburseMainJoins"/>
+		<where>
+			
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO fa_reimburse_main(
+			id,
+			procinstid,
+			officeid,
+			applicantid,
+			status,
+			applydate,
+			begindate,
+			enddate,
+			remark,
+			totalamount,
+			updatedate,
+			managerflag,
+			faflag,
+			managercomment,
+			facomment
+		) VALUES (
+			#{id},
+			#{procinstid},
+			#{officeid},
+			#{applicantid},
+			#{status},
+			#{applydate},
+			#{begindate},
+			#{enddate},
+			#{remark},
+			#{totalamount},
+			#{updatedate},
+			#{managerflag},
+			#{faflag},
+			#{managercomment},
+			#{facomment}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE fa_reimburse_main SET 	
+			procinstid = #{procinstid},
+			officeid = #{officeid},
+			applicantid = #{applicantid},
+			status = #{status},
+			applydate = #{applydate},
+			begindate = #{begindate},
+			enddate = #{enddate},
+			remark = #{remark},
+			totalamount = #{totalamount},
+			updatedate = #{updatedate},
+			managerflag = #{managerflag},
+			faflag = #{faflag},
+			managercomment = #{managercomment},
+			facomment = #{facomment}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		DELETE FROM fa_reimburse_main
+		WHERE id = #{id}
+	</update>
+	
+</mapper>

@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.thinkgem.jeesite.modules.finance.dao.ReimburseHospitalityDao">
 
-    <sql id="reimburseHospitalityColumns">
+  <!--   <sql id="reimburseHospitalityColumns">
         frh.id,
         frh.mainId AS "mainId",
         frh.projectId AS "projectId",
@@ -27,12 +27,111 @@
         FROM fa_reimburse_hospitality frh
         <include refid="reimburseHospitalityJoins"/>
         WHERE frh.mainId = #{mainId}
-    </select>
+    </select> -->
 
-    <!--<select id="findList" resultType="ReimburseHospitality">-->
-    <!--SELECT *-->
-    <!--FROM fa_reimburse_hospitality-->
-    <!--WHERE mainId = #{mainId}-->
-    <!--</select>-->
+   
+<sql id="faReimburseHospitalityColumns">
+		a.id AS "id",
+		a.mainid AS "mainid",
+		a.projectid AS "projectid",
+		a.clientname AS "clientname",
+		a.inviteesname AS "inviteesname",
+		a.createdate AS "createdate",
+		a.invitedposition AS "invitedposition",
+		a.number AS "number",
+		a.amount AS "amount",
+		a.updatedate AS "updatedate"
+	</sql>
+	
+	<sql id="faReimburseHospitalityJoins">
+	</sql>
+    
+	<select id="get" resultType="ReimburseHospitality">
+		SELECT 
+			<include refid="faReimburseHospitalityColumns"/>
+		FROM fa_reimburse_hospitality a
+		<include refid="faReimburseHospitalityJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="ReimburseHospitality">
+		SELECT 
+			<include refid="faReimburseHospitalityColumns"/>
+		FROM fa_reimburse_hospitality a
+		<include refid="faReimburseHospitalityJoins"/>
+		<where>
+			
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="ReimburseHospitality">
+		SELECT 
+			<include refid="faReimburseHospitalityColumns"/>
+		FROM fa_reimburse_hospitality a
+		<include refid="faReimburseHospitalityJoins"/>
+		<where>
+			
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO fa_reimburse_hospitality(
+			id,
+			mainid,
+			projectid,
+			clientname,
+			inviteesname,
+			createdate,
+			invitedposition,
+			number,
+			amount,
+			updatedate
+		) VALUES (
+			#{id},
+			#{mainid},
+			#{projectid},
+			#{clientname},
+			#{inviteesname},
+			#{createdate},
+			#{invitedposition},
+			#{number},
+			#{amount},
+			#{updatedate}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE fa_reimburse_hospitality SET 	
+			mainid = #{mainid},
+			projectid = #{projectid},
+			clientname = #{clientname},
+			inviteesname = #{inviteesname},
+			createdate = #{createdate},
+			invitedposition = #{invitedposition},
+			number = #{number},
+			amount = #{amount},
+			updatedate = #{updatedate}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		DELETE FROM fa_reimburse_hospitality
+		WHERE id = #{id}
+	</update>
+	
 
 </mapper>

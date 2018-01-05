@@ -1,64 +1,108 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.thinkgem.jeesite.modules.finance.dao.ReimburseTaxiDao">
-
-    <!--<sql id="reimburseColumns">-->
-        <!--f.id,-->
-        <!--f.PROCINSTID AS "procInstId",-->
-        <!--f.OFFICEID AS "officeId",-->
-        <!--f.APPLICANTID AS "applicantId",-->
-        <!--f.status,-->
-        <!--f.APPLYDATE AS "applyDate",-->
-        <!--f.BEGINDATE AS "beginDate",-->
-        <!--f.ENDDATE AS "endDate",-->
-        <!--f.remark,-->
-        <!--f.TOTALAMOUNT AS "totalAmount",-->
-        <!--f.UPDATEDATE AS "updateDate",-->
-        <!--f.MANAGERFLAG AS "managerFlag",-->
-        <!--f.FAFlag AS "fa_flag",-->
-        <!--f.MANAGERCOMMENT AS "managerComment",-->
-        <!--f.FAComment AS "fa_comment",-->
-        <!--u.name AS "user.name",-->
-        <!--o.name AS "user.office.name"-->
-    <!--</sql>-->
-
-    <!--<sql id="reimburseJoins">-->
-        <!--JOIN sys_user u ON u.id = f.applicantId-->
-        <!--JOIN sys_office o ON o.id = f.officeId-->
-        <!--JOIN-->
-    <!--</sql>-->
-
-    <!--<select id="findOnlyNameList" resultType="ReimburseMain">-->
-        <!--SELECT-->
-        <!--<include refid="reimburseColumns"/>-->
-        <!--FROM fa_reimburse_main f-->
-        <!--<include refid="reimburseJoins"/>-->
-        <!--WHERE f.applicantId = #{applicantId}-->
-        <!--<if test="status != null and status != ''">-->
-            <!--AND f.status = #{status}-->
-        <!--</if>-->
-    <!--</select>-->
-
-    <!--<select id="findAllNameList" resultType="ReimburseMain">-->
-        <!--SELECT-->
-        <!--<include refid="reimburseColumns"/>-->
-        <!--FROM fa_reimburse_main f-->
-        <!--<include refid="reimburseJoins"/>-->
-        <!--&lt;!&ndash;<if test="title != null and title != ''">&ndash;&gt;-->
-        <!--&lt;!&ndash;AND a.TITLE LIKE&ndash;&gt;-->
-        <!--&lt;!&ndash;<if test="dbName == 'oracle'">'%'||#{title}||'%'</if>&ndash;&gt;-->
-        <!--&lt;!&ndash;<if test="dbName == 'mssql'">'%'+#{title}+'%'</if>&ndash;&gt;-->
-        <!--&lt;!&ndash;<if test="dbName == 'mysql'">CONCAT('%', #{title}, '%')</if>&ndash;&gt;-->
-        <!--&lt;!&ndash;</if>&ndash;&gt;-->
-        <!--<if test="status != null and status != ''">-->
-            <!--AND f.status = #{status}-->
-        <!--</if>-->
-        <!--&lt;!&ndash;<if test="status != null and status != ''">&ndash;&gt;-->
-        <!--&lt;!&ndash;AND a.STATUS = #{status}&ndash;&gt;-->
-        <!--&lt;!&ndash;</if>&ndash;&gt;-->
-        <!--&lt;!&ndash;<if test="isSelf">&ndash;&gt;-->
-        <!--&lt;!&ndash;AND a.STATUS = '1'&ndash;&gt;-->
-        <!--&lt;!&ndash;</if>&ndash;&gt;-->
-    <!--</select>-->
-
+    
+	<sql id="faReimburseTaxiColumns">
+		a.id AS "id",
+		a.mainid AS "mainid",
+		a.projectid AS "projectid",
+		a.remark AS "remark",
+		a.amount AS "amount",
+		a.createdate AS "createdate",
+		a.time AS "time",
+		a.departurelocation AS "departurelocation",
+		a.arrivedlocation AS "arrivedlocation",
+		a.updatedate AS "updatedate"
+	</sql>
+	
+	<sql id="faReimburseTaxiJoins">
+	</sql>
+    
+ 	<select id="get" resultType="com.thinkgem.jeesite.modules.finance.entity.ReimburseTaxi">
+		SELECT 
+			<include refid="faReimburseTaxiColumns"/>
+		FROM fa_reimburse_taxi a
+		<include refid="faReimburseTaxiJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="com.thinkgem.jeesite.modules.finance.entity.ReimburseTaxi">
+		SELECT 
+			<include refid="faReimburseTaxiColumns"/>
+		FROM fa_reimburse_taxi a
+		<include refid="faReimburseTaxiJoins"/>
+		<where>
+			
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="com.thinkgem.jeesite.modules.finance.entity.ReimburseTaxi">
+		SELECT 
+			<include refid="faReimburseTaxiColumns"/>
+		FROM fa_reimburse_taxi a
+		<include refid="faReimburseTaxiJoins"/>
+		<where>
+			
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO fa_reimburse_taxi(
+			id,
+			mainid,
+			projectid,
+			remark,
+			amount,
+			createdate,
+			time,
+			departurelocation,
+			arrivedlocation,
+			updatedate
+		) VALUES (
+			#{id},
+			#{mainid},
+			#{projectid},
+			#{remark},
+			#{amount},
+			#{createdate},
+			#{time},
+			#{departurelocation},
+			#{arrivedlocation},
+			#{updatedate}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE fa_reimburse_taxi SET 	
+			mainid = #{mainid},
+			projectid = #{projectid},
+			remark = #{remark},
+			amount = #{amount},
+			createdate = #{createdate},
+			time = #{time},
+			departurelocation = #{departurelocation},
+			arrivedlocation = #{arrivedlocation},
+			updatedate = #{updatedate}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		DELETE FROM fa_reimburse_taxi
+		WHERE id = #{id}
+	</update>
+	
 </mapper>

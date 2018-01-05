@@ -6,6 +6,14 @@ import org.springframework.data.annotation.Id;
 import java.math.BigDecimal;
 import java.util.Date;
 
+/**
+ * 招待费
+ * 
+ * @author Grace
+ * @date 2018年1月5日 上午11:45:02
+ * @since 1.0.0
+ */
+@SuppressWarnings("serial")
 public class ReimburseHospitality extends DataEntity<ReimburseHospitality> {
 
 	@Id

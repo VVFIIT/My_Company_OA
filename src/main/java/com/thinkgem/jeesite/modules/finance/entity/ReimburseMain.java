@@ -6,6 +6,14 @@ import com.thinkgem.jeesite.common.persistence.DataEntity;
 import com.thinkgem.jeesite.modules.sys.entity.User;
 import org.springframework.data.annotation.Id;
 
+/**
+ * 报销主单
+ * 
+ * @author Grace
+ * @date 2018年1月5日 上午11:44:45
+ * @since 1.0.0
+ */
+@SuppressWarnings("serial")
 public class ReimburseMain extends DataEntity<ReimburseMain> {
 
 	@Id

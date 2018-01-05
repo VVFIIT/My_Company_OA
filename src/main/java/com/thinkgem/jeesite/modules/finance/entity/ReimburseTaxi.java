@@ -4,6 +4,13 @@ import java.util.Date;
 
 import org.springframework.data.annotation.Id;
 
+/**
+ * 出租车费
+ * 
+ * @author Grace
+ * @date 2018年1月5日 上午11:45:27
+ * @since 1.0.0
+ */
 public class ReimburseTaxi {
 
 	@Id
