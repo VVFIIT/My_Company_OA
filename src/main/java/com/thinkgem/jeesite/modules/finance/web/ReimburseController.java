@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import java.text.ParseException;
 import java.util.List;
 import java.util.UUID;
 
@@ -72,11 +73,12 @@ public class ReimburseController extends BaseController {
 	 * @param redirectAttributes
 	 * @return
 	 * @author Grace
+	 * @throws ParseException 
 	 * @date 2018年1月3日 下午5:00:03
 	 */
 	@RequestMapping(value = "commitApplyForm")
 	public String commitApplyForm(ReimburseModel reimburseModel,  HttpServletRequest request,
-								  HttpServletResponse response) {
+								  HttpServletResponse response) throws ParseException {
 		String mainId = UUID.randomUUID().toString();
 		reimburseService.insertReimburse(reimburseModel,request,mainId);
 		return "modules/fa/reimburse/reimburseApplyForm";

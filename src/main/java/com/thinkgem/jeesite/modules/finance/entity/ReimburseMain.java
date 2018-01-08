@@ -2,9 +2,9 @@ package com.thinkgem.jeesite.modules.finance.entity;
 
 import java.util.Date;
 
-import com.thinkgem.jeesite.common.persistence.DataEntity;
-import com.thinkgem.jeesite.modules.sys.entity.User;
 import org.springframework.data.annotation.Id;
+
+import com.thinkgem.jeesite.common.persistence.BaseEntity;
 
 /**
  * 报销主单
@@ -13,9 +13,13 @@ import org.springframework.data.annotation.Id;
  * @date 2018年1月5日 上午11:44:45
  * @since 1.0.0
  */
-@SuppressWarnings("serial")
-public class ReimburseMain extends DataEntity<ReimburseMain> {
 
+public class ReimburseMain extends BaseEntity<ReimburseMain> {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -7425005204771416894L;
 	@Id
 	private String id;
 	private String procInstId;// 流程相关Id
@@ -32,135 +36,107 @@ public class ReimburseMain extends DataEntity<ReimburseMain> {
 	private String FAFlag;// 财务是否同意',
 	private String managerComment; // 经理意见
 	private String FAComment; // 财务意见
-
-	private User user;
-
-	public User getUser() {
-		return user;
-	}
-
-	public void setUser(User user) {
-		this.user = user;
-	}
-
 	public String getId() {
 		return id;
 	}
-
 	public void setId(String id) {
 		this.id = id;
 	}
-
 	public String getProcInstId() {
 		return procInstId;
 	}
-
 	public void setProcInstId(String procInstId) {
 		this.procInstId = procInstId;
 	}
-
 	public String getOfficeId() {
 		return officeId;
 	}
-
 	public void setOfficeId(String officeId) {
 		this.officeId = officeId;
 	}
-
 	public String getApplicantId() {
 		return applicantId;
 	}
-
 	public void setApplicantId(String applicantId) {
 		this.applicantId = applicantId;
 	}
-
 	public String getStatus() {
 		return status;
 	}
-
 	public void setStatus(String status) {
 		this.status = status;
 	}
-
 	public Date getApplyDate() {
 		return applyDate;
 	}
-
 	public void setApplyDate(Date applyDate) {
 		this.applyDate = applyDate;
 	}
-
 	public Date getBeginDate() {
 		return beginDate;
 	}
-
 	public void setBeginDate(Date beginDate) {
 		this.beginDate = beginDate;
 	}
-
 	public Date getEndDate() {
 		return endDate;
 	}
-
 	public void setEndDate(Date endDate) {
 		this.endDate = endDate;
 	}
-
 	public String getRemark() {
 		return remark;
 	}
-
 	public void setRemark(String remark) {
 		this.remark = remark;
 	}
-
 	public String getTotalAmount() {
 		return totalAmount;
 	}
-
 	public void setTotalAmount(String totalAmount) {
 		this.totalAmount = totalAmount;
 	}
-
 	public Date getUpdateDate() {
 		return updateDate;
 	}
-
 	public void setUpdateDate(Date updateDate) {
 		this.updateDate = updateDate;
 	}
-
 	public String getManagerFlag() {
 		return managerFlag;
 	}
-
 	public void setManagerFlag(String managerFlag) {
 		this.managerFlag = managerFlag;
 	}
-
 	public String getFAFlag() {
 		return FAFlag;
 	}
-
 	public void setFAFlag(String fAFlag) {
 		FAFlag = fAFlag;
 	}
-
 	public String getManagerComment() {
 		return managerComment;
 	}
-
 	public void setManagerComment(String managerComment) {
 		this.managerComment = managerComment;
 	}
-
 	public String getFAComment() {
 		return FAComment;
 	}
-
 	public void setFAComment(String fAComment) {
 		FAComment = fAComment;
 	}
+	@Override
+	public void preInsert() {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void preUpdate() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	
 
 }

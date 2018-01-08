@@ -1,5 +1,6 @@
 package com.thinkgem.jeesite.modules.finance.entity;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 import org.springframework.data.annotation.Id;
@@ -18,10 +19,9 @@ public class ReimburseTaxi {
 	private String mainId; // 主表主键
 	private String projectId; // 项目
 	private String remark; //
-	private String amount; // 合计金额',
+	private BigDecimal amount; // 合计金额',
 	private Date createDate;
-	private Date beginTime;// 开始时间
-	private Date endTime; // 结束时间
+	private String time;// 时间
 	private String departureLocation; // 出发地点
 	private String arrivedLocation; // 到达地点
 	private Date updateDate;// 更新时间
@@ -58,11 +58,11 @@ public class ReimburseTaxi {
 		this.remark = remark;
 	}
 
-	public String getAmount() {
+	public BigDecimal getAmount() {
 		return amount;
 	}
 
-	public void setAmount(String amount) {
+	public void setAmount(BigDecimal amount) {
 		this.amount = amount;
 	}
 
@@ -72,22 +72,6 @@ public class ReimburseTaxi {
 
 	public void setCreateDate(Date createDate) {
 		this.createDate = createDate;
-	}
-
-	public Date getBeginTime() {
-		return beginTime;
-	}
-
-	public void setBeginTime(Date beginTime) {
-		this.beginTime = beginTime;
-	}
-
-	public Date getEndTime() {
-		return endTime;
-	}
-
-	public void setEndTime(Date endTime) {
-		this.endTime = endTime;
 	}
 
 	public String getDepartureLocation() {
@@ -112,6 +96,14 @@ public class ReimburseTaxi {
 
 	public void setUpdateDate(Date updateDate) {
 		this.updateDate = updateDate;
+	}
+
+	public String getTime() {
+		return time;
+	}
+
+	public void setTime(String time) {
+		this.time = time;
 	}
 
 }

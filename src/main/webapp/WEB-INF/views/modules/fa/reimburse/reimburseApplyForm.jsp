@@ -50,8 +50,7 @@
 			var itemNoTaxiId = 'itemNoTaxi'+trMaxNum;
 			var projectNameTaxiId = 'projectNameTaxi'+trMaxNum;
 			var remarkTaxiId = 'remarkTaxi'+trMaxNum;
-			var timeTaxiId = 'beginTimeTaxi'+trMaxNum;
-			
+			var timeTaxiId = 'timeTaxi'+trMaxNum;
 			var departureLocationTaxiId = 'departureLocationTaxi'+trMaxNum;
 			var arrivedLocationTaxiId = 'arrivedLocationTaxi'+trMaxNum;
 			var amountTaxiId = 'amountTaxi'+trMaxNum;
@@ -208,21 +207,21 @@
 					
 					<td><label style="font-weight:bold">申报日期</label></td>
 					<td>
-					<input id="beginDate" name="beginDate" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate" style="width:200px;"
-							value="<fmt:formatDate value="${businessTripModel.businessTripApplication.beginDate}" pattern="yyyy-MM-dd"/>"
+					<input id="applyDate" name="applyDate" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate" style="width:200px;"
+							value="<fmt:formatDate value="${reimburseModel.reimbursementMain.applyDate}" pattern="yyyy-MM-dd"/>"
 								onclick="WdatePicker({dateFmt:'yyyy-MM-dd'});"/>
 					
 					</td>
 					<td><label style="font-weight:bold">申报期间</label></td>
 					<td>
 					<input id="beginDate" name="beginDate" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate" style="width:200px;"
-							value="<fmt:formatDate value="${businessTripModel.businessTripApplication.beginDate}" pattern="yyyy-MM-dd"/>"
+							value="<fmt:formatDate value="${reimburseModel.reimbursementMain.beginDate}" pattern="yyyy-MM-dd"/>"
 								onclick="WdatePicker({dateFmt:'yyyy-MM-dd'});"/>
 					
 					</td>
 					<td>
-					<input id="beginDate" name="beginDate" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate" style="width:200px;"
-							value="<fmt:formatDate value="${businessTripModel.businessTripApplication.beginDate}" pattern="yyyy-MM-dd"/>"
+					<input id="endDate" name="endDate" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate" style="width:200px;"
+							value="<fmt:formatDate value="${reimburseModel.reimbursementMain.endDate}" pattern="yyyy-MM-dd"/>"
 								onclick="WdatePicker({dateFmt:'yyyy-MM-dd'});"/>
 					
 					</td>
@@ -239,7 +238,7 @@
 				
 					<tr id="longDistance1">
 						<td><input id="createDateLongDistance1" name="createDateLongDistance1" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate" style="width:150px;"
-							value="<fmt:formatDate value="${businessTripModel.businessTripReservationList.get(0).beginDate}" pattern="yyyy-MM-dd"/>"
+							value="<fmt:formatDate value="${reimburseModel.longDistanceList.get(0).createDate}" pattern="yyyy-MM-dd"/>"
 								onclick="WdatePicker({dateFmt:'yyyy-MM-dd'});"/></td>
 						<td><input style="width:150px" id="itemNoLongDistance1" name="itemNoLongDistance1" maxlength="50" type="text"/></td>
 						<td><input style="width:150px" id=projectNameLongDistance1" name="projectNameLongDistance1" maxlength="50"  type="text" /></td>
@@ -256,12 +255,12 @@
 		<div style="background:#40abe9"><label style="font-weight:bold">出租车费</label></div>
 		<div>
 			<table id="taxiTable" class="table table-striped table-bsordered table-condensed">
-				<thead><tr><th>日期</th><th>项目编号</th><th>项目名称</th><th>摘要（内容、事由）</th><th>开始时间</th><th>结束时间</th><th>出发地点</th><th>到达地点</th><th>金额</th><th>删除</th></thead>
+				<thead><tr><th>日期</th><th>项目编号</th><th>项目名称</th><th>摘要（内容、事由）</th><th>时间</th><th>出发地点</th><th>到达地点</th><th>金额</th><th>删除</th></thead>
 				<tbody>
-					<tr id="taxi">
+					<tr id="taxi">	
 						<td><input id="createDateTaxi1" name="createDateTaxi1" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate" style="width:150px;"
-							value="<fmt:formatDate pattern="yyyy-MM-dd"/>"
-								onclick="WdatePicker({dateFmt:'yyyy-MM-dd'});"/></td>
+							value="<fmt:formatDate value="${reimburseModel.taxiList.get(0).createDate}" pattern="yyyy-MM-dd"/>"
+								onclick="WdatePicker({dateFmt:'yyyy-MM-dd'});"/></td>		
 						<td><input style="width:150px" id="itemNoTaxi1" name="itemNoTaxi1" maxlength="50" type="text"/></td>
 						<td><input style="width:150px" id=projectNameTaxi1" name="projectNameTaxi1" maxlength="50"  type="text" /></td>
 						<td><input style="width:150px" id="remarkTaxi1" name="remarkTaxi1" maxlength="50"  type="text"/></td>
@@ -282,10 +281,12 @@
 				<thead><tr><th>日期</th><th>项目编号</th><th>项目名称</th><th>客户名称</th><th>受邀人姓名</th><th>受邀人职务</th><th>人数</th><th>金额</th><th>删除</th></thead>
 				<tbody>
 				<tr id="hospitality1">		
-				
-					<td><input id="createDateHospitality1" name="createDateHospitality1" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate" style="width:150px;"
-					value="<fmt:formatDate pattern="yyyy-MM-dd"/>"
-						onclick="WdatePicker({dateFmt:'yyyy-MM-dd'});"/></td>
+			
+					<td>
+					<input id="createDateHospitality1" name="createDateHospitality1" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate" style="width:150px;"
+							value="<fmt:formatDate value="${businessTripModel.hospitalityList.get(0).createDate}" pattern="yyyy-MM-dd"/>"
+								onclick="WdatePicker({dateFmt:'yyyy-MM-dd'});"/>
+					</td>			
 					<td><input style="width:150px" id="itemNoHospitality1" name="itemNoHospitality1" maxlength="50" type="text"/></td>
 					<td><input style="width:150px" id=projectNameHospitality1" name="projectNameHospitality1" maxlength="50"  type="text" /></td>
 					<td><input style="width:150px" id="clientName1" name="clientName1" maxlength="50"  type="text"/></td>
