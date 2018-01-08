@@ -1,7 +1,9 @@
 package com.thinkgem.jeesite.modules.finance.helper;
 
+import java.util.Date;
 import java.util.List;
 
+import com.thinkgem.jeesite.common.persistence.BaseEntity;
 import com.thinkgem.jeesite.modules.finance.entity.ReimburseHospitality;
 import com.thinkgem.jeesite.modules.finance.entity.ReimburseLongDistance;
 import com.thinkgem.jeesite.modules.finance.entity.ReimburseMain;
@@ -15,9 +17,23 @@ import com.thinkgem.jeesite.modules.finance.entity.ReimburseTaxi;
  * @date 2017年12月26日 下午3:13:13
  * @since 1.0.0
  */
-public class ReimburseModel {
+public class ReimburseModel extends BaseEntity<ReimburseModel> {
 
-	private ReimburseMain reimbursementMain;
+	// private ReimburseMain reimbursementMain;
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 7097802654149429818L;
+	// main表
+	private String status;
+	private String id;
+	private Date applyDate;// 申请日期
+	private Date beginDate;//
+	private Date endDate; //
+	private String remark; //
+	private String totalAmount; // 合计金额',
+
 	private String officeName;
 	private String userName;
 	private List<ReimburseHospitality> hospitalityList;
@@ -27,6 +43,53 @@ public class ReimburseModel {
 
 	private String longDistanceEveryNum;
 
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	public Date getApplyDate() {
+		return applyDate;
+	}
+
+	public void setApplyDate(Date applyDate) {
+		this.applyDate = applyDate;
+	}
+
+	public Date getBeginDate() {
+		return beginDate;
+	}
+
+	public void setBeginDate(Date beginDate) {
+		this.beginDate = beginDate;
+	}
+
+	public Date getEndDate() {
+		return endDate;
+	}
+
+	public void setEndDate(Date endDate) {
+		this.endDate = endDate;
+	}
+
+	public String getRemark() {
+		return remark;
+	}
+
+	public void setRemark(String remark) {
+		this.remark = remark;
+	}
+
+	public String getTotalAmount() {
+		return totalAmount;
+	}
+
+	public void setTotalAmount(String totalAmount) {
+		this.totalAmount = totalAmount;
+	}
 
 	public String getLongDistanceEveryNum() {
 		return longDistanceEveryNum;
@@ -52,12 +115,12 @@ public class ReimburseModel {
 		this.userName = userName;
 	}
 
-	public ReimburseMain getReimbursementMain() {
-		return reimbursementMain;
+	public String getStatus() {
+		return status;
 	}
 
-	public void setReimbursementMain(ReimburseMain reimbursementMain) {
-		this.reimbursementMain = reimbursementMain;
+	public void setStatus(String status) {
+		this.status = status;
 	}
 
 	public List<ReimburseHospitality> getHospitalityList() {
@@ -90,6 +153,18 @@ public class ReimburseModel {
 
 	public void setTaxiList(List<ReimburseTaxi> taxiList) {
 		this.taxiList = taxiList;
+	}
+
+	@Override
+	public void preInsert() {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void preUpdate() {
+		// TODO Auto-generated method stub
+
 	}
 
 }

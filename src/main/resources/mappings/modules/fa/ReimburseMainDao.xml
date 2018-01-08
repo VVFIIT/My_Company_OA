@@ -31,13 +31,16 @@
 		WHERE a.id = #{id}
 	</select>
 	
-	<select id="findList" resultType="ReimburseMain">
-		SELECT 
-			<include refid="faReimburseMainColumns"/>
-		FROM fa_reimburse_main a
-		<include refid="faReimburseMainJoins"/>
+	<select id="findShowList" resultType="ReimburseModel">
+		SELECT
+			u.name as userName,o.name as officeName,<include refid="faReimburseMainColumns"/>
+			FROM fa_reimburse_main a
+		JOIN sys_user u ON a.applicantId = u.id
+		JOIN sys_office o ON a.officeId = o.id
 		<where>
-			
+		<if test="status != null and status != ''">
+			AND a.status = #{status}
+		</if>	
 		</where>
 		<choose>
 			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
@@ -64,6 +67,31 @@
 			</otherwise>
 		</choose>
 	</select> 
+	
+   <select id="getShow" resultType="ReimburseModel">
+		SELECT
+			u.name as userName,o.name as officeName,
+			<include refid="faReimburseMainColumns"/>
+			FROM fa_reimburse_main a
+		JOIN sys_user u ON a.applicantId = u.id
+		JOIN sys_office o ON a.officeId = o.id
+		JOIN fa_reimburse_longdistance l on l.mainId=a.id
+		JOIN fa_reimburse_hospitality h on h.mainId=a.id
+		JOIN fa_reimburse_other oth on oth.mainId=a.id
+		JOIN fa_reimburse_taxi ta on ta.mainId=a.id
+		<where>
+		<if test="id != null and id != ''">
+			AND a.id = #{id}
+		</if>	
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
 	
 	<insert id="insert">
 		INSERT INTO fa_reimburse_main(

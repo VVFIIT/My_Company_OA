@@ -3,6 +3,8 @@ package com.thinkgem.jeesite.modules.finance.dao;
 import com.thinkgem.jeesite.common.persistence.CrudDao;
 import com.thinkgem.jeesite.common.persistence.annotation.MyBatisDao;
 import com.thinkgem.jeesite.modules.finance.entity.ReimburseMain;
+import com.thinkgem.jeesite.modules.finance.helper.ReimburseModel;
+import com.thinkgem.jeesite.modules.sys.entity.User;
 
 import java.util.List;
 
@@ -16,6 +18,8 @@ import java.util.List;
 @MyBatisDao
 public interface ReimburseMainDao extends CrudDao<ReimburseMain> {
 
- 
+	public List<ReimburseModel> findShowList(ReimburseModel reimburseModel);
+
+	public ReimburseModel getShow(String id);
 
 }

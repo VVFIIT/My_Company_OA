@@ -1,13 +1,24 @@
 package com.thinkgem.jeesite.modules.finance.service;
 
+import java.math.BigDecimal;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
+import java.util.UUID;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import com.thinkgem.jeesite.common.persistence.Page;
-import com.thinkgem.jeesite.modules.finance.dao.ReimburseDao;
 import com.thinkgem.jeesite.modules.finance.dao.ReimburseHospitalityDao;
 import com.thinkgem.jeesite.modules.finance.dao.ReimburseLongDistanceDao;
 import com.thinkgem.jeesite.modules.finance.dao.ReimburseMainDao;
 import com.thinkgem.jeesite.modules.finance.dao.ReimburseOtherDao;
 import com.thinkgem.jeesite.modules.finance.dao.ReimburseTaxiDao;
-import com.thinkgem.jeesite.modules.finance.entity.BusinessTripAirTicket;
 import com.thinkgem.jeesite.modules.finance.entity.ReimburseHospitality;
 import com.thinkgem.jeesite.modules.finance.entity.ReimburseLongDistance;
 import com.thinkgem.jeesite.modules.finance.entity.ReimburseMain;
@@ -16,18 +27,6 @@ import com.thinkgem.jeesite.modules.finance.entity.ReimburseTaxi;
 import com.thinkgem.jeesite.modules.finance.helper.ReimburseModel;
 import com.thinkgem.jeesite.modules.sys.entity.User;
 import com.thinkgem.jeesite.modules.sys.utils.UserUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
-import javax.servlet.http.HttpServletRequest;
-
-import java.math.BigDecimal;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
-import java.util.UUID;
 
 /**
  * 报销
@@ -39,9 +38,6 @@ import java.util.UUID;
 @Service
 @Transactional(readOnly = true, rollbackFor = Exception.class)
 public class ReimburseService {
-
-	@Autowired
-	private ReimburseDao reimburseDao;
 
 	@Autowired
 	private ReimburseMainDao reimburseMainDao;
@@ -56,29 +52,19 @@ public class ReimburseService {
 	private ReimburseTaxiDao reimburseTaxiDao;
 
 	/**
-	 * 报销列表数据
+	 * 报销查看列表数据
+	 * 
+	 * @param page
+	 * @param reimburseMain
+	 * @return
+	 * @author Grace
+	 * @date 2018年1月8日 上午10:06:57
 	 */
-	public Page<ReimburseMain> reimburseMainList(Page<ReimburseMain> page, ReimburseMain reimburseMain) {
-		reimburseMain.setPage(page);
-		User user = UserUtils.getUser();
-		reimburseMain.setApplicantId(user.getId());
-		reimburseMain.setOfficeId(user.getOffice().getId());
-		if ("1".equals(reimburseMain.getOfficeId()) || "8".equals(reimburseMain.getOfficeId())) {
-			List<ReimburseMain> reimburseMainLists = reimburseDao.findAllNameList(reimburseMain);
-			page.setList(reimburseMainLists);
-		} else {
-			List<ReimburseMain> reimburseMainLists = reimburseDao.findOnlyNameList(reimburseMain);
-			page.setList(reimburseMainLists);
-		}
+	public Page<ReimburseModel> reimburseMainList(Page<ReimburseModel> page, ReimburseModel reimburseModel) {
+		reimburseModel.setPage(page);
+		List<ReimburseModel> reimburseMainList = reimburseMainDao.findShowList(reimburseModel);
+		page.setList(reimburseMainList);
 		return page;
-	}
-
-	/**
-	 * 报销信息详情
-	 */
-	public ReimburseMain reimburseInformation(String id) {
-		ReimburseMain reimburseMain = reimburseDao.findOnly(id);
-		return reimburseMain;
 	}
 
 	/**
@@ -95,7 +81,7 @@ public class ReimburseService {
 	public void insertReimburse(ReimburseModel reimburseModel, HttpServletRequest request, String mainId)
 			throws ParseException {
 
-		insertMain(reimburseModel,request, mainId);
+		insertMain(reimburseModel, request, mainId);
 		insertLongDistance(request, mainId);
 		insertTaxi(request, mainId);
 		insertHospitality(request, mainId);
@@ -112,28 +98,29 @@ public class ReimburseService {
 	 * @param request
 	 * @param mainId
 	 * @author Grace
-	 * @throws ParseException 
+	 * @throws ParseException
 	 * @date 2018年1月5日 下午3:46:39
 	 */
 	@Transactional(readOnly = false)
-	private void insertMain(ReimburseModel reimburseModel,HttpServletRequest request, String mainId) throws ParseException {
-	
-		  SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-		  User user=UserUtils.getUser();
-		  ReimburseMain reimburseMain=new ReimburseMain();
-		  reimburseMain.setId(mainId);
-		  reimburseMain.setOfficeId(user.getOffice().getId());
-		  reimburseMain.setApplicantId(user.getId());
-		  //已创建
-		  reimburseMain.setStatus("10");
-		  
-		  reimburseMain.setApplyDate(sdf.parse(request.getParameter("applyDate")));
-		  reimburseMain.setBeginDate(sdf.parse(request.getParameter("beginDate")));
-		  reimburseMain.setEndDate(sdf.parse(request.getParameter("endDate")));
-		//  reimburseMain.setRemark(remark);
-		//  reimburseMain.setTotalAmount(totalAmount);
-		  reimburseMain.setUpdateDate(new Date());
-		  reimburseMainDao.insert(reimburseMain);
+	private void insertMain(ReimburseModel reimburseModel, HttpServletRequest request, String mainId)
+			throws ParseException {
+
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		User user = UserUtils.getUser();
+		ReimburseMain reimburseMain = new ReimburseMain();
+		reimburseMain.setId(mainId);
+		reimburseMain.setOfficeId(user.getOffice().getId());
+		reimburseMain.setApplicantId(user.getId());
+		// 已创建
+		reimburseMain.setStatus("10");
+
+		reimburseMain.setApplyDate(sdf.parse(request.getParameter("applyDate")));
+		reimburseMain.setBeginDate(sdf.parse(request.getParameter("beginDate")));
+		reimburseMain.setEndDate(sdf.parse(request.getParameter("endDate")));
+		// reimburseMain.setRemark(remark);
+		// reimburseMain.setTotalAmount(totalAmount);
+		reimburseMain.setUpdateDate(new Date());
+		reimburseMainDao.insert(reimburseMain);
 	}
 
 	/**
@@ -166,7 +153,7 @@ public class ReimburseService {
 			reimburseLongDistance.setCreateDate(sdf.parse(createDate));
 			reimburseLongDistance.setMainId(mainId);
 			// reimburseLongDistance.setProjectId(projectId);
-			 reimburseLongDistance.setProjectId("e43f5f0c-f413-11e7-8177-2c337a19e798");
+			reimburseLongDistance.setProjectId("e43f5f0c-f413-11e7-8177-2c337a19e798");
 			reimburseLongDistance.setRemark(remark);
 			reimburseLongDistance.setUpdateDate(new Date());
 			reimburseLongDistance.setAmount(new BigDecimal(amount));
@@ -182,7 +169,7 @@ public class ReimburseService {
 	 * @param request
 	 * @param mainId
 	 * @author Grace
-	 * @throws ParseException 
+	 * @throws ParseException
 	 * @date 2018年1月4日 下午5:39:08
 	 */
 	@Transactional(readOnly = false)
@@ -222,7 +209,7 @@ public class ReimburseService {
 	 * @param request
 	 * @param mainId
 	 * @author Grace
-	 * @throws ParseException 
+	 * @throws ParseException
 	 * @date 2018年1月4日 下午5:39:14
 	 */
 	@Transactional(readOnly = false)
@@ -236,7 +223,6 @@ public class ReimburseService {
 
 			ReimburseHospitality reimburseHospitality = new ReimburseHospitality();
 
-			
 			String createDate = request.getParameter(("createDateHospitality" + hospitalityNum[i]));
 			String itemNo = request.getParameter(("itemNoHospitality" + hospitalityNum[i]));
 			String projectName = request.getParameter(("projectNameHospitalitye" + hospitalityNum[i]));
@@ -269,7 +255,7 @@ public class ReimburseService {
 	 * @param request
 	 * @param mainId
 	 * @author Grace
-	 * @throws ParseException 
+	 * @throws ParseException
 	 * @date 2018年1月4日 下午5:39:19
 	 */
 	@Transactional(readOnly = false)
@@ -307,6 +293,19 @@ public class ReimburseService {
 			reimburseTaxiDao.insert(reimburseTaxi);
 		}
 
+	}
+
+	/**
+	 * 详情页
+	 * 
+	 * @param id
+	 * @return
+	 * @author Grace
+	 * @date 2018年1月8日 下午2:01:56
+	 */
+	public ReimburseModel reimburseShow(String id) {
+		//return reimburseMainDao.getShow(id);
+		return null;
 	}
 
 }

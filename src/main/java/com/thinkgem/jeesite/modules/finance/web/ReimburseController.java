@@ -21,7 +21,6 @@ import java.text.ParseException;
 import java.util.List;
 import java.util.UUID;
 
-
 /**
  * 报销
  *
@@ -39,7 +38,6 @@ public class ReimburseController extends BaseController {
 	@Autowired
 	private ReimburseHospitalityService reimburseHospitalityService;
 
-
 	/**
 	 * 报销申请页
 	 *
@@ -53,9 +51,9 @@ public class ReimburseController extends BaseController {
 	 */
 	@RequestMapping(value = "toApplyForm")
 	public String toApplyForm(ReimburseMain reimburseMain, Model model, HttpServletRequest request,
-							  HttpServletResponse response) {
-		ReimburseModel reimburseModel=new ReimburseModel();
-		User user=UserUtils.getUser();
+			HttpServletResponse response) {
+		ReimburseModel reimburseModel = new ReimburseModel();
+		User user = UserUtils.getUser();
 		reimburseModel.setUserName(user.getName());
 		reimburseModel.setOfficeName(user.getOffice().getName());
 
@@ -73,43 +71,55 @@ public class ReimburseController extends BaseController {
 	 * @param redirectAttributes
 	 * @return
 	 * @author Grace
-	 * @throws ParseException 
+	 * @throws ParseException
 	 * @date 2018年1月3日 下午5:00:03
 	 */
 	@RequestMapping(value = "commitApplyForm")
-	public String commitApplyForm(ReimburseModel reimburseModel,  HttpServletRequest request,
-								  HttpServletResponse response) throws ParseException {
+	public String commitApplyForm(ReimburseModel reimburseModel, HttpServletRequest request,
+			HttpServletResponse response) throws ParseException {
 		String mainId = UUID.randomUUID().toString();
-		reimburseService.insertReimburse(reimburseModel,request,mainId);
+		reimburseService.insertReimburse(reimburseModel, request, mainId);
 		return "modules/fa/reimburse/reimburseApplyForm";
 	}
 
-
 	/**
-	 * 费用报销显示列表
+	 * 费用报销查看列表
+	 * 
+	 * @param reimburseModel
+	 * @param model
+	 * @param request
+	 * @param response
+	 * @return
+	 * @author Grace
+	 * @date 2018年1月8日 上午11:03:30
 	 */
 	@RequestMapping(value = "list")
-	public String list(ReimburseMain reimburseMain, Model model, HttpServletRequest request,
-					   HttpServletResponse response) {
-		Page<ReimburseMain> page = reimburseService.reimburseMainList(new Page<ReimburseMain>(request, response),reimburseMain);
+	public String list(ReimburseModel reimburseModel, Model model, HttpServletRequest request,
+			HttpServletResponse response) {
+		Page<ReimburseModel> page = reimburseService.reimburseMainList(new Page<ReimburseModel>(request, response),
+				reimburseModel);
 		model.addAttribute("page", page);
-		User user = UserUtils.getUser();
-		reimburseMain.setApplicantId(user.getId());
-		model.addAttribute("reimburseMainName", reimburseMain);
+
+		model.addAttribute("reimburseModel", reimburseModel);
 		return "modules/fa/reimburse/reimburseList";
 	}
 
-
 	/**
 	 * 报销费用综合申报表查看
+	 * 
+	 * @param reimburseMain
+	 * @param model
+	 * @param request
+	 * @param response
+	 * @param id
+	 * @return
+	 * @author Grace
+	 * @date 2018年1月8日 下午12:02:53
 	 */
-	@RequestMapping(value = "formList")
-	public String formList(ReimburseMain reimburseMain, Model model, HttpServletRequest request,
-						   HttpServletResponse response, String id) {
-		ReimburseMain reimburseMains = reimburseService.reimburseInformation(id);
-		model.addAttribute("reimburseMain", reimburseMains);
-		Page<ReimburseHospitality> reimburseHospitalityPage = reimburseHospitalityService.reimburseHospitalityInformation(new Page<ReimburseHospitality>(request, response), id);
-		model.addAttribute("reimburseHospitalityPage", reimburseHospitalityPage);
-		return "modules/fa/reimburse/reimburseFormList";
+	@RequestMapping(value = "show")
+	public String show(Model model, HttpServletRequest request, HttpServletResponse response, String id) {
+		ReimburseModel reimburseModel = reimburseService.reimburseShow(id);
+		model.addAttribute("reimburseModel", reimburseModel);
+		return "modules/fa/reimburse/reimburseShow";
 	}
 }
