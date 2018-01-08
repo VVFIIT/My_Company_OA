@@ -4,26 +4,26 @@
     
 	<sql id="faReimburseMainColumns">
 		a.id AS "id",
-		a.procinstid AS "procinstid",
-		a.officeid AS "officeid",
-		a.applicantid AS "applicantid",
+		a.procInstId AS "procInstId",
+		a.officeId AS "officeId",
+		a.applicantId AS "applicantId",
 		a.status AS "status",
-		a.applydate AS "applydate",
-		a.begindate AS "begindate",
-		a.enddate AS "enddate",
+		a.applyDate AS "applyDate",
+		a.beginDate AS "beginDate",
+		a.endDate AS "endDate",
 		a.remark AS "remark",
-		a.totalamount AS "totalamount",
-		a.updatedate AS "updatedate",
-		a.managerflag AS "managerflag",
-		a.faflag AS "faflag",
-		a.managercomment AS "managercomment",
-		a.facomment AS "facomment"
+		a.totalAmount AS "totalAmount",
+		a.updateDate AS "updateDate",
+		a.managerFlag AS "managerFlag",
+		a.FAFlag AS "FAFlag",
+		a.managerComment AS "managerComment",
+		a.FAComment AS "FAComment"
 	</sql>
 	
 	<sql id="faReimburseMainJoins">
 	</sql>
     
-	<select id="get" resultType="ReimburseMain">
+ 	<select id="get" resultType="ReimburseMain">
 		SELECT 
 			<include refid="faReimburseMainColumns"/>
 		FROM fa_reimburse_main a
@@ -31,13 +31,16 @@
 		WHERE a.id = #{id}
 	</select>
 	
-	<select id="findList" resultType="ReimburseMain">
-		SELECT 
-			<include refid="faReimburseMainColumns"/>
-		FROM fa_reimburse_main a
-		<include refid="faReimburseMainJoins"/>
+	<select id="findShowList" resultType="ReimburseModel">
+		SELECT
+			u.name as userName,o.name as officeName,<include refid="faReimburseMainColumns"/>
+			FROM fa_reimburse_main a
+		JOIN sys_user u ON a.applicantId = u.id
+		JOIN sys_office o ON a.officeId = o.id
 		<where>
-			
+		<if test="status != null and status != ''">
+			AND a.status = #{status}
+		</if>	
 		</where>
 		<choose>
 			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
@@ -63,60 +66,85 @@
 			<otherwise>
 			</otherwise>
 		</choose>
+	</select> 
+	
+   <select id="getShow" resultType="ReimburseModel">
+		SELECT
+			u.name as userName,o.name as officeName,
+			<include refid="faReimburseMainColumns"/>
+			FROM fa_reimburse_main a
+		JOIN sys_user u ON a.applicantId = u.id
+		JOIN sys_office o ON a.officeId = o.id
+		JOIN fa_reimburse_longdistance l on l.mainId=a.id
+		JOIN fa_reimburse_hospitality h on h.mainId=a.id
+		JOIN fa_reimburse_other oth on oth.mainId=a.id
+		JOIN fa_reimburse_taxi ta on ta.mainId=a.id
+		<where>
+		<if test="id != null and id != ''">
+			AND a.id = #{id}
+		</if>	
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
 	</select>
 	
 	<insert id="insert">
 		INSERT INTO fa_reimburse_main(
 			id,
-			procinstid,
-			officeid,
-			applicantid,
+			procInstId,
+			officeId,
+			applicantId,
 			status,
-			applydate,
-			begindate,
-			enddate,
+			applyDate,
+			beginDate,
+			endDate,
 			remark,
-			totalamount,
-			updatedate,
-			managerflag,
-			faflag,
-			managercomment,
-			facomment
+			totalAmount,
+			updateDate,
+			managerFlag,
+			FAFlag,
+			managerComment,
+			FAComment
 		) VALUES (
 			#{id},
-			#{procinstid},
-			#{officeid},
-			#{applicantid},
+			#{procInstId},
+			#{officeId},
+			#{applicantId},
 			#{status},
-			#{applydate},
-			#{begindate},
-			#{enddate},
+			#{applyDate},
+			#{beginDate},
+			#{endDate},
 			#{remark},
-			#{totalamount},
-			#{updatedate},
-			#{managerflag},
-			#{faflag},
-			#{managercomment},
-			#{facomment}
+			#{totalAmount},
+			#{updateDate},
+			#{managerFlag},
+			#{FAFlag},
+			#{managerComment},
+			#{FAComment}
 		)
 	</insert>
 	
 	<update id="update">
 		UPDATE fa_reimburse_main SET 	
-			procinstid = #{procinstid},
-			officeid = #{officeid},
-			applicantid = #{applicantid},
+			procInstId = #{procInstId},
+			officeId = #{officeId},
+			applicantId = #{applicantId},
 			status = #{status},
-			applydate = #{applydate},
-			begindate = #{begindate},
-			enddate = #{enddate},
+			applyDate = #{applyDate},
+			beginDate = #{beginDate},
+			endDate = #{endDate},
 			remark = #{remark},
-			totalamount = #{totalamount},
-			updatedate = #{updatedate},
-			managerflag = #{managerflag},
-			faflag = #{faflag},
-			managercomment = #{managercomment},
-			facomment = #{facomment}
+			totalAmount = #{totalAmount},
+			updateDate = #{updateDate},
+			managerFlag = #{managerFlag},
+			FAFlag = #{FAFlag},
+			managerComment = #{managerComment},
+			FAComment = #{FAComment}
 		WHERE id = #{id}
 	</update>
 	

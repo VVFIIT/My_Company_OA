@@ -19,30 +19,23 @@
 </head>
 <body>
 <ul class="nav nav-tabs">
-    <li class="active"><a href="${ctx}/fa/reimburse/list${reimburseMain.id}">费用报销列表</a></li>
+    <li class="active"><a href="${ctx}/fa/reimburse/list${reimburseModel.id}">费用报销列表</a></li>
     <li><a href="${ctx}/fa/reimburse/formList">报销费用综合申报表查看</a></li>
 </ul>
 <form:form id="searchForm"
-           modelAttribute="reimburseMainName" action="${ctx}/fa/reimburse/list" class="breadcrumb form-search">
+           modelAttribute="reimburseModel" action="${ctx}/fa/reimburse/list" class="breadcrumb form-search">
+   
     <input id="pageNo" name="pageNo" type="hidden" value="${page.pageNo}"/>
     <input id="pageSize" name="pageSize" type="hidden" value="${page.pageSize}"/>
     <ul class="ul-form">
-        <li><label>项目编号：</label>
-            <form:input path="" htmlEscape="false" maxlength="200" class="input-medium"/>
-        </li>
-        <li><label>项目名：</label>
-            <form:select path="" class="input-medium">
-                <form:option value="" label="请选择"/>
-                <%--<form:options items="${fns:getDictList('oa_notify_type')}" itemLabel="label" itemValue="value" htmlEscape="false"/>--%>
-            </form:select>
-        </li>
+        
         <li><label>状态：</label>
             <form:select path="status" class="input-medium">
-                <form:option value="" label="请选择"/>
-                <form:options items="${fns:getDictList('fa_reimburseMain_status')}" itemLabel="label" itemValue="value"
-                              htmlEscape="false"/>
-            </form:select>
-        </li>
+				<form:option value="" label="请选择"/>
+				<form:options items="${fns:getDictList('fa_reimburseMain_status')}" itemLabel="label" itemValue="value"/>
+			</form:select>
+			
+        </li> 
         <li class="btns"><input id="btnSubmit" class="btn btn-primary" type="submit" value="查询"/></li>
         <li class="clearfix"></li>
     </ul>
@@ -53,13 +46,14 @@
     <tr>
         <th>申请日期</th>
         <th>部门</th>
-        <c:choose>
-            <c:when test="${reimburseMainName.applicantId =='1' || reimburseMainName.applicantId =='8' }">
+        <th>申报人</th>
+        <%-- <c:choose>
+            <c:when test="${reimburseModel.applicantId =='1' || reimburseModel.applicantId =='8' }">
                 <th>申报人</th>
             </c:when>
             <c:otherwise>
             </c:otherwise>
-        </c:choose>
+        </c:choose> --%>
         <th>申报起始日</th>
         <th>申报结束日</th>
         <th>总金额</th>
@@ -68,22 +62,26 @@
     </tr>
     </thead>
     <tbody>
-    <c:forEach items="${page.list}" var="reimburseMain">
+    <c:forEach items="${page.list}" var="reimburseModel">
         <tr>
-            <td><fmt:formatDate value="${reimburseMain.applyDate}" type="both" pattern="yyyy-MM-dd"/></td>
-            <td>${fns:abbr(reimburseMain.user.office.name,30)} </td>
-            <c:choose>
-                <c:when test="${reimburseMainName.applicantId =='1' || reimburseMainName.applicantId =='8' }">
+         <input id="id" name="id"  value="${reimburseModel.id}"/>     
+            <td><fmt:formatDate value="${reimburseModel.applyDate}" type="both" pattern="yyyy-MM-dd"/></td>
+       
+           <td>${reimburseModel.officeName}</td>
+           <td>${reimburseModel.userName}</td>
+           <%--  <c:choose>
+                <c:when test="${reimburseModel.officeName =='1' || reimburseModel.applicantId =='8' }">
                     <td>${reimburseMain.user.name}</td>
                 </c:when>
                 <c:otherwise>
                 </c:otherwise>
-            </c:choose>
-            <td><fmt:formatDate value="${reimburseMain.beginDate}" type="both" pattern="yyyy-MM-dd"/></td>
-            <td><fmt:formatDate value="${reimburseMain.endDate}" type="both" pattern="yyyy-MM-dd"/></td>
-            <td>${fns:abbr(reimburseMain.totalAmount,30)}</td>
-            <td>${fns:getDictLabel(reimburseMain.status,'fa_reimburseMain_status','')}</td>
-            <td><a href="${ctx}/fa/reimburse/formList?id=${reimburseMain.id}&applyDate=${reimburseMain.applyDate}&user.name=${reimburseMain.user.name}&user.office.name=${reimburseMain.user.office.name}&beginDate=${reimburseMain.beginDate}&endDate=${reimburseMain.endDate}">查看</a></td>
+            </c:choose> --%>
+            <td><fmt:formatDate value="${reimburseModel.beginDate}" type="both" pattern="yyyy-MM-dd"/></td>
+            <td><fmt:formatDate value="${reimburseModel.endDate}" type="both" pattern="yyyy-MM-dd"/></td>
+            <td>${fns:abbr(reimburseModel.totalAmount,30)}</td>
+            <td>${fns:getDictLabel(reimburseModel.status,'fa_reimburseMain_status','')}</td>
+            <td><a href="${ctx}/fa/reimburse/show?id=${reimburseModel.id}">查看</a></td> 
+            <a href="${ctx}/fa/businessTrip/showBusinessTripInfo?id=${businessTripApplication.id}">查看</a>
         </tr>
     </c:forEach>
     </tbody>
