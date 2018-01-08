@@ -60,8 +60,18 @@
 			<include refid="businessTripApplicationColumns"/>
 		FROM fa_businesstrip_application a
 		<include refid="businessTripApplicationJoins"/>
+		WHERE 1=1 
 		<if test="procInstId != null and procInstId != ''">
-			WHERE a.procInstId = #{procInstId}
+			AND a.procInstId = #{procInstId}
+		</if>
+		<if test="applicant != null and applicant.id != null and applicant.id != ''">
+			AND u.id = #{applicant.id}
+		</if>
+		<if test="applicant != null and applicant.name != null and applicant.name != ''">
+			AND u.name = #{applicant.name}
+		</if>
+		<if test="project != null and project.name != null and project.name != ''">
+			AND p.name = #{project.name}
 		</if>
 		ORDER BY a.beginDate ASC
 	</select>
@@ -84,6 +94,17 @@
 		SELECT * 
 		FROM fa_businesstrip_airticket 
 		WHERE applicationId = #{applicationId}
+	</select>
+	
+	<select id="getBusinessTripHotel" resultType="com.thinkgem.jeesite.modules.finance.entity.BusinessTripHotel">
+		SELECT * 
+		FROM fa_businesstrip_hotel 
+		WHERE applicationId = #{applicationId}
+	</select>
+	
+	<select id="getBusinessTripProjectNameList" resultType="String">
+		SELECT name 
+		FROM fa_project
 	</select>
 	
     <insert id="insertBusinessTripApplication">
@@ -123,7 +144,7 @@
 			#{status}, 
 			#{managerFlag}, 
 			#{FAFlag}, 
-			#{ManagerComment}, 
+			#{managerComment}, 
 			#{FAComment}
 		)
 	</insert>

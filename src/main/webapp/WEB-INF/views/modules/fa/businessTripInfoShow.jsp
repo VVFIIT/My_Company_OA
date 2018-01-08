@@ -11,7 +11,8 @@
 </head>
 <body>
 	<ul class="nav nav-tabs" id="updateTitle">
-	    <li><a href="${ctx}/fa/businessTrip/toBusinessTripTaskList">出差任务列表</a></li>
+	    <c:if test="${mode=='task'}"><li><a href="${ctx}/fa/businessTrip/toBusinessTripTaskList">出差任务列表</a></li></c:if>
+	    <c:if test="${mode=='search'}"><li><a href="${ctx}/fa/businessTrip/toBusinessTripInfoList">出差信息查询</a></li></c:if>
 		<li class="active"><a href="">查看出差信息</a></li>
 	</ul>
 	<div class="breadcrumb form-search">
@@ -68,6 +69,23 @@
 			</tbody>
 		</table>
 	</div>
+	<c:if test="${businessTripApplication.status=='50'}">
+		<div style="background:#40abe9; margin-top:10px"><label style="font-weight:bold">酒店信息</label></div>
+		<table class="table table-striped table-bsordered table-condensed">
+			<tr>
+				<td><label style="font-weight:bold">住宿酒店</label></td>
+				<td>${businessTripHotel.hotel}</td>
+				<td><label style="font-weight:bold">酒店联系人</label></td>
+				<td>${businessTripHotel.contact}</td>
+			</tr>
+			<tr>
+				<td><label style="font-weight:bold">具体地址</label></td>
+				<td>${businessTripHotel.address}</td>
+				<td><label style="font-weight:bold">联系电话</label></td>
+				<td>${businessTripHotel.contactPhone}</td>
+			</tr>
+		</table>
+	</c:if>
 	<div style="background:#40abe9"><label style="font-weight:bold">机票信息</label></div>
 	<div>
 		<table class="table table-striped table-bsordered table-condensed">
@@ -85,6 +103,18 @@
 			</tbody>
 		</table>
 	</div>
+	<c:if test="${businessTripApplication.managerComment!=null}">
+		<div style="background:#40abe9; margin-bottom:10px"><label style="font-weight:bold">经理的意见</label></div>
+		<div>
+			<p>${businessTripApplication.managerComment}</p>
+		</div>
+	</c:if>
+	<c:if test="${businessTripApplication.FAComment!=null}">
+		<div style="background:#40abe9; margin-bottom:10px"><label style="font-weight:bold">财务的意见</label></div>
+		<div>
+			<p>${businessTripApplication.FAComment}</p>
+		</div>
+	</c:if>
 	<div>
 		<input id="btnCancel" class="btn btn-primary" type="button" value="返 回" onclick="history.go(-1)" style="width:100px"/>
 	</div>

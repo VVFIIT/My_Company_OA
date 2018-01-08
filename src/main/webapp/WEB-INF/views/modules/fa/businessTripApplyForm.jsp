@@ -29,7 +29,7 @@
 			var reservationId = 'reservation'+trMaxNum;
 			var sameStr = "' maxlength='50' class='required' style='width:150px'/></td><td><input id='";
 			var nameStr = "' name='";
-			$("#reservationButton").before("<tr id='"+reservationId+"'><td><input id='"+reservationTypeId+nameStr+reservationTypeId+sameStr+reservationCityId+nameStr+reservationCityId+sameStr+reservationWorkPlaceId+nameStr+reservationWorkPlaceId+sameStr+reservationBeginDateId+nameStr+reservationBeginDateId+
+			$("#reservationButton").before("<tr id='"+reservationId+"'><td><select id='"+reservationTypeId+nameStr+reservationTypeId+"' class='input-xlarge required' style='width:180px'><option value=''></option><option value='公司订房'>公司订房</option><option value='公司租房'>公司租房</option></select></td><td><input id='"+reservationCityId+nameStr+reservationCityId+sameStr+reservationWorkPlaceId+nameStr+reservationWorkPlaceId+sameStr+reservationBeginDateId+nameStr+reservationBeginDateId+
 					"' type='text' readonly='readonly' maxlength='20' class='input-medium Wdate' style='width:150px;' value='<fmt:formatDate value='${businessTripModel.businessTripReservationList.get(0).beginDate}' pattern='yyyy-MM-dd'/>' onclick='WdatePicker({dateFmt:&#39;yyyy-MM-dd&#39;});'/></td><td><input id='"+reservationEndDateId+nameStr+reservationEndDateId+
 					"' type='text' readonly='readonly' maxlength='20' class='input-medium Wdate' style='width:150px;' value='<fmt:formatDate value='${businessTripModel.businessTripReservationList.get(0).endDate}' pattern='yyyy-MM-dd'/>' onclick='WdatePicker({dateFmt:&#39;yyyy-MM-dd&#39;});'/></td><td><input id='"+reservationDaysId+nameStr+reservationDaysId+
 					"' maxlength='50' class='required' style='width:150px'/></td><td><input class='btn btn-primary' type='button' value='删除' onclick='removeBusinessTripReservation(&#39;"+reservationId+"&#39;)' style='width:100px'></td></tr>");
@@ -106,31 +106,48 @@
 			<table class="table table-striped table-bsordered table-condensed">
 				<tr>
 					<td><label style="font-weight:bold">共同出差人</label></td>
-					<td><input id="togetherId" name="togetherId" maxlength="50" class="required"/></td>
+					<!-- <td><input id="togetherId" name="togetherId" maxlength="50"/></td> -->
+					<td>
+						<sys:treeselect id="togetherId" name="togetherId" value="" labelName="togetherId" labelValue="" 
+						title="共同出差人" url="/sys/office/treeData?type=3&isAll=true" cssClass="input-small" allowClear="true" notAllowSelectParent="true"/>
+					</td>
 					<td><label style="font-weight:bold">联系方式</label></td>
 					<td><input id="phone" name="phone" maxlength="50" class="required"/></td>
 				</tr>
 				<tr>
+					<td><label style="font-weight:bold">项目名称</label></td>
+					<td>
+						<select name="projectId" class="input-xlarge required" style="width:185px">
+							<option value=""></option>
+							<c:forEach items="${projectNameList}" var="projectName">
+								<option value="${projectName}">${projectName}</option>
+							</c:forEach>
+						</select>
+					</td>
 					<td><label style="font-weight:bold">身份证号</label></td>
 					<td><input id="IDNo" name="IDNo" maxlength="50" class="required"/></td>
-					<td><label style="font-weight:bold">项目名称</label></td>
-					<td><input id="projectId" name="projectId" maxlength="50" class="required"/></td>
 				</tr>
 				<tr>
 					<td><label style="font-weight:bold">出差类型</label></td>
-					<td><input id="type" name="type" maxlength="50" class="required"/></td>
+					<td>
+						<select name="type" class="input-xlarge required" style="width:185px">
+							<option value=""></option>
+							<option value="短期">短期</option>
+							<option value="长期">长期</option>
+						</select>
+					</td>
 					<td><label style="font-weight:bold">出差事由</label></td>
-					<td><input id="remark" name="remark"  maxlength="50" class="required"/></td>
+					<td><input id="remark" name="remark"  maxlength="50"/></td>
 				</tr>
 				<tr>
-					<td><label style="font-weight:bold">出差日期</label></td>
+					<td><label style="font-weight:bold">出差日期</label></td> 
 					<td>
-						<input id="beginDate" name="beginDate" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate" style="width:200px;"
+						<input id="beginDate" name="beginDate" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate required" style="width:170px;"
 							value="<fmt:formatDate value="${businessTripModel.businessTripApplication.beginDate}" pattern="yyyy-MM-dd"/>"
 								onclick="WdatePicker({dateFmt:'yyyy-MM-dd'});"/>
 					</td>
 					<td><label style="font-weight:bold">客户经理</label></td>
-					<td><input id="managerId" name="managerId" maxlength="50" class="required"/></td>
+					<td><input id="managerId" name="managerId" maxlength="50"/></td>
 				</tr>
 			</table>
 		</div>
@@ -140,7 +157,14 @@
 				<thead><tr><th>订房类型</th><th>出差城市</th><th>具体地点</th><th>入住日期</th><th>退房日期</th><th>共计天数</th><th>删除记录</th></thead>
 				<tbody>
 					<tr id="reservation1">
-						<td><input style="width:150px" id="reservationType1" name="reservationType1" maxlength="50" class="required"/></td>
+						<!-- <td><input style="width:150px" id="reservationType1" name="reservationType1" maxlength="50" class="required"/></td> -->
+						<td>
+							<select id="reservationType1" name="reservationType1" class="input-xlarge required" style="width:180px">
+								<option value=""></option>
+								<option value="公司订房">公司订房</option>
+								<option value="公司租房">公司租房</option>
+							</select>
+						</td>
 						<td><input style="width:150px" id="reservationCity1" name="reservationCity1" maxlength="50" class="required"/></td>
 						<td><input style="width:150px" id="reservationWorkPlace1" name="reservationWorkPlace1" maxlength="50" class="required"/></td>
 						<td>
@@ -153,7 +177,7 @@
 							value="<fmt:formatDate value="${businessTripModel.businessTripReservationList.get(0).endDate}" pattern="yyyy-MM-dd"/>"
 								onclick="WdatePicker({dateFmt:'yyyy-MM-dd'});"/>
 						</td>
-						<td><input style="width:150px" id="reservationDays1" name="reservationDays1" maxlength="50" class="required"/></td>
+						<td><input style="width:150px" id="reservationDays1" name="reservationDays1" maxlength="50"/></td>
 						<td><input class="btn btn-primary" type="button" value="删除" onclick="removeBusinessTripReservation('reservation1')" style="width:100px"></td>
 					</tr>
 					<tr id="reservationButton">

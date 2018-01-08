@@ -29,6 +29,7 @@ import com.thinkgem.jeesite.modules.finance.entity.BusinessTripApplication;
 import com.thinkgem.jeesite.modules.finance.entity.BusinessTripHotel;
 import com.thinkgem.jeesite.modules.finance.entity.BusinessTripHotelHelper;
 import com.thinkgem.jeesite.modules.finance.entity.BusinessTripReservation;
+import com.thinkgem.jeesite.modules.finance.entity.Project;
 import com.thinkgem.jeesite.modules.sys.entity.User;
 import com.thinkgem.jeesite.modules.sys.utils.UserUtils;
 
@@ -62,7 +63,7 @@ public class BusinessTripService {
 	public void insertBusinessTripApplication(HttpServletRequest request, String applicationId) throws ParseException {
 		BusinessTripApplication businessTripApplication = new BusinessTripApplication();
 		SimpleDateFormat sdf= new SimpleDateFormat("yyyy-MM-dd");
-		String togetherName = request.getParameter("togetherId");
+		String togetherId = request.getParameter("togetherId");
 		String phone = request.getParameter("phone");
 		String IDNo = request.getParameter("IDNo");
 		String projectName = request.getParameter("projectId");
@@ -70,7 +71,9 @@ public class BusinessTripService {
 		String remark = request.getParameter("remark");
 		String begindate = request.getParameter(("beginDate"));
 		String managerName = request.getParameter("managerId");
-		businessTripApplication.setTogether(businessTripDao.getUserByName(togetherName));
+		User together = new User();
+		together.setId(togetherId);
+		businessTripApplication.setTogether(together);
 		businessTripApplication.setPhone(phone);
 		businessTripApplication.setIDNo(IDNo);
 		businessTripApplication.setProject(businessTripDao.getProjectByName(projectName));
@@ -157,7 +160,7 @@ public class BusinessTripService {
 	 * 获取出差任务列表
 	 * @author Meng
 	 */
-	public List<BusinessTripApplication> businessTripTaskList(){
+	public List<BusinessTripApplication> businessTripTaskList(BusinessTripApplication application){
 		List<BusinessTripApplication> resultList = new ArrayList<BusinessTripApplication>();
 		// 获取当前用户
 		String userId = UserUtils.getUser().getLoginName();
@@ -171,6 +174,12 @@ public class BusinessTripService {
 			String procInstId = ((TaskEntity) task).getProcessInstanceId();
 			BusinessTripApplication businessTripApplication = new BusinessTripApplication();
 			businessTripApplication.setProcInstId(procInstId);
+			if(application.getProject()!=null) {
+				businessTripApplication.setProject(application.getProject());
+			}
+			if(application.getApplicant()!=null) {
+				businessTripApplication.setApplicant(application.getApplicant());
+			}
 			// 通过procInsId获取相应对象
 			List<BusinessTripApplication> businessTripApplicationList = businessTripDao.findList(businessTripApplication);
 			if(businessTripApplicationList!=null&&businessTripApplicationList.size()>0){
@@ -265,6 +274,24 @@ public class BusinessTripService {
 		List<BusinessTripAirTicket> businessTripAirTicketList = businessTripDao.getBusinessTripAirTicketList(id);
 		return businessTripAirTicketList;
 	}
+	
+	/**
+	 * 修改页面酒店信息默认值
+	 * @author Meng
+	 */
+	public BusinessTripHotel getBusinessTripHotel(String id) {
+		BusinessTripHotel businessTripHotel = businessTripDao.getBusinessTripHotel(id);
+		return businessTripHotel;
+	}
+	
+	/**
+	 * 获取所有项目名称
+	 * @author Meng
+	 */
+	public List<String> getBusinessTripProjectNameList() {
+		List<String> projectNameList = businessTripDao.getBusinessTripProjectNameList();
+		return projectNameList;
+	}
 
 	/**
 	 * 出差审批--经理
@@ -336,6 +363,26 @@ public class BusinessTripService {
 		// 更新流程状态
 		businessTripDao.updateStatus("50", applicationId);
 	}
+	
+	/**
+	 * 查找db中所有的出差信息
+	 * @author Meng
+	 */
+	public List<BusinessTripApplication> businessTripInfoList(User loginUser, String projectName) {
+		BusinessTripApplication businessTripApplication = new BusinessTripApplication();
+		Project project = new Project();
+		project.setName(projectName);
+		businessTripApplication.setProject(project);
+		if (!"yzm".equals(loginUser.getLoginName()) && !"zhe.jiang".equals(loginUser.getLoginName())) {
+			businessTripApplication.setApplicant(loginUser);
+		}
+		List<BusinessTripApplication> businessTripInfoList = businessTripDao.findList(businessTripApplication);
+		return businessTripInfoList;
+	}
+
+	
+
+	
 
 	
 	

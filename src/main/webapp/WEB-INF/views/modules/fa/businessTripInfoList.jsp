@@ -18,16 +18,14 @@
 </head>
 <body>
 	<ul class="nav nav-tabs">
-		<li class="active"><a href="${ctx}/fa/businessTrip/toBusinessTripTaskList">出差任务列表</a></li>
+		<li class="active"><a href="${ctx}/fa/businessTrip/toBusinessTripInfoList">出差信息查询</a></li>
 	</ul>
-	<form:form id="searchForm" modelAttribute="businessTripApplication" action="${ctx}/fa/businessTrip/toBusinessTripTaskList" method="post" class="breadcrumb form-search">
+	<form:form id="searchForm" modelAttribute="businessTripApplication" action="${ctx}/fa/businessTrip/toBusinessTripInfoList" method="post" class="breadcrumb form-search">
 		<input id="pageNo" name="pageNo" type="hidden" value="${page.pageNo}"/>
 		<input id="pageSize" name="pageSize" type="hidden" value="${page.pageSize}"/>
 		<ul class="ul-form">
-			<li><label>出差申请人：</label>
-				<form:input path="applicant.name" htmlEscape="false" maxlength="20" class="input-medium"/>
-			</li>
 			<li><label>出差项目：</label>
+				<%-- <form:input path="type" htmlEscape="false" maxlength="64" class="input-medium"/> --%>
 				<form:select path="project.name" class="input-medium">
 					<form:option value="" label=""/>
 					<c:forEach items="${projectNameList}" var="projectName">
@@ -43,11 +41,10 @@
 	<table id="contentTable" class="table table-striped table-bordered table-condensed">
 		<thead>
 			<tr>
-				<th>任务标题</th>
 				<th>申请人姓名</th>
 				<th>申请人部门</th>
-				<th>出差项目</th>
 				<th>出差类型</th>
+				<th>出差项目</th>
 				<th>出差开始日期</th>
 				<th>预计结束日期</th>
 				<th>任务状态</th>
@@ -58,19 +55,16 @@
 		<c:forEach items="${page.list}" var="businessTripApplication">
 			<tr>
 				<td>
-					${businessTripApplication.act.vars.map.title}
-				</td>
-				<td>
 					${businessTripApplication.applicant.name}
 				</td>
 				<td>
 					${businessTripApplication.office.name}
 				</td>
 				<td>
-					${businessTripApplication.project.name}
+					${businessTripApplication.type}
 				</td>
 				<td>
-					${businessTripApplication.type}
+					${businessTripApplication.project.name}
 				</td>
 				<td>
 					<fmt:formatDate value="${businessTripApplication.beginDate}" pattern="yyyy-MM-dd"/>
@@ -84,11 +78,7 @@
 				<c:if test="${businessTripApplication.status=='40'}"><td>财务审批驳回</td></c:if>
 				<c:if test="${businessTripApplication.status=='50'}"><td>审批通过</td></c:if>
 				<td>
-    				<%-- <a href="${ctx}/fa/businessTrip/toupdateBusinessTripInfo?id=${businessTripApplication.id}">修改</a>
-					<a href="${ctx}/fa/businessTrip/deleteBusinessTripInfo?id=${businessTripApplication.id}" onclick="return confirmx('确认要删除吗？', this.href)">删除</a> --%>
-					<c:if test="${loginName=='yzm'}"><a href="${ctx}/fa/businessTrip/toApproveBusinessTripInfo_Manager?id=${businessTripApplication.id}">审批</a></c:if>
-					<c:if test="${loginName=='zhe.jiang'}"><a href="${ctx}/fa/businessTrip/toApproveBusinessTripInfo_FA?id=${businessTripApplication.id}">审批</a></c:if>
-					<a href="${ctx}/fa/businessTrip/toShowBusinessTripInfo?id=${businessTripApplication.id}&mode=task">查看</a>
+					<a href="${ctx}/fa/businessTrip/toShowBusinessTripInfo?id=${businessTripApplication.id}&mode=search">查看</a>
 				</td>
 			</tr>
 		</c:forEach>

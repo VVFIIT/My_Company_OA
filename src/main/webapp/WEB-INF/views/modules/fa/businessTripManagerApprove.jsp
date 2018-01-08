@@ -23,19 +23,12 @@
 	<form:form id="managerApproveForm" modelAttribute="businessTripApplication" action="${ctx}/fa/businessTrip/approveBusinessTripInfo_Manager" method="post" class="breadcrumb form-search">
 		<form:hidden id="managerFlag" path="managerFlag"/>
 		<form:hidden id="id" path="id"/>
-		<fieldset>
-			<legend>${testAudit.act.taskName}</legend>
-			<table class="table-form">
-				<tr>
-					<td class="tit">您的意见:</td>
-				</tr>
-				<tr>
-					<td colspan="5">
-						<form:textarea path="ManagerComment" class="required" rows="3" maxlength="20" cssStyle="width:700px"/>
-					</td>
-				</tr>
-			</table>
-		</fieldset>
+		<div style="background:#40abe9; margin-bottom:10px"><label style="font-weight:bold">您的意见</label></div>
+		<div>
+			<fieldset>
+				<form:textarea path="managerComment" class="required"  maxlength="200" cssStyle="width:50%"/>
+			</fieldset>
+		</div>
 		<div class="form-actions">
 			<input id="btnSubmit" class="btn btn-primary" type="submit" value="同 意" onclick="$('#managerFlag').val('yes')"/>&nbsp;
 			<!-- <input id="btnSubmit" class="btn btn-inverse" type="submit" value="驳 回" onclick="$('#flag').val('no')"/>&nbsp;	 -->

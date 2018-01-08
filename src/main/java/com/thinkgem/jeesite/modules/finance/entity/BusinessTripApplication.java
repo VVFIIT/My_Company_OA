@@ -38,7 +38,7 @@ public class BusinessTripApplication extends ActEntity<BusinessTripApplication>{
 	private String status; // 状态
 	private String managerFlag; // 经理是否同意
 	private String FAFlag; // 财务是否同意
-	private String ManagerComment;// 经理意见
+	private String managerComment;// 经理意见
 	private String FAComment;// 财务意见
 
 	public String getId() {
@@ -155,11 +155,11 @@ public class BusinessTripApplication extends ActEntity<BusinessTripApplication>{
 	}
 
 	public String getManagerComment() {
-		return ManagerComment;
+		return managerComment;
 	}
 
 	public void setManagerComment(String managerComment) {
-		ManagerComment = managerComment;
+		this.managerComment = managerComment;
 	}
 
 	public String getFAComment() {

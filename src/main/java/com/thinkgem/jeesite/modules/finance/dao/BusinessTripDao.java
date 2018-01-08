@@ -47,10 +47,16 @@ public interface BusinessTripDao extends CrudDao<BusinessTripApplication> {
 	public List<BusinessTripReservation> getBusinessTripReservationList(String applicationId);
 	
 	public List<BusinessTripAirTicket> getBusinessTripAirTicketList(String applicationId);
+	
+	public BusinessTripHotel getBusinessTripHotel(String applicationId);
 
 	public void updateManagerApproveInfo(String managerFlag, String managerComment, String applicationId);
 
 	public void updateFAApproveInfo(String fAFlag, String fAComment, String applicationId);
+
+	public List<String> getBusinessTripProjectNameList();
+
+	
 
 	
 	

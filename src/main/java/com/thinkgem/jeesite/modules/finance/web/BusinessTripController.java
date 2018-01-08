@@ -22,6 +22,7 @@ import com.thinkgem.jeesite.common.persistence.Page;
 import com.thinkgem.jeesite.common.web.BaseController;
 import com.thinkgem.jeesite.modules.finance.entity.BusinessTripAirTicket;
 import com.thinkgem.jeesite.modules.finance.entity.BusinessTripApplication;
+import com.thinkgem.jeesite.modules.finance.entity.BusinessTripHotel;
 import com.thinkgem.jeesite.modules.finance.entity.BusinessTripHotelHelper;
 import com.thinkgem.jeesite.modules.finance.entity.BusinessTripReservation;
 import com.thinkgem.jeesite.modules.finance.service.BusinessTripService;
@@ -61,6 +62,8 @@ public class BusinessTripController extends BaseController {
 		User user = UserUtils.getUser();
 		model.addAttribute("applicantName", user.getName());
 		model.addAttribute("officeName", user.getOffice().getName());
+		List<String> projectNameList = businessTripService.getBusinessTripProjectNameList();
+		model.addAttribute("projectNameList", projectNameList);
 		return "modules/fa/businessTripApplyForm";
 	}
 	
@@ -90,11 +93,13 @@ public class BusinessTripController extends BaseController {
 	 * @author Meng
 	 */
 	@RequestMapping(value = "toBusinessTripTaskList")
-	public String toBusinessTripTaskList(BusinessTripApplication businessTripApplication, HttpServletRequest request, HttpServletResponse response,
-			Model model) {
-		List<BusinessTripApplication> list = businessTripService.businessTripTaskList();
+	public String toBusinessTripTaskList(BusinessTripApplication businessTripApplication, HttpServletRequest request, HttpServletResponse response, Model model) {
+		List<BusinessTripApplication> list = businessTripService.businessTripTaskList(businessTripApplication);
 		Page<BusinessTripApplication> page = businessTripService.findPage(new Page<BusinessTripApplication>(request, response), list);
 		model.addAttribute("page", page);
+		model.addAttribute("loginName", UserUtils.getUser().getLoginName());
+		List<String> projectNameList = businessTripService.getBusinessTripProjectNameList();
+		model.addAttribute("projectNameList", projectNameList);
 		return "modules/fa/businessTripTaskList";
 	}
 	
@@ -131,6 +136,8 @@ public class BusinessTripController extends BaseController {
 	public String toApproveBusinessTripInfo_Manager(String id, Model model) {
 		BusinessTripApplication businessTripApplication = new BusinessTripApplication();
 		businessTripApplication.setId(id);
+		String name = businessTripService.getBusinessTripApplicationInfo(id).getApplicant().getName();
+		businessTripApplication.setManagerComment("同意"+name+"的出差申请。");
 		model.addAttribute("businessTripApplication", businessTripApplication);
 		return "modules/fa/businessTripManagerApprove";
 	}
@@ -156,6 +163,8 @@ public class BusinessTripController extends BaseController {
 		BusinessTripHotelHelper businessTripHotelHelper = new BusinessTripHotelHelper();
 		BusinessTripApplication businessTripApplication = new BusinessTripApplication();
 		businessTripApplication.setId(id);
+		String name = businessTripService.getBusinessTripApplicationInfo(id).getApplicant().getName();
+		businessTripApplication.setFAComment("同意"+name+"的出差申请。");
 		businessTripHotelHelper.setBusinessTripApplication(businessTripApplication);
 		model.addAttribute("businessTripHotelHelper", businessTripHotelHelper);
 		return "modules/fa/businessTripFAApprove";
@@ -169,25 +178,50 @@ public class BusinessTripController extends BaseController {
 	public String approveBusinessTripInfo_FA(BusinessTripHotelHelper businessTripHotelHelper, RedirectAttributes redirectAttributes) {
 		businessTripService.FAApprove(businessTripHotelHelper);
 		businessTripService.completeFAProcess(businessTripHotelHelper.getBusinessTripApplication().getId());
-		addMessage(redirectAttributes, "审批成功!");
+		String name = businessTripService.getBusinessTripApplicationInfo(businessTripHotelHelper.getBusinessTripApplication().getId()).getApplicant().getName();
+		addMessage(redirectAttributes, "审批成功！ "+name+"的出差申请已通过！");
 		return "redirect:" + Global.getAdminPath() + "/fa/businessTrip/toBusinessTripTaskList?repage";
 	}
 	
 	
 	/**
-	 * 出差审批--财务
+	 * 查看出差详细信息
 	 * @author Meng
 	 */
 	@RequestMapping(value = "toShowBusinessTripInfo")
-	public String toShowBusinessTripInfo(String id, Model model) {
+	public String toShowBusinessTripInfo(String id, String mode, Model model) {
 		BusinessTripApplication businessTripApplication = businessTripService.getBusinessTripApplicationInfo(id);
 		List<BusinessTripReservation> businessTripReservationList = businessTripService.getBusinessTripReservationList(id);
 		List<BusinessTripAirTicket> businessTripAirTicketList = businessTripService.getBusinessTripAirTicketList(id);
+		BusinessTripHotel businessTripHotel = businessTripService.getBusinessTripHotel(id);
 		model.addAttribute("businessTripApplication", businessTripApplication);
 		model.addAttribute("businessTripReservationList", businessTripReservationList);
 		model.addAttribute("businessTripAirTicketList", businessTripAirTicketList);
+		model.addAttribute("businessTripHotel", businessTripHotel);
+		model.addAttribute("mode", mode);
 		return "modules/fa/businessTripInfoShow";
 	}
+	
+	/**
+	 * 出差信息查询
+	 * @author Meng
+	 */
+	@RequestMapping(value = "toBusinessTripInfoList")
+	public String businessTripInfoList(BusinessTripApplication BusinessTripApplication, HttpServletRequest request, HttpServletResponse response, Model model) {
+		String projectName = null;
+		if(BusinessTripApplication.getProject() != null) {
+			projectName = BusinessTripApplication.getProject().getName();
+		}
+		List<BusinessTripApplication> list = businessTripService.businessTripInfoList(UserUtils.getUser(), projectName);
+		Page<BusinessTripApplication> page = businessTripService.findPage(new Page<BusinessTripApplication>(request, response), list);
+		model.addAttribute("page", page);
+		List<String> projectNameList = businessTripService.getBusinessTripProjectNameList();
+		model.addAttribute("projectNameList", projectNameList);
+		return "modules/fa/businessTripInfoList";
+	}
+	
+	
+	
 	
 	
 	
