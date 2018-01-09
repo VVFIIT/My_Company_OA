@@ -3,6 +3,7 @@ package com.thinkgem.jeesite.modules.finance.helper;
 import java.util.Date;
 import java.util.List;
 
+import com.thinkgem.jeesite.common.persistence.ActEntity;
 import com.thinkgem.jeesite.common.persistence.BaseEntity;
 import com.thinkgem.jeesite.modules.finance.entity.ReimburseHospitality;
 import com.thinkgem.jeesite.modules.finance.entity.ReimburseLongDistance;
@@ -17,7 +18,7 @@ import com.thinkgem.jeesite.modules.finance.entity.ReimburseTaxi;
  * @date 2017年12月26日 下午3:13:13
  * @since 1.0.0
  */
-public class ReimburseModel extends BaseEntity<ReimburseModel> {
+public class ReimburseModel extends ActEntity<ReimburseModel> {
 
 	// private ReimburseMain reimbursementMain;
 

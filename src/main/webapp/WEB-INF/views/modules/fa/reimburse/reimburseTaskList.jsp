@@ -2,7 +2,7 @@
 <%@ include file="/WEB-INF/views/include/taglib.jsp" %>
 <html>
 <head>
-    <title>费用报销列表</title>
+    <title>费用报销任务列表</title>
     <meta name="decorator" content="default"/>
     <script type="text/javascript">
         $(document).ready(function () {
@@ -19,11 +19,11 @@
 </head>
 <body>
 <ul class="nav nav-tabs">
-    <li class="active"><a href="${ctx}/fa/reimburse/list${reimburseModel.id}">费用报销列表</a></li>
-    <li><a href="${ctx}/fa/reimburse/formList">报销费用综合申报表查看</a></li>
+    <li class="active"><a href="${ctx}/fa/reimburse/list${reimburseModel.id}">费用报销任务列表</a></li>
+   
 </ul>
 <form:form id="searchForm"
-           modelAttribute="reimburseModel" action="${ctx}/fa/reimburse/list" class="breadcrumb form-search">
+           modelAttribute="reimburseModel" action="${ctx}/fa/reimburse/taskList" class="breadcrumb form-search">
    
     <input id="pageNo" name="pageNo" type="hidden" value="${page.pageNo}"/>
     <input id="pageSize" name="pageSize" type="hidden" value="${page.pageSize}"/>
@@ -80,7 +80,10 @@
             <td><fmt:formatDate value="${reimburseModel.endDate}" type="both" pattern="yyyy-MM-dd"/></td>
             <td>${fns:abbr(reimburseModel.totalAmount,30)}</td>
             <td>${fns:getDictLabel(reimburseModel.status,'fa_reimburseMain_status','')}</td>
-            <td><a href="${ctx}/fa/reimburse/show?id=${reimburseModel.id}">查看</a></td> 
+            <td><a href="${ctx}/fa/reimburse/show?id=${reimburseModel.id}">查看|</a>
+            	<a href="${ctx}/fa/reimburse/approve?id=${reimburseModel.id}">审批</a>
+   
+            </td> 
            
         </tr>
     </c:forEach>

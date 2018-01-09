@@ -192,7 +192,7 @@
 </head>
 <body>
 	<ul class="nav nav-tabs" id="updateTitle">
-	    <li class="active"><a href="${ctx}/fa/reimbursement/toApplyForm">报销申请</a></li>
+	    <li class="active"><a href="${ctx}/fa/reimburse/toApplyForm">报销申请</a></li>
 	</ul>
 	<form:form id="reimburseApplyForm" modelAttribute="reimburseModel" target="mainFrame" action="${ctx}/fa/reimburse/commitApplyForm" method="post" class="breadcrumb form-search">
 		<input id="longDistanceEveryNum" name="longDistanceEveryNum" type="hidden" value="1">
@@ -208,20 +208,20 @@
 					<td><label style="font-weight:bold">申报日期</label></td>
 					<td>
 					<input id="applyDate" name="applyDate" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate" style="width:200px;"
-							value="<fmt:formatDate value="${reimburseModel.reimbursementMain.applyDate}" pattern="yyyy-MM-dd"/>"
+							value="<fmt:formatDate value="${reimburseModel.applyDate}" pattern="yyyy-MM-dd"/>"
 								onclick="WdatePicker({dateFmt:'yyyy-MM-dd'});"/>
 					
 					</td>
 					<td><label style="font-weight:bold">申报期间</label></td>
 					<td>
 					<input id="beginDate" name="beginDate" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate" style="width:200px;"
-							value="<fmt:formatDate value="${reimburseModel.reimbursementMain.beginDate}" pattern="yyyy-MM-dd"/>"
+							value="<fmt:formatDate value="${reimburseModel.beginDate}" pattern="yyyy-MM-dd"/>"
 								onclick="WdatePicker({dateFmt:'yyyy-MM-dd'});"/>
 					
 					</td>
 					<td>
 					<input id="endDate" name="endDate" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate" style="width:200px;"
-							value="<fmt:formatDate value="${reimburseModel.reimbursementMain.endDate}" pattern="yyyy-MM-dd"/>"
+							value="<fmt:formatDate value="${reimburseModel.endDate}" pattern="yyyy-MM-dd"/>"
 								onclick="WdatePicker({dateFmt:'yyyy-MM-dd'});"/>
 					
 					</td>

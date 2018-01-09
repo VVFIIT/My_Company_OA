@@ -3,17 +3,23 @@ package com.thinkgem.jeesite.modules.finance.service;
 import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.activiti.engine.TaskService;
+import org.activiti.engine.impl.persistence.entity.TaskEntity;
+import org.activiti.engine.task.Task;
+import org.activiti.engine.task.TaskQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.thinkgem.jeesite.common.persistence.Page;
+import com.thinkgem.jeesite.modules.act.entity.Act;
 import com.thinkgem.jeesite.modules.finance.dao.ReimburseHospitalityDao;
 import com.thinkgem.jeesite.modules.finance.dao.ReimburseLongDistanceDao;
 import com.thinkgem.jeesite.modules.finance.dao.ReimburseMainDao;
@@ -50,22 +56,8 @@ public class ReimburseService {
 	private ReimburseHospitalityDao reimburseHospitalityDao;
 	@Autowired
 	private ReimburseTaxiDao reimburseTaxiDao;
-
-	/**
-	 * 报销查看列表数据
-	 * 
-	 * @param page
-	 * @param reimburseMain
-	 * @return
-	 * @author Grace
-	 * @date 2018年1月8日 上午10:06:57
-	 */
-	public Page<ReimburseModel> reimburseMainList(Page<ReimburseModel> page, ReimburseModel reimburseModel) {
-		reimburseModel.setPage(page);
-		List<ReimburseModel> reimburseMainList = reimburseMainDao.findShowList(reimburseModel);
-		page.setList(reimburseMainList);
-		return page;
-	}
+	@Autowired
+	private TaskService taskService;
 
 	/**
 	 * 提交报销申请
@@ -304,8 +296,83 @@ public class ReimburseService {
 	 * @date 2018年1月8日 下午2:01:56
 	 */
 	public ReimburseModel reimburseShow(String id) {
-		//return reimburseMainDao.getShow(id);
+		// return reimburseMainDao.getShow(id);
 		return null;
 	}
 
+	/**
+	 * 报销查看列表数据
+	 * 
+	 * @param page
+	 * @param reimburseMain
+	 * @return
+	 * @author Grace
+	 * @date 2018年1月8日 上午10:06:57
+	 */
+	public Page<ReimburseModel> reimburseMainList(Page<ReimburseModel> page, ReimburseModel reimburseModel) {
+		reimburseModel.setPage(page);
+		List<ReimburseModel> reimburseMainList = reimburseMainDao.findShowList(reimburseModel);
+		page.setList(reimburseMainList);
+		return page;
+	}
+
+	/**
+	 * 我的任务列表
+	 * 
+	 * @param page
+	 * @param reimburseModel
+	 * @return
+	 * @author Grace
+	 * @date 2018年1月8日 下午5:01:15
+	 */
+	public Page<ReimburseModel> reimburseTaskListList(Page<ReimburseModel> page, ReimburseModel reimburseModel) {
+		List<ReimburseModel> resultList = new ArrayList<ReimburseModel>();
+		
+		// 获取当前用户
+		String userId = UserUtils.getUser().getLoginName();
+		TaskQuery todoTaskQuery = taskService.createTaskQuery().taskAssignee(userId).active().includeProcessVariables()
+				.orderByTaskCreateTime().asc();
+		// 获取当前用户的任务列表
+		List<Task> todoList = todoTaskQuery.list();
+		// 循环任务列表，将处理好的vehicleProcess对象放到resultList中
+		for (Task task : todoList) {
+			// 获取任务的procInsId
+			String procInsId = ((TaskEntity) task).getProcessInstanceId();
+
+			// 通过procInsId获取相应对象
+			reimburseModel.setProcInsId(procInsId);
+			List<ReimburseModel> reimburseMainList = reimburseMainDao.findShowList(reimburseModel);
+			
+			
+			if (reimburseMainList != null && reimburseMainList.size() > 0) {
+				
+				reimburseModel = reimburseMainList.get(0);
+				// 将task和流程变量都赋给这个reimburseModel对象
+				Act act = new Act();
+				act.setTask(task);
+				act.setVars(task.getProcessVariables());
+				reimburseModel.setAct(act);
+				// 将该对象放到resultList中
+				resultList.add(reimburseModel);
+			}
+		}
+		
+		reimburseModel.setPage(page);
+		page.setList(resultList);
+		return page;
+		
+	}
+
+	/**
+	 * 保存审批
+	 * 
+	 * @param reimburseModel
+	 * @param flag
+	 * @author Grace
+	 * @date 2018年1月8日 下午6:03:18
+	 */
+	public void saveApprove(ReimburseModel reimburseModel, String flag) {
+		// TODO Auto-generated method stub
+		
+	}
 }
