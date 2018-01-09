@@ -134,20 +134,48 @@
 	
 	<update id="update">
 		UPDATE fa_reimburse_main SET 	
-			procInstId = #{procInstId},
-			officeId = #{officeId},
-			applicantId = #{applicantId},
-			status = #{status},
-			applyDate = #{applyDate},
-			beginDate = #{beginDate},
-			endDate = #{endDate},
-			remark = #{remark},
-			totalAmount = #{totalAmount},
-			updateDate = #{updateDate},
-			managerFlag = #{managerFlag},
-			FAFlag = #{FAFlag},
-			managerComment = #{managerComment},
+		<if test="procInstId != null and procInstId != ''">
+			procInstId = #{procInstId}
+		</if>
+		<if test="officeId != null and officeId != ''">
+			officeId = #{officeId}
+		</if>	
+		<if test="applicantId != null and applicantId != ''">
+			applicantId = #{applicantId}
+		</if>		
+		<if test="status != null and status != ''">
+			status = #{status}
+		</if>	
+		<if test="applyDate != null and applyDate != ''">
+			applyDate = #{applyDate}
+		</if>	
+		<if test="beginDate != null and beginDate != ''">
+			beginDate = #{beginDate}
+		</if>	
+		<if test="endDate != null and endDate != ''">
+			endDate = #{endDate}
+		</if>
+		<if test="remark != null and remark != ''">
+			remark = #{remark}
+		</if>	
+		<if test="totalAmount != null and totalAmount != ''">
+			totalAmount = #{totalAmount}
+		</if>		
+		<if test="updateDate != null and updateDate != ''">
+			updateDate = #{updateDate}
+		</if>		
+		<if test="managerFlag != null and managerFlag != ''">
+			managerFlag = #{managerFlag}
+		</if>	
+		<if test="FAFlag != null and FAFlag != ''">
+			FAFlag = #{FAFlag}
+		</if>	
+		<if test="managerComment != null and managerComment != ''">
+			managerComment = #{managerComment}
+		</if>		
+		<if test="FAComment != null and FAComment != ''">
 			FAComment = #{FAComment}
+		</if>		
 		WHERE id = #{id}
 	</update>
 	

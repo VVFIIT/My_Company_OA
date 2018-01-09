@@ -3,12 +3,12 @@
 <mapper namespace="com.thinkgem.jeesite.modules.finance.dao.ReimburseLongDistanceDao">
 	 <sql id="faReimburseLongdistanceColumns">
 		a.id AS "id",
-		a.mainid AS "mainid",
-		a.projectid AS "projectid",
+		a.mainId AS "mainId",
+		a.projectId AS "projectId",
 		a.remark AS "remark",
 		a.amount AS "amount",
-		a.createdate AS "createdate",
-		a.updatedate AS "updatedate"
+		a.createDate AS "createDate",
+		a.updateDate AS "updateDate"
 	</sql>
 	
 	<sql id="faReimburseLongdistanceJoins">
@@ -59,31 +59,31 @@
 	<insert id="insert">
 		INSERT INTO fa_reimburse_longdistance(
 			id,
-			mainid,
-			projectid,
+			mainId,
+			projectId,
 			remark,
 			amount,
-			createdate,
-			updatedate
+			createDate,
+			updateDate
 		) VALUES (
 			#{id},
-			#{mainid},
-			#{projectid},
+			#{mainId},
+			#{projectId},
 			#{remark},
 			#{amount},
-			#{createdate},
-			#{updatedate}
+			#{createDate},
+			#{updateDate}
 		)
 	</insert>
 	
 	<update id="update">
 		UPDATE fa_reimburse_longdistance SET 	
-			mainid = #{mainid},
-			projectid = #{projectid},
+			mainId = #{mainId},
+			projectId = #{projectId},
 			remark = #{remark},
 			amount = #{amount},
-			createdate = #{createdate},
-			updatedate = #{updatedate}
+			createDate = #{createDate},
+			updateDate = #{updateDate}
 		WHERE id = #{id}
 	</update>
 	

@@ -73,14 +73,14 @@
 			hospitalityEveryNum = hospitalityEveryNum+trMaxNum;
 			$("#hospitalityEveryNum").val(hospitalityEveryNum);
 			
-			var createDateHospitalityId = 'createDateHospitality1'+trMaxNum;
-			var itemNoHospitalityId = 'itemNoHospitality1'+trMaxNum;
-			var projectNameHospitalityId = 'projectNameHospitality1'+trMaxNum;
-			var clientNameId = 'clientName1'+trMaxNum;
-			var inviteesNameId = 'inviteesName1'+trMaxNum;
-			var invitedPositionId = 'invitedPosition1'+trMaxNum;
-			var numberId = 'number1'+trMaxNum;
-			var amountHospitalityId = 'amountHospitality1'+trMaxNum;
+			var createDateHospitalityId = 'createDateHospitality'+trMaxNum;
+			var itemNoHospitalityId = 'itemNoHospitality'+trMaxNum;
+			var projectNameHospitalityId = 'projectNameHospitality'+trMaxNum;
+			var clientNameId = 'clientNameHospitality'+trMaxNum;
+			var inviteesNameId = 'inviteesNameHospitality'+trMaxNum;
+			var invitedPositionId = 'invitedPositionHospitality'+trMaxNum;
+			var numberId = 'numberHospitality'+trMaxNum;
+			var amountHospitalityId = 'amountHospitality'+trMaxNum;
 			var hospitalityId = 'hospitality'+trMaxNum;
 			var sameStr = "' maxlength='50' class='required' style='width:150px' type='text'/></td><td><input id='";
 			var nameStr = "' name='";
@@ -117,7 +117,7 @@
 		//删除一条长途汽车	
 		function removeLongDistance(longDistanceId){
 			var longDistanceEveryNum = $("#longDistanceEveryNum").val();
-			var idNum = longDistanceId.substring(12);
+			var idNum = longDistanceId.substring(20);
 			var EveryNum = "";
 			var a= longDistanceEveryNum.split("");
 			for(var i=0;i<a.length;i++){
@@ -155,7 +155,7 @@
 		//删除一条招待费	
 		function removeHospitality(hospitalityId){
 			var hospitalityEveryNum = $("#hospitalityEveryNum").val();
-			var idNum = hospitalityId.substring(12);
+			var idNum = hospitalityId.substring(19);
 			var EveryNum = "";
 			var a= hospitalityEveryNum.split("");
 			for(var i=0;i<a.length;i++){
@@ -173,7 +173,7 @@
 		//删除一条其他费	
 		function removeOther(otherId){
 			var otherEveryNum = $("#otherEveryNum").val();
-			var idNum = otherId.substring(7);
+			var idNum = otherId.substring(13);
 			var EveryNum = "";
 			var a= otherEveryNum.split("");
 			for(var i=0;i<a.length;i++){
@@ -196,6 +196,9 @@
 	</ul>
 	<form:form id="reimburseApplyForm" modelAttribute="reimburseModel" target="mainFrame" action="${ctx}/fa/reimburse/commitApplyForm" method="post" class="breadcrumb form-search">
 		<input id="longDistanceEveryNum" name="longDistanceEveryNum" type="hidden" value="1">
+		<input id="taxiEveryNum" name="taxiEveryNum" type="hidden" value="1">
+		<input id="hospitalityEveryNum" name="hospitalityEveryNum" type="hidden" value="1">
+		<input id="otherEveryNum" name="otherEveryNum" type="hidden" value="1">
 		<div >
 			<label style="font-weight:bold">部门：${reimburseModel.officeName}</label>
 			<label style="font-weight:bold">申请人：${reimburseModel.userName}</label>
@@ -289,10 +292,10 @@
 					</td>			
 					<td><input style="width:150px" id="itemNoHospitality1" name="itemNoHospitality1" maxlength="50" type="text"/></td>
 					<td><input style="width:150px" id=projectNameHospitality1" name="projectNameHospitality1" maxlength="50"  type="text" /></td>
-					<td><input style="width:150px" id="clientName1" name="clientName1" maxlength="50"  type="text"/></td>
-					<td><input style="width:150px" id="inviteesName1" name="inviteesName1" maxlength="50"  type="text"/></td>
-					<td><input style="width:150px" id="invitedPosition1" name="invitedPosition1" maxlength="50"  type="text"/></td>
-					<td><input style="width:150px" id="number1" name="number1" maxlength="50"  type="text"/></td>
+					<td><input style="width:150px" id="clientNameHospitality1" name="clientNameHospitality1" maxlength="50"  type="text"/></td>
+					<td><input style="width:150px" id="inviteesNameHospitality1" name="inviteesNameHospitality1" maxlength="50"  type="text"/></td>
+					<td><input style="width:150px" id="invitedPositionHospitality1" name="invitedPositionHospitality1" maxlength="50"  type="text"/></td>
+					<td><input style="width:150px" id="numberHospitality1" name="numberHospitality1" maxlength="50"  type="text"/></td>
 					<td><input style="width:150px" id="amountHospitality1" name="amountHospitality1" maxlength="50"  type="text"/></td>
 					<td><input class="btn btn-primary" type="button" value="删除" onclick="removeHospitality('hospitality1')" style="width:100px"></td>
 				

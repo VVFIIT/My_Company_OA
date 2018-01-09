@@ -32,15 +32,15 @@
    
 <sql id="faReimburseHospitalityColumns">
 		a.id AS "id",
-		a.mainid AS "mainid",
-		a.projectid AS "projectid",
-		a.clientname AS "clientname",
-		a.inviteesname AS "inviteesname",
-		a.createdate AS "createdate",
-		a.invitedposition AS "invitedposition",
+		a.mainId AS "mainId",
+		a.projectId AS "projectId",
+		a.clientName AS "clientName",
+		a.inviteesName AS "inviteesName",
+		a.createDate AS "createDate",
+		a.invitedPosition AS "invitedPosition",
 		a.number AS "number",
 		a.amount AS "amount",
-		a.updatedate AS "updatedate"
+		a.updateDate AS "updateDate"
 	</sql>
 	
 	<sql id="faReimburseHospitalityJoins">
@@ -91,40 +91,40 @@
 	<insert id="insert">
 		INSERT INTO fa_reimburse_hospitality(
 			id,
-			mainid,
-			projectid,
-			clientname,
-			inviteesname,
-			createdate,
-			invitedposition,
+			mainId,
+			projectId,
+			clientName,
+			inviteesName,
+			createDate,
+			invitedPosition,
 			number,
 			amount,
-			updatedate
+			updateDate
 		) VALUES (
 			#{id},
-			#{mainid},
-			#{projectid},
-			#{clientname},
-			#{inviteesname},
-			#{createdate},
-			#{invitedposition},
+			#{mainId},
+			#{projectId},
+			#{clientName},
+			#{inviteesName},
+			#{createDate},
+			#{invitedPosition},
 			#{number},
 			#{amount},
-			#{updatedate}
+			#{updateDate}
 		)
 	</insert>
 	
 	<update id="update">
 		UPDATE fa_reimburse_hospitality SET 	
-			mainid = #{mainid},
-			projectid = #{projectid},
-			clientname = #{clientname},
-			inviteesname = #{inviteesname},
-			createdate = #{createdate},
-			invitedposition = #{invitedposition},
+			mainId = #{mainId},
+			projectId = #{projectId},
+			clientName = #{clientName},
+			inviteesName = #{inviteesName},
+			createDate = #{createDate},
+			invitedPosition = #{invitedPosition},
 			number = #{number},
 			amount = #{amount},
-			updatedate = #{updatedate}
+			updateDate = #{updateDate}
 		WHERE id = #{id}
 	</update>
 	

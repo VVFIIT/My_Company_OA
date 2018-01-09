@@ -4,15 +4,15 @@
     
 	<sql id="faReimburseTaxiColumns">
 		a.id AS "id",
-		a.mainid AS "mainid",
-		a.projectid AS "projectid",
+		a.mainId AS "mainId",
+		a.projectId AS "projectId",
 		a.remark AS "remark",
 		a.amount AS "amount",
-		a.createdate AS "createdate",
+		a.createDate AS "createDate",
 		a.time AS "time",
-		a.departurelocation AS "departurelocation",
-		a.arrivedlocation AS "arrivedlocation",
-		a.updatedate AS "updatedate"
+		a.departureLocation AS "departureLocation",
+		a.arrivedLocation AS "arrivedLocation",
+		a.updateDate AS "updateDate"
 	</sql>
 	
 	<sql id="faReimburseTaxiJoins">
@@ -63,40 +63,40 @@
 	<insert id="insert">
 		INSERT INTO fa_reimburse_taxi(
 			id,
-			mainid,
-			projectid,
+			mainId,
+			projectId,
 			remark,
 			amount,
-			createdate,
+			createDate,
 			time,
-			departurelocation,
-			arrivedlocation,
-			updatedate
+			departureLocation,
+			arrivedLocation,
+			updateDate
 		) VALUES (
 			#{id},
-			#{mainid},
-			#{projectid},
+			#{mainId},
+			#{projectId},
 			#{remark},
 			#{amount},
-			#{createdate},
+			#{createDate},
 			#{time},
-			#{departurelocation},
-			#{arrivedlocation},
-			#{updatedate}
+			#{departureLocation},
+			#{arrivedLocation},
+			#{updateDate}
 		)
 	</insert>
 	
 	<update id="update">
 		UPDATE fa_reimburse_taxi SET 	
-			mainid = #{mainid},
-			projectid = #{projectid},
+			mainId = #{mainId},
+			projectId = #{projectId},
 			remark = #{remark},
 			amount = #{amount},
-			createdate = #{createdate},
+			createDate = #{createDate},
 			time = #{time},
-			departurelocation = #{departurelocation},
-			arrivedlocation = #{arrivedlocation},
-			updatedate = #{updatedate}
+			departureLocation = #{departureLocation},
+			arrivedLocation = #{arrivedLocation},
+			updateDate = #{updateDate}
 		WHERE id = #{id}
 	</update>
 	

@@ -64,7 +64,7 @@
     <tbody>
     <c:forEach items="${page.list}" var="reimburseModel">
         <tr>
-         <input id="id" name="id"  value="${reimburseModel.id}"/>     
+       
             <td><fmt:formatDate value="${reimburseModel.applyDate}" type="both" pattern="yyyy-MM-dd"/></td>
        
            <td>${reimburseModel.officeName}</td>

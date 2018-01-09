@@ -6,6 +6,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
@@ -18,8 +19,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.google.common.collect.Maps;
 import com.thinkgem.jeesite.common.persistence.Page;
+import com.thinkgem.jeesite.common.utils.StringUtils;
+import com.thinkgem.jeesite.modules.act.dao.ActHiTaskInstDao;
 import com.thinkgem.jeesite.modules.act.entity.Act;
+import com.thinkgem.jeesite.modules.act.service.ActTaskService;
+import com.thinkgem.jeesite.modules.act.utils.ActUtils;
 import com.thinkgem.jeesite.modules.finance.dao.ReimburseHospitalityDao;
 import com.thinkgem.jeesite.modules.finance.dao.ReimburseLongDistanceDao;
 import com.thinkgem.jeesite.modules.finance.dao.ReimburseMainDao;
@@ -50,14 +56,24 @@ public class ReimburseService {
 
 	@Autowired
 	private ReimburseOtherDao reimburseOtherDao;
+	
 	@Autowired
 	private ReimburseLongDistanceDao reimburseLongDistanceDao;
+	
 	@Autowired
 	private ReimburseHospitalityDao reimburseHospitalityDao;
+	
 	@Autowired
 	private ReimburseTaxiDao reimburseTaxiDao;
+	
 	@Autowired
 	private TaskService taskService;
+
+	@Autowired
+	private ActHiTaskInstDao actHiTaskInstDao;
+
+	@Autowired
+	private ActTaskService actTaskService;
 
 	/**
 	 * 提交报销申请
@@ -73,15 +89,64 @@ public class ReimburseService {
 	public void insertReimburse(ReimburseModel reimburseModel, HttpServletRequest request, String mainId)
 			throws ParseException {
 
+		User user = UserUtils.getUser();
+		reimburseModel.setUserName(user.getName());
+		
+		// 启动Activity
+		String title = user.getName()
+				+ " 报销申请";
+		String procInstId = actTaskService.startProcess(ActUtils.PD_Reimburse[0], ActUtils.PD_Reimburse[1],
+				mainId, title);
+
+		// 触发Acitiviti个人申请流程
+		Map<String, Object> vars = Maps.newHashMap();
+		vars.put("pass", "1");
+		// 根据procinstId查taskId
+		Act act = actHiTaskInstDao.findIdByProcInsId(procInstId);
+		String taskId = act.getTaskId();
+		complete(taskId, procInstId, "ReimburseApply", title, vars);	
+		
+		reimburseModel.setProcInstId(procInstId);
+		
+		
 		insertMain(reimburseModel, request, mainId);
 		insertLongDistance(request, mainId);
 		insertTaxi(request, mainId);
 		insertHospitality(request, mainId);
 		insertOther(request, mainId);
-		// 启动
+	}
 
-		// 申请开始
+	/**
+	 * 调用Activiti
+	 * 
+	 * @param taskId
+	 * @param procInsId
+	 * @param comment
+	 * @param title
+	 * @param vars
+	 * @author Grace
+	 * @date 2018年1月9日 上午11:37:30
+	 */
+	@Transactional(readOnly = false)
+	public void complete(String taskId, String procInsId, String comment, String title, Map<String, Object> vars) {
+		// 添加意见
+		if (StringUtils.isNotBlank(procInsId) && StringUtils.isNotBlank(comment)) {
+			// 封装
+			taskService.addComment(taskId, procInsId, comment);
+		}
 
+		// 设置流程变量
+		if (vars == null) {
+			vars = Maps.newHashMap();
+		}
+
+		// 设置流程标题
+		if (StringUtils.isNotBlank(title)) {
+			vars.put("title", title);
+		}
+
+		// 提交任务（封装）
+		taskService.complete(taskId, vars);
 	}
 
 	/**
@@ -101,17 +166,18 @@ public class ReimburseService {
 		User user = UserUtils.getUser();
 		ReimburseMain reimburseMain = new ReimburseMain();
 		reimburseMain.setId(mainId);
+		reimburseMain.setProcInstId(reimburseModel.getProcInstId());
 		reimburseMain.setOfficeId(user.getOffice().getId());
 		reimburseMain.setApplicantId(user.getId());
-		// 已创建
-		reimburseMain.setStatus("10");
-
 		reimburseMain.setApplyDate(sdf.parse(request.getParameter("applyDate")));
 		reimburseMain.setBeginDate(sdf.parse(request.getParameter("beginDate")));
 		reimburseMain.setEndDate(sdf.parse(request.getParameter("endDate")));
 		// reimburseMain.setRemark(remark);
 		// reimburseMain.setTotalAmount(totalAmount);
 		reimburseMain.setUpdateDate(new Date());
+
+		// 已提交
+		reimburseMain.setStatus("20");
 		reimburseMainDao.insert(reimburseMain);
 	}
 
@@ -295,6 +361,7 @@ public class ReimburseService {
 	 * @author Grace
 	 * @date 2018年1月8日 下午2:01:56
 	 */
+	@Transactional(readOnly = false)
 	public ReimburseModel reimburseShow(String id) {
 		// return reimburseMainDao.getShow(id);
 		return null;
@@ -309,6 +376,7 @@ public class ReimburseService {
 	 * @author Grace
 	 * @date 2018年1月8日 上午10:06:57
 	 */
+	@Transactional(readOnly = false)
 	public Page<ReimburseModel> reimburseMainList(Page<ReimburseModel> page, ReimburseModel reimburseModel) {
 		reimburseModel.setPage(page);
 		List<ReimburseModel> reimburseMainList = reimburseMainDao.findShowList(reimburseModel);
@@ -325,9 +393,10 @@ public class ReimburseService {
 	 * @author Grace
 	 * @date 2018年1月8日 下午5:01:15
 	 */
+	@Transactional(readOnly = false)
 	public Page<ReimburseModel> reimburseTaskListList(Page<ReimburseModel> page, ReimburseModel reimburseModel) {
 		List<ReimburseModel> resultList = new ArrayList<ReimburseModel>();
-		
+
 		// 获取当前用户
 		String userId = UserUtils.getUser().getLoginName();
 		TaskQuery todoTaskQuery = taskService.createTaskQuery().taskAssignee(userId).active().includeProcessVariables()
@@ -342,10 +411,9 @@ public class ReimburseService {
 			// 通过procInsId获取相应对象
 			reimburseModel.setProcInsId(procInsId);
 			List<ReimburseModel> reimburseMainList = reimburseMainDao.findShowList(reimburseModel);
-			
-			
+
 			if (reimburseMainList != null && reimburseMainList.size() > 0) {
-				
+
 				reimburseModel = reimburseMainList.get(0);
 				// 将task和流程变量都赋给这个reimburseModel对象
 				Act act = new Act();
@@ -356,11 +424,11 @@ public class ReimburseService {
 				resultList.add(reimburseModel);
 			}
 		}
-		
+
 		reimburseModel.setPage(page);
 		page.setList(resultList);
 		return page;
-		
+
 	}
 
 	/**
@@ -371,8 +439,9 @@ public class ReimburseService {
 	 * @author Grace
 	 * @date 2018年1月8日 下午6:03:18
 	 */
+	@Transactional(readOnly = false)
 	public void saveApprove(ReimburseModel reimburseModel, String flag) {
 		// TODO Auto-generated method stub
-		
+
 	}
 }

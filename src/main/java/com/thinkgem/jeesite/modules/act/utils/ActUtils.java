@@ -42,6 +42,7 @@ public class ActUtils {
 	public static final String[] PD_TEST_AUDIT = new String[]{"test_audit", "oa_test_audit"};
 	public static final String[] PD_ATTENDANCE_AUDIT = new String[]{"attendance_audit", "oa_attendance_audit"};
 	public static final String[] PD_BUSINESSTRIP = new String[]{"BusinessTrip", "fa_businesstrip_application"};
+	public static final String[] PD_Reimburse = new String[]{"Reimbursement", "fa_reimburse_main"};
 	
 //	/**
 //	 * 流程定义Map（自动初始化）

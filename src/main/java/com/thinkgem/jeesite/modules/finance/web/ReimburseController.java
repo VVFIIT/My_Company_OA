@@ -39,7 +39,7 @@ public class ReimburseController extends BaseController {
 
 	@Autowired
 	private ReimburseHospitalityService reimburseHospitalityService;
-	
+
 	/**
 	 * 报销申请页
 	 *
@@ -78,10 +78,16 @@ public class ReimburseController extends BaseController {
 	 */
 	@RequestMapping(value = "commitApplyForm")
 	public String commitApplyForm(ReimburseModel reimburseModel, HttpServletRequest request,
-			HttpServletResponse response) throws ParseException {
-		String mainId = UUID.randomUUID().toString();
-		reimburseService.insertReimburse(reimburseModel, request, mainId);
-		return "modules/fa/reimburse/reimburseApplyForm";
+			HttpServletResponse response, RedirectAttributes redirectAttributes) throws ParseException {
+		try {
+			String mainId = UUID.randomUUID().toString();
+			reimburseService.insertReimburse(reimburseModel, request, mainId);
+			addMessage(redirectAttributes, "报销申请成功!");
+		} catch (ParseException e) {
+			e.printStackTrace();
+			addMessage(redirectAttributes, "报销申请失败!");
+		}
+		return "redirect:" + Global.getAdminPath() + "/fa/reimburse/list?repage";
 	}
 
 	/**
@@ -123,7 +129,7 @@ public class ReimburseController extends BaseController {
 		model.addAttribute("reimburseModel", reimburseModel);
 		return "modules/fa/reimburse/reimburseShow";
 	}
-	
+
 	/**
 	 * 我的任务列表
 	 * 
@@ -142,9 +148,9 @@ public class ReimburseController extends BaseController {
 				reimburseModel);
 		model.addAttribute("page", page);
 		model.addAttribute("reimburseModel", reimburseModel);
-		return "modules/fa/reimburse/reimburseList";
+		return "modules/fa/reimburse/reimburseTaskList";
 	}
-	
+
 	/**
 	 * 审批
 	 * 
@@ -159,7 +165,7 @@ public class ReimburseController extends BaseController {
 		model.addAttribute("reimburseModel", reimburseModel);
 		return "modules/fa/reimburse/reimburseApprove";
 	}
-	
+
 	/**
 	 * 保存审批
 	 * 

@@ -27,6 +27,7 @@ public class ReimburseModel extends ActEntity<ReimburseModel> {
 	 */
 	private static final long serialVersionUID = 7097802654149429818L;
 	// main表
+	private String procInstId;
 	private String status;
 	private String id;
 	private Date applyDate;// 申请日期
@@ -43,6 +44,14 @@ public class ReimburseModel extends ActEntity<ReimburseModel> {
 	private List<ReimburseTaxi> taxiList;
 
 	private String longDistanceEveryNum;
+
+	public String getProcInstId() {
+		return procInstId;
+	}
+
+	public void setProcInstId(String procInstId) {
+		this.procInstId = procInstId;
+	}
 
 	public String getId() {
 		return id;
