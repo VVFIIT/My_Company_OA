@@ -1,34 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.thinkgem.jeesite.modules.finance.dao.ReimburseHospitalityDao">
-
-  <!--   <sql id="reimburseHospitalityColumns">
-        frh.id,
-        frh.mainId AS "mainId",
-        frh.projectId AS "projectId",
-        frh.clientName AS "clientName",
-        frh.inviteesName AS "inviteesName",
-        frh.createDate AS "createDate",
-        frh.invitedPosition AS "invitedPosition",
-        frh.number AS "number",
-        frh.amount AS "amount",
-        frh.updateDate AS "updateDate",
-        p.itemNo AS "project.itemNo",
-        p.name AS "project.name"
-    </sql>
-
-    <sql id="reimburseHospitalityJoins">
-         JOIN fa_project p ON p.id = frh.projectId
-    </sql>
-
-    <select id="findList" resultType="ReimburseHospitality">
-        SELECT
-        <include refid="reimburseHospitalityColumns"/>
-        FROM fa_reimburse_hospitality frh
-        <include refid="reimburseHospitalityJoins"/>
-        WHERE frh.mainId = #{mainId}
-    </select> -->
-
    
 <sql id="faReimburseHospitalityColumns">
 		a.id AS "id",
@@ -56,11 +28,16 @@
 	
 	<select id="findList" resultType="ReimburseHospitality">
 		SELECT 
-			<include refid="faReimburseHospitalityColumns"/>
+			p.itemNo AS "project.itemNo",
+			p.name AS "project.name",
+		<include refid="faReimburseHospitalityColumns"/>
 		FROM fa_reimburse_hospitality a
+		JOIN fa_project p on a.projectId=p.id
 		<include refid="faReimburseHospitalityJoins"/>
 		<where>
-			
+		    <if test="mainId != null and mainId != ''">
+				a.mainId = #{mainId}
+			</if>
 		</where>
 		<choose>
 			<when test="page !=null and page.orderBy != null and page.orderBy != ''">

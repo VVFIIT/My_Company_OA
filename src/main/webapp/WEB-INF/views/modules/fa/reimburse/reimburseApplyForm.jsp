@@ -194,14 +194,14 @@
 	<ul class="nav nav-tabs" id="updateTitle">
 	    <li class="active"><a href="${ctx}/fa/reimburse/toApplyForm">报销申请</a></li>
 	</ul>
-	<form:form id="reimburseApplyForm" modelAttribute="reimburseModel" target="mainFrame" action="${ctx}/fa/reimburse/commitApplyForm" method="post" class="breadcrumb form-search">
+	<form:form id="reimburseApplyForm" modelAttribute="reimburseMain" target="mainFrame" action="${ctx}/fa/reimburse/commitApplyForm" method="post" class="breadcrumb form-search">
 		<input id="longDistanceEveryNum" name="longDistanceEveryNum" type="hidden" value="1">
 		<input id="taxiEveryNum" name="taxiEveryNum" type="hidden" value="1">
 		<input id="hospitalityEveryNum" name="hospitalityEveryNum" type="hidden" value="1">
 		<input id="otherEveryNum" name="otherEveryNum" type="hidden" value="1">
 		<div >
-			<label style="font-weight:bold">部门：${reimburseModel.officeName}</label>
-			<label style="font-weight:bold">申请人：${reimburseModel.userName}</label>
+			<label style="font-weight:bold">部门：${reimburseMain.office.name}</label>
+			<label style="font-weight:bold">申请人：${reimburseMain.applicant.name}</label>
 		</div>
 		<div ><label style="font-weight:bold">基本信息</label></div>
 		<div>
@@ -211,20 +211,20 @@
 					<td><label style="font-weight:bold">申报日期</label></td>
 					<td>
 					<input id="applyDate" name="applyDate" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate" style="width:200px;"
-							value="<fmt:formatDate value="${reimburseModel.applyDate}" pattern="yyyy-MM-dd"/>"
+							value="<fmt:formatDate value="${reimburseMain.applyDate}" pattern="yyyy-MM-dd"/>"
 								onclick="WdatePicker({dateFmt:'yyyy-MM-dd'});"/>
 					
 					</td>
 					<td><label style="font-weight:bold">申报期间</label></td>
 					<td>
 					<input id="beginDate" name="beginDate" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate" style="width:200px;"
-							value="<fmt:formatDate value="${reimburseModel.beginDate}" pattern="yyyy-MM-dd"/>"
+							value="<fmt:formatDate value="${reimburseMain.beginDate}" pattern="yyyy-MM-dd"/>"
 								onclick="WdatePicker({dateFmt:'yyyy-MM-dd'});"/>
 					
 					</td>
 					<td>
 					<input id="endDate" name="endDate" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate" style="width:200px;"
-							value="<fmt:formatDate value="${reimburseModel.endDate}" pattern="yyyy-MM-dd"/>"
+							value="<fmt:formatDate value="${reimburseMain.endDate}" pattern="yyyy-MM-dd"/>"
 								onclick="WdatePicker({dateFmt:'yyyy-MM-dd'});"/>
 					
 					</td>
@@ -241,7 +241,7 @@
 				
 					<tr id="longDistance1">
 						<td><input id="createDateLongDistance1" name="createDateLongDistance1" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate" style="width:150px;"
-							value="<fmt:formatDate value="${reimburseModel.longDistanceList.get(0).createDate}" pattern="yyyy-MM-dd"/>"
+							value="<fmt:formatDate value="${businessTripModel.hospitalityList.get(0).createDate}" pattern="yyyy-MM-dd"/>"
 								onclick="WdatePicker({dateFmt:'yyyy-MM-dd'});"/></td>
 						<td><input style="width:150px" id="itemNoLongDistance1" name="itemNoLongDistance1" maxlength="50" type="text"/></td>
 						<td><input style="width:150px" id=projectNameLongDistance1" name="projectNameLongDistance1" maxlength="50"  type="text" /></td>
@@ -262,7 +262,7 @@
 				<tbody>
 					<tr id="taxi">	
 						<td><input id="createDateTaxi1" name="createDateTaxi1" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate" style="width:150px;"
-							value="<fmt:formatDate value="${reimburseModel.taxiList.get(0).createDate}" pattern="yyyy-MM-dd"/>"
+							value="<fmt:formatDate value="${businessTripModel.hospitalityList.get(0).createDate}" pattern="yyyy-MM-dd"/>"
 								onclick="WdatePicker({dateFmt:'yyyy-MM-dd'});"/></td>		
 						<td><input style="width:150px" id="itemNoTaxi1" name="itemNoTaxi1" maxlength="50" type="text"/></td>
 						<td><input style="width:150px" id=projectNameTaxi1" name="projectNameTaxi1" maxlength="50"  type="text" /></td>

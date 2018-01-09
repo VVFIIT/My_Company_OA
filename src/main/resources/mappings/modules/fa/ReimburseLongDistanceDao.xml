@@ -24,11 +24,15 @@
 	
 	<select id="findList" resultType="com.thinkgem.jeesite.modules.finance.entity.ReimburseLongDistance">
 		SELECT 
+			p.itemNo AS "project.itemNo",
+			p.name AS "project.name",
 			<include refid="faReimburseLongdistanceColumns"/>
 		FROM fa_reimburse_longdistance a
-		<include refid="faReimburseLongdistanceJoins"/>
+		JOIN fa_project p on a.projectId=p.id
 		<where>
-			
+			  <if test="mainId != null and mainId != ''">
+				a.mainId = #{mainId}
+			</if>
 		</where>
 		<choose>
 			<when test="page !=null and page.orderBy != null and page.orderBy != ''">

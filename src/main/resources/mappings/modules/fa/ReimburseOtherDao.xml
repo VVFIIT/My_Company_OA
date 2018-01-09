@@ -25,11 +25,15 @@
 	
 	<select id="findList" resultType="com.thinkgem.jeesite.modules.finance.entity.ReimburseOther">
 		SELECT 
+			p.itemNo AS "project.itemNo",
+			p.name AS "project.name",
 			<include refid="faReimburseOtherColumns"/>
 		FROM fa_reimburse_other a
-		<include refid="faReimburseOtherJoins"/>
+		JOIN fa_project p on a.projectId=p.id
 		<where>
-			
+			<if test="mainId != null and mainId != ''">
+				a.mainId = #{mainId}
+			</if>
 		</where>
 		<choose>
 			<when test="page !=null and page.orderBy != null and page.orderBy != ''">

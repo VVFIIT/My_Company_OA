@@ -31,9 +31,11 @@
 		WHERE a.id = #{id}
 	</select>
 	
-	<select id="findShowList" resultType="ReimburseModel">
+	<select id="findShowList" resultType="ReimburseMain">
 		SELECT
-			u.name as userName,o.name as officeName,<include refid="faReimburseMainColumns"/>
+			u.name as "applicant.name",
+			o.name as "office.name",
+			<include refid="faReimburseMainColumns"/>
 			FROM fa_reimburse_main a
 		JOIN sys_user u ON a.applicantId = u.id
 		JOIN sys_office o ON a.officeId = o.id
@@ -71,9 +73,10 @@
 		</choose>
 	</select> 
 	
-   <select id="getShow" resultType="ReimburseModel">
+   <select id="getShow" resultType="ReimburseMain">
 		SELECT
-			u.name as userName,o.name as officeName,
+			u.name as "applicant.name",
+			o.name as "office.name",
 			<include refid="faReimburseMainColumns"/>
 			FROM fa_reimburse_main a
 		JOIN sys_user u ON a.applicantId = u.id
@@ -94,6 +97,21 @@
 			<otherwise>
 			</otherwise>
 		</choose>
+	</select>
+	
+	<select id="getMainById" resultType="ReimburseMain" parameterType="String">
+		SELECT
+			u.name as "applicant.name",
+			o.name as "office.name",
+			<include refid="faReimburseMainColumns"/>
+			FROM fa_reimburse_main a
+		JOIN sys_user u ON a.applicantId = u.id
+		JOIN sys_office o ON a.officeId = o.id
+		<where>
+		<if test="_parameter != null">
+			AND a.id = #{mainId}
+		</if>	
+		</where>
 	</select>
 	
 	<insert id="insert">

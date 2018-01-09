@@ -19,7 +19,7 @@ public class ReimburseHospitality extends DataEntity<ReimburseHospitality> {
 	@Id
 	private String id;
 	private String mainId; // 主表主键
-	private String projectId; // 项目
+//	private String projectId; // 项目
 	private String clientName; // 客户名称
 	private String inviteesName;// 受邀人姓名
 	private Date createDate;// 日期
@@ -52,14 +52,6 @@ public class ReimburseHospitality extends DataEntity<ReimburseHospitality> {
 
 	public void setMainId(String mainId) {
 		this.mainId = mainId;
-	}
-
-	public String getProjectId() {
-		return projectId;
-	}
-
-	public void setProjectId(String projectId) {
-		this.projectId = projectId;
 	}
 
 	public String getClientName() {

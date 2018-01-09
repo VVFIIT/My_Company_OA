@@ -1,12 +1,10 @@
 package com.thinkgem.jeesite.modules.finance.dao;
 
+import java.util.List;
+
 import com.thinkgem.jeesite.common.persistence.CrudDao;
 import com.thinkgem.jeesite.common.persistence.annotation.MyBatisDao;
 import com.thinkgem.jeesite.modules.finance.entity.ReimburseMain;
-import com.thinkgem.jeesite.modules.finance.helper.ReimburseModel;
-import com.thinkgem.jeesite.modules.sys.entity.User;
-
-import java.util.List;
 
 /**
  * 报销主表
@@ -18,8 +16,25 @@ import java.util.List;
 @MyBatisDao
 public interface ReimburseMainDao extends CrudDao<ReimburseMain> {
 
-	public List<ReimburseModel> findShowList(ReimburseModel reimburseModel);
+	/**
+	 * 查询List
+	 * 
+	 * @param reimburseModel
+	 * @return
+	 * @author Grace
+	 * @date 2018年1月9日 下午4:27:22
+	 */
+	public List<ReimburseMain> findShowList(ReimburseMain reimburseMain);
 
-	public ReimburseModel getShow(String id);
+
+	/**
+	 * 根据主键查实体
+	 * 
+	 * @return
+	 * @author Grace
+	 * @param mainId 
+	 * @date 2018年1月9日 下午4:27:15
+	 */
+	public ReimburseMain getMainById(String mainId);
 
 }

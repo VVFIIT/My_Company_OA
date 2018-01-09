@@ -5,6 +5,8 @@ import java.util.Date;
 
 import org.springframework.data.annotation.Id;
 
+import com.thinkgem.jeesite.common.persistence.BaseEntity;
+
 /**
  * 出租车费
  * 
@@ -12,12 +14,13 @@ import org.springframework.data.annotation.Id;
  * @date 2018年1月5日 上午11:45:27
  * @since 1.0.0
  */
-public class ReimburseTaxi {
+public class ReimburseTaxi extends BaseEntity<ReimburseTaxi> {
 
 	@Id
 	private String id;
 	private String mainId; // 主表主键
-	private String projectId; // 项目
+	// private String projectId; // 项目
+	private Project project;
 	private String remark; //
 	private BigDecimal amount; // 合计金额',
 	private Date createDate;
@@ -25,6 +28,14 @@ public class ReimburseTaxi {
 	private String departureLocation; // 出发地点
 	private String arrivedLocation; // 到达地点
 	private Date updateDate;// 更新时间
+
+	public Project getProject() {
+		return project;
+	}
+
+	public void setProject(Project project) {
+		this.project = project;
+	}
 
 	public String getId() {
 		return id;
@@ -40,14 +51,6 @@ public class ReimburseTaxi {
 
 	public void setMainId(String mainId) {
 		this.mainId = mainId;
-	}
-
-	public String getProjectId() {
-		return projectId;
-	}
-
-	public void setProjectId(String projectId) {
-		this.projectId = projectId;
 	}
 
 	public String getRemark() {
@@ -104,6 +107,18 @@ public class ReimburseTaxi {
 
 	public void setTime(String time) {
 		this.time = time;
+	}
+
+	@Override
+	public void preInsert() {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void preUpdate() {
+		// TODO Auto-generated method stub
+
 	}
 
 }
