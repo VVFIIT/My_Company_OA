@@ -31,7 +31,7 @@
 		WHERE a.id = #{id}
 	</select>
 	
-	<select id="findShowList" resultType="ReimburseMain">
+	<select id="findList" resultType="ReimburseMain">
 		SELECT
 			u.name as "applicant.name",
 			o.name as "office.name",
@@ -43,17 +43,11 @@
 		<if test="status != null and status != ''">
 			AND a.status = #{status}
 		</if>	
-		<if test="procInsId != null and procInsId != ''">
-			AND a.procInsId = #{procInsId}
+		<if test="procInstId != null and procInstId != ''">
+			AND a.procInstId = #{procInstId}
 		</if>	
 		</where>
-		<choose>
-			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
-				ORDER BY ${page.orderBy}
-			</when>
-			<otherwise>
-			</otherwise>
-		</choose>
+				ORDER BY a.updateDate DESC
 	</select>
 	
 	<select id="findAllList" resultType="ReimburseMain">
@@ -90,13 +84,7 @@
 			AND a.id = #{id}
 		</if>	
 		</where>
-		<choose>
-			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
-				ORDER BY ${page.orderBy}
-			</when>
-			<otherwise>
-			</otherwise>
-		</choose>
+		ORDER BY a.updateDate DESC
 	</select>
 	
 	<select id="getMainById" resultType="ReimburseMain" parameterType="String">
@@ -134,8 +122,8 @@
 		) VALUES (
 			#{id},
 			#{procInstId},
-			#{officeId},
-			#{applicantId},
+			#{office.id},
+			#{applicant.id},
 			#{status},
 			#{applyDate},
 			#{beginDate},
@@ -155,14 +143,14 @@
 		<if test="procInstId != null and procInstId != ''">
 			procInstId = #{procInstId}
 		</if>
-		<if test="officeId != null and officeId != ''">
-			officeId = #{officeId}
+		<if test="office != null and office!= ''">
+			officeId = #{office.id}
 		</if>	
-		<if test="applicantId != null and applicantId != ''">
-			applicantId = #{applicantId}
+		<if test="applicant != null and applicant != ''">
+			applicantId = #{applicant.id}
 		</if>		
 		<if test="status != null and status != ''">
-			status = #{status}
+			,status = #{status}
 		</if>	
 		<if test="applyDate != null and applyDate != ''">
 			applyDate = #{applyDate}
@@ -189,13 +177,13 @@
 			FAFlag = #{FAFlag}
 		</if>	
 		<if test="managerComment != null and managerComment != ''">
-			managerComment = #{managerComment}
+			,managerComment = #{managerComment}
 		</if>		
 		<if test="FAComment != null and FAComment != ''">
-			FAComment = #{FAComment}
+			,FAComment = #{FAComment}
 		</if>		
 		WHERE id = #{id}
-	</update>
+	</update> 
 	
 	<update id="delete">
 		DELETE FROM fa_reimburse_main

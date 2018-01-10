@@ -200,10 +200,11 @@
 		<input id="hospitalityEveryNum" name="hospitalityEveryNum" type="hidden" value="1">
 		<input id="otherEveryNum" name="otherEveryNum" type="hidden" value="1">
 		<div >
-			<label style="font-weight:bold">部门：${reimburseMain.office.name}</label>
-			<label style="font-weight:bold">申请人：${reimburseMain.applicant.name}</label>
+			<label style="font-weight:bold">部门：${officeName}</label>
+			<label style="font-weight:bold">申请人：${applicantName}</label>
 		</div>
-		<div ><label style="font-weight:bold">基本信息</label></div>
+	
+	<div style="background:#40abe9"><label style="font-weight:bold">基本信息</label></div>
 		<div>
 			<table class="table table-striped table-bsordered table-condensed">
 				<tr>

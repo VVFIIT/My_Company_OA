@@ -17,17 +17,6 @@ import com.thinkgem.jeesite.modules.finance.entity.ReimburseMain;
 public interface ReimburseMainDao extends CrudDao<ReimburseMain> {
 
 	/**
-	 * 查询List
-	 * 
-	 * @param reimburseModel
-	 * @return
-	 * @author Grace
-	 * @date 2018年1月9日 下午4:27:22
-	 */
-	public List<ReimburseMain> findShowList(ReimburseMain reimburseMain);
-
-
-	/**
 	 * 根据主键查实体
 	 * 
 	 * @return
@@ -36,5 +25,16 @@ public interface ReimburseMainDao extends CrudDao<ReimburseMain> {
 	 * @date 2018年1月9日 下午4:27:15
 	 */
 	public ReimburseMain getMainById(String mainId);
+
+	/**
+	 * 更新
+	 * 
+	 * @param reimburseMain
+	 * @return
+	 * @author Grace
+	 * @date 2018年1月9日 下午9:07:07
+	 */
+	public ReimburseMain updateReimburseMainByProcInstId(ReimburseMain reimburseMain);
+
 
 }

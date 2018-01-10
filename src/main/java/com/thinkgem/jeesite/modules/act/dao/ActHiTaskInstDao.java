@@ -27,4 +27,15 @@ public interface ActHiTaskInstDao extends CrudDao<Act> {
 	 */
 	public Act findIdByProcInsId(String procInsId);
 
+	/**
+	 * 根据procinstId,key 查taskId
+	 * 
+	 * @param act
+	 * @return
+	 * @author Grace
+	 * @date 2018年1月10日 下午2:20:28
+	 */
+	public Act findIdByProcInsIdAndActId(Act act);
+
+
 }

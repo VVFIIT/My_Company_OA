@@ -7,6 +7,7 @@ import java.util.UUID;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -58,15 +59,9 @@ public class ReimburseController extends BaseController {
 			HttpServletResponse response) {
 	
 		User user = UserUtils.getUser();
-		
-		Office office=new Office();
-		office.setName(user.getOffice().getName());
-		reimburseMain.setOffice(office);
-		
-		User applicant=new User();
-		applicant.setName(user.getName());
-		reimburseMain.setApplicant(applicant);
 	
+		model.addAttribute("applicantName", user.getName());
+		model.addAttribute("officeName", user.getOffice().getName());
 		model.addAttribute("reimburseMain", reimburseMain);
 		return "modules/fa/reimburse/reimburseApplyForm";
 	}
@@ -195,10 +190,15 @@ public class ReimburseController extends BaseController {
 	 */
 	@RequestMapping(value = "approveSave")
 	public String approveSave(ReimburseMain reimburseMain, HttpServletRequest request,
-			RedirectAttributes redirectAttributes) {
-		String flag = request.getParameter("flag");
-		reimburseService.saveApprove(reimburseMain, flag);
-		addMessage(redirectAttributes, "审批信息保存成功");
-		return "redirect:" + Global.getAdminPath() + "/fa/reimburse/?repage";
+			RedirectAttributes redirectAttributes,Model model) {
+		
+		if (StringUtils.isBlank(reimburseMain.getAct().getFlag())
+				|| StringUtils.isBlank(reimburseMain.getAct().getComment())) {
+			addMessage(model, "请填写审核意见。");
+		}			
+		reimburseService.saveApprove(reimburseMain);
+		addMessage(redirectAttributes, "审批成功！");
+		return "redirect:" + Global.getAdminPath() + "/fa/reimburse/taskList?repage";
+		
 	}
 }

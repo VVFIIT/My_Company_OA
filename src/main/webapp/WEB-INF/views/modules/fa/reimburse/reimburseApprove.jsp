@@ -32,10 +32,11 @@
 		<li><a href="${ctx}/vehicle/vehicleProcess/">我的报销任务</a></li>
 		<li><a href="${ctx}/vehicle/vehicleProcess/">报销申请审批</a></li>
 	</ul>
-	<form:form id="inputFormApproveSave" modelAttribute="vehicleProcess" action="${ctx}/fa/reimburse/approveSave" method="post" class="form-horizontal">
-	    <input type="hidden" id="flag" name="flag"/>
-	    <input id="id" type="hidden" name="id" value="${vehicleProcess.id}"/>
-	    <input id="procInsId" type="hidden" name="procInsId" value="${vehicleProcess.procInsId}"/>
+	<form:form id="inputFormApproveSave" modelAttribute="reimburseMain" action="${ctx}/fa/reimburse/approveSave" method="post" class="form-horizontal">
+	    <form:hidden id="flag" path="act.flag"/>	
+	     <input name="procInstId" type="hidden" value="${reimburseMain.procInstId}"/>		 
+		 <input name="status" type="hidden" value="${reimburseMain.status}"/>	
+		 <input name="id" type="hidden" value="${reimburseMain.id}"/>
 		<sys:message content="${message}"/>
 
 		<fieldset>	
@@ -44,16 +45,14 @@
 				<tr>
 					<td class="tit">您的意见</td>
 					<td colspan="5">
-
-						<form:textarea path="comment" class="required" rows="5" maxlength="20" cssStyle="width:500px"/> 
-
+						<form:textarea path="act.comment" class="required" rows="5" maxlength="20" cssStyle="width:500px"/> 
 					</td>
 				</tr>
 			</table>
 		</fieldset>
 		<div class="form-actions">
 				<input id="btnSubmit" class="btn btn-primary" type="submit" value="同 意" onclick="$('#flag').val('yes')"/>&nbsp;
-				<input id="btnSubmit" class="btn btn-inverse" type="submit" value="驳 回" onclick="$('#flag').val('no')"/>&nbsp;
+			<!-- 	<input id="btnSubmit" class="btn btn-inverse" type="submit" value="驳 回" onclick="$('#flag').val('no')"/>&nbsp; -->
 			<input id="btnCancel" class="btn" type="button" value="返 回" onclick="history.go(-1)"/>
 		</div>
 

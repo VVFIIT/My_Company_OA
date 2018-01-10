@@ -15,31 +15,32 @@
     <li><a href="${ctx}/fa/reimburse/list">费用报销列表</a></li>
     <li class="active"><a href="${ctx}/fa/reimburse/formList">报销费用综合申报表查看</a></li>
 </ul>
-<%--<form:form id="searchForm" action="${ctx}/fa/reimburse/list" class="breadcrumb form-search">--%>
-<%--</form:form>--%>
-<%--<sys:message content="${message}"/>--%>
 
-<table id="contentTable" class="table table-striped table-bordered table-condensed">
-<!-- 主表-->
-    <thead>
-    <tr>
-        <th>部门</th>
-        <th>申报人</th>
-        <th>申报日期</th>
-        <th>申报开始时间</th>
-        <th>申报结束时间</th>
-    </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>${reimburseMain.office.name}</td>
-            <td>${reimburseMain.applicant.name}</td>
-            <td><fmt:formatDate value="${reimburseMain.applyDate}" type="both" pattern="yyyy-MM-dd"/></td>
-            <td><fmt:formatDate value="${reimburseMain.beginDate}" type="both" pattern="yyyy-MM-dd"/></td>
-            <td><fmt:formatDate value="${reimburseMain.endDate}" type="both" pattern="yyyy-MM-dd"/></td>	
-        </tr>
-    </tbody>
-</table>
+
+<div style="background:#40abe9"><label style="font-weight:bold">基本信息</label></div>
+	<div>
+	<table id="contentTable" class="table table-striped table-bordered table-condensed">
+	<!-- 主表-->
+	    <thead>
+	    <tr>
+	        <th>部门</th>
+	        <th>申报人</th>
+	        <th>申报日期</th>
+	        <th>申报开始时间</th>
+	        <th>申报结束时间</th>
+	    </tr>
+	    </thead>
+	    <tbody>
+	        <tr>
+	            <td>${reimburseMain.office.name}</td>
+	            <td>${reimburseMain.applicant.name}</td>
+	            <td><fmt:formatDate value="${reimburseMain.applyDate}" type="both" pattern="yyyy-MM-dd"/></td>
+	            <td><fmt:formatDate value="${reimburseMain.beginDate}" type="both" pattern="yyyy-MM-dd"/></td>
+	            <td><fmt:formatDate value="${reimburseMain.endDate}" type="both" pattern="yyyy-MM-dd"/></td>	
+	        </tr>
+	    </tbody>
+	</table>
+</div>
 
 <div style="background:#40abe9"><label style="font-weight:bold">长途汽车费信息</label></div>
 	<div>

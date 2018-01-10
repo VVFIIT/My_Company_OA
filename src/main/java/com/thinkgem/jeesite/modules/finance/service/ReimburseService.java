@@ -31,11 +31,14 @@ import com.thinkgem.jeesite.modules.finance.dao.ReimburseLongDistanceDao;
 import com.thinkgem.jeesite.modules.finance.dao.ReimburseMainDao;
 import com.thinkgem.jeesite.modules.finance.dao.ReimburseOtherDao;
 import com.thinkgem.jeesite.modules.finance.dao.ReimburseTaxiDao;
+import com.thinkgem.jeesite.modules.finance.entity.Project;
 import com.thinkgem.jeesite.modules.finance.entity.ReimburseHospitality;
 import com.thinkgem.jeesite.modules.finance.entity.ReimburseLongDistance;
 import com.thinkgem.jeesite.modules.finance.entity.ReimburseMain;
 import com.thinkgem.jeesite.modules.finance.entity.ReimburseOther;
 import com.thinkgem.jeesite.modules.finance.entity.ReimburseTaxi;
+import com.thinkgem.jeesite.modules.oa.entity.AttendanceMonth;
+import com.thinkgem.jeesite.modules.sys.entity.Office;
 import com.thinkgem.jeesite.modules.sys.entity.User;
 import com.thinkgem.jeesite.modules.sys.utils.UserUtils;
 
@@ -55,16 +58,16 @@ public class ReimburseService {
 
 	@Autowired
 	private ReimburseOtherDao reimburseOtherDao;
-	
+
 	@Autowired
 	private ReimburseLongDistanceDao reimburseLongDistanceDao;
-	
+
 	@Autowired
 	private ReimburseHospitalityDao reimburseHospitalityDao;
-	
+
 	@Autowired
 	private ReimburseTaxiDao reimburseTaxiDao;
-	
+
 	@Autowired
 	private TaskService taskService;
 
@@ -89,13 +92,12 @@ public class ReimburseService {
 			throws ParseException {
 
 		User user = UserUtils.getUser();
-		reimburseMain.getApplicant().setName(user.getName());
-		
+	 
+
 		// 启动Activity
-		String title = user.getName()
-				+ " 报销申请";
-		String procInstId = actTaskService.startProcess(ActUtils.PD_Reimburse[0], ActUtils.PD_Reimburse[1],
-				mainId, title);
+		String title = user.getName() + " 报销申请";
+		String procInstId = actTaskService.startProcess(ActUtils.PD_Reimburse[0], ActUtils.PD_Reimburse[1], mainId,
+				title);
 
 		// 触发Acitiviti个人申请流程
 		Map<String, Object> vars = Maps.newHashMap();
@@ -103,11 +105,10 @@ public class ReimburseService {
 		// 根据procinstId查taskId
 		Act act = actHiTaskInstDao.findIdByProcInsId(procInstId);
 		String taskId = act.getTaskId();
-		complete(taskId, procInstId, "ReimburseApply", title, vars);	
-		
+		complete(taskId, procInstId, "ReimburseApply", title, vars);
+
 		reimburseMain.setProcInstId(procInstId);
-		
-		
+
 		insertMain(reimburseMain, request, mainId);
 		insertLongDistance(request, mainId);
 		insertTaxi(request, mainId);
@@ -163,11 +164,17 @@ public class ReimburseService {
 
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		User user = UserUtils.getUser();
-		
+
 		reimburseMain.setId(mainId);
 		reimburseMain.setProcInstId(reimburseMain.getProcInstId());
-		reimburseMain.getOffice().setId(user.getOffice().getId());
-		reimburseMain.getApplicant().setId(user.getId());
+		
+		Office office=new Office();
+		office.setId(user.getOffice().getId());
+		reimburseMain.setOffice(office);
+		
+		User applicant=new User();
+		applicant.setId(user.getId());
+		reimburseMain.setApplicant(applicant);
 		reimburseMain.setApplyDate(sdf.parse(request.getParameter("applyDate")));
 		reimburseMain.setBeginDate(sdf.parse(request.getParameter("beginDate")));
 		reimburseMain.setEndDate(sdf.parse(request.getParameter("endDate")));
@@ -210,7 +217,10 @@ public class ReimburseService {
 			reimburseLongDistance.setCreateDate(sdf.parse(createDate));
 			reimburseLongDistance.setMainId(mainId);
 			// reimburseLongDistance.setProjectId(projectId);
-	//		reimburseLongDistance.setProjectId("e43f5f0c-f413-11e7-8177-2c337a19e798");
+			// reimburseLongDistance.setProjectId("e43f5f0c-f413-11e7-8177-2c337a19e798");
+			Project project =new Project();
+			project.setId("e43f5f0c-f413-11e7-8177-2c337a19e798");
+			reimburseLongDistance.setProject(project);
 			reimburseLongDistance.setRemark(remark);
 			reimburseLongDistance.setUpdateDate(new Date());
 			reimburseLongDistance.setAmount(new BigDecimal(amount));
@@ -250,7 +260,12 @@ public class ReimburseService {
 			reimburseOther.setCreateDate(sdf.parse(createDate));
 			reimburseOther.setMainId(mainId);
 			// reimburseOther.setProjectId(projectId);
-		//	reimburseOther.setProjectId("e43f5f0c-f413-11e7-8177-2c337a19e798");
+			// reimburseOther.setProjectId("e43f5f0c-f413-11e7-8177-2c337a19e798");
+			
+			Project project =new Project();
+			project.setId("e43f5f0c-f413-11e7-8177-2c337a19e798");
+			reimburseOther.setProject(project);
+			
 			reimburseOther.setRemark(remark);
 			reimburseOther.setUpdateDate(new Date());
 			reimburseOther.setAmount(new BigDecimal(amount));
@@ -293,7 +308,13 @@ public class ReimburseService {
 			reimburseHospitality.setCreateDate(sdf.parse(createDate));
 			reimburseHospitality.setMainId(mainId);
 			// reimburseHospitality.setProjectId(projectId);
-		//	reimburseHospitality.setProjectId("e43f5f0c-f413-11e7-8177-2c337a19e798");
+			// reimburseHospitality.setProjectId("e43f5f0c-f413-11e7-8177-2c337a19e798");
+			
+			Project project =new Project();
+			project.setId("e43f5f0c-f413-11e7-8177-2c337a19e798");
+			reimburseHospitality.setProject(project);
+			
+			
 			reimburseHospitality.setClientName(clientName);
 			reimburseHospitality.setInviteesName(inviteesName);
 			reimburseHospitality.setInvitedPosition(invitedPosition);
@@ -339,7 +360,12 @@ public class ReimburseService {
 			reimburseTaxi.setCreateDate(sdf.parse(createDate));
 			reimburseTaxi.setMainId(mainId);
 			// reimburseTaxi.setProjectId(projectId);
-		//	reimburseTaxi.setProjectId("e43f5f0c-f413-11e7-8177-2c337a19e798");
+			// reimburseTaxi.setProjectId("e43f5f0c-f413-11e7-8177-2c337a19e798");
+			
+			Project project =new Project();
+			project.setId("e43f5f0c-f413-11e7-8177-2c337a19e798");
+			reimburseTaxi.setProject(project);
+			
 			reimburseTaxi.setRemark(remark);
 			reimburseTaxi.setUpdateDate(new Date());
 			reimburseTaxi.setTime(time);
@@ -361,7 +387,7 @@ public class ReimburseService {
 	 * @date 2018年1月8日 下午2:01:56
 	 */
 	@Transactional(readOnly = false)
-	public ReimburseMain  reimburseShow(String id) {
+	public ReimburseMain reimburseShow(String id) {
 		// return reimburseMainDao.getShow(id);
 		return null;
 	}
@@ -378,7 +404,7 @@ public class ReimburseService {
 	@Transactional(readOnly = false)
 	public Page<ReimburseMain> reimburseMainList(Page<ReimburseMain> page, ReimburseMain reimburseMain) {
 		reimburseMain.setPage(page);
-		List<ReimburseMain> reimburseMainList = reimburseMainDao.findShowList(reimburseMain);
+		List<ReimburseMain> reimburseMainList = reimburseMainDao.findList(reimburseMain);
 		page.setList(reimburseMainList);
 		return page;
 	}
@@ -409,7 +435,7 @@ public class ReimburseService {
 
 			// 通过procInsId获取相应对象
 			reimburseMain.setProcInstId(procInsId);
-			List<ReimburseMain> reimburseMainList = reimburseMainDao.findShowList(reimburseMain);
+			List<ReimburseMain> reimburseMainList = reimburseMainDao.findList(reimburseMain);
 
 			if (reimburseMainList != null && reimburseMainList.size() > 0) {
 
@@ -439,9 +465,66 @@ public class ReimburseService {
 	 * @date 2018年1月8日 下午6:03:18
 	 */
 	@Transactional(readOnly = false)
-	public void saveApprove(ReimburseMain reimburseMain, String flag) {
-		// TODO Auto-generated method stub
+	public void saveApprove(ReimburseMain reimburseMain) {
+		
+		//获取taskId
+		Act act=new Act();
+		act.setProcInsId(reimburseMain.getProcInstId());
+		if("20".equals(reimburseMain.getStatus())){
+			act.setTaskDefKey("FinancialApproval");
+			act=actHiTaskInstDao.findIdByProcInsIdAndActId(act);
+		}else if("30".equals(reimburseMain.getStatus())){
+	    	act.setTaskDefKey("ManagerApproval");
+			act=actHiTaskInstDao.findIdByProcInsIdAndActId(act);
+		}
+		
+		// 设置意见
+		reimburseMain.getAct().setComment(("yes".equals(reimburseMain.getAct().getFlag()) ? "[同意] " : "[驳回] ")
+						+ reimburseMain.getAct().getComment());
+		
+				// 审核环节 根据状态判断，如果是20 则是该财务审批了 ；如果是30则是领导该审批
+				if ("10".equals(reimburseMain.getStatus())) {
+					
+				} else if ("20".equals(reimburseMain.getStatus())) {
+					// 如果PM或者人事驳回 都转到个人让重新提交
+					if ("no".equals(reimburseMain.getAct().getFlag())) {
+						// 新建状态
+						reimburseMain.setStatus("40");
+					} else {
+						reimburseMain.setStatus("30");
+					}
+					reimburseMain.setFAComment(reimburseMain.getAct().getComment());
+				    
+					reimburseMainDao.update(reimburseMain);
+				
+					//经理
+				} else if ("30".equals(reimburseMain.getStatus())) {
+					if ("no".equals(reimburseMain.getAct().getFlag())) {
+						// 新建状态
+						reimburseMain.setStatus("40");
+					} else {
+						reimburseMain.setStatus("50");
+					}
+					reimburseMain.setManagerComment(reimburseMain.getAct().getComment());
+					
+				    reimburseMainDao.update(reimburseMain);
+				} else if ("50".equals(reimburseMain.getStatus())) {
 
+				}
+				// 未知环节，直接返回
+				else {
+					return;
+				}
+
+				// 提交流程任务
+				Map<String, Object> vars = Maps.newHashMap();
+				vars.put("pass", "yes".equals(reimburseMain.getAct().getFlag()) ? "1" : "0");
+
+				ReimburseMain reimburseMainReturn=reimburseMainDao.getMainById(reimburseMain.getId());
+				String title = reimburseMainReturn.getApplicant().getName() + " 报销申请";
+
+				complete(act.getTaskId(), reimburseMain.getProcInstId(),
+						reimburseMain.getAct().getComment(), title, vars);
 	}
 
 	/**
@@ -465,7 +548,7 @@ public class ReimburseService {
 	 * @date 2018年1月9日 下午4:26:05
 	 */
 	public List<ReimburseTaxi> getTaxiListByMainId(String mainId) {
-		ReimburseTaxi taxi=new ReimburseTaxi();
+		ReimburseTaxi taxi = new ReimburseTaxi();
 		taxi.setMainId(mainId);
 		return reimburseTaxiDao.findList(taxi);
 	}
@@ -478,8 +561,8 @@ public class ReimburseService {
 	 * @author Grace
 	 * @date 2018年1月9日 下午4:27:45
 	 */
-	public List<ReimburseOther> getOtherListByMainId(String mainId) {	
-		ReimburseOther reimburseOther=new ReimburseOther();
+	public List<ReimburseOther> getOtherListByMainId(String mainId) {
+		ReimburseOther reimburseOther = new ReimburseOther();
 		reimburseOther.setMainId(mainId);
 		return reimburseOtherDao.findList(reimburseOther);
 	}
@@ -493,7 +576,7 @@ public class ReimburseService {
 	 * @date 2018年1月9日 下午4:28:16
 	 */
 	public List<ReimburseHospitality> getHospitalityListByMainId(String mainId) {
-		ReimburseHospitality hospitality=new ReimburseHospitality();
+		ReimburseHospitality hospitality = new ReimburseHospitality();
 		hospitality.setMainId(mainId);
 		return reimburseHospitalityDao.findList(hospitality);
 	}
@@ -506,9 +589,8 @@ public class ReimburseService {
 	 * @author Grace
 	 * @date 2018年1月9日 下午5:11:28
 	 */
-	public List<ReimburseLongDistance> getLongDistanceListByMainId(
-			String mainId) {
-		ReimburseLongDistance reimburseLongDistance=new ReimburseLongDistance();
+	public List<ReimburseLongDistance> getLongDistanceListByMainId(String mainId) {
+		ReimburseLongDistance reimburseLongDistance = new ReimburseLongDistance();
 		reimburseLongDistance.setMainId(mainId);
 		return reimburseLongDistanceDao.findList(reimburseLongDistance);
 	}

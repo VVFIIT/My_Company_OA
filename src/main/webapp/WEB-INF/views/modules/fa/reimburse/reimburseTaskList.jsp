@@ -43,19 +43,13 @@
 <table id="contentTable" class="table table-striped table-bordered table-condensed">
     <thead>
     <tr>
+    	<th>任务标题</th>
         <th>申请日期</th>
         <th>部门</th>
         <th>申报人</th>
-        <%-- <c:choose>
-            <c:when test="${reimburseMain.applicantId =='1' || reimburseMain.applicantId =='8' }">
-                <th>申报人</th>
-            </c:when>
-            <c:otherwise>
-            </c:otherwise>
-        </c:choose> --%>
         <th>申报起始日</th>
         <th>申报结束日</th>
-        <th>总金额</th>
+       <!--  <th>总金额</th> -->
         <th>状态</th>
         <th>操作</th>
     </tr>
@@ -63,25 +57,17 @@
     <tbody>
     <c:forEach items="${page.list}" var="reimburseMain">
         <tr>
-         <input id="id" name="id"  value="${reimburseMain.id}"/>     
+      		<td>${reimburseMain.act.vars.map.title}</td>
             <td><fmt:formatDate value="${reimburseMain.applyDate}" type="both" pattern="yyyy-MM-dd"/></td>
        
-           <td>${reimburseMain.officeName}</td>
-           <td>${reimburseMain.userName}</td>
-           <%--  <c:choose>
-                <c:when test="${reimburseMain.officeName =='1' || reimburseMain.applicantId =='8' }">
-                    <td>${reimburseMain.user.name}</td>
-                </c:when>
-                <c:otherwise>
-                </c:otherwise>
-            </c:choose> --%>
+           <td>${reimburseMain.office.name}</td>
+           <td>${reimburseMain.applicant.name}</td>
             <td><fmt:formatDate value="${reimburseMain.beginDate}" type="both" pattern="yyyy-MM-dd"/></td>
             <td><fmt:formatDate value="${reimburseMain.endDate}" type="both" pattern="yyyy-MM-dd"/></td>
-            <td>${fns:abbr(reimburseMain.totalAmount,30)}</td>
+          <%--   <td>${fns:abbr(reimburseMain.totalAmount,30)}</td> --%>
             <td>${fns:getDictLabel(reimburseMain.status,'fa_reimburseMain_status','')}</td>
-            <td><a href="${ctx}/fa/reimburse/show?id=${reimburseMain.id}">查看|</a>
-            	<a href="${ctx}/fa/reimburse/approve?id=${reimburseMain.id}">审批</a>
-   
+            <td><a href="${ctx}/fa/reimburse/show?mainId=${reimburseMain.id}">查看|</a>
+            	<a href="${ctx}/fa/reimburse/approve?id=${reimburseMain.id}&procInstId=${reimburseMain.procInstId}&status=${reimburseMain.status}">审批</a>
             </td> 
            
         </tr>

@@ -80,7 +80,7 @@
 		) VALUES (
 			#{id},
 			#{mainId},
-			#{projectId},
+			#{project.id},
 			#{clientName},
 			#{inviteesName},
 			#{createDate},
