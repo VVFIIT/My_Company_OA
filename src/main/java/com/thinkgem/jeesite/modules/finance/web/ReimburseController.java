@@ -1,6 +1,7 @@
 package com.thinkgem.jeesite.modules.finance.web;
 
 import java.text.ParseException;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -65,6 +66,7 @@ public class ReimburseController extends BaseController {
 		model.addAttribute("applicantName", user.getName());
 		model.addAttribute("officeName", user.getOffice().getName());
 		model.addAttribute("reimburseMain", reimburseMain);
+		model.addAttribute("applyDate", new Date());
 		return "modules/fa/reimburse/reimburseApplyForm";
 	}
 

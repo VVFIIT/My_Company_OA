@@ -80,6 +80,7 @@ public class ReimburseService {
 
 	@Autowired
 	private ProjectDao projectDao;
+
 	/**
 	 * 提交报销申请
 	 *
@@ -95,7 +96,6 @@ public class ReimburseService {
 			throws ParseException {
 
 		User user = UserUtils.getUser();
-	 
 
 		// 启动Activity
 		String title = user.getName() + " 报销申请";
@@ -170,12 +170,12 @@ public class ReimburseService {
 
 		reimburseMain.setId(mainId);
 		reimburseMain.setProcInstId(reimburseMain.getProcInstId());
-		
-		Office office=new Office();
+
+		Office office = new Office();
 		office.setId(user.getOffice().getId());
 		reimburseMain.setOffice(office);
-		
-		User applicant=new User();
+
+		User applicant = new User();
 		applicant.setId(user.getId());
 		reimburseMain.setApplicant(applicant);
 		reimburseMain.setApplyDate(sdf.parse(request.getParameter("applyDate")));
@@ -208,29 +208,25 @@ public class ReimburseService {
 		String[] longDistanceNum = longDistanceEveryNum.split("");
 		for (int i = 0; i < longDistanceNum.length; i++) {
 
-			ReimburseLongDistance reimburseLongDistance = new ReimburseLongDistance();
-
-			String createDate = request.getParameter(("createDateLongDistance" + longDistanceNum[i]));
-//			String itemNo = request.getParameter(("itemNoLongDistance" + longDistanceNum[i]));
-//			String projectName = request.getParameter(("projectNameLongDistance" + longDistanceNum[i]));
-			String remark = request.getParameter(("remarkLongDistance" + longDistanceNum[i]));
 			String amount = request.getParameter(("amountLongDistance" + longDistanceNum[i]));
-			String projectId = request.getParameter(("project" + longDistanceNum[i]));
-			
-			reimburseLongDistance.setId(UUID.randomUUID().toString());
-			reimburseLongDistance.setCreateDate(sdf.parse(createDate));
-			reimburseLongDistance.setMainId(mainId);
-			// reimburseLongDistance.setProjectId(projectId);
-			// reimburseLongDistance.setProjectId("e43f5f0c-f413-11e7-8177-2c337a19e798");
-			Project project =new Project();
-			project.setId(projectId);
-			reimburseLongDistance.setProject(project);
-			
-			reimburseLongDistance.setRemark(remark);
-			reimburseLongDistance.setUpdateDate(new Date());
-			reimburseLongDistance.setAmount(new BigDecimal(amount));
+			if (StringUtils.isNoneBlank(amount)) {
+				ReimburseLongDistance reimburseLongDistance = new ReimburseLongDistance();
+				String createDate = request.getParameter(("createDateLongDistance" + longDistanceNum[i]));
+				String remark = request.getParameter(("remarkLongDistance" + longDistanceNum[i]));
+				String projectId = request.getParameter(("projectLongDistance" + longDistanceNum[i]));
+				reimburseLongDistance.setId(UUID.randomUUID().toString());
+				reimburseLongDistance.setCreateDate(sdf.parse(createDate));
+				reimburseLongDistance.setMainId(mainId);
+				Project project = new Project();
+				project.setId(projectId);
+				reimburseLongDistance.setProject(project);
+				reimburseLongDistance.setRemark(remark);
+				reimburseLongDistance.setUpdateDate(new Date());
+				reimburseLongDistance.setAmount(new BigDecimal(amount));
 
-			reimburseLongDistanceDao.insert(reimburseLongDistance);
+				reimburseLongDistanceDao.insert(reimburseLongDistance);
+			}
+
 		}
 
 	}
@@ -247,35 +243,30 @@ public class ReimburseService {
 	@Transactional(readOnly = false)
 	private void insertOther(HttpServletRequest request, String mainId) throws ParseException {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-
 		String otherEveryNum = request.getParameter("otherEveryNum");
-
 		String[] otherNum = otherEveryNum.split("");
+
 		for (int i = 0; i < otherNum.length; i++) {
-
-			ReimburseOther reimburseOther = new ReimburseOther();
-
-			String createDate = request.getParameter(("createDateOther" + otherNum[i]));
-//			String itemNo = request.getParameter(("itemNoOther" + otherNum[i]));
-//			String projectName = request.getParameter(("projectNameOther" + otherNum[i]));
-			String remark = request.getParameter(("remarkOther" + otherNum[i]));
 			String amount = request.getParameter(("amountOther" + otherNum[i]));
-			String projectId = request.getParameter(("project" + otherNum[i]));
-			reimburseOther.setId(UUID.randomUUID().toString());
-			reimburseOther.setCreateDate(sdf.parse(createDate));
-			reimburseOther.setMainId(mainId);
-			// reimburseOther.setProjectId(projectId);
-			// reimburseOther.setProjectId("e43f5f0c-f413-11e7-8177-2c337a19e798");
-			
-			Project project =new Project();
-			project.setId(projectId);
-			reimburseOther.setProject(project);
-			
-			reimburseOther.setRemark(remark);
-			reimburseOther.setUpdateDate(new Date());
-			reimburseOther.setAmount(new BigDecimal(amount));
 
-			reimburseOtherDao.insert(reimburseOther);
+			if (StringUtils.isNoneBlank(amount)) {
+				ReimburseOther reimburseOther = new ReimburseOther();
+				String createDate = request.getParameter(("createDateOther" + otherNum[i]));
+				String remark = request.getParameter(("remarkOther" + otherNum[i]));
+				String projectId = request.getParameter(("projectOther" + otherNum[i]));
+				reimburseOther.setId(UUID.randomUUID().toString());
+				reimburseOther.setCreateDate(sdf.parse(createDate));
+				reimburseOther.setMainId(mainId);
+				Project project = new Project();
+				project.setId(projectId);
+				reimburseOther.setProject(project);
+				reimburseOther.setRemark(remark);
+				reimburseOther.setUpdateDate(new Date());
+				reimburseOther.setAmount(new BigDecimal(amount));
+
+				reimburseOtherDao.insert(reimburseOther);
+			}
+
 		}
 
 	}
@@ -292,40 +283,40 @@ public class ReimburseService {
 	@Transactional(readOnly = false)
 	private void insertHospitality(HttpServletRequest request, String mainId) throws ParseException {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-
 		String hospitalityEveryNum = request.getParameter("hospitalityEveryNum");
-
 		String[] hospitalityNum = hospitalityEveryNum.split("");
+
 		for (int i = 0; i < hospitalityNum.length; i++) {
 
-			ReimburseHospitality reimburseHospitality = new ReimburseHospitality();
-
-			String createDate = request.getParameter(("createDateHospitality" + hospitalityNum[i]));
-//			String itemNo = request.getParameter(("itemNoHospitality" + hospitalityNum[i]));
-//			String projectName = request.getParameter(("projectNameHospitalitye" + hospitalityNum[i]));
-			String projectId = request.getParameter(("project" + hospitalityNum[i]));
-			String clientName = request.getParameter(("clientNameHospitality" + hospitalityNum[i]));
-			String inviteesName = request.getParameter(("inviteesNameHospitality" + hospitalityNum[i]));
-			String invitedPosition = request.getParameter(("invitedPositionHospitality" + hospitalityNum[i]));
-			String number = request.getParameter(("numberHospitality" + hospitalityNum[i]));
 			String amount = request.getParameter(("amountHospitality" + hospitalityNum[i]));
+			if (StringUtils.isNoneBlank(amount)) {
+				ReimburseHospitality reimburseHospitality = new ReimburseHospitality();
 
-			reimburseHospitality.setId(UUID.randomUUID().toString());
-			reimburseHospitality.setCreateDate(sdf.parse(createDate));
-			reimburseHospitality.setMainId(mainId);
-		
-			Project project =new Project();
-			project.setId(projectId);
-			reimburseHospitality.setProject(project);
-			
-			reimburseHospitality.setClientName(clientName);
-			reimburseHospitality.setInviteesName(inviteesName);
-			reimburseHospitality.setInvitedPosition(invitedPosition);
-			reimburseHospitality.setNumber(Integer.parseInt(number));
-			reimburseHospitality.setUpdateDate(new Date());
-			reimburseHospitality.setAmount(new BigDecimal(amount));
+				String createDate = request.getParameter(("createDateHospitality" + hospitalityNum[i]));
+				String projectId = request.getParameter(("projectHospitality" + hospitalityNum[i]));
+				String clientName = request.getParameter(("clientNameHospitality" + hospitalityNum[i]));
+				String inviteesName = request.getParameter(("inviteesNameHospitality" + hospitalityNum[i]));
+				String invitedPosition = request.getParameter(("invitedPositionHospitality" + hospitalityNum[i]));
+				String number = request.getParameter(("numberHospitality" + hospitalityNum[i]));
 
-			reimburseHospitalityDao.insert(reimburseHospitality);
+				reimburseHospitality.setId(UUID.randomUUID().toString());
+				reimburseHospitality.setCreateDate(sdf.parse(createDate));
+				reimburseHospitality.setMainId(mainId);
+
+				Project project = new Project();
+				project.setId(projectId);
+				reimburseHospitality.setProject(project);
+
+				reimburseHospitality.setClientName(clientName);
+				reimburseHospitality.setInviteesName(inviteesName);
+				reimburseHospitality.setInvitedPosition(invitedPosition);
+				reimburseHospitality.setNumber(Integer.parseInt(number));
+				reimburseHospitality.setUpdateDate(new Date());
+				reimburseHospitality.setAmount(new BigDecimal(amount));
+
+				reimburseHospitalityDao.insert(reimburseHospitality);
+			}
+
 		}
 
 	}
@@ -342,41 +333,37 @@ public class ReimburseService {
 	@Transactional(readOnly = false)
 	private void insertTaxi(HttpServletRequest request, String mainId) throws ParseException {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-
 		String taxiEveryNum = request.getParameter("taxiEveryNum");
-
 		String[] taxiNum = taxiEveryNum.split("");
+
 		for (int i = 0; i < taxiNum.length; i++) {
-
-			ReimburseTaxi reimburseTaxi = new ReimburseTaxi();
-
-			String createDate = request.getParameter(("createDateTaxi" + taxiNum[i]));
-//			String itemNo = request.getParameter(("itemNoTaxi" + taxiNum[i]));
-//			String projectName = request.getParameter(("projectNameTaxi" + taxiNum[i]));
-			String remark = request.getParameter(("remarkTaxi" + taxiNum[i]));
-			String time = request.getParameter(("timeTaxi" + taxiNum[i]));
-			String departureLocation = request.getParameter(("departureLocationTaxi" + taxiNum[i]));
-			String arrivedLocation = request.getParameter(("arrivedLocationTaxi" + taxiNum[i]));
 			String amount = request.getParameter(("amountTaxi" + taxiNum[i]));
-			String projectId = request.getParameter(("project" + taxiNum[i]));
+			if (StringUtils.isNoneBlank(amount)) {
+				ReimburseTaxi reimburseTaxi = new ReimburseTaxi();
 
-			reimburseTaxi.setId(UUID.randomUUID().toString());
-			reimburseTaxi.setCreateDate(sdf.parse(createDate));
-			reimburseTaxi.setMainId(mainId);
-			
-			
-			Project project =new Project();
-			project.setId(projectId);
-			reimburseTaxi.setProject(project);
-			
-			reimburseTaxi.setRemark(remark);
-			reimburseTaxi.setUpdateDate(new Date());
-			reimburseTaxi.setTime(time);
-			reimburseTaxi.setDepartureLocation(departureLocation);
-			reimburseTaxi.setArrivedLocation(arrivedLocation);
-			reimburseTaxi.setAmount(new BigDecimal(amount));
+				String createDate = request.getParameter(("createDateTaxi" + taxiNum[i]));
+				String remark = request.getParameter(("remarkTaxi" + taxiNum[i]));
+				String time = request.getParameter(("timeTaxi" + taxiNum[i]));
+				String departureLocation = request.getParameter(("departureLocationTaxi" + taxiNum[i]));
+				String arrivedLocation = request.getParameter(("arrivedLocationTaxi" + taxiNum[i]));
+				String projectId = request.getParameter(("projectTaxi" + taxiNum[i]));
+				reimburseTaxi.setId(UUID.randomUUID().toString());
+				reimburseTaxi.setCreateDate(sdf.parse(createDate));
+				reimburseTaxi.setMainId(mainId);
+				Project project = new Project();
+				project.setId(projectId);
+				reimburseTaxi.setProject(project);
+				reimburseTaxi.setRemark(remark);
+				reimburseTaxi.setUpdateDate(new Date());
+				reimburseTaxi.setTime(time);
+				reimburseTaxi.setDepartureLocation(departureLocation);
+				reimburseTaxi.setArrivedLocation(arrivedLocation);
+				reimburseTaxi.setAmount(new BigDecimal(amount));
 
-			reimburseTaxiDao.insert(reimburseTaxi);
+				reimburseTaxiDao.insert(reimburseTaxi);
+
+			}
+
 		}
 
 	}
@@ -455,65 +442,64 @@ public class ReimburseService {
 	 */
 	@Transactional(readOnly = false)
 	public void saveApprove(ReimburseMain reimburseMain) {
-		
-		//获取taskId
-		Act act=new Act();
+
+		// 获取taskId
+		Act act = new Act();
 		act.setProcInsId(reimburseMain.getProcInstId());
-		if("20".equals(reimburseMain.getStatus())){
+		if ("20".equals(reimburseMain.getStatus())) {
 			act.setTaskDefKey("FinancialApproval");
-			act=actHiTaskInstDao.findIdByProcInsIdAndActId(act);
-		}else if("30".equals(reimburseMain.getStatus())){
-	    	act.setTaskDefKey("ManagerApproval");
-			act=actHiTaskInstDao.findIdByProcInsIdAndActId(act);
+			act = actHiTaskInstDao.findIdByProcInsIdAndActId(act);
+		} else if ("30".equals(reimburseMain.getStatus())) {
+			act.setTaskDefKey("ManagerApproval");
+			act = actHiTaskInstDao.findIdByProcInsIdAndActId(act);
 		}
-		
+
 		// 设置意见
 		reimburseMain.getAct().setComment(("yes".equals(reimburseMain.getAct().getFlag()) ? "[同意] " : "[驳回] ")
-						+ reimburseMain.getAct().getComment());
-		
-				// 审核环节 根据状态判断，如果是20 则是该财务审批了 ；如果是30则是领导该审批
-				if ("10".equals(reimburseMain.getStatus())) {
-					
-				} else if ("20".equals(reimburseMain.getStatus())) {
-					// 如果PM或者人事驳回 都转到个人让重新提交
-					if ("no".equals(reimburseMain.getAct().getFlag())) {
-						// 新建状态
-						reimburseMain.setStatus("40");
-					} else {
-						reimburseMain.setStatus("30");
-					}
-					reimburseMain.setFAComment(reimburseMain.getAct().getComment());
-				    
-					reimburseMainDao.update(reimburseMain);
-				
-					//经理
-				} else if ("30".equals(reimburseMain.getStatus())) {
-					if ("no".equals(reimburseMain.getAct().getFlag())) {
-						// 新建状态
-						reimburseMain.setStatus("40");
-					} else {
-						reimburseMain.setStatus("50");
-					}
-					reimburseMain.setManagerComment(reimburseMain.getAct().getComment());
-					
-				    reimburseMainDao.update(reimburseMain);
-				} else if ("50".equals(reimburseMain.getStatus())) {
+				+ reimburseMain.getAct().getComment());
 
-				}
-				// 未知环节，直接返回
-				else {
-					return;
-				}
+		// 审核环节 根据状态判断，如果是20 则是该财务审批了 ；如果是30则是领导该审批
+		if ("10".equals(reimburseMain.getStatus())) {
 
-				// 提交流程任务
-				Map<String, Object> vars = Maps.newHashMap();
-				vars.put("pass", "yes".equals(reimburseMain.getAct().getFlag()) ? "1" : "0");
+		} else if ("20".equals(reimburseMain.getStatus())) {
+			// 如果PM或者人事驳回 都转到个人让重新提交
+			if ("no".equals(reimburseMain.getAct().getFlag())) {
+				// 新建状态
+				reimburseMain.setStatus("40");
+			} else {
+				reimburseMain.setStatus("30");
+			}
+			reimburseMain.setFAComment(reimburseMain.getAct().getComment());
 
-				ReimburseMain reimburseMainReturn=reimburseMainDao.getMainById(reimburseMain.getId());
-				String title = reimburseMainReturn.getApplicant().getName() + " 报销申请";
+			reimburseMainDao.update(reimburseMain);
 
-				complete(act.getTaskId(), reimburseMain.getProcInstId(),
-						reimburseMain.getAct().getComment(), title, vars);
+			// 经理
+		} else if ("30".equals(reimburseMain.getStatus())) {
+			if ("no".equals(reimburseMain.getAct().getFlag())) {
+				// 新建状态
+				reimburseMain.setStatus("40");
+			} else {
+				reimburseMain.setStatus("50");
+			}
+			reimburseMain.setManagerComment(reimburseMain.getAct().getComment());
+
+			reimburseMainDao.update(reimburseMain);
+		} else if ("50".equals(reimburseMain.getStatus())) {
+
+		}
+		// 未知环节，直接返回
+		else {
+			return;
+		}
+
+		// 提交流程任务
+		Map<String, Object> vars = Maps.newHashMap();
+		vars.put("pass", "yes".equals(reimburseMain.getAct().getFlag()) ? "1" : "0");
+
+		ReimburseMain reimburseMainReturn = reimburseMainDao.getMainById(reimburseMain.getId());
+		String title = reimburseMainReturn.getApplicant().getName() + " 报销申请";
+
+		complete(act.getTaskId(), reimburseMain.getProcInstId(), reimburseMain.getAct().getComment(), title, vars);
 	}
 
 	/**
@@ -592,7 +578,7 @@ public class ReimburseService {
 	 * @date 2018年1月10日 下午4:22:40
 	 */
 	public List<Project> getProjectList() {
-		Project project=new Project();
+		Project project = new Project();
 		return projectDao.findList(project);
 	}
 }

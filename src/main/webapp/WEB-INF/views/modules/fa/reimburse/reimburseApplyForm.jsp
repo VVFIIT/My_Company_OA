@@ -34,12 +34,12 @@
 			var nameStr = "' name='";
 
 			/* $("#longDistanceButton").before("<tr id='"+longDistanceId+"'><td><input id='"+createDateLongDistanceId+nameStr+createDateLongDistanceId+
-					"' type='text' readonly='readonly' maxlength='20' class='input-medium Wdate' style='width:150px;' value='<fmt:formatDate value='${X}' pattern='yyyy-MM-dd'/>' onclick='WdatePicker({dateFmt:&#39;yyyy-MM-dd HH:mm&#39;});'/></td><td><input id='"
+					"' type='text' readonly='readonly' maxlength='20' class='input-medium Wdate required' style='width:150px;' value='<fmt:formatDate value='${X}' pattern='yyyy-MM-dd'/>' onclick='WdatePicker({dateFmt:&#39;yyyy-MM-dd HH:mm&#39;});'/></td><td><input id='"
 					+itemNoLongDistanceId+nameStr+itemNoLongDistanceId+sameStr+projectNameLongDistanceId+nameStr+projectNameLongDistanceId+sameStr+remarkLongDistanceId+nameStr+remarkLongDistanceId+sameStr+amountLongDistanceId+nameStr+amountLongDistanceId+"' maxlength='50' class='required' style='width:150px' type='text'/></td><td><input class='btn btn-primary' type='button' value='删除' onclick='removeLongDistance(&#39;"+longDistanceId+"&#39;)' style='width:100px'></td></tr>");		 */
 	              
 			
 			$("#longDistanceButton").before("<tr id='"+longDistanceId+"'><td><select id='"+projectLongDistanceId+nameStr+projectLongDistanceId+"' class='input-xlarge required' style='width:150px'><c:forEach items='${projectList}' var='project'><option value='${project.id}' selected>${project.name}</option></c:forEach></select></td><td><input id='"+createDateLongDistanceId+nameStr+createDateLongDistanceId+
-					"' type='text' readonly='readonly' maxlength='20' class='required' class='input-medium Wdate' style='width:150px;' value='<fmt:formatDate value='${X}' pattern='yyyy-MM-dd'/>' onclick='WdatePicker({dateFmt:&#39;yyyy-MM-dd&#39;});'/></td><td><input id='"
+					"' type='text' readonly='readonly' maxlength='20' class='required' class='input-medium Wdate required' style='width:150px;' value='<fmt:formatDate value='${X}' pattern='yyyy-MM-dd'/>' onclick='WdatePicker({dateFmt:&#39;yyyy-MM-dd&#39;});'/></td><td><input id='"
 				+remarkLongDistanceId+nameStr+remarkLongDistanceId+sameStr+amountLongDistanceId+nameStr+amountLongDistanceId+"' maxlength='50' class='required' style='width:150px' type='text'/></td><td><input class='btn btn-primary' type='button' value='删除' onclick='removeLongDistance(&#39;"+longDistanceId+"&#39;)' style='width:100px'></td></tr>");		
 					
 		}
@@ -61,13 +61,13 @@
 			var departureLocationTaxiId = 'departureLocationTaxi'+trMaxNum;
 			var arrivedLocationTaxiId = 'arrivedLocationTaxi'+trMaxNum;
 			var amountTaxiId = 'amountTaxi'+trMaxNum;
-			var projectTaxiId = 'projectLongDistance'+trMaxNum;
+			var projectTaxiId = 'projectTaxi'+trMaxNum;
 			var taxiId = 'taxi'+trMaxNum;
 			var sameStr = "' maxlength='50' class='required' style='width:150px' type='text'/></td><td><input id='";
 			var nameStr = "' name='";
 
 			$("#taxiButton").before("<tr id='"+taxiId+"'><td><select id='"+projectTaxiId+nameStr+projectTaxiId+"' class='input-xlarge required' style='width:150px'><c:forEach items='${projectList}' var='project'><option value='${project.id}' selected>${project.name}</option></c:forEach></select></td><td><input id='"+createDateTaxiId+nameStr+createDateTaxiId+
-					"' type='text' readonly='readonly' maxlength='20' class='input-medium Wdate' style='width:150px;' value='<fmt:formatDate value='${X}' pattern='yyyy-MM-dd'/>' onclick='WdatePicker({dateFmt:&#39;yyyy-MM-dd&#39;});'/></td><td><input id='"
+					"' type='text' readonly='readonly' maxlength='20' class='input-medium Wdate required' style='width:150px;' value='<fmt:formatDate value='${X}' pattern='yyyy-MM-dd'/>' onclick='WdatePicker({dateFmt:&#39;yyyy-MM-dd&#39;});'/></td><td><input id='"
 					+remarkTaxiId+nameStr+remarkTaxiId+sameStr+timeTaxiId+nameStr+timeTaxiId+sameStr+departureLocationTaxiId+nameStr+departureLocationTaxiId+sameStr+arrivedLocationTaxiId+nameStr+arrivedLocationTaxiId+sameStr+amountTaxiId+nameStr+amountTaxiId+"' maxlength='50' class='required' style='width:150px' type='text'/></td><td><input class='btn btn-primary' type='button' value='删除' onclick='removeLongDistance(&#39;"+taxiId+"&#39;)' style='width:100px'></td></tr>");		
 					
 		}
@@ -94,8 +94,8 @@
 			var sameStr = "' maxlength='50' class='required' style='width:150px' type='text'/></td><td><input id='";
 			var nameStr = "' name='";
 
-			$("#hospitalityButton").before("<tr id='"+hospitalityId+"'><td><input id='"+createDateHospitalityId+nameStr+createDateHospitalityId+
-					"' type='text' readonly='readonly' maxlength='20' class='input-medium Wdate' style='width:150px;' value='<fmt:formatDate value='${X}' pattern='yyyy-MM-dd'/>' onclick='WdatePicker({dateFmt:&#39;yyyy-MM-dd &#39;});'/></td><td><input id='"
+			$("#hospitalityButton").before("<tr id='"+hospitalityId+"'><td><select id='"+projectHospitalityId+nameStr+projectHospitalityId+"' class='input-xlarge required' style='width:150px'><c:forEach items='${projectList}' var='project'><option value='${project.id}' selected>${project.name}</option></c:forEach></select></td><td><input id='"+createDateHospitalityId+nameStr+createDateHospitalityId+
+					"' type='text' readonly='readonly' maxlength='20' class='input-medium Wdate required' style='width:150px;' value='<fmt:formatDate value='${X}' pattern='yyyy-MM-dd'/>' onclick='WdatePicker({dateFmt:&#39;yyyy-MM-dd &#39;});'/></td><td><input id='"
 					+clientNameId+nameStr+clientNameId+sameStr+inviteesNameId+nameStr+inviteesNameId+sameStr+invitedPositionId+nameStr+invitedPositionId+sameStr+numberId+nameStr+numberId+sameStr+amountHospitalityId+nameStr+amountHospitalityId+"' maxlength='50' class='required' style='width:150px' type='text'/></td><td><input class='btn btn-primary' type='button' value='删除' onclick='removeLongDistance(&#39;"+hospitalityId+"&#39;)' style='width:100px'></td></tr>");		
 					
 		}
@@ -119,7 +119,7 @@
 			var nameStr = "' name='";
 
 			$("#otherButton").before("<tr id='"+otherId+"'><td><select id='"+projectOtherId+nameStr+projectOtherId+"' class='input-xlarge required' style='width:150px'><c:forEach items='${projectList}' var='project'><option value='${project.id}' selected>${project.name}</option></c:forEach></select></td><td><input id='"+createDateOtherId+nameStr+createDateOtherId+
-					"' type='text' readonly='readonly' maxlength='20' class='input-medium Wdate' style='width:150px;' value='<fmt:formatDate value='${X}' pattern='yyyy-MM-dd'/>' onclick='WdatePicker({dateFmt:&#39;yyyy-MM-dd &#39;});'/></td><td><input id='"
+					"' type='text' readonly='readonly' maxlength='20' class='input-medium Wdate required' style='width:150px;' value='<fmt:formatDate value='${X}' pattern='yyyy-MM-dd'/>' onclick='WdatePicker({dateFmt:&#39;yyyy-MM-dd &#39;});'/></td><td><input id='"
 					+remarkOtherId+nameStr+remarkOtherId+sameStr+amountOtherId+nameStr+amountOtherId+"' maxlength='50' class='required' style='width:150px' type='text'/></td><td><input class='btn btn-primary' type='button' value='删除' onclick='removeOther(&#39;"+otherId+"&#39;)' style='width:100px'></td></tr>");		
 					
 		}
@@ -220,20 +220,20 @@
 					
 					<td><label style="font-weight:bold">申报日期</label></td>
 					<td>
-					<input id="applyDate" name="applyDate" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate" style="width:200px;"
-							value="<fmt:formatDate value="${reimburseMain.applyDate}" pattern="yyyy-MM-dd"/>"
+					<input id="applyDate" name="applyDate" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate required" style="width:200px;"
+							value="<fmt:formatDate value="${applyDate}" pattern="yyyy-MM-dd"/>"
 								onclick="WdatePicker({dateFmt:'yyyy-MM-dd'});"/>
 					
 					</td>
 					<td><label style="font-weight:bold">申报期间</label></td>
 					<td>
-					<input id="beginDate" name="beginDate" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate" style="width:200px;"
+					<input id="beginDate" name="beginDate" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate required required" style="width:200px;"
 							value="<fmt:formatDate value="${reimburseMain.beginDate}" pattern="yyyy-MM-dd"/>"
 								onclick="WdatePicker({dateFmt:'yyyy-MM-dd'});"/>
 					
 					</td>
 					<td>
-					<input id="endDate" name="endDate" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate" style="width:200px;"
+					<input id="endDate" name="endDate" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate required required" style="width:200px;"
 							value="<fmt:formatDate value="${reimburseMain.endDate}" pattern="yyyy-MM-dd"/>"
 								onclick="WdatePicker({dateFmt:'yyyy-MM-dd'});"/>
 					
@@ -258,7 +258,7 @@
 				            	</c:forEach>
 				            </select>   
 						</td>	
-						<td><input id="createDateLongDistance1" name="createDateLongDistance1" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate" style="width:150px;" class="required"
+						<td><input id="createDateLongDistance1" name="createDateLongDistance1" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate required" style="width:150px;" class="required"
 							value="<fmt:formatDate value="${X}" pattern="yyyy-MM-dd"/>"
 								onclick="WdatePicker({dateFmt:'yyyy-MM-dd'});"/></td>
 						<td><input style="width:150px" id="remarkLongDistance1" name="remarkLongDistance1" maxlength="50"  type="text" class="required"/></td>
@@ -286,7 +286,7 @@
 				            	</c:forEach>
 				            </select>   
 						</td>	
-						<td><input id="createDateTaxi1" name="createDateTaxi1" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate" style="width:150px;" class="required"
+						<td><input id="createDateTaxi1" name="createDateTaxi1" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate required" style="width:150px;" class="required"
 							value="<fmt:formatDate value="${X}" pattern="yyyy-MM-dd"/>"
 								onclick="WdatePicker({dateFmt:'yyyy-MM-dd'});"/></td>		
 						
@@ -320,7 +320,7 @@
 				            </select>   
 					</td>	
 					<td>
-					<input id="createDateHospitality1" name="createDateHospitality1" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate" style="width:150px;" class="required"
+					<input id="createDateHospitality1" name="createDateHospitality1" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate required" style="width:150px;" class="required"
 							value="<fmt:formatDate value="${X}" pattern="yyyy-MM-dd" />"
 								onclick="WdatePicker({dateFmt:'yyyy-MM-dd'}); "/>
 					</td>			
@@ -353,7 +353,7 @@
 				            	</c:forEach>
 				            </select>   
 						</td>
-						<td><input id="createDateOther1" name="createDateOther1" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate" style="width:150px; class="required""
+						<td><input id="createDateOther1" name="createDateOther1" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate required" style="width:150px; class="required""
 							value="<fmt:formatDate value="${X}" pattern="yyyy-MM-dd"/>"
 								onclick="WdatePicker({dateFmt:'yyyy-MM-dd'});"/></td>
 						<td><input style="width:150px" id="remarkOther1" name="remarkOther1" maxlength="50"  type="text" class="required"/></td>

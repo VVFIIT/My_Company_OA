@@ -108,7 +108,7 @@
 		        <th>日期</th>
 		        <th>项目编号</th>
 		        <th>项目名称</th>
-		        <th>摘要（内容、事由）</th>
+		        <th>客户名称</th>
 		        <th>受邀人员姓名</th>
 		        <th>受邀人员职务</th>
 		        <th>人数</th>
@@ -121,7 +121,7 @@
 		            <td><fmt:formatDate value="${reimburseHospitality.createDate}" type="both" pattern="yyyy-MM-dd"/></td>
 		            <td>${reimburseHospitality.project.itemNo}</td>
 		            <td>${reimburseHospitality.project.name}</td>
-		            <td></td>
+		            <td>${reimburseHospitality.clientName}</td>
 		            <td>${reimburseHospitality.inviteesName}</td>
 		            <td>${reimburseHospitality.invitedPosition}</td>
 		            <td>${reimburseHospitality.number}</td>
