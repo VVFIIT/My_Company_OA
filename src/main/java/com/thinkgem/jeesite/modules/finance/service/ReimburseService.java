@@ -26,6 +26,7 @@ import com.thinkgem.jeesite.modules.act.dao.ActHiTaskInstDao;
 import com.thinkgem.jeesite.modules.act.entity.Act;
 import com.thinkgem.jeesite.modules.act.service.ActTaskService;
 import com.thinkgem.jeesite.modules.act.utils.ActUtils;
+import com.thinkgem.jeesite.modules.finance.dao.ProjectDao;
 import com.thinkgem.jeesite.modules.finance.dao.ReimburseHospitalityDao;
 import com.thinkgem.jeesite.modules.finance.dao.ReimburseLongDistanceDao;
 import com.thinkgem.jeesite.modules.finance.dao.ReimburseMainDao;
@@ -77,6 +78,8 @@ public class ReimburseService {
 	@Autowired
 	private ActTaskService actTaskService;
 
+	@Autowired
+	private ProjectDao projectDao;
 	/**
 	 * 提交报销申请
 	 *
@@ -208,19 +211,21 @@ public class ReimburseService {
 			ReimburseLongDistance reimburseLongDistance = new ReimburseLongDistance();
 
 			String createDate = request.getParameter(("createDateLongDistance" + longDistanceNum[i]));
-			String itemNo = request.getParameter(("itemNoLongDistance" + longDistanceNum[i]));
-			String projectName = request.getParameter(("projectNameLongDistance" + longDistanceNum[i]));
+//			String itemNo = request.getParameter(("itemNoLongDistance" + longDistanceNum[i]));
+//			String projectName = request.getParameter(("projectNameLongDistance" + longDistanceNum[i]));
 			String remark = request.getParameter(("remarkLongDistance" + longDistanceNum[i]));
 			String amount = request.getParameter(("amountLongDistance" + longDistanceNum[i]));
-
+			String projectId = request.getParameter(("project" + longDistanceNum[i]));
+			
 			reimburseLongDistance.setId(UUID.randomUUID().toString());
 			reimburseLongDistance.setCreateDate(sdf.parse(createDate));
 			reimburseLongDistance.setMainId(mainId);
 			// reimburseLongDistance.setProjectId(projectId);
 			// reimburseLongDistance.setProjectId("e43f5f0c-f413-11e7-8177-2c337a19e798");
 			Project project =new Project();
-			project.setId("e43f5f0c-f413-11e7-8177-2c337a19e798");
+			project.setId(projectId);
 			reimburseLongDistance.setProject(project);
+			
 			reimburseLongDistance.setRemark(remark);
 			reimburseLongDistance.setUpdateDate(new Date());
 			reimburseLongDistance.setAmount(new BigDecimal(amount));
@@ -251,11 +256,11 @@ public class ReimburseService {
 			ReimburseOther reimburseOther = new ReimburseOther();
 
 			String createDate = request.getParameter(("createDateOther" + otherNum[i]));
-			String itemNo = request.getParameter(("itemNoOther" + otherNum[i]));
-			String projectName = request.getParameter(("projectNameOther" + otherNum[i]));
+//			String itemNo = request.getParameter(("itemNoOther" + otherNum[i]));
+//			String projectName = request.getParameter(("projectNameOther" + otherNum[i]));
 			String remark = request.getParameter(("remarkOther" + otherNum[i]));
 			String amount = request.getParameter(("amountOther" + otherNum[i]));
-
+			String projectId = request.getParameter(("project" + otherNum[i]));
 			reimburseOther.setId(UUID.randomUUID().toString());
 			reimburseOther.setCreateDate(sdf.parse(createDate));
 			reimburseOther.setMainId(mainId);
@@ -263,7 +268,7 @@ public class ReimburseService {
 			// reimburseOther.setProjectId("e43f5f0c-f413-11e7-8177-2c337a19e798");
 			
 			Project project =new Project();
-			project.setId("e43f5f0c-f413-11e7-8177-2c337a19e798");
+			project.setId(projectId);
 			reimburseOther.setProject(project);
 			
 			reimburseOther.setRemark(remark);
@@ -296,8 +301,9 @@ public class ReimburseService {
 			ReimburseHospitality reimburseHospitality = new ReimburseHospitality();
 
 			String createDate = request.getParameter(("createDateHospitality" + hospitalityNum[i]));
-			String itemNo = request.getParameter(("itemNoHospitality" + hospitalityNum[i]));
-			String projectName = request.getParameter(("projectNameHospitalitye" + hospitalityNum[i]));
+//			String itemNo = request.getParameter(("itemNoHospitality" + hospitalityNum[i]));
+//			String projectName = request.getParameter(("projectNameHospitalitye" + hospitalityNum[i]));
+			String projectId = request.getParameter(("project" + hospitalityNum[i]));
 			String clientName = request.getParameter(("clientNameHospitality" + hospitalityNum[i]));
 			String inviteesName = request.getParameter(("inviteesNameHospitality" + hospitalityNum[i]));
 			String invitedPosition = request.getParameter(("invitedPositionHospitality" + hospitalityNum[i]));
@@ -307,13 +313,10 @@ public class ReimburseService {
 			reimburseHospitality.setId(UUID.randomUUID().toString());
 			reimburseHospitality.setCreateDate(sdf.parse(createDate));
 			reimburseHospitality.setMainId(mainId);
-			// reimburseHospitality.setProjectId(projectId);
-			// reimburseHospitality.setProjectId("e43f5f0c-f413-11e7-8177-2c337a19e798");
-			
+		
 			Project project =new Project();
-			project.setId("e43f5f0c-f413-11e7-8177-2c337a19e798");
+			project.setId(projectId);
 			reimburseHospitality.setProject(project);
-			
 			
 			reimburseHospitality.setClientName(clientName);
 			reimburseHospitality.setInviteesName(inviteesName);
@@ -348,22 +351,22 @@ public class ReimburseService {
 			ReimburseTaxi reimburseTaxi = new ReimburseTaxi();
 
 			String createDate = request.getParameter(("createDateTaxi" + taxiNum[i]));
-			String itemNo = request.getParameter(("itemNoTaxi" + taxiNum[i]));
-			String projectName = request.getParameter(("projectNameTaxi" + taxiNum[i]));
+//			String itemNo = request.getParameter(("itemNoTaxi" + taxiNum[i]));
+//			String projectName = request.getParameter(("projectNameTaxi" + taxiNum[i]));
 			String remark = request.getParameter(("remarkTaxi" + taxiNum[i]));
 			String time = request.getParameter(("timeTaxi" + taxiNum[i]));
 			String departureLocation = request.getParameter(("departureLocationTaxi" + taxiNum[i]));
 			String arrivedLocation = request.getParameter(("arrivedLocationTaxi" + taxiNum[i]));
 			String amount = request.getParameter(("amountTaxi" + taxiNum[i]));
+			String projectId = request.getParameter(("project" + taxiNum[i]));
 
 			reimburseTaxi.setId(UUID.randomUUID().toString());
 			reimburseTaxi.setCreateDate(sdf.parse(createDate));
 			reimburseTaxi.setMainId(mainId);
-			// reimburseTaxi.setProjectId(projectId);
-			// reimburseTaxi.setProjectId("e43f5f0c-f413-11e7-8177-2c337a19e798");
+			
 			
 			Project project =new Project();
-			project.setId("e43f5f0c-f413-11e7-8177-2c337a19e798");
+			project.setId(projectId);
 			reimburseTaxi.setProject(project);
 			
 			reimburseTaxi.setRemark(remark);
@@ -376,20 +379,6 @@ public class ReimburseService {
 			reimburseTaxiDao.insert(reimburseTaxi);
 		}
 
-	}
-
-	/**
-	 * 详情页
-	 * 
-	 * @param id
-	 * @return
-	 * @author Grace
-	 * @date 2018年1月8日 下午2:01:56
-	 */
-	@Transactional(readOnly = false)
-	public ReimburseMain reimburseShow(String id) {
-		// return reimburseMainDao.getShow(id);
-		return null;
 	}
 
 	/**
@@ -593,5 +582,17 @@ public class ReimburseService {
 		ReimburseLongDistance reimburseLongDistance = new ReimburseLongDistance();
 		reimburseLongDistance.setMainId(mainId);
 		return reimburseLongDistanceDao.findList(reimburseLongDistance);
+	}
+
+	/**
+	 * 获取projectList
+	 * 
+	 * @return
+	 * @author Grace
+	 * @date 2018年1月10日 下午4:22:40
+	 */
+	public List<Project> getProjectList() {
+		Project project=new Project();
+		return projectDao.findList(project);
 	}
 }

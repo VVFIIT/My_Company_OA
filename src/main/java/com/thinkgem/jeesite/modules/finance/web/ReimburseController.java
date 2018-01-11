@@ -17,6 +17,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.thinkgem.jeesite.common.config.Global;
 import com.thinkgem.jeesite.common.persistence.Page;
 import com.thinkgem.jeesite.common.web.BaseController;
+import com.thinkgem.jeesite.modules.finance.entity.Project;
 import com.thinkgem.jeesite.modules.finance.entity.ReimburseHospitality;
 import com.thinkgem.jeesite.modules.finance.entity.ReimburseLongDistance;
 import com.thinkgem.jeesite.modules.finance.entity.ReimburseMain;
@@ -59,7 +60,8 @@ public class ReimburseController extends BaseController {
 			HttpServletResponse response) {
 	
 		User user = UserUtils.getUser();
-	
+		List<Project> projectList=reimburseService.getProjectList();
+		model.addAttribute("projectList", projectList);
 		model.addAttribute("applicantName", user.getName());
 		model.addAttribute("officeName", user.getOffice().getName());
 		model.addAttribute("reimburseMain", reimburseMain);
@@ -82,6 +84,7 @@ public class ReimburseController extends BaseController {
 	@RequestMapping(value = "commitApplyForm")
 	public String commitApplyForm(ReimburseMain reimburseMain, HttpServletRequest request,
 			HttpServletResponse response, RedirectAttributes redirectAttributes) throws ParseException {
+	
 		try {
 			String mainId = UUID.randomUUID().toString();
 			reimburseService.insertReimburse(reimburseMain, request, mainId);
