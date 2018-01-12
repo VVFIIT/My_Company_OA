@@ -28,6 +28,7 @@ import com.thinkgem.jeesite.modules.finance.entity.ReimburseOther;
 import com.thinkgem.jeesite.modules.finance.entity.ReimburseTaxi;
 import com.thinkgem.jeesite.modules.finance.service.ReimburseService;
 import com.thinkgem.jeesite.modules.sys.entity.Office;
+import com.thinkgem.jeesite.modules.sys.entity.Role;
 import com.thinkgem.jeesite.modules.sys.entity.User;
 import com.thinkgem.jeesite.modules.sys.utils.UserUtils;
 
@@ -45,8 +46,6 @@ public class ReimburseController extends BaseController {
 	@Autowired
 	private ReimburseService reimburseService;
 
-	
-
 	/**
 	 * 报销申请页
 	 *
@@ -61,9 +60,9 @@ public class ReimburseController extends BaseController {
 	@RequestMapping(value = "toApplyForm")
 	public String toApplyForm(ReimburseMain reimburseMain, Model model, HttpServletRequest request,
 			HttpServletResponse response) {
-	
+
 		User user = UserUtils.getUser();
-		List<Project> projectList=reimburseService.getProjectList();
+		List<Project> projectList = reimburseService.getProjectList();
 		model.addAttribute("projectList", projectList);
 		model.addAttribute("applicantName", user.getName());
 		model.addAttribute("officeName", user.getOffice().getName());
@@ -86,9 +85,9 @@ public class ReimburseController extends BaseController {
 	 * @date 2018年1月3日 下午5:00:03
 	 */
 	@RequestMapping(value = "commitApplyForm")
-	public String commitApplyForm(ReimburseMain reimburseMain, HttpServletRequest request,
-			HttpServletResponse response, RedirectAttributes redirectAttributes) throws ParseException {
-	
+	public String commitApplyForm(ReimburseMain reimburseMain, HttpServletRequest request, HttpServletResponse response,
+			RedirectAttributes redirectAttributes) throws ParseException {
+
 		try {
 			String mainId = UUID.randomUUID().toString();
 			reimburseService.insertReimburse(reimburseMain, request, mainId);
@@ -136,11 +135,11 @@ public class ReimburseController extends BaseController {
 	@RequestMapping(value = "show")
 	public String show(Model model, HttpServletRequest request, HttpServletResponse response, String mainId) {
 		ReimburseMain reimburseMain = reimburseService.getMainById(mainId);
-		List<ReimburseLongDistance> longDistanceList=reimburseService.getLongDistanceListByMainId(mainId);
-		List<ReimburseTaxi> taxiList=reimburseService.getTaxiListByMainId(mainId);
-		List<ReimburseHospitality> hospitalityList=reimburseService.getHospitalityListByMainId(mainId);
-		List<ReimburseOther> otherList=reimburseService.getOtherListByMainId(mainId);
-		
+		List<ReimburseLongDistance> longDistanceList = reimburseService.getLongDistanceListByMainId(mainId);
+		List<ReimburseTaxi> taxiList = reimburseService.getTaxiListByMainId(mainId);
+		List<ReimburseHospitality> hospitalityList = reimburseService.getHospitalityListByMainId(mainId);
+		List<ReimburseOther> otherList = reimburseService.getOtherListByMainId(mainId);
+
 		model.addAttribute("reimburseMain", reimburseMain);
 		model.addAttribute("taxiList", taxiList);
 		model.addAttribute("hospitalityList", hospitalityList);
@@ -163,10 +162,18 @@ public class ReimburseController extends BaseController {
 	@RequestMapping(value = "taskList")
 	public String taskList(ReimburseMain reimburseMain, Model model, HttpServletRequest request,
 			HttpServletResponse response) {
+		User user = UserUtils.getUser();
+		String enname = null;
+		List<Role> roleList = user.getRoleList();
+		if (roleList != null && roleList.size() > 0) {
+			enname = roleList.get(0).getEnname();
+		}
+
 		Page<ReimburseMain> page = reimburseService.reimburseTaskListList(new Page<ReimburseMain>(request, response),
 				reimburseMain);
 		model.addAttribute("page", page);
 		model.addAttribute("reimburseMain", reimburseMain);
+		model.addAttribute("role", enname);
 		return "modules/fa/reimburse/reimburseTaskList";
 	}
 
@@ -197,18 +204,18 @@ public class ReimburseController extends BaseController {
 	 */
 	@RequestMapping(value = "approveSave")
 	public String approveSave(ReimburseMain reimburseMain, HttpServletRequest request,
-			RedirectAttributes redirectAttributes,Model model) {
-		
+			RedirectAttributes redirectAttributes, Model model) {
+
 		if (StringUtils.isBlank(reimburseMain.getAct().getFlag())
 				|| StringUtils.isBlank(reimburseMain.getAct().getComment())) {
 			addMessage(model, "请填写审核意见。");
-		}			
+		}
 		reimburseService.saveApprove(reimburseMain);
 		addMessage(redirectAttributes, "审批成功！");
 		return "redirect:" + Global.getAdminPath() + "/fa/reimburse/taskList?repage";
-		
+
 	}
-	
+
 	/**
 	 * 打开修改页面
 	 * 
@@ -219,57 +226,56 @@ public class ReimburseController extends BaseController {
 	 * @date 2018年1月11日 下午2:49:17
 	 */
 	@RequestMapping(value = "update")
-	public String toUpdate(Model model,String mainId) {
-		
+	public String toUpdate(Model model, String mainId) {
+
 		ReimburseMain reimburseMain = reimburseService.getMainById(mainId);
-		List<ReimburseLongDistance> longDistanceList=reimburseService.getLongDistanceListByMainId(mainId);
-		List<ReimburseTaxi> taxiList=reimburseService.getTaxiListByMainId(mainId);
-		List<ReimburseHospitality> hospitalityList=reimburseService.getHospitalityListByMainId(mainId);
-		List<ReimburseOther> otherList=reimburseService.getOtherListByMainId(mainId);
-		
+		List<ReimburseLongDistance> longDistanceList = reimburseService.getLongDistanceListByMainId(mainId);
+		List<ReimburseTaxi> taxiList = reimburseService.getTaxiListByMainId(mainId);
+		List<ReimburseHospitality> hospitalityList = reimburseService.getHospitalityListByMainId(mainId);
+		List<ReimburseOther> otherList = reimburseService.getOtherListByMainId(mainId);
+
 		User user = UserUtils.getUser();
-		
-		
-		//拼接
-		if(longDistanceList!=null&&longDistanceList.size()>0){
+
+		// 拼接
+		if (longDistanceList != null && longDistanceList.size() > 0) {
 			model.addAttribute("longDistanceEveryNum", appendEveryNum(longDistanceList.size()));
-		}else{
+		} else {
 			model.addAttribute("longDistanceEveryNum", "1");
 		}
-		
-		if(taxiList!=null&&taxiList.size()>0){
+
+		if (taxiList != null && taxiList.size() > 0) {
 			model.addAttribute("taxiEveryNum", appendEveryNum(taxiList.size()));
-		}else{
+		} else {
 			model.addAttribute("taxiEveryNum", "1");
 		}
-		
-		if(hospitalityList!=null&&hospitalityList.size()>0){
+
+		if (hospitalityList != null && hospitalityList.size() > 0) {
 			model.addAttribute("hospitalityEveryNum", appendEveryNum(hospitalityList.size()));
-		}else{
+		} else {
 			model.addAttribute("hospitalityEveryNum", "1");
 		}
-		
-		if(otherList!=null&&otherList.size()>0){
+
+		if (otherList != null && otherList.size() > 0) {
 			model.addAttribute("otherEveryNum", appendEveryNum(otherList.size()));
-		}else{
+		} else {
 			model.addAttribute("otherEveryNum", "1");
 		}
-		
-		List<Project> projectList=reimburseService.getProjectList();
-		
+
+		List<Project> projectList = reimburseService.getProjectList();
+
 		model.addAttribute("applicantName", user.getName());
 		model.addAttribute("officeName", user.getOffice().getName());
 		model.addAttribute("projectList", projectList);
-		
+
 		model.addAttribute("reimburseMain", reimburseMain);
 		model.addAttribute("taxiList", taxiList);
 		model.addAttribute("hospitalityList", hospitalityList);
 		model.addAttribute("otherList", otherList);
 		model.addAttribute("longDistanceList", longDistanceList);
-		
+
 		return "modules/fa/reimburse/reimburseUpdate";
 	}
-	
+
 	/**
 	 * 拼接
 	 * 
@@ -279,17 +285,16 @@ public class ReimburseController extends BaseController {
 	 * @date 2018年1月11日 下午6:13:34
 	 */
 	public String appendEveryNum(Integer size) {
-		
-			StringBuffer sb=new StringBuffer();
-			for(int i=0;i<size;i++){
-				sb.append(i+1);
-			}
-			String everyNum=sb.toString();
-			return everyNum;
-	
+
+		StringBuffer sb = new StringBuffer();
+		for (int i = 0; i < size; i++) {
+			sb.append(i + 1);
+		}
+		String everyNum = sb.toString();
+		return everyNum;
+
 	}
-	
-	
+
 	/**
 	 * 保存修改
 	 * 
@@ -299,19 +304,19 @@ public class ReimburseController extends BaseController {
 	 * @param model
 	 * @return
 	 * @author Grace
-	 * @throws ParseException 
+	 * @throws ParseException
 	 * @date 2018年1月11日 下午2:51:11
 	 */
 	@RequestMapping(value = "updateSave")
 	public String updateSave(ReimburseMain reimburseMain, HttpServletRequest request,
-			RedirectAttributes redirectAttributes,Model model) throws ParseException {
-		
-		reimburseService.saveUpdate(reimburseMain,request);
+			RedirectAttributes redirectAttributes, Model model) throws ParseException {
+
+		reimburseService.saveUpdate(reimburseMain, request);
 		addMessage(redirectAttributes, "修改成功！");
 		return "redirect:" + Global.getAdminPath() + "/fa/reimburse/taskList?repage";
-		
+
 	}
-	
+
 	/**
 	 * 删除
 	 * 
@@ -325,12 +330,12 @@ public class ReimburseController extends BaseController {
 	 * @date 2018年1月12日 上午11:10:00
 	 */
 	@RequestMapping(value = "delete")
-	public String delete(String mainId,HttpServletRequest request,
-			RedirectAttributes redirectAttributes,Model model) throws ParseException {
-		
+	public String delete(String mainId, HttpServletRequest request, RedirectAttributes redirectAttributes, Model model)
+			throws ParseException {
+
 		reimburseService.deleteReimburse(mainId);
 		addMessage(redirectAttributes, "删除成功！");
 		return "redirect:" + Global.getAdminPath() + "/fa/reimburse/taskList?repage";
-		
+
 	}
 }

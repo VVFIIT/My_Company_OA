@@ -9,9 +9,12 @@
 			
 			$("#reimburseApplyUpdateForm").validate({
 				submitHandler: function(form){
-			
-					loading('正在提交，请稍等...');
-					form.submit();
+					 if(confirm('确定要提交吗 （提交后不可修改）?')) {
+						 loading('正在提交，请稍等...');
+						 form.submit();
+					  }else{
+						  return ; 
+					  }  
 				},
 			});
 		});
@@ -37,8 +40,7 @@
 			
 			$("#longDistanceButton").before("<tr id='"+longDistanceId+"'><td><select id='"+projectLongDistanceId+nameStr+projectLongDistanceId+"' class='input-xlarge required' style='width:150px'><c:forEach items='${projectList}' var='project'><option value='${project.id}' selected>${project.name}</option></c:forEach></select></td><td><input id='"+createDateLongDistanceId+nameStr+createDateLongDistanceId+
 					"' type='text' readonly='readonly' maxlength='20' class='input-medium Wdate required' style='width:150px;' value='<fmt:formatDate value='${X}' pattern='yyyy-MM-dd'/>' onclick='WdatePicker({dateFmt:&#39;yyyy-MM-dd&#39;});'/></td><td><input id='"
-				+remarkLongDistanceId+nameStr+remarkLongDistanceId+sameStr+amountLongDistanceId+nameStr+amountLongDistanceId+"' maxlength='50' class='required' style='width:150px' type='text'/></td><td><input class='btn btn-primary' type='button' value='删除' onclick='removeLongDistance(&#39;"+longDistanceId+"&#39;)' style='width:100px'></td></tr>");		
-					
+				+remarkLongDistanceId+nameStr+remarkLongDistanceId+sameStr+amountLongDistanceId+nameStr+amountLongDistanceId+"' maxlength='50' class='required' style='width:150px' type='number'/></td><td><input class='btn btn-primary' type='button' value='删除' onclick='removeLongDistance(&#39;"+longDistanceId+"&#39;)' style='width:100px'></td></tr>");		
 		}
 		
 		//添加出租车费
@@ -61,11 +63,11 @@
 			var taxiId = 'taxi'+trMaxNum;
 			var sameStr = "' maxlength='50' class='required' style='width:150px' type='text'/></td><td><input id='";
 			var nameStr = "' name='";
-
+			
 			$("#taxiButton").before("<tr id='"+taxiId+"'><td><select id='"+projectTaxiId+nameStr+projectTaxiId+"' class='input-xlarge required' style='width:150px'><c:forEach items='${projectList}' var='project'><option value='${project.id}' selected>${project.name}</option></c:forEach></select></td><td><input id='"+createDateTaxiId+nameStr+createDateTaxiId+
 					"' type='text' readonly='readonly' maxlength='20' class='input-medium Wdate required' style='width:150px;' value='<fmt:formatDate value='${X}' pattern='yyyy-MM-dd'/>' onclick='WdatePicker({dateFmt:&#39;yyyy-MM-dd&#39;});'/></td><td><input id='"
-					+remarkTaxiId+nameStr+remarkTaxiId+sameStr+timeTaxiId+nameStr+timeTaxiId+sameStr+departureLocationTaxiId+nameStr+departureLocationTaxiId+sameStr+arrivedLocationTaxiId+nameStr+arrivedLocationTaxiId+sameStr+amountTaxiId+nameStr+amountTaxiId+"' maxlength='50' class='required' style='width:150px' type='text'/></td><td><input class='btn btn-primary' type='button' value='删除' onclick='removeLongDistance(&#39;"+taxiId+"&#39;)' style='width:100px'></td></tr>");		
-					
+					+remarkTaxiId+nameStr+remarkTaxiId+sameStr+timeTaxiId+nameStr+timeTaxiId+sameStr+departureLocationTaxiId+nameStr+departureLocationTaxiId+sameStr+arrivedLocationTaxiId+nameStr+arrivedLocationTaxiId+sameStr+amountTaxiId+nameStr+amountTaxiId+"' maxlength='50' class='required' style='width:150px' type='number'/></td><td><input class='btn btn-primary' type='button' value='删除' onclick='removeLongDistance(&#39;"+taxiId+"&#39;)' style='width:100px'></td></tr>");		
+			
 		}
 
 		//添加一条招待费
@@ -90,9 +92,11 @@
 			var sameStr = "' maxlength='50' class='required' style='width:150px' type='text'/></td><td><input id='";
 			var nameStr = "' name='";
 
+			var numberStr = "' maxlength='50' class='required' style='width:150px' type='number'/></td><td><input id='";
+			
 			$("#hospitalityButton").before("<tr id='"+hospitalityId+"'><td><select id='"+projectHospitalityId+nameStr+projectHospitalityId+"' class='input-xlarge required' style='width:150px'><c:forEach items='${projectList}' var='project'><option value='${project.id}' selected>${project.name}</option></c:forEach></select></td><td><input id='"+createDateHospitalityId+nameStr+createDateHospitalityId+
 					"' type='text' readonly='readonly' maxlength='20' class='input-medium Wdate required' style='width:150px;' value='<fmt:formatDate value='${X}' pattern='yyyy-MM-dd'/>' onclick='WdatePicker({dateFmt:&#39;yyyy-MM-dd &#39;});'/></td><td><input id='"
-					+clientNameId+nameStr+clientNameId+sameStr+inviteesNameId+nameStr+inviteesNameId+sameStr+invitedPositionId+nameStr+invitedPositionId+sameStr+numberId+nameStr+numberId+sameStr+amountHospitalityId+nameStr+amountHospitalityId+"' maxlength='50' class='required' style='width:150px' type='text'/></td><td><input class='btn btn-primary' type='button' value='删除' onclick='removeLongDistance(&#39;"+hospitalityId+"&#39;)' style='width:100px'></td></tr>");		
+					+clientNameId+nameStr+clientNameId+sameStr+inviteesNameId+nameStr+inviteesNameId+sameStr+invitedPositionId+nameStr+invitedPositionId+sameStr+numberId+nameStr+numberId+numberStr+amountHospitalityId+nameStr+amountHospitalityId+"' maxlength='50' class='required' style='width:150px' type='number'/></td><td><input class='btn btn-primary' type='button' value='删除' onclick='removeLongDistance(&#39;"+hospitalityId+"&#39;)' style='width:100px'></td></tr>");		
 					
 		}
 		
@@ -115,7 +119,7 @@
 
 			$("#otherButton").before("<tr id='"+otherId+"'><td><select id='"+projectOtherId+nameStr+projectOtherId+"' class='input-xlarge required' style='width:150px'><c:forEach items='${projectList}' var='project'><option value='${project.id}' selected>${project.name}</option></c:forEach></select></td><td><input id='"+createDateOtherId+nameStr+createDateOtherId+
 					"' type='text' readonly='readonly' maxlength='20' class='input-medium Wdate required' style='width:150px;' value='<fmt:formatDate value='${X}' pattern='yyyy-MM-dd'/>' onclick='WdatePicker({dateFmt:&#39;yyyy-MM-dd &#39;});'/></td><td><input id='"
-					+remarkOtherId+nameStr+remarkOtherId+sameStr+amountOtherId+nameStr+amountOtherId+"' maxlength='50' class='required' style='width:150px' type='text'/></td><td><input class='btn btn-primary' type='button' value='删除' onclick='removeOther(&#39;"+otherId+"&#39;)' style='width:100px'></td></tr>");		
+					+remarkOtherId+nameStr+remarkOtherId+sameStr+amountOtherId+nameStr+amountOtherId+"' maxlength='50' class='required' style='width:150px' type='number'/></td><td><input class='btn btn-primary' type='button' value='删除' onclick='removeOther(&#39;"+otherId+"&#39;)' style='width:100px'></td></tr>");		
 					
 		}
 		
@@ -263,13 +267,13 @@
 											${project.name}
 									  </option>
 				            	</c:forEach>	
-				            </select>   
+				             </select>   
 						</td>	
 						<td><input id="createDateLongDistance1" name="createDateLongDistance1" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate required" style="width:150px;" class="required"
 							value="<fmt:formatDate value="${longDistance.createDate}" pattern="yyyy-MM-dd"/>"
 								onclick="WdatePicker({dateFmt:'yyyy-MM-dd'});"/></td>
 						<td><input style="width:150px" id="remarkLongDistance1" name="remarkLongDistance1" maxlength="50"  type="text" class="required" value="${longDistance.remark}"/></td>
-						<td><input style="width:150px" id="amountLongDistance1" name="amountLongDistance1" maxlength="50"  type="text" class="required" value="${longDistance.amount}"/></td>
+						<td><input style="width:150px" id="amountLongDistance1" name="amountLongDistance1" maxlength="50" type="number" class="required" value="${longDistance.amount}"/></td>
 						<td><input class="btn btn-primary" type="button" value="删除" onclick="removeLongDistance('longDistance${status.count}')" style="width:100px "></td>
 				</c:forEach> 
 				
@@ -294,15 +298,17 @@
 			
 				             <select id="projectTaxi1" name="projectTaxi1" class="input-medium" style="width:150px" class="required" >
 				             	
-				             	<option value="${taxi.project.id}" selected>
-				             	${taxi.project.name}
-				             	</option>
-				             	<c:forEach items="${projectList}" var="project">
-				            		<option value="${project.id}">
-										${project.name}
-									</option>
-				            	</c:forEach>	
-                
+                				<c:forEach items="${projectList}" var="project">
+				             		 <c:if test="${project.id==taxi.project.id}">
+					            		<option value="${taxi.project.id}" selected>
+							             	${taxi.project.name}
+							            </option>
+									  </c:if>
+									  <option value="${project.id}">
+											${project.name}
+									  </option>
+				            	</c:forEach>
+				            	
 				            </select>  
 				            
 						</td>	
@@ -314,7 +320,7 @@
 						<td><input style="width:150px" id="timeTaxi1" name="timeTaxi1" maxlength="50" type="text" class="required" value="${taxi.time}" /></td>
 						<td><input style="width:150px" id="departureLocationTaxi1" name="departureLocationTaxi1" maxlength="50"  type="text" class="required" value="${taxi.departureLocation}" /></td>
 						<td><input style="width:150px" id="arrivedLocationTaxi1" name="arrivedLocationTaxi1" maxlength="50"  type="text" class="required" value="${taxi.arrivedLocation}"/></td>
-						<td><input style="width:150px" id="amountTaxi1" name="amountTaxi1" maxlength="50"  type="text" class="required" value="${taxi.amount}"/></td>
+						<td><input style="width:150px" id="amountTaxi1" name="amountTaxi1" maxlength="50"  type="number" class="required" value="${taxi.amount}"/></td>
 						
 						<td><input class="btn btn-primary" type="button" value="删除" onclick="removeTaxi('taxi${status.count}')" style="width:100px "></td>
 				</c:forEach> 
@@ -335,15 +341,18 @@
 					<td>
 							
 					          <select id="projectHospitality1" name="projectHospitality1" class="input-medium" style="width:150px" class="required">
-				            	<option value="${hospitality.project.id}" selected>
-				             	${hospitality.project.name}
-				             	</option>
-				            	<c:forEach items="${projectList}" var="project" >
-				            		<option value="${project.id}">
-										${project.name}
-									</option>
-				            	</c:forEach>
+				            	<c:forEach items="${projectList}" var="project">
+				             		 <c:if test="${project.id==hospitality.project.id}">
+					            		<option value="${hospitality.project.id}" selected>
+							             	${hospitality.project.name}
+							            </option>
+									  </c:if>
+									  <option value="${project.id}">
+											${project.name}
+									  </option>
+				            	</c:forEach>	
 				            </select>   
+				             
 					</td>	
 					<td>
 					<input id="createDateHospitality1" name="createDateHospitality1" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate required" style="width:150px;" class="required"
@@ -353,8 +362,8 @@
 					<td><input style="width:150px" id="clientNameHospitality1" name="clientNameHospitality1"  value="${hospitality.clientName}" maxlength="50"  type="text" class="required"/></td>
 					<td><input style="width:150px" id="inviteesNameHospitality1" name="inviteesNameHospitality1" value="${hospitality.inviteesName}" maxlength="50"  type="text" class="required"/></td>
 					<td><input style="width:150px" id="invitedPositionHospitality1" name="invitedPositionHospitality1" value="${hospitality.invitedPosition}" maxlength="50"  type="text" class="required"/></td>
-					<td><input style="width:150px" id="numberHospitality1" name="numberHospitality1" maxlength="50" value="${hospitality.number}" type="text" class="required"/></td>
-					<td><input style="width:150px" id="amountHospitality1" name="amountHospitality1" maxlength="50" value="${hospitality.amount}" type="text" class="required"/></td>
+					<td><input style="width:150px" id="numberHospitality1" name="numberHospitality1" maxlength="50" value="${hospitality.number}" type="number" class="required"/></td>
+					<td><input style="width:150px" id="amountHospitality1" name="amountHospitality1" maxlength="50" value="${hospitality.amount}" type="number" class="required"/></td>
 					
 				
 				    <td><input class="btn btn-primary" type="button" value="删除" onclick="removeHospitality('hospitality${status.count}')" style="width:100px "></td>
@@ -376,21 +385,15 @@
 					<tr id="Other1">
 						<td>
 					          <select id="projectOther1" name="projectOther1" class="input-medium" style="width:150px" class="required">
-				            	<option value="${other.project.id}" selected>
-				             	${other.project.name}
-				             	</option>
-				            	<c:forEach items="${projectList}" var="project" >
-				            		<option value="${project.id}">
-										${project.name}
-									</option>
-				            	</c:forEach>
-				            </select>   
-				            
-				            <select id="projectOther1" name="projectOther1" class="input-medium" style="width:150px" class="required">
-				            	<c:forEach items="${projectList}" var="project" >
-				            		<option value="${project.id}" selected>
-										${project.name}
-									</option>
+				            		<c:forEach items="${projectList}" var="project">
+				             		 <c:if test="${project.id==other.project.id}">
+					            		<option value="${other.project.id}" selected>
+							             	${hospitality.project.name}
+							            </option>
+									  </c:if>
+									  <option value="${project.id}">
+											${project.name}
+									  </option>
 				            	</c:forEach>
 				            </select>   
 				            
@@ -399,7 +402,7 @@
 							value="<fmt:formatDate value="${other.createDate}" pattern="yyyy-MM-dd"/>"
 								onclick="WdatePicker({dateFmt:'yyyy-MM-dd'});"/></td>
 						<td><input style="width:150px" id="remarkOther1" name="remarkOther1" value="${other.remark}" maxlength="50"  type="text" class="required"/></td>
-						<td><input style="width:150px" id="amountOther1" name="amountOther1" value="${other.amount}" maxlength="50"  type="text" class="required"/></td>
+						<td><input style="width:150px" id="amountOther1" name="amountOther1" value="${other.amount}" maxlength="50"  type="number" class="required"/></td>
 				
 						  <td><input class="btn btn-primary" type="button" value="删除" onclick="removeOther'Other${status.count}')" style="width:100px "></td>
 				</c:forEach> 
