@@ -144,7 +144,7 @@ public class AttendanceController extends BaseController {
 		try {
 			//发送邮件
 			User user = UserUtils.getUser();
-			EmailUtil.sendTextEmail(user.getEmail(), "1606528102@qq.com", "进度提示", "你好");
+			EmailUtil.sendTextEmail("jiqing.jiang@hongshenol.com", "1606528102@qq.com", "出差任务", "你好");
 		} catch (IOException | MessagingException e) {
 			e.printStackTrace();
 		}

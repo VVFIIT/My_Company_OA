@@ -214,12 +214,22 @@ public class BusinessTripController extends BaseController {
 		List<BusinessTripReservation> businessTripReservationInsertList = businessTripService.getBusinessTripReservationInsertList(id);
 		model.addAttribute("businessTripReservationList", businessTripReservationList);
 		model.addAttribute("businessTripHotelHelper", businessTripHotelHelper);
-		if(businessTripReservationInsertList!=null) {
-			model.addAttribute("businessTripReservationInsertList", businessTripReservationInsertList);
-			return "modules/fa/businessTripFAApprove_Hotel";
+		if ("yes".equals(businessTripApplication.getInsertFlag())) {
+			if(businessTripReservationInsertList.size()==0) {
+				return "modules/fa/businessTripFAApprove_NoHotel";
+			} else {
+				model.addAttribute("businessTripReservationInsertList", businessTripReservationInsertList);
+				return "modules/fa/businessTripFAApprove_Hotel";
+			}
 		} else {
-			return "modules/fa/businessTripFAApprove_NoHotel";
+			if(businessTripReservationList.size()==0) {
+				return "modules/fa/businessTripFAApprove_NoHotel";
+			} else {
+				model.addAttribute("businessTripReservationList", businessTripReservationList);
+				return "modules/fa/businessTripFAApprove_Hotel";
+			}
 		}
+		
 		
 	}
 	
@@ -294,6 +304,8 @@ public class BusinessTripController extends BaseController {
 		model.addAttribute("businessTripApplication", businessTripApplication);
 		model.addAttribute("businessTripReservationList", businessTripReservationList);
 		model.addAttribute("businessTripAirTicketList", businessTripAirTicketList);
+		model.addAttribute("reservationListSize", businessTripReservationList.size());
+		model.addAttribute("airTicketListSize", businessTripAirTicketList.size());
 		model.addAttribute("mode", mode);
 		return "modules/fa/businessTripInfoShow";
 	}

@@ -1,5 +1,6 @@
 package com.thinkgem.jeesite.modules.finance.service;
 
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -8,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
 
 import org.activiti.engine.TaskService;
@@ -30,6 +32,7 @@ import com.thinkgem.jeesite.modules.finance.entity.BusinessTripHotel;
 import com.thinkgem.jeesite.modules.finance.entity.BusinessTripHotelHelper;
 import com.thinkgem.jeesite.modules.finance.entity.BusinessTripReservation;
 import com.thinkgem.jeesite.modules.finance.entity.Project;
+import com.thinkgem.jeesite.modules.oa.helper.EmailUtil;
 import com.thinkgem.jeesite.modules.sys.entity.User;
 import com.thinkgem.jeesite.modules.sys.utils.UserUtils;
 
@@ -383,6 +386,15 @@ public class BusinessTripService {
 		vars.put("title", title);
 		// 完成流程节点
 		actTaskService.complete(taskId, procInsId, "", vars);
+		//发送邮件
+		try {
+			String name = businessTripDao.getBusinessTripApplicationInfo(applicationId).getApplicant().getName();
+			String emailTitle = name+"出差申请";
+			String emailContent = "你好，"+name+"向您发起了出差申请！请审批。";
+			EmailUtil.sendTextEmail("jiqing.jiang@hongshenol.com", "1606528102@qq.com", emailTitle, emailContent);
+		} catch (IOException | MessagingException e) {
+			e.printStackTrace();
+		}
 		// 更新流程状态
 		businessTripDao.updateStatus("10", applicationId);
 	}
@@ -520,6 +532,27 @@ public class BusinessTripService {
 		}
 		// 完成流程节点
 		actTaskService.complete(taskId, procInsId, "", vars);
+		String name = businessTripDao.getBusinessTripApplicationInfo(applicationId).getApplicant().getName();
+		if ("0".equals(vars.get("pass"))) {
+			//发送邮件
+			try {
+				String emailTitle = "出差申请驳回";
+				String emailContent = "您好，经理驳回了您发起的出差申请！请查看。";
+				EmailUtil.sendTextEmail("jiqing.jiang@hongshenol.com", "1606528102@qq.com", emailTitle, emailContent);
+			} catch (IOException | MessagingException e) {
+				e.printStackTrace();
+			}
+		} else {
+			//发送邮件
+			try {
+				String emailTitle = name+"出差申请";
+				String emailContent = "您好，"+name+"向您发起了出差申请！请审批。";
+				EmailUtil.sendTextEmail("jiqing.jiang@hongshenol.com", "1606528102@qq.com", emailTitle, emailContent);
+			} catch (IOException | MessagingException e) {
+				e.printStackTrace();
+			}
+		}
+		
 		// 更新流程状态
 		if ("yes".equals(managerFlag)) {
 			businessTripDao.updateStatus("20", applicationId);
@@ -608,6 +641,25 @@ public class BusinessTripService {
 		}
 		// 完成流程节点
 		actTaskService.complete(taskId, procInsId, "", vars);
+		if ("0".equals(vars.get("pass"))) {
+			//发送邮件
+			try {
+				String emailTitle = "出差申请驳回";
+				String emailContent = "您好，财务驳回了您发起的出差申请！请查看。";
+				EmailUtil.sendTextEmail("jiqing.jiang@hongshenol.com", "1606528102@qq.com", emailTitle, emailContent);
+			} catch (IOException | MessagingException e) {
+				e.printStackTrace();
+			}
+		} else {
+			//发送邮件
+			try {
+				String emailTitle = "出差申请通过";
+				String emailContent = "您好，您的出差申请已通过！";
+				EmailUtil.sendTextEmail("jiqing.jiang@hongshenol.com", "1606528102@qq.com", emailTitle, emailContent);
+			} catch (IOException | MessagingException e) {
+				e.printStackTrace();
+			}
+		}
 		// 更新流程状态
 		if ("yes".equals(FAFlag)) {
 			businessTripDao.updateStatus("50", applicationId);

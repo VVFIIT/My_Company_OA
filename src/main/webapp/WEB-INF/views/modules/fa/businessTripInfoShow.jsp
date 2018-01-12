@@ -53,6 +53,7 @@
 			</tr>
 		</table>
 	</div>
+	<c:if test="${reservationListSize!=0}">
 	<div style="background:#40abe9"><label style="font-weight:bold">订房信息</label></div>
 	<div>
 		<table class="table table-striped table-bsordered table-condensed">
@@ -84,52 +85,52 @@
 			</tbody>
 		</table>
 	</div>
-	<c:if test="${businessTripApplication.status=='50'}">
-		<c:forEach items="${businessTripHotelHelperList}" var="businessTripHotelHelper">
-			<c:if test="${businessTripHotelHelper.businessTripHotel.insertFlag=='yes'}">
-				<div style="background:#40abe9; margin-top:10px; color:red"><label style="font-weight:bold">${businessTripHotelHelper.businessTripReservation.city}&nbsp;<fmt:formatDate value="${businessTripHotelHelper.businessTripReservation.beginDate}" pattern="yyyy-MM-dd"/>--<fmt:formatDate value="${businessTripHotelHelper.businessTripReservation.endDate}" pattern="yyyy-MM-dd"/>&nbsp;酒店信息</label></div>
-				<table class="table table-striped table-bsordered table-condensed">
-					<tr>
-						<td><label style="font-weight:bold">订房类型</label></td>
-						<td style="color:red">${businessTripHotelHelper.businessTripHotel.type}</td>
-						<td><label style="font-weight:bold">联系人</label></td>
-						<td style="color:red">${businessTripHotelHelper.businessTripHotel.contact}</td>
-					</tr>
-					<tr>
-						<td><label style="font-weight:bold">住宿酒店</label></td>
-						<td style="color:red">${businessTripHotelHelper.businessTripHotel.hotel}</td>
-						<td><label style="font-weight:bold">联系电话</label></td>
-						<td style="color:red">${businessTripHotelHelper.businessTripHotel.contactPhone}</td>
-					</tr>
-					<tr>
-						<td><label style="font-weight:bold">具体地址</label></td>
-						<td style="color:red" colspan="3">${businessTripHotelHelper.businessTripHotel.address}</td>
-					</tr>
-				</table>
-			</c:if>
-			<c:if test="${businessTripHotelHelper.businessTripHotel.insertFlag=='no'}">
-				<div style="background:#40abe9; margin-top:10px"><label style="font-weight:bold">${businessTripHotelHelper.businessTripReservation.city}&nbsp;<fmt:formatDate value="${businessTripHotelHelper.businessTripReservation.beginDate}" pattern="yyyy-MM-dd"/>--<fmt:formatDate value="${businessTripHotelHelper.businessTripReservation.endDate}" pattern="yyyy-MM-dd"/>&nbsp;酒店信息</label></div>
-				<table class="table table-striped table-bsordered table-condensed">
-					<tr>
-						<td><label style="font-weight:bold">订房类型</label></td>
-						<td>${businessTripHotelHelper.businessTripHotel.type}</td>
-						<td><label style="font-weight:bold">联系人</label></td>
-						<td>${businessTripHotelHelper.businessTripHotel.contact}</td>
-					</tr>
-					<tr>
-						<td><label style="font-weight:bold">住宿酒店</label></td>
-						<td>${businessTripHotelHelper.businessTripHotel.hotel}</td>
-						<td><label style="font-weight:bold">联系电话</label></td>
-						<td>${businessTripHotelHelper.businessTripHotel.contactPhone}</td>
-					</tr>
-					<tr>
-						<td><label style="font-weight:bold">具体地址</label></td>
-						<td colspan="3">${businessTripHotelHelper.businessTripHotel.address}</td>
-					</tr>
-				</table>
-			</c:if>
-		</c:forEach>
 	</c:if>
+	<c:forEach items="${businessTripHotelHelperList}" var="businessTripHotelHelper">
+		<c:if test="${businessTripHotelHelper.businessTripHotel.insertFlag=='yes'}">
+			<div style="background:#40abe9; margin-top:10px; color:red"><label style="font-weight:bold">${businessTripHotelHelper.businessTripReservation.city}&nbsp;<fmt:formatDate value="${businessTripHotelHelper.businessTripReservation.beginDate}" pattern="yyyy-MM-dd"/>--<fmt:formatDate value="${businessTripHotelHelper.businessTripReservation.endDate}" pattern="yyyy-MM-dd"/>&nbsp;酒店信息</label></div>
+			<table class="table table-striped table-bsordered table-condensed">
+				<tr>
+					<td><label style="font-weight:bold">订房类型</label></td>
+					<td style="color:red">${businessTripHotelHelper.businessTripHotel.type}</td>
+					<td><label style="font-weight:bold">联系人</label></td>
+					<td style="color:red">${businessTripHotelHelper.businessTripHotel.contact}</td>
+				</tr>
+				<tr>
+					<td><label style="font-weight:bold">住宿酒店</label></td>
+					<td style="color:red">${businessTripHotelHelper.businessTripHotel.hotel}</td>
+					<td><label style="font-weight:bold">联系电话</label></td>
+					<td style="color:red">${businessTripHotelHelper.businessTripHotel.contactPhone}</td>
+				</tr>
+				<tr>
+					<td><label style="font-weight:bold">具体地址</label></td>
+					<td style="color:red" colspan="3">${businessTripHotelHelper.businessTripHotel.address}</td>
+				</tr>
+			</table>
+		</c:if>
+		<c:if test="${businessTripHotelHelper.businessTripHotel.insertFlag=='no'}">
+			<div style="background:#40abe9; margin-top:10px"><label style="font-weight:bold">${businessTripHotelHelper.businessTripReservation.city}&nbsp;<fmt:formatDate value="${businessTripHotelHelper.businessTripReservation.beginDate}" pattern="yyyy-MM-dd"/>--<fmt:formatDate value="${businessTripHotelHelper.businessTripReservation.endDate}" pattern="yyyy-MM-dd"/>&nbsp;酒店信息</label></div>
+			<table class="table table-striped table-bsordered table-condensed">
+				<tr>
+					<td><label style="font-weight:bold">订房类型</label></td>
+					<td>${businessTripHotelHelper.businessTripHotel.type}</td>
+					<td><label style="font-weight:bold">联系人</label></td>
+					<td>${businessTripHotelHelper.businessTripHotel.contact}</td>
+				</tr>
+				<tr>
+					<td><label style="font-weight:bold">住宿酒店</label></td>
+					<td>${businessTripHotelHelper.businessTripHotel.hotel}</td>
+					<td><label style="font-weight:bold">联系电话</label></td>
+					<td>${businessTripHotelHelper.businessTripHotel.contactPhone}</td>
+				</tr>
+				<tr>
+					<td><label style="font-weight:bold">具体地址</label></td>
+					<td colspan="3">${businessTripHotelHelper.businessTripHotel.address}</td>
+				</tr>
+			</table>
+		</c:if>
+	</c:forEach>
+	<c:if test="${reservationListSize!='0'}">
 	<div style="background:#40abe9"><label style="font-weight:bold">机票信息</label></div>
 	<div>
 		<table class="table table-striped table-bsordered table-condensed">
@@ -158,6 +159,7 @@
 			</tbody>
 		</table>
 	</div>
+	</c:if>
 	<c:if test="${businessTripApplication.managerComment!=null}">
 		<div style="background:#40abe9; margin-bottom:10px"><label style="font-weight:bold">经理的意见</label></div>
 		<div>

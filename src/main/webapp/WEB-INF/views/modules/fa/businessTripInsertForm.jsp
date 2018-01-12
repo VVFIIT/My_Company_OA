@@ -8,8 +8,12 @@
 		$(document).ready(function() {
 			$("#insertBusinessTripForm").validate({
 				submitHandler: function(form){
-					loading('正在提交，请稍等...');
-					form.submit();
+					if(confirm('确定要提交这份出差追加申请吗?')){
+						loading('正在提交，请稍等...');
+						form.submit();
+					}else{
+						return ; 
+					}
 				},
 			});
 		});
@@ -192,6 +196,7 @@
 		</div>
 		<div>
 			<input id="commitButton" class="btn btn-primary" type="submit" value="提交" style="width:100px"/>
+			<input id="btnCancel" class="btn btn-primary" type="button" value="返 回" onclick="history.go(-1)" style="width:100px"/>
 		</div>
 	</form>
 </body>

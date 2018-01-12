@@ -13,8 +13,12 @@
 			
 			$("#insertBusinessTripForm").validate({
 				submitHandler: function(form){
-					loading('正在提交，请稍等...');
-					form.submit();
+					if(confirm('确定要重新提交该出差追加申请吗?')){
+						loading('正在提交，请稍等...');
+						form.submit();
+					}else{
+						return ; 
+					}
 				},
 			});
 		});
@@ -34,7 +38,7 @@
 			var sameStr = "' maxlength='50' class='required' style='width:190px'/></td><td><input id='";
 			var nameStr = "' name='";
 			var valueStr = "' value='";
-			var reservationTypeValue1 = '${businessTripReservationList.get(0).city}';
+			var reservationTypeValue1 = '111';
 			<c:forEach items="${businessTripReservationInsertList}" var="businessTripReservationInsert" varStatus="index">
 				var reservationCityId = 'reservationCity${index.count}';
 				var reservationWorkPlaceId = 'reservationWorkPlace${index.count}';
@@ -72,7 +76,7 @@
 			var sameStr = "' maxlength='50' class='required' style='width:190px'/></td><td><input id='";
 			var nameStr = "' name='";
 			var valueStr = "' value='";
-			var reservationTypeValue1 = '${businessTripAirTicketList.get(0).amount}';
+			var reservationTypeValue1 = '111';
 			<c:forEach items="${businessTripAirTicketInsertList}" var="businessTripAirTicketInsert" varStatus="index">
 				var airTicketFlyDateId = 'airTicketFlyDate${index.count}';
 				var airTicketAmountId = 'airTicketAmount${index.count}';
@@ -271,6 +275,7 @@
 		</div>
 		<div>
 			<input id="commitButton" class="btn btn-primary" type="submit" value="提交" style="width:100px"/>
+			<input id="btnCancel" class="btn btn-primary" type="button" value="返 回" onclick="history.go(-1)" style="width:100px"/>
 		</div>
 	</form>
 </body>
