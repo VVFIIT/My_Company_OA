@@ -28,7 +28,10 @@
 			<include refid="faReimburseMainColumns"/>
 		FROM fa_reimburse_main a
 		<include refid="faReimburseMainJoins"/>
-		WHERE a.id = #{id}
+		WHERE 
+		a.delFlag = 1	
+		And a.id = #{id}
+		
 	</select>
 	
 	<select id="findList" resultType="ReimburseMain">
@@ -39,14 +42,13 @@
 			FROM fa_reimburse_main a
 		JOIN sys_user u ON a.applicantId = u.id
 		JOIN sys_office o ON a.officeId = o.id
-		<where>
+		where a.delFlag = 1	
 		<if test="status != null and status != ''">
 			AND a.status = #{status}
 		</if>	
 		<if test="procInstId != null and procInstId != ''">
 			AND a.procInstId = #{procInstId}
 		</if>	
-		</where>
 				ORDER BY a.updateDate DESC
 	</select>
 	
@@ -55,9 +57,7 @@
 			<include refid="faReimburseMainColumns"/>
 		FROM fa_reimburse_main a
 		<include refid="faReimburseMainJoins"/>
-		<where>
-			
-		</where>		
+		where a.delFlag = 1		
 		<choose>
 			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
 				ORDER BY ${page.orderBy}
@@ -67,26 +67,6 @@
 		</choose>
 	</select> 
 	
-   <select id="getShow" resultType="ReimburseMain">
-		SELECT
-			u.name as "applicant.name",
-			o.name as "office.name",
-			<include refid="faReimburseMainColumns"/>
-			FROM fa_reimburse_main a
-		JOIN sys_user u ON a.applicantId = u.id
-		JOIN sys_office o ON a.officeId = o.id
-		JOIN fa_reimburse_longdistance l on l.mainId=a.id
-		JOIN fa_reimburse_hospitality h on h.mainId=a.id
-		JOIN fa_reimburse_other oth on oth.mainId=a.id
-		JOIN fa_reimburse_taxi ta on ta.mainId=a.id
-		<where>
-		<if test="id != null and id != ''">
-			AND a.id = #{id}
-		</if>	
-		</where>
-		ORDER BY a.updateDate DESC
-	</select>
-	
 	<select id="getMainById" resultType="ReimburseMain" parameterType="String">
 		SELECT
 			u.name as "applicant.name",
@@ -95,11 +75,11 @@
 			FROM fa_reimburse_main a
 		JOIN sys_user u ON a.applicantId = u.id
 		JOIN sys_office o ON a.officeId = o.id
-		<where>
+		where a.delFlag = 1
 		<if test="_parameter != null">
 			AND a.id = #{mainId}
 		</if>	
-		</where>
+		
 	</select>
 	
 	<insert id="insert">
@@ -190,4 +170,14 @@
 		WHERE id = #{id}
 	</update>
 	
+	<update id="deleteByMainId" parameterType="Map">
+		DELETE FROM ${tableName}
+		WHERE id = #{mainId}
+	</update>
+	
+	<update id="deleteByFlag">
+		UPDATE fa_reimburse_main SET 	
+			delFlag = 0
+		WHERE id = #{id}
+	</update>
 </mapper>

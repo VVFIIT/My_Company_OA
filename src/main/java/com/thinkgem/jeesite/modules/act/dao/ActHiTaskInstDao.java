@@ -3,6 +3,8 @@
  */
 package com.thinkgem.jeesite.modules.act.dao;
 
+import java.util.List;
+
 import com.thinkgem.jeesite.common.persistence.CrudDao;
 import com.thinkgem.jeesite.common.persistence.annotation.MyBatisDao;
 import com.thinkgem.jeesite.modules.act.entity.Act;
@@ -35,7 +37,7 @@ public interface ActHiTaskInstDao extends CrudDao<Act> {
 	 * @author Grace
 	 * @date 2018年1月10日 下午2:20:28
 	 */
-	public Act findIdByProcInsIdAndActId(Act act);
+	public List<Act> findIdByProcInsIdAndActId(Act act);
 
 
 }

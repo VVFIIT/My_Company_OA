@@ -5,6 +5,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -99,8 +100,12 @@ public class ReimburseService {
 
 		// 启动Activity
 		String title = user.getName() + " 报销申请";
+
+		Map<String, Object> startVars = Maps.newHashMap();
+		startVars.put("reimburseApplicant", user.getName());
+
 		String procInstId = actTaskService.startProcess(ActUtils.PD_Reimburse[0], ActUtils.PD_Reimburse[1], mainId,
-				title);
+				title, startVars);
 
 		// 触发Acitiviti个人申请流程
 		Map<String, Object> vars = Maps.newHashMap();
@@ -448,10 +453,10 @@ public class ReimburseService {
 		act.setProcInsId(reimburseMain.getProcInstId());
 		if ("20".equals(reimburseMain.getStatus())) {
 			act.setTaskDefKey("FinancialApproval");
-			act = actHiTaskInstDao.findIdByProcInsIdAndActId(act);
+			act = actHiTaskInstDao.findIdByProcInsIdAndActId(act).get(0);
 		} else if ("30".equals(reimburseMain.getStatus())) {
 			act.setTaskDefKey("ManagerApproval");
-			act = actHiTaskInstDao.findIdByProcInsIdAndActId(act);
+			act = actHiTaskInstDao.findIdByProcInsIdAndActId(act).get(0);
 		}
 
 		// 设置意见
@@ -464,7 +469,7 @@ public class ReimburseService {
 		} else if ("20".equals(reimburseMain.getStatus())) {
 			// 如果PM或者人事驳回 都转到个人让重新提交
 			if ("no".equals(reimburseMain.getAct().getFlag())) {
-				// 新建状态
+				// 驳回
 				reimburseMain.setStatus("40");
 			} else {
 				reimburseMain.setStatus("30");
@@ -476,7 +481,7 @@ public class ReimburseService {
 			// 经理
 		} else if ("30".equals(reimburseMain.getStatus())) {
 			if ("no".equals(reimburseMain.getAct().getFlag())) {
-				// 新建状态
+				// 驳回
 				reimburseMain.setStatus("40");
 			} else {
 				reimburseMain.setStatus("50");
@@ -580,5 +585,83 @@ public class ReimburseService {
 	public List<Project> getProjectList() {
 		Project project = new Project();
 		return projectDao.findList(project);
+	}
+
+	/**
+	 * 保存修改
+	 * 
+	 * @param reimburseMain
+	 * @author Grace
+	 * @throws ParseException
+	 * @date 2018年1月11日 下午2:51:29
+	 */
+	@Transactional(readOnly = false)
+	public void saveUpdate(ReimburseMain reimburseMain, HttpServletRequest request) throws ParseException {
+		String mainId = reimburseMain.getId();
+		// 触发Acitiviti流程
+		Map<String, Object> vars = Maps.newHashMap();
+		vars.put("pass", "1");
+		String procInstId = reimburseMain.getProcInstId();
+
+		// 根据procinstId查taskId
+		Act act = new Act();
+		act.setProcInsId(procInstId);
+		act.setTaskDefKey("ReimburseApply");
+		act = actHiTaskInstDao.findIdByProcInsIdAndActId(act).get(0);
+		String taskId = act.getTaskId();
+
+		// 启动Activity
+		User user = UserUtils.getUser();
+		String title = user.getName() + " 报销申请";
+		complete(taskId, procInstId, "ReimburseApply", title, vars);
+
+		// 删除报销业务所有相关表
+		deleteReimburse(mainId);
+
+		// 重新插入
+		String newMainId = UUID.randomUUID().toString();
+		insertMain(reimburseMain, request, newMainId);
+		insertLongDistance(request, newMainId);
+		insertTaxi(request, newMainId);
+		insertHospitality(request, newMainId);
+		insertOther(request, newMainId);
+	}
+
+	/**
+	 * 删除报销业务所有相关表
+	 * 
+	 * @param mainId
+	 * @author Grace
+	 * @date 2018年1月12日 上午11:08:26
+	 */
+	@Transactional(readOnly = false)
+	public void deleteReimburse(String mainId) {
+		// 物理删除
+		delete("fa_reimburse_longdistance", mainId);
+		delete("fa_reimburse_hospitality", mainId);
+		delete("fa_reimburse_other", mainId);
+		delete("fa_reimburse_other", mainId);
+
+		// 逻辑删除（正常数据默认1，删除标记0）
+		reimburseMainDao.deleteByFlag(mainId);
+
+	}
+
+	/**
+	 * 删除共用
+	 * 
+	 * @param tableName
+	 * @param mainId
+	 * @author Grace
+	 * @date 2018年1月11日 下午8:01:36
+	 */
+	@Transactional(readOnly = false)
+	private void delete(String tableName, String mainId) {
+		Map<String, String> map = new HashMap<String, String>();
+		map.put("tableName", tableName);
+		map.put("mainId", mainId);
+
+		reimburseMainDao.deleteByMainId(map);
+
 	}
 }

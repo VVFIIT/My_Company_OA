@@ -1,6 +1,7 @@
 package com.thinkgem.jeesite.modules.finance.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import com.thinkgem.jeesite.common.persistence.CrudDao;
 import com.thinkgem.jeesite.common.persistence.annotation.MyBatisDao;
@@ -21,7 +22,7 @@ public interface ReimburseMainDao extends CrudDao<ReimburseMain> {
 	 * 
 	 * @return
 	 * @author Grace
-	 * @param mainId 
+	 * @param mainId
 	 * @date 2018年1月9日 下午4:27:15
 	 */
 	public ReimburseMain getMainById(String mainId);
@@ -36,5 +37,22 @@ public interface ReimburseMainDao extends CrudDao<ReimburseMain> {
 	 */
 	public ReimburseMain updateReimburseMainByProcInstId(ReimburseMain reimburseMain);
 
+	/**
+	 * 删除其他表共用
+	 * 
+	 * @param map
+	 * @author Grace
+	 * @date 2018年1月11日 下午7:58:56
+	 */
+	public void deleteByMainId(Map<String, String> map);
+
+	/**
+	 * 逻辑删除
+	 * 
+	 * @param id
+	 * @author Grace
+	 * @date 2018年1月12日 上午10:18:24
+	 */
+	public void deleteByFlag(String id);
 
 }

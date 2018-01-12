@@ -13,6 +13,7 @@
 		WHERE 
 		proc_inst_id_ = #{procInsId}
 		and task_Def_Key_ = #{taskDefKey}
+		order by start_time_ desc
 	</select>	
 	
 </mapper>

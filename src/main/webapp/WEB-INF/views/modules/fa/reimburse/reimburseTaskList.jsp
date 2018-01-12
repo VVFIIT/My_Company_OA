@@ -67,6 +67,8 @@
           <%--   <td>${fns:abbr(reimburseMain.totalAmount,30)}</td> --%>
             <td>${fns:getDictLabel(reimburseMain.status,'fa_reimburseMain_status','')}</td>
             <td><a href="${ctx}/fa/reimburse/show?mainId=${reimburseMain.id}">查看|</a>
+           		 <a href="${ctx}/fa/reimburse/update?mainId=${reimburseMain.id}">修改|</a>
+           		 <a href="${ctx}/fa/reimburse/delete?mainId=${reimburseMain.id}">删除|</a>
             	<a href="${ctx}/fa/reimburse/approve?id=${reimburseMain.id}&procInstId=${reimburseMain.procInstId}&status=${reimburseMain.status}">审批</a>
             </td> 
            

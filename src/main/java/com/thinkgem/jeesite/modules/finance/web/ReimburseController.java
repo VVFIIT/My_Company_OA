@@ -1,6 +1,7 @@
 package com.thinkgem.jeesite.modules.finance.web;
 
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -9,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.poi.ss.formula.functions.T;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -203,6 +205,131 @@ public class ReimburseController extends BaseController {
 		}			
 		reimburseService.saveApprove(reimburseMain);
 		addMessage(redirectAttributes, "审批成功！");
+		return "redirect:" + Global.getAdminPath() + "/fa/reimburse/taskList?repage";
+		
+	}
+	
+	/**
+	 * 打开修改页面
+	 * 
+	 * @param reimburseMain
+	 * @param model
+	 * @return
+	 * @author Grace
+	 * @date 2018年1月11日 下午2:49:17
+	 */
+	@RequestMapping(value = "update")
+	public String toUpdate(Model model,String mainId) {
+		
+		ReimburseMain reimburseMain = reimburseService.getMainById(mainId);
+		List<ReimburseLongDistance> longDistanceList=reimburseService.getLongDistanceListByMainId(mainId);
+		List<ReimburseTaxi> taxiList=reimburseService.getTaxiListByMainId(mainId);
+		List<ReimburseHospitality> hospitalityList=reimburseService.getHospitalityListByMainId(mainId);
+		List<ReimburseOther> otherList=reimburseService.getOtherListByMainId(mainId);
+		
+		User user = UserUtils.getUser();
+		
+		
+		//拼接
+		if(longDistanceList!=null&&longDistanceList.size()>0){
+			model.addAttribute("longDistanceEveryNum", appendEveryNum(longDistanceList.size()));
+		}else{
+			model.addAttribute("longDistanceEveryNum", "1");
+		}
+		
+		if(taxiList!=null&&taxiList.size()>0){
+			model.addAttribute("taxiEveryNum", appendEveryNum(taxiList.size()));
+		}else{
+			model.addAttribute("taxiEveryNum", "1");
+		}
+		
+		if(hospitalityList!=null&&hospitalityList.size()>0){
+			model.addAttribute("hospitalityEveryNum", appendEveryNum(hospitalityList.size()));
+		}else{
+			model.addAttribute("hospitalityEveryNum", "1");
+		}
+		
+		if(otherList!=null&&otherList.size()>0){
+			model.addAttribute("otherEveryNum", appendEveryNum(otherList.size()));
+		}else{
+			model.addAttribute("otherEveryNum", "1");
+		}
+		
+		List<Project> projectList=reimburseService.getProjectList();
+		
+		model.addAttribute("applicantName", user.getName());
+		model.addAttribute("officeName", user.getOffice().getName());
+		model.addAttribute("projectList", projectList);
+		
+		model.addAttribute("reimburseMain", reimburseMain);
+		model.addAttribute("taxiList", taxiList);
+		model.addAttribute("hospitalityList", hospitalityList);
+		model.addAttribute("otherList", otherList);
+		model.addAttribute("longDistanceList", longDistanceList);
+		
+		return "modules/fa/reimburse/reimburseUpdate";
+	}
+	
+	/**
+	 * 拼接
+	 * 
+	 * @param list
+	 * @return
+	 * @author Grace
+	 * @date 2018年1月11日 下午6:13:34
+	 */
+	public String appendEveryNum(Integer size) {
+		
+			StringBuffer sb=new StringBuffer();
+			for(int i=0;i<size;i++){
+				sb.append(i+1);
+			}
+			String everyNum=sb.toString();
+			return everyNum;
+	
+	}
+	
+	
+	/**
+	 * 保存修改
+	 * 
+	 * @param reimburseMain
+	 * @param request
+	 * @param redirectAttributes
+	 * @param model
+	 * @return
+	 * @author Grace
+	 * @throws ParseException 
+	 * @date 2018年1月11日 下午2:51:11
+	 */
+	@RequestMapping(value = "updateSave")
+	public String updateSave(ReimburseMain reimburseMain, HttpServletRequest request,
+			RedirectAttributes redirectAttributes,Model model) throws ParseException {
+		
+		reimburseService.saveUpdate(reimburseMain,request);
+		addMessage(redirectAttributes, "修改成功！");
+		return "redirect:" + Global.getAdminPath() + "/fa/reimburse/taskList?repage";
+		
+	}
+	
+	/**
+	 * 删除
+	 * 
+	 * @param reimburseMain
+	 * @param request
+	 * @param redirectAttributes
+	 * @param model
+	 * @return
+	 * @throws ParseException
+	 * @author Grace
+	 * @date 2018年1月12日 上午11:10:00
+	 */
+	@RequestMapping(value = "delete")
+	public String delete(String mainId,HttpServletRequest request,
+			RedirectAttributes redirectAttributes,Model model) throws ParseException {
+		
+		reimburseService.deleteReimburse(mainId);
+		addMessage(redirectAttributes, "删除成功！");
 		return "redirect:" + Global.getAdminPath() + "/fa/reimburse/taskList?repage";
 		
 	}
