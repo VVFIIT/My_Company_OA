@@ -114,14 +114,6 @@ public abstract class DataEntity<T> extends BaseEntity<T> {
 		this.updateDate = updateDate;
 	}
 
-	@JsonIgnore
-	@Length(min=1, max=1)
-	public String getDelFlag() {
-		return delFlag;
-	}
 
-	public void setDelFlag(String delFlag) {
-		this.delFlag = delFlag;
-	}
 
 }

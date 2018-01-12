@@ -66,11 +66,11 @@
             <td><fmt:formatDate value="${reimburseMain.endDate}" type="both" pattern="yyyy-MM-dd"/></td>
           <%--   <td>${fns:abbr(reimburseMain.totalAmount,30)}</td> --%>
             <td>${fns:getDictLabel(reimburseMain.status,'fa_reimburseMain_status','')}</td>
-            <td><a href="${ctx}/fa/reimburse/show?mainId=${reimburseMain.id}">查看|</a>
+            <td><a href="${ctx}/fa/reimburse/show?mainId=${reimburseMain.id}">查看 </a>
           
            <c:if test="${reimburseMain.status=='40'}">
-           		 <a href="${ctx}/fa/reimburse/update?mainId=${reimburseMain.id}">修改|</a>
-           		 <a href="${ctx}/fa/reimburse/delete?mainId=${reimburseMain.id}" onclick="return confirmx('确认要删除该报销订单吗？', this.href)">删除|</a>
+           		 <a href="${ctx}/fa/reimburse/update?mainId=${reimburseMain.id}">修改 </a>
+           		 <a href="${ctx}/fa/reimburse/delete?mainId=${reimburseMain.id}" onclick="return confirmx('确认要删除该报销订单吗？', this.href)">删除 </a>
             </c:if>
             <c:if test="${role=='FA' && reimburseMain.status=='20'}">
             	<a href="${ctx}/fa/reimburse/approve?id=${reimburseMain.id}&procInstId=${reimburseMain.procInstId}&status=${reimburseMain.status}">审批</a>

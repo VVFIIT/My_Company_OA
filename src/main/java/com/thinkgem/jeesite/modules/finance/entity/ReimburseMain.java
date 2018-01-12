@@ -43,6 +43,16 @@ public class ReimburseMain extends ActEntity<ReimburseMain> {
 	private String managerComment; // 经理意见
 	private String FAComment; // 财务意见
 
+	private Integer delFlag;
+
+	public Integer getDelFlag() {
+		return delFlag;
+	}
+
+	public void setDelFlag(Integer delFlag) {
+		this.delFlag = delFlag;
+	}
+
 	public User getApplicant() {
 		return applicant;
 	}

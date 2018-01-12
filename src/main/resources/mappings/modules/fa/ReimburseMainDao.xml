@@ -17,7 +17,8 @@
 		a.managerFlag AS "managerFlag",
 		a.FAFlag AS "FAFlag",
 		a.managerComment AS "managerComment",
-		a.FAComment AS "FAComment"
+		a.FAComment AS "FAComment",
+		a.delFlag AS "delFlag"
 	</sql>
 	
 	<sql id="faReimburseMainJoins">

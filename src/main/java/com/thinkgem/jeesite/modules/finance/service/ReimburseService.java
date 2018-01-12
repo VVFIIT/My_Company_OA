@@ -1,5 +1,7 @@
 package com.thinkgem.jeesite.modules.finance.service;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -10,6 +12,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
 
 import org.activiti.engine.TaskService;
@@ -39,6 +42,7 @@ import com.thinkgem.jeesite.modules.finance.entity.ReimburseLongDistance;
 import com.thinkgem.jeesite.modules.finance.entity.ReimburseMain;
 import com.thinkgem.jeesite.modules.finance.entity.ReimburseOther;
 import com.thinkgem.jeesite.modules.finance.entity.ReimburseTaxi;
+import com.thinkgem.jeesite.modules.oa.helper.EmailUtil;
 import com.thinkgem.jeesite.modules.sys.entity.Office;
 import com.thinkgem.jeesite.modules.sys.entity.User;
 import com.thinkgem.jeesite.modules.sys.utils.UserUtils;
@@ -89,11 +93,14 @@ public class ReimburseService {
 	 * @author Grace
 	 * @param reimburseModel
 	 * @throws ParseException
+	 * @throws MessagingException
+	 * @throws IOException
+	 * @throws FileNotFoundException
 	 * @date 2018年1月3日 下午5:00:19
 	 */
 	@Transactional(readOnly = false)
 	public void insertReimburse(ReimburseMain reimburseMain, HttpServletRequest request, String mainId)
-			throws ParseException {
+			throws ParseException, FileNotFoundException, IOException, MessagingException {
 
 		User user = UserUtils.getUser();
 
@@ -101,7 +108,7 @@ public class ReimburseService {
 		String title = user.getName() + " 报销申请";
 
 		Map<String, Object> startVars = Maps.newHashMap();
-		startVars.put("reimburseApplicant", user.getName());
+		startVars.put("reimburseApplicant", user.getLoginName());
 
 		String procInstId = actTaskService.startProcess(ActUtils.PD_Reimburse[0], ActUtils.PD_Reimburse[1], mainId,
 				title, startVars);
@@ -113,6 +120,9 @@ public class ReimburseService {
 		Act act = actHiTaskInstDao.findIdByProcInsId(procInstId);
 		String taskId = act.getTaskId();
 		complete(taskId, procInstId, "ReimburseApply", title, vars);
+
+		String emailContent = "你好，"+user.getName()+"向您发起了报销申请，请审批.";
+		EmailUtil.sendTextEmail(user.getEmail(), "1606528102@qq.com", title, emailContent);
 
 		reimburseMain.setProcInstId(procInstId);
 
@@ -406,6 +416,7 @@ public class ReimburseService {
 		String userId = UserUtils.getUser().getLoginName();
 		TaskQuery todoTaskQuery = taskService.createTaskQuery().taskAssignee(userId).active().includeProcessVariables()
 				.orderByTaskCreateTime().asc();
+
 		// 获取当前用户的任务列表
 		List<Task> todoList = todoTaskQuery.list();
 		// 循环任务列表，将处理好的vehicleProcess对象放到resultList中
@@ -442,11 +453,15 @@ public class ReimburseService {
 	 * @param reimburseModel
 	 * @param flag
 	 * @author Grace
+	 * @throws MessagingException 
+	 * @throws IOException 
+	 * @throws FileNotFoundException 
 	 * @date 2018年1月8日 下午6:03:18
 	 */
 	@Transactional(readOnly = false)
-	public void saveApprove(ReimburseMain reimburseMain) {
+	public void saveApprove(ReimburseMain reimburseMain) throws FileNotFoundException, IOException, MessagingException {
 
+		User user = UserUtils.getUser();
 		// 获取taskId
 		Act act = new Act();
 		act.setProcInsId(reimburseMain.getProcInstId());
@@ -457,7 +472,14 @@ public class ReimburseService {
 			act.setTaskDefKey("ManagerApproval");
 			act = actHiTaskInstDao.findIdByProcInsIdAndActId(act).get(0);
 		}
-
+		
+		ReimburseMain reimburseMainReturn = reimburseMainDao.getMainById(reimburseMain.getId());
+		String title = reimburseMainReturn.getApplicant().getName() + " 报销申请";
+		String emailBackTitle="报销申请被驳回";
+		
+		String applyEmailAddress="346535377@qq.com";
+		//	String applyEmailAddress=reimburseMainReturn.getApplicant().getEmail();
+		
 		// 设置意见
 		reimburseMain.getAct().setComment(("yes".equals(reimburseMain.getAct().getFlag()) ? "[同意] " : "[驳回] ")
 				+ reimburseMain.getAct().getComment());
@@ -470,8 +492,16 @@ public class ReimburseService {
 			if ("no".equals(reimburseMain.getAct().getFlag())) {
 				// 驳回
 				reimburseMain.setStatus("40");
+		
+				String emailContent = "您好，财务驳回了您的报销申请，请修改后重新申请。";
+				EmailUtil.sendTextEmail(user.getEmail(),applyEmailAddress , emailBackTitle, emailContent);
 			} else {
+				//财务同意
 				reimburseMain.setStatus("30");
+				
+				String emailContent = "您好，"+reimburseMainReturn.getApplicant().getName()+"向您发起了报销申请，请审批.";
+				//目标邮箱第二个改成杨哥的邮箱
+				EmailUtil.sendTextEmail(user.getEmail(), "1606528102@qq.com", title, emailContent);
 			}
 			reimburseMain.setFAComment(reimburseMain.getAct().getComment());
 
@@ -482,8 +512,14 @@ public class ReimburseService {
 			if ("no".equals(reimburseMain.getAct().getFlag())) {
 				// 驳回
 				reimburseMain.setStatus("40");
+				
+				String emailContent = "您好，经理驳回了您的报销申请，请修改后重新申请。";
+				EmailUtil.sendTextEmail(user.getEmail(),applyEmailAddress , emailBackTitle, emailContent);
 			} else {
 				reimburseMain.setStatus("50");
+				
+				String emailContent = "您好，恭喜， 报销申请已通过！";
+				EmailUtil.sendTextEmail(user.getEmail(),applyEmailAddress , emailBackTitle, emailContent);
 			}
 			reimburseMain.setManagerComment(reimburseMain.getAct().getComment());
 
@@ -500,8 +536,8 @@ public class ReimburseService {
 		Map<String, Object> vars = Maps.newHashMap();
 		vars.put("pass", "yes".equals(reimburseMain.getAct().getFlag()) ? "1" : "0");
 
-		ReimburseMain reimburseMainReturn = reimburseMainDao.getMainById(reimburseMain.getId());
-		String title = reimburseMainReturn.getApplicant().getName() + " 报销申请";
+		
+		
 
 		complete(act.getTaskId(), reimburseMain.getProcInstId(), reimburseMain.getAct().getComment(), title, vars);
 	}
