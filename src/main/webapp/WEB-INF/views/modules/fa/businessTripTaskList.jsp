@@ -84,10 +84,34 @@
 				<c:if test="${businessTripApplication.status=='40'}"><td>财务审批驳回</td></c:if>
 				<c:if test="${businessTripApplication.status=='50'}"><td>审批通过</td></c:if>
 				<td>
-    				<%-- <a href="${ctx}/fa/businessTrip/toupdateBusinessTripInfo?id=${businessTripApplication.id}">修改</a>
-					<a href="${ctx}/fa/businessTrip/deleteBusinessTripInfo?id=${businessTripApplication.id}" onclick="return confirmx('确认要删除吗？', this.href)">删除</a> --%>
-					<c:if test="${loginName=='yzm'}"><a href="${ctx}/fa/businessTrip/toApproveBusinessTripInfo_Manager?id=${businessTripApplication.id}">审批</a></c:if>
-					<c:if test="${loginName=='zhe.jiang'}"><a href="${ctx}/fa/businessTrip/toApproveBusinessTripInfo_FA?id=${businessTripApplication.id}">审批</a></c:if>
+					<c:if test="${businessTripApplication.status=='30'}">
+						<c:if test="${businessTripApplication.insertFlag=='yes'}">
+							<a href="${ctx}/fa/businessTrip/toupdateBusinessTripInsertInfo?id=${businessTripApplication.id}">修改</a>
+						</c:if>
+						<c:if test="${businessTripApplication.insertFlag=='no'}">
+							<a href="${ctx}/fa/businessTrip/toupdateBusinessTripInfo?id=${businessTripApplication.id}">修改</a>
+							<a href="${ctx}/fa/businessTrip/deleteBusinessTripInfo?id=${businessTripApplication.id}" onclick="return confirmx('确认要删除吗？', this.href)">删除</a>
+						</c:if>
+					</c:if>
+					<c:if test="${businessTripApplication.status=='40'}">
+						<c:if test="${businessTripApplication.insertFlag=='yes'}">
+							<a href="${ctx}/fa/businessTrip/toupdateBusinessTripInsertInfo?id=${businessTripApplication.id}">修改</a>
+						</c:if>
+						<c:if test="${businessTripApplication.insertFlag=='no'}">
+							<a href="${ctx}/fa/businessTrip/toupdateBusinessTripInfo?id=${businessTripApplication.id}">修改</a>
+							<a href="${ctx}/fa/businessTrip/deleteBusinessTripInfo?id=${businessTripApplication.id}" onclick="return confirmx('确认要删除吗？', this.href)">删除</a>
+						</c:if>
+					</c:if>
+					<c:if test="${loginName=='yzm'}">
+						<c:if test="${businessTripApplication.status=='10'}">
+							<a href="${ctx}/fa/businessTrip/toApproveBusinessTripInfo_Manager?id=${businessTripApplication.id}">审批</a>
+						</c:if>
+					</c:if>
+					<c:if test="${loginName=='zhe.jiang'}">
+						<c:if test="${businessTripApplication.status=='20'}">
+							<a href="${ctx}/fa/businessTrip/toApproveBusinessTripInfo_FA?id=${businessTripApplication.id}">审批</a>
+						</c:if>
+					</c:if>
 					<a href="${ctx}/fa/businessTrip/toShowBusinessTripInfo?id=${businessTripApplication.id}&mode=task">查看</a>
 				</td>
 			</tr>

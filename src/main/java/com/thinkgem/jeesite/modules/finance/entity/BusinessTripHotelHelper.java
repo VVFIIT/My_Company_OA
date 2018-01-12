@@ -5,6 +5,7 @@ public class BusinessTripHotelHelper {
 	
 	private BusinessTripApplication businessTripApplication;
 	private BusinessTripHotel businessTripHotel;
+	private BusinessTripReservation businessTripReservation;
 	
 	public BusinessTripApplication getBusinessTripApplication() {
 		return businessTripApplication;
@@ -21,6 +22,14 @@ public class BusinessTripHotelHelper {
 	public void setBusinessTripHotel(BusinessTripHotel businessTripHotel) {
 		this.businessTripHotel = businessTripHotel;
 	}
-	
+
+	public BusinessTripReservation getBusinessTripReservation() {
+		return businessTripReservation;
+	}
+
+	public void setBusinessTripReservation(BusinessTripReservation businessTripReservation) {
+		this.businessTripReservation = businessTripReservation;
+	}
+
 	
 }

@@ -78,6 +78,11 @@
 				<c:if test="${businessTripApplication.status=='40'}"><td>财务审批驳回</td></c:if>
 				<c:if test="${businessTripApplication.status=='50'}"><td>审批通过</td></c:if>
 				<td>
+					<c:if test="${businessTripApplication.status=='50'}">
+						<c:if test="${businessTripApplication.applicant.id==loginUserId}">
+							<a href="${ctx}/fa/businessTrip/toInsertBusinessTripInfo?id=${businessTripApplication.id}">追加</a>
+						</c:if>
+					</c:if>
 					<a href="${ctx}/fa/businessTrip/toShowBusinessTripInfo?id=${businessTripApplication.id}&mode=search">查看</a>
 				</td>
 			</tr>

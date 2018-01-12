@@ -18,7 +18,7 @@
 <body>
 	<ul class="nav nav-tabs">
 		<li><a href="${ctx}/fa/businessTrip/toBusinessTripTaskList">出差任务列表</a></li>
-		<li class="active"><a href="${ctx}/fa/businessTrip/toApproveBusinessTripInfo_Manager">出差经理审批</a></li>
+		<li class="active"><a href="">出差经理审批</a></li>
 	</ul>
 	<form:form id="managerApproveForm" modelAttribute="businessTripApplication" action="${ctx}/fa/businessTrip/approveBusinessTripInfo_Manager" method="post" class="breadcrumb form-search">
 		<form:hidden id="managerFlag" path="managerFlag"/>
@@ -31,7 +31,7 @@
 		</div>
 		<div class="form-actions">
 			<input id="btnSubmit" class="btn btn-primary" type="submit" value="同 意" onclick="$('#managerFlag').val('yes')"/>&nbsp;
-			<!-- <input id="btnSubmit" class="btn btn-inverse" type="submit" value="驳 回" onclick="$('#flag').val('no')"/>&nbsp;	 -->
+			<input id="btnSubmit" class="btn btn-inverse" type="submit" value="驳 回" onclick="$('#managerFlag').val('no')"/>&nbsp;	
 			<input id="btnCancel" class="btn" type="button" value="返 回" onclick="history.go(-1)"/>
 		</div>	
 	</form:form>

@@ -33,13 +33,14 @@ public class BusinessTripApplication extends ActEntity<BusinessTripApplication>{
 	private String IDNo; // 身份证号
 	private String remark;// 出差是由
 	private String type;// 出差类型
-	private User manager; // 客户经理
+	private String managerId; // 客户经理
 	private String phone;// 电话
 	private String status; // 状态
 	private String managerFlag; // 经理是否同意
 	private String FAFlag; // 财务是否同意
 	private String managerComment;// 经理意见
 	private String FAComment;// 财务意见
+	private String insertFlag;//追加标识
 
 	public String getId() {
 		return id;
@@ -114,14 +115,6 @@ public class BusinessTripApplication extends ActEntity<BusinessTripApplication>{
 		this.type = type;
 	}
 
-	public User getManager() {
-		return manager;
-	}
-
-	public void setManager(User manager) {
-		this.manager = manager;
-	}
-	
 	public String getPhone() {
 		return phone;
 	}
@@ -184,6 +177,22 @@ public class BusinessTripApplication extends ActEntity<BusinessTripApplication>{
 
 	public void setApplicant(User applicant) {
 		this.applicant = applicant;
+	}
+
+	public String getManagerId() {
+		return managerId;
+	}
+
+	public void setManagerId(String managerId) {
+		this.managerId = managerId;
+	}
+
+	public String getInsertFlag() {
+		return insertFlag;
+	}
+
+	public void setInsertFlag(String insertFlag) {
+		this.insertFlag = insertFlag;
 	}
 
 	

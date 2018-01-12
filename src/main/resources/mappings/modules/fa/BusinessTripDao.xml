@@ -19,20 +19,19 @@
 		a.IDNo, 
 		a.remark,
 		a.type, 
-		m.id AS "manager.id", 
-		m.name AS "manager.name", 
+		a.managerId, 
 		a.phone, 
 		a.status, 
 		a.managerFlag, 
 		a.FAFlag, 
 		a.ManagerComment, 
-		a.FAComment
+		a.FAComment, 
+		a.insertFlag
     </sql>
     
     <sql id="businessTripApplicationJoins">
 		JOIN sys_user u ON u.id=a.applicantId
 		JOIN sys_user t ON t.id=a.togetherId
-		JOIN sys_user m ON m.id=a.managerId
 		JOIN sys_office o ON o.id=a.officeId
 		JOIN fa_project p ON p.id=a.projectId
     </sql>
@@ -53,6 +52,7 @@
 		select id_ as taskId 
 		from act_hi_taskinst
 		WHERE proc_inst_id_ = #{0} and TASK_DEF_KEY_ = #{1}
+		AND END_TIME_ IS Null
 	</select>
 	
 	<select id="findList" resultType="businessTripApplication">
@@ -88,18 +88,54 @@
 		SELECT * 
 		FROM fa_businesstrip_reservation 
 		WHERE applicationId = #{applicationId}
+		ORDER BY beginDate ASC
+	</select>
+	
+	<select id="getBusinessTripReservation" resultType="com.thinkgem.jeesite.modules.finance.entity.BusinessTripReservation">
+		SELECT * 
+		FROM fa_businesstrip_reservation 
+		WHERE id = #{id}
+	</select>
+	
+	<select id="getBusinessTripReservationInsertList" resultType="com.thinkgem.jeesite.modules.finance.entity.BusinessTripReservation">
+		SELECT * 
+		FROM fa_businesstrip_reservation 
+		WHERE applicationId = #{applicationId} AND insertFlag = 'yes'
+		ORDER BY beginDate ASC
+	</select>
+	
+	<select id="getBusinessTripReservationNoInsertList" resultType="com.thinkgem.jeesite.modules.finance.entity.BusinessTripReservation">
+		SELECT * 
+		FROM fa_businesstrip_reservation 
+		WHERE applicationId = #{applicationId} AND insertFlag = 'no'
+		ORDER BY beginDate ASC
 	</select>
 	
 	<select id="getBusinessTripAirTicketList" resultType="com.thinkgem.jeesite.modules.finance.entity.BusinessTripAirTicket">
 		SELECT * 
 		FROM fa_businesstrip_airticket 
 		WHERE applicationId = #{applicationId}
+		ORDER BY flyDate ASC
+	</select>
+	
+	<select id="getBusinessTripAirTicketInsertList" resultType="com.thinkgem.jeesite.modules.finance.entity.BusinessTripAirTicket">
+		SELECT * 
+		FROM fa_businesstrip_airticket 
+		WHERE applicationId = #{applicationId} AND insertFlag = 'yes'
+		ORDER BY flyDate ASC
+	</select>
+	
+	<select id="getBusinessTripAirTicketNoInsertList" resultType="com.thinkgem.jeesite.modules.finance.entity.BusinessTripAirTicket">
+		SELECT * 
+		FROM fa_businesstrip_airticket 
+		WHERE applicationId = #{applicationId} AND insertFlag = 'no'
+		ORDER BY flyDate ASC
 	</select>
 	
 	<select id="getBusinessTripHotel" resultType="com.thinkgem.jeesite.modules.finance.entity.BusinessTripHotel">
 		SELECT * 
 		FROM fa_businesstrip_hotel 
-		WHERE applicationId = #{applicationId}
+		WHERE reservationId = #{reservationId}
 	</select>
 	
 	<select id="getBusinessTripProjectNameList" resultType="String">
@@ -126,7 +162,8 @@
 			managerFlag, 
 			FAFlag, 
 			ManagerComment, 
-			FAComment
+			FAComment, 
+			insertFlag
 		) VALUES (
 			#{id}, 
 			#{procInstId}, 
@@ -139,13 +176,14 @@
 			#{IDNo}, 
 			#{remark},
 			#{type}, 
-			#{manager.id}, 
+			#{managerId}, 
 			#{phone}, 
 			#{status}, 
 			#{managerFlag}, 
 			#{FAFlag}, 
 			#{managerComment}, 
-			#{FAComment}
+			#{FAComment}, 
+			#{insertFlag}
 		)
 	</insert>
     
@@ -153,25 +191,25 @@
 		INSERT INTO fa_businesstrip_reservation(
 			id, 
 			applicationId, 
-			type, 
 			city, 
 			workPlace, 
 			beginDate, 
 			endDate, 
 			days, 
 			remark, 
+			insertFlag, 
 			createDate, 
 			updateDate
 		) VALUES (
 			#{id}, 
 			#{applicationId}, 
-			#{type}, 
 			#{city}, 
 			#{workPlace}, 
 			#{beginDate}, 
 			#{endDate}, 
 			#{days}, 
 			#{remark}, 
+			#{insertFlag}, 
 			#{createDate},
 			#{updateDate} 
 		)
@@ -187,6 +225,7 @@
 			remark, 
 			startLocation, 
 			arrivedLocation, 
+			insertFlag, 
 			updateDate
 		) VALUES (
 			#{id}, 
@@ -197,6 +236,7 @@
 			#{remark}, 
 			#{startLocation}, 
 			#{arrivedLocation}, 
+			#{insertFlag}, 
 			#{updateDate}
 		)
 	</insert>
@@ -204,21 +244,25 @@
 	<insert id="insertBusinessTripHotel">
 		INSERT INTO fa_businesstrip_hotel(
 			id, 
-			applicationId, 
+			reservationId, 
+			type, 
 			hotel, 
 			address, 
 			contact, 
 			contactPhone, 
+			insertFlag, 
 			staff, 
 			createDate, 
 			updateDate
 		) VALUES (
 			#{id}, 
-			#{applicationId}, 
+			#{reservationId}, 
+			#{type}, 
 			#{hotel}, 
 			#{address}, 
 			#{contact}, 
 			#{contactPhone}, 
+			#{insertFlag}, 
 			#{staff}, 
 			#{createDate}, 
 			#{updateDate}
@@ -248,5 +292,72 @@
 			FAFlag = #{0}, FAComment = #{1} 
 		WHERE id = #{2}
 	</update>
+	
+	<update id="updateReservationInsertFlag">
+		UPDATE fa_businesstrip_reservation SET 
+			insertFlag = 'no' 
+		WHERE id = #{id}
+	</update>
+	
+	<update id="updateAirTicketInsertFlag">
+		UPDATE fa_businesstrip_airticket SET 
+			insertFlag = 'no' 
+		WHERE id = #{id}
+	</update>
+	
+	<update id="updateHotelInsertFlag">
+		UPDATE fa_businesstrip_hotel SET 
+			insertFlag = 'no' 
+		WHERE id = #{id}
+	</update>
+	
+	<update id="updateBusinessTripApplication">
+		UPDATE fa_businesstrip_application SET 
+			procInstId = #{procInstId}, 
+			officeId = #{office.id}, 
+			applicantId = #{applicant.id}, 
+			projectId = #{project.id}, 
+			togetherId = #{together.id}, 
+			beginDate = #{beginDate}, 
+			endDate = #{endDate}, 
+			IDNo = #{IDNo}, 
+			remark = #{remark},
+			type = #{type}, 
+			managerId = #{managerId}, 
+			phone = #{phone}, 
+			status = #{status}, 
+			managerFlag = #{managerFlag}, 
+			FAFlag = #{FAFlag}, 
+			ManagerComment = #{managerComment}, 
+			FAComment = #{FAComment}, 
+			insertFlag = #{insertFlag} 
+		WHERE id = #{id}
+	</update>
+	
+	<delete id="deleteBusinessTripApplication">
+		DELETE FROM fa_businesstrip_application 
+		WHERE id = #{id}
+	</delete>
+	
+	<delete id="deleteBusinessTripReservation">
+		DELETE FROM fa_businesstrip_reservation 
+		WHERE applicationId = #{businessTripApplicationId}
+	</delete>
+	
+	<delete id="deleteBusinessTripInsertReservation">
+		DELETE FROM fa_businesstrip_reservation 
+		WHERE applicationId = #{businessTripApplicationId} AND insertFlag = 'yes'
+	</delete>
+	
+	<delete id="deleteBusinessTripAirTicket">
+		DELETE FROM fa_businesstrip_airticket 
+		WHERE applicationId = #{businessTripApplicationId}
+	</delete>
+	
+	<delete id="deleteBusinessInsertTripAirTicket">
+		DELETE FROM fa_businesstrip_airticket 
+		WHERE applicationId = #{businessTripApplicationId} AND insertFlag = 'yes'
+	</delete>
+	
     
 </mapper>

@@ -11,7 +11,7 @@
 			addReservationInitTr(reservationNum);
 			addAirTicketInitTr(airTicketNum);
 			
-			$("#businessTripApplyForm").validate({
+			$("#insertBusinessTripForm").validate({
 				submitHandler: function(form){
 					loading('正在提交，请稍等...');
 					form.submit();
@@ -35,7 +35,7 @@
 			var nameStr = "' name='";
 			var valueStr = "' value='";
 			var reservationTypeValue1 = '${businessTripReservationList.get(0).city}';
-			<c:forEach items="${businessTripReservationList}" var="businessTripReservation" varStatus="index">
+			<c:forEach items="${businessTripReservationInsertList}" var="businessTripReservationInsert" varStatus="index">
 				var reservationCityId = 'reservationCity${index.count}';
 				var reservationWorkPlaceId = 'reservationWorkPlace${index.count}';
 				var reservationBeginDateId = 'reservationBeginDate${index.count}';
@@ -44,15 +44,15 @@
 				var reservationRemarkId = 'reservationRemark${index.count}';
 				var reservationId = 'reservation${index.count}';
 				
-				var reservationCityValue = '${businessTripReservation.city}';
-				var reservationWorkPlaceValue = '${businessTripReservation.workPlace}';
-				var reservationBeginDateValue = '${businessTripReservation.beginDate}';
-				var reservationEndDateValue = '${businessTripReservation.endDate}';
-				var reservationDaysValue = '${businessTripReservation.days}';
-				var reservationRemarkValue = '${businessTripReservation.remark}';
+				var reservationCityValue = '${businessTripReservationInsert.city}';
+				var reservationWorkPlaceValue = '${businessTripReservationInsert.workPlace}';
+				var reservationBeginDateValue = '${businessTripReservationInsert.beginDate}';
+				var reservationEndDateValue = '${businessTripReservationInsert.endDate}';
+				var reservationDaysValue = '${businessTripReservationInsert.days}';
+				var reservationRemarkValue = '${businessTripReservationInsert.remark}';
 				$("#reservationButton").before("<tr id='"+reservationId+"'><td><input id='"+reservationCityId+nameStr+reservationCityId+valueStr+reservationCityValue+"' maxlength='50' class='required' style='width:120px'/></td><td><input id='"+reservationWorkPlaceId+nameStr+reservationWorkPlaceId+valueStr+reservationWorkPlaceValue+sameStr+reservationBeginDateId+nameStr+reservationBeginDateId+
-						"' type='text' readonly='readonly' maxlength='20' class='input-medium Wdate required' style='width:150px;' value='<fmt:formatDate value='${businessTripReservation.beginDate}' pattern='yyyy-MM-dd'/>' onclick='WdatePicker({dateFmt:&#39;yyyy-MM-dd&#39;});'/></td><td><input id='"+reservationEndDateId+nameStr+reservationEndDateId+
-						"' type='text' readonly='readonly' maxlength='20' class='input-medium Wdate' style='width:150px;' value='<fmt:formatDate value='${businessTripReservation.endDate}' pattern='yyyy-MM-dd'/>' onclick='WdatePicker({dateFmt:&#39;yyyy-MM-dd&#39;});'/></td><td><input id='"+reservationDaysId+nameStr+reservationDaysId+valueStr+reservationDaysValue+
+						"' type='text' readonly='readonly' maxlength='20' class='input-medium Wdate required' style='width:150px;' value='<fmt:formatDate value='${businessTripReservationInsert.beginDate}' pattern='yyyy-MM-dd'/>' onclick='WdatePicker({dateFmt:&#39;yyyy-MM-dd&#39;});'/></td><td><input id='"+reservationEndDateId+nameStr+reservationEndDateId+
+						"' type='text' readonly='readonly' maxlength='20' class='input-medium Wdate' style='width:150px;' value='<fmt:formatDate value='${businessTripReservationInsert.endDate}' pattern='yyyy-MM-dd'/>' onclick='WdatePicker({dateFmt:&#39;yyyy-MM-dd&#39;});'/></td><td><input id='"+reservationDaysId+nameStr+reservationDaysId+valueStr+reservationDaysValue+
 						"' maxlength='50' style='width:100px'/></td><td><input id='"+reservationRemarkId+nameStr+reservationRemarkId+valueStr+reservationRemarkValue+"' maxlength='50' style='width:190px'/></td><td><input class='btn btn-primary' type='button' value='删除' onclick='removeBusinessTripReservation(&#39;"+reservationId+"&#39;)' style='width:100px'></td></tr>");
 			</c:forEach>
 		}
@@ -73,7 +73,7 @@
 			var nameStr = "' name='";
 			var valueStr = "' value='";
 			var reservationTypeValue1 = '${businessTripAirTicketList.get(0).amount}';
-			<c:forEach items="${businessTripAirTicketList}" var="businessTripAirTicket" varStatus="index">
+			<c:forEach items="${businessTripAirTicketInsertList}" var="businessTripAirTicketInsert" varStatus="index">
 				var airTicketFlyDateId = 'airTicketFlyDate${index.count}';
 				var airTicketAmountId = 'airTicketAmount${index.count}';
 				var airTicketStartLocationId = 'airTicketStartLocation${index.count}';
@@ -81,14 +81,14 @@
 				var airTicketRemarkId = 'airTicketRemark${index.count}';
 				var airTicketId = 'airTicket${index.count}';
 				
-				var airTicketFlyDateValue = '${businessTripAirTicket.flyDate}';
+				var airTicketFlyDateValue = '${businessTripAirTicketInsert.flyDate}';
 				
-				var airTicketAmountValue = '${businessTripAirTicket.amount}';
-				var airTicketStartLocationValue = '${businessTripAirTicket.startLocation}';
-				var airTicketArrivedLocationValue = '${businessTripAirTicket.arrivedLocation}';
-				var airTicketRemarkValue = '${businessTripAirTicket.remark}';
+				var airTicketAmountValue = '${businessTripAirTicketInsert.amount}';
+				var airTicketStartLocationValue = '${businessTripAirTicketInsert.startLocation}';
+				var airTicketArrivedLocationValue = '${businessTripAirTicketInsert.arrivedLocation}';
+				var airTicketRemarkValue = '${businessTripAirTicketInsert.remark}';
 				$("#airTicketButton").before("<tr id='"+airTicketId+"'><td><input id='"+airTicketFlyDateId+nameStr+airTicketFlyDateId+
-						"' type='text' readonly='readonly' maxlength='20' class='input-medium Wdate' style='width:170px;' value='<fmt:formatDate value='${businessTripAirTicket.flyDate}' pattern='yyyy-MM-dd HH:mm'/>' onclick='WdatePicker({dateFmt:&#39;yyyy-MM-dd HH:mm&#39;});'/></td><td><input id='"
+						"' type='text' readonly='readonly' maxlength='20' class='input-medium Wdate' style='width:170px;' value='<fmt:formatDate value='${businessTripAirTicketInsert.flyDate}' pattern='yyyy-MM-dd HH:mm'/>' onclick='WdatePicker({dateFmt:&#39;yyyy-MM-dd HH:mm&#39;});'/></td><td><input id='"
 						+airTicketAmountId+nameStr+airTicketAmountId+valueStr+airTicketAmountValue+sameStr+airTicketStartLocationId+nameStr+airTicketStartLocationId+valueStr+airTicketStartLocationValue+sameStr+airTicketArrivedLocationId+nameStr+airTicketArrivedLocationId+valueStr+airTicketArrivedLocationValue+sameStr+airTicketRemarkId+nameStr+airTicketRemarkId+valueStr+airTicketRemarkValue+"' maxlength='50' class='required' style='width:190px'/></td><td><input class='btn btn-primary' type='button' value='删除' onclick='removeBusinessTripAirTicket(&#39;"+airTicketId+"&#39;)' style='width:100px'></td></tr>");
 			</c:forEach>
 		}
@@ -179,13 +179,14 @@
 <body>
 	<ul class="nav nav-tabs" id="updateTitle">
 		<li><a href="${ctx}/fa/businessTrip/toBusinessTripTaskList">出差任务列表</a></li>
-	    <li class="active"><a href="">出差信息修改</a></li>
+	    <li class="active"><a href="">出差申请追加</a></li>
 	</ul>
-	<form id="businessTripApplyForm" target="mainFrame" action="${ctx}/fa/businessTrip/updateBusinessTripInfo" method="post" class="breadcrumb form-search">
+	<form id="insertBusinessTripForm" target="mainFrame" action="${ctx}/fa/businessTrip/updateBusinessTripInsertInfo" method="post" class="breadcrumb form-search">
 		<sys:message content="${message}"/>
 		<input id="reservationEveryNum" name="reservationEveryNum" value="0" type="hidden">
 		<input id="airTicketEveryNum" name="airTicketEveryNum" value="0" type="hidden">
 		<input name="businessTripApplicationId" value="${businessTripApplicationId}" type="hidden">
+		<input name="insertFlag" value="yes" type="hidden">
 		<div style="background:#f9f9f9; text-align:center">
 			<label style="font-weight:bold; font-size:15px">部门：${businessTripApplication.office.name}</label>
 			<label style="font-weight:bold; font-size:15px">申请人：${businessTripApplication.applicant.name}</label>
@@ -195,47 +196,28 @@
 			<table class="table table-striped table-bsordered table-condensed">
 				<tr>
 					<td><label style="font-weight:bold">共同出差人</label></td>
-					<td>
-						<sys:treeselect id="togetherId" name="togetherId" value="${businessTripApplication.together.name}" labelName="togetherId" labelValue="${businessTripApplication.together.name}" 
-						title="共同出差人" url="/sys/office/treeData?type=3&isAll=true" cssClass="input-small" allowClear="true" notAllowSelectParent="true"/>
-					</td>
+					<td>${businessTripApplication.together.name}</td>
 					<td><label style="font-weight:bold">联系方式</label></td>
-					<td><input id="phone" name="phone" value="${businessTripApplication.phone}" maxlength="50" class="required" style="width:180px;"/></td>
+					<td>${businessTripApplication.phone}</td>
 				</tr>
 				<tr>
 					<td><label style="font-weight:bold">项目名称</label></td>
-					<td>
-						<select name="projectId" class="input-xlarge required" style="width:185px">
-							<c:forEach items="${projectNameList}" var="projectName">
-								<c:if test="${businessTripApplication.project.name != projectName}"><option value="${projectName}">${projectName}</option></c:if>
-								<c:if test="${businessTripApplication.project.name == projectName}"><option value="${projectName}" selected="selected">${projectName}</option></c:if>
-							</c:forEach>
-						</select>
-					</td>
+					<td>${businessTripApplication.project.name}</td>
 					<td><label style="font-weight:bold">身份证号</label></td>
-					<td><input id="IDNo" name="IDNo" value="${businessTripApplication.IDNo}" maxlength="50" class="required" style="width:180px;"/></td>
+					<td>${businessTripApplication.IDNo}</td>
 				</tr>
 				<tr>
 					<td><label style="font-weight:bold">出差类型</label></td>
-					<td>
-						<select id="typeSelect" name="type" class="input-xlarge required" style="width:185px">
-							<c:if test="${businessTripApplication.type!='短期'}"><option value="短期">短期</option></c:if>
-							<c:if test="${businessTripApplication.type=='短期'}"><option value="短期" selected="selected">短期</option></c:if>
-							<c:if test="${businessTripApplication.type!='长期'}"><option value="长期">长期</option></c:if>
-							<c:if test="${businessTripApplication.type=='长期'}"><option value="长期" selected="selected">长期</option></c:if>
-						</select>
-					</td>
+					<td>${businessTripApplication.type}</td>
 					<td><label style="font-weight:bold">出差事由</label></td>
-					<td><input id="remark" name="remark" value="${businessTripApplication.remark}" maxlength="50" style="width:180px;"/></td>
+					<td>${businessTripApplication.remark}</td>
 				</tr>
 				<tr>
-					<td><label style="font-weight:bold">出差日期</label></td> 
+					<td><label style="font-weight:bold">出差日期</label></td>
 					<td>
-						<input id="beginDate" name="beginDate" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate required" style="width:170px;"
-							value="<fmt:formatDate value="${businessTripApplication.beginDate}" pattern="yyyy-MM-dd"/>"
-								onclick="WdatePicker({dateFmt:'yyyy-MM-dd'});"/>
+						<fmt:formatDate value="${businessTripApplication.beginDate}" pattern="yyyy-MM-dd"/>
 					</td>
-					<td><label style="font-weight:bold">结束日期</label></td> 
+					<td><label style="font-weight:bold">结束日期</label></td>
 					<td>
 						<input id="endDate" name="endDate" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate" style="width:170px;"
 							value="<fmt:formatDate value="${businessTripApplication.endDate}" pattern="yyyy-MM-dd"/>"
@@ -249,6 +231,17 @@
 			<table class="table table-striped table-bsordered table-condensed">
 				<thead><tr><th>出差城市</th><th>具体地点</th><th>入住日期</th><th>退房日期</th><th>共计天数</th><th>备注</th><th>删除记录</th></thead>
 				<tbody>
+					<c:forEach items="${businessTripReservationList}" var="businessTripReservation">
+						<tr>
+							<td>${businessTripReservation.city}</td>
+							<td>${businessTripReservation.workPlace}</td>
+							<td><fmt:formatDate value="${businessTripReservation.beginDate}" pattern="yyyy-MM-dd"/></td>
+							<td><fmt:formatDate value="${businessTripReservation.endDate}" pattern="yyyy-MM-dd"/></td>
+							<td>${businessTripReservation.days}</td>
+							<td>${businessTripReservation.remark}</td>
+							<td>不可删除</td>
+						</tr>
+					</c:forEach>
 					<tr id="reservationButton">
 						<td colspan="7" style="text-align:center"><input id="addBusinessTripReservation11" class="btn btn-primary" type="button" value="+" onclick="addBusinessTripReservation()" style="width:100px"></td>
 					</tr> 
@@ -260,6 +253,16 @@
 			<table class="table table-striped table-bsordered table-condensed">
 				<thead><tr><th style="width:15%">出行时间</th><th>机票价格</th><th>起始城市</th><th>目的城市</th><th>申请理由</th><th>删除记录</th></tr></thead>
 				<tbody>
+					<c:forEach items="${businessTripAirTicketList}" var="businessTripAirTicket">
+						<tr>
+							<td><fmt:formatDate value="${businessTripAirTicket.flyDate}" pattern="yyyy-MM-dd HH:mm"/></td>
+							<td>${businessTripAirTicket.amount}</td>
+							<td>${businessTripAirTicket.startLocation}</td>
+							<td>${businessTripAirTicket.arrivedLocation}</td>
+							<td>${businessTripAirTicket.remark}</td>
+							<td>不可删除</td>
+						</tr>
+					</c:forEach>
 					<tr id="airTicketButton">
 						<td colspan="6" style="text-align:center"><input class="btn btn-primary" type="button" value="+" onclick="addBusinessTripAirTicket()" style="width:100px"></td>
 					</tr>

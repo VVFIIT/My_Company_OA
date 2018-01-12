@@ -15,11 +15,13 @@ public class BusinessTripHotel {
 
 	@Id
 	private String id;
-	private String applicationId;// 申请单Id
+	private String reservationId;// 申请单Id
+	private String type;// 订房类型
 	private String hotel;// 酒店名
 	private String address;// 酒店地址
 	private String contact;// 酒店联系人
 	private String contactPhone;// 联系电话
+	private String insertFlag;//追加标记
 	private String staff;// 住宿员工
 	private Date createDate;// 创建时间
 	private Date updateDate;// 更新时间
@@ -30,14 +32,6 @@ public class BusinessTripHotel {
 
 	public void setId(String id) {
 		this.id = id;
-	}
-
-	public String getApplicationId() {
-		return applicationId;
-	}
-
-	public void setApplicationId(String applicationId) {
-		this.applicationId = applicationId;
 	}
 
 	public String getHotel() {
@@ -94,6 +88,30 @@ public class BusinessTripHotel {
 
 	public void setUpdateDate(Date updateDate) {
 		this.updateDate = updateDate;
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
+
+	public String getReservationId() {
+		return reservationId;
+	}
+
+	public void setReservationId(String reservationId) {
+		this.reservationId = reservationId;
+	}
+
+	public String getInsertFlag() {
+		return insertFlag;
+	}
+
+	public void setInsertFlag(String insertFlag) {
+		this.insertFlag = insertFlag;
 	}
 
 }

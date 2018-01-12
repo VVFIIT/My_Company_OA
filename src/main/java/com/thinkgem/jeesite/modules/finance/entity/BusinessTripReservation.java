@@ -16,12 +16,12 @@ public class BusinessTripReservation {
 	@Id
 	private String id;
 	private String applicationId;// 申请单Id
-	private String type;// 订房类型
 	private String city;// 出差城市
 	private String workPlace;// 出差具体工作地点
 	private Date beginDate;// 入住日期
 	private Date endDate;// 退房日期
 	private String remark;// 出差是由
+	private String insertFlag;//追加标记
 	private Date createDate;// 创建时间
 	private Date updateDate;// 更新时间
 	private Integer days;// 天数
@@ -48,14 +48,6 @@ public class BusinessTripReservation {
 
 	public void setApplicationId(String applicationId) {
 		this.applicationId = applicationId;
-	}
-
-	public String getType() {
-		return type;
-	}
-
-	public void setType(String type) {
-		this.type = type;
 	}
 
 	public String getCity() {
@@ -112,6 +104,14 @@ public class BusinessTripReservation {
 
 	public void setUpdateDate(Date updateDate) {
 		this.updateDate = updateDate;
+	}
+
+	public String getInsertFlag() {
+		return insertFlag;
+	}
+
+	public void setInsertFlag(String insertFlag) {
+		this.insertFlag = insertFlag;
 	}
 
 }

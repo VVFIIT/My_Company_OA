@@ -23,6 +23,7 @@ public class BusinessTripAirTicket {
 	private String remark; // 申请理由
 	private String startLocation;// 起始地
 	private String arrivedLocation;// 目的地
+	private String insertFlag;//追加标记
 	private Date updateDate;// 更新时间
 
 	public String getId() {
@@ -95,6 +96,14 @@ public class BusinessTripAirTicket {
 
 	public void setUpdateDate(Date updateDate) {
 		this.updateDate = updateDate;
+	}
+
+	public String getInsertFlag() {
+		return insertFlag;
+	}
+
+	public void setInsertFlag(String insertFlag) {
+		this.insertFlag = insertFlag;
 	}
 
 }

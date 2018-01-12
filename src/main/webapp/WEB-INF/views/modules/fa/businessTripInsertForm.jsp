@@ -6,7 +6,7 @@
 	<meta name="decorator" content="default"/>
 	<script type="text/javascript">
 		$(document).ready(function() {
-			$("#businessTripApplyForm").validate({
+			$("#insertBusinessTripForm").validate({
 				submitHandler: function(form){
 					loading('正在提交，请稍等...');
 					form.submit();
@@ -18,9 +18,12 @@
 			var reservationEveryNum = $("#reservationEveryNum").val();
 			var a= reservationEveryNum.split("");
 			var trMaxNum = parseInt(a[a.length-1])+1;
-			reservationEveryNum = reservationEveryNum+trMaxNum;
+			if(reservationEveryNum=='0'){
+				reservationEveryNum = trMaxNum;
+			}else{
+				reservationEveryNum = reservationEveryNum+trMaxNum;
+			}
 			$("#reservationEveryNum").val(reservationEveryNum);
-			var reservationTypeId = 'reservationType'+trMaxNum;
 			var reservationCityId = 'reservationCity'+trMaxNum;
 			var reservationWorkPlaceId = 'reservationWorkPlace'+trMaxNum;
 			var reservationBeginDateId = 'reservationBeginDate'+trMaxNum;
@@ -40,7 +43,11 @@
 			var airTicketEveryNum = $("#airTicketEveryNum").val();
 			var a= airTicketEveryNum.split("");
 			var trMaxNum = parseInt(a[a.length-1])+1;
-			airTicketEveryNum = airTicketEveryNum+trMaxNum;
+			if(airTicketEveryNum=='0'){
+				airTicketEveryNum = trMaxNum;
+			}else{
+				airTicketEveryNum = airTicketEveryNum+trMaxNum;
+			}
 			$("#airTicketEveryNum").val(airTicketEveryNum);
 			var airTicketFlyDateId = 'airTicketFlyDate'+trMaxNum;
 			var airTicketAmountId = 'airTicketAmount'+trMaxNum;
@@ -51,13 +58,13 @@
 			var sameStr = "' maxlength='50' class='required' style='width:190px'/></td><td><input id='";
 			var nameStr = "' name='";
 			$("#airTicketButton").before("<tr id='"+airTicketId+"'><td><input id='"+airTicketFlyDateId+nameStr+airTicketFlyDateId+
-					"' type='text' readonly='readonly' maxlength='20' class='input-medium Wdate required' style='width:170px;' value='<fmt:formatDate value='${businessTripModel.businessTripReservationList.get(0).beginDate}' pattern='yyyy-MM-dd HH:mm'/>' onclick='WdatePicker({dateFmt:&#39;yyyy-MM-dd HH:mm&#39;});'/></td><td><input id='"
+					"' type='text' readonly='readonly' maxlength='20' class='input-medium Wdate' style='width:170px;' value='<fmt:formatDate value='${businessTripModel.businessTripReservationList.get(0).beginDate}' pattern='yyyy-MM-dd HH:mm'/>' onclick='WdatePicker({dateFmt:&#39;yyyy-MM-dd HH:mm&#39;});'/></td><td><input id='"
 					+airTicketAmountId+nameStr+airTicketAmountId+sameStr+airTicketStartLocationId+nameStr+airTicketStartLocationId+sameStr+airTicketArrivedLocationId+nameStr+airTicketArrivedLocationId+sameStr+airTicketRemarkId+nameStr+airTicketRemarkId+"' maxlength='50' class='required' style='width:190px'/></td><td><input class='btn btn-primary' type='button' value='删除' onclick='removeBusinessTripAirTicket(&#39;"+airTicketId+"&#39;)' style='width:100px'></td></tr>");
 		}
 		/* 移除一条订房信息 */
 		function removeBusinessTripReservation(reservationId){
 			var reservationEveryNum = $("#reservationEveryNum").val();
-			var idNum = reservationId.substring(11); 
+			var idNum = reservationId.substring(11);
 			var EveryNum = "";
 			var a= reservationEveryNum.split("");
 			for(var i=0;i<a.length;i++){
@@ -92,64 +99,49 @@
 </head>
 <body>
 	<ul class="nav nav-tabs" id="updateTitle">
-	    <li class="active"><a href="${ctx}/fa/businessTrip/toApplyForm">出差申请</a></li>
+		<li><a href="${ctx}/fa/businessTrip/toBusinessTripTaskList">出差任务列表</a></li>
+	    <li class="active"><a href="">出差申请追加</a></li>
 	</ul>
-	<form id="businessTripApplyForm" target="mainFrame" action="${ctx}/fa/businessTrip/commitApplyForm" method="post" class="breadcrumb form-search">
+	<form id="insertBusinessTripForm" target="mainFrame" action="${ctx}/fa/businessTrip/insertBusinessTripInfo" method="post" class="breadcrumb form-search">
 		<sys:message content="${message}"/>
-		<input id="reservationEveryNum" name="reservationEveryNum" type="hidden" value="1">
-		<input id="airTicketEveryNum" name="airTicketEveryNum" type="hidden" value="1">
+		<input id="reservationEveryNum" name="reservationEveryNum" value="0" type="hidden">
+		<input id="airTicketEveryNum" name="airTicketEveryNum" value="0" type="hidden">
+		<input name="businessTripApplicationId" value="${businessTripApplicationId}" type="hidden">
+		<input name="insertFlag" value="yes" type="hidden">
 		<div style="background:#f9f9f9; text-align:center">
-			<label style="font-weight:bold; font-size:15px">部门：${officeName}</label>
-			<label style="font-weight:bold; font-size:15px">申请人：${applicantName}</label>
+			<label style="font-weight:bold; font-size:15px">部门：${businessTripApplication.office.name}</label>
+			<label style="font-weight:bold; font-size:15px">申请人：${businessTripApplication.applicant.name}</label>
 		</div>
 		<div style="background:#40abe9"><label style="font-weight:bold">出差信息</label></div>
 		<div>
 			<table class="table table-striped table-bsordered table-condensed">
 				<tr>
 					<td><label style="font-weight:bold">共同出差人</label></td>
-					<td>
-						<sys:treeselect id="togetherId" name="togetherId" value="" labelName="togetherId" labelValue="" 
-						title="共同出差人" url="/sys/office/treeData?type=3&isAll=true" cssClass="input-small" allowClear="true" notAllowSelectParent="true"/>
-					</td>
+					<td>${businessTripApplication.together.name}</td>
 					<td><label style="font-weight:bold">联系方式</label></td>
-					<td><input id="phone" name="phone" maxlength="50" class="required" style="width:180px;"/></td>
+					<td>${businessTripApplication.phone}</td>
 				</tr>
 				<tr>
 					<td><label style="font-weight:bold">项目名称</label></td>
-					<td>
-						<select name="projectId" class="input-xlarge required" style="width:185px">
-							<option value=""></option>
-							<c:forEach items="${projectNameList}" var="projectName">
-								<option value="${projectName}">${projectName}</option>
-							</c:forEach>
-						</select>
-					</td>
+					<td>${businessTripApplication.project.name}</td>
 					<td><label style="font-weight:bold">身份证号</label></td>
-					<td><input id="IDNo" name="IDNo" maxlength="50" class="required" style="width:180px;"/></td>
+					<td>${businessTripApplication.IDNo}</td>
 				</tr>
 				<tr>
 					<td><label style="font-weight:bold">出差类型</label></td>
-					<td>
-						<select name="type" class="input-xlarge required" style="width:185px">
-							<option value=""></option>
-							<option value="短期">短期</option>
-							<option value="长期">长期</option>
-						</select>
-					</td>
+					<td>${businessTripApplication.type}</td>
 					<td><label style="font-weight:bold">出差事由</label></td>
-					<td><input id="remark" name="remark"  maxlength="50" style="width:180px;"/></td>
+					<td>${businessTripApplication.remark}</td>
 				</tr>
 				<tr>
-					<td><label style="font-weight:bold">出差日期</label></td> 
+					<td><label style="font-weight:bold">出差日期</label></td>
 					<td>
-						<input id="beginDate" name="beginDate" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate required" style="width:170px;"
-							value="<fmt:formatDate value="${businessTripModel.businessTripApplication.beginDate}" pattern="yyyy-MM-dd"/>"
-								onclick="WdatePicker({dateFmt:'yyyy-MM-dd'});"/>
+						<fmt:formatDate value="${businessTripApplication.beginDate}" pattern="yyyy-MM-dd"/>
 					</td>
 					<td><label style="font-weight:bold">结束日期</label></td> 
 					<td>
-						<input id="beginDate" name="endDate" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate" style="width:170px;"
-							value="<fmt:formatDate value="${businessTripModel.businessTripApplication.endDate}" pattern="yyyy-MM-dd"/>"
+						<input id="endDate" name="endDate" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate" style="width:170px;"
+							value="<fmt:formatDate value="${businessTripApplication.endDate}" pattern="yyyy-MM-dd"/>"
 								onclick="WdatePicker({dateFmt:'yyyy-MM-dd'});"/>
 					</td>
 				</tr>
@@ -160,26 +152,20 @@
 			<table class="table table-striped table-bsordered table-condensed">
 				<thead><tr><th>出差城市</th><th>具体地点</th><th>入住日期</th><th>退房日期</th><th>共计天数</th><th>备注</th><th>删除记录</th></thead>
 				<tbody>
-					<tr id="reservation1">
-						<td><input style="width:120px" id="reservationCity1" name="reservationCity1" maxlength="50" class="required"/></td>
-						<td><input style="width:190px" id="reservationWorkPlace1" name="reservationWorkPlace1" maxlength="50" class="required"/></td>
-						<td>
-						<input id="reservationBeginDate1" name="reservationBeginDate1" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate required" style="width:150px;"
-							value="<fmt:formatDate value="${businessTripModel.businessTripReservationList.get(0).beginDate}" pattern="yyyy-MM-dd"/>"
-								onclick="WdatePicker({dateFmt:'yyyy-MM-dd'});"/>
-						</td>
-						<td>
-						<input id="reservationEndDate1" name="reservationEndDate1" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate" style="width:150px;"
-							value="<fmt:formatDate value="${businessTripModel.businessTripReservationList.get(0).endDate}" pattern="yyyy-MM-dd"/>"
-								onclick="WdatePicker({dateFmt:'yyyy-MM-dd'});"/>
-						</td>
-						<td><input style="width:100px" id="reservationDays1" name="reservationDays1" maxlength="50"/></td>
-						<td><input style="width:190px" id="reservationRemark1" name="reservationRemark1" maxlength="50"/></td>
-						<td><input class="btn btn-primary" type="button" value="删除" onclick="removeBusinessTripReservation('reservation1')" style="width:100px"></td>
-					</tr>
+					<c:forEach items="${businessTripReservationList}" var="businessTripReservation">
+						<tr>
+							<td>${businessTripReservation.city}</td>
+							<td>${businessTripReservation.workPlace}</td>
+							<td><fmt:formatDate value="${businessTripReservation.beginDate}" pattern="yyyy-MM-dd"/></td>
+							<td><fmt:formatDate value="${businessTripReservation.endDate}" pattern="yyyy-MM-dd"/></td>
+							<td>${businessTripReservation.days}</td>
+							<td>${businessTripReservation.remark}</td>
+							<td>不可删除</td>
+						</tr>
+					</c:forEach>
 					<tr id="reservationButton">
-						<td colspan="7" style="text-align:center"><input class="btn btn-primary" type="button" value="+" onclick="addBusinessTripReservation()" style="width:100px"></td>
-					</tr>
+						<td colspan="7" style="text-align:center"><input id="addBusinessTripReservation11" class="btn btn-primary" type="button" value="追加订房信息" onclick="addBusinessTripReservation()" style="width:100px"></td>
+					</tr> 
 				</tbody>
 			</table>
 		</div>
@@ -188,20 +174,18 @@
 			<table class="table table-striped table-bsordered table-condensed">
 				<thead><tr><th style="width:15%">出行时间</th><th>机票价格</th><th>起始城市</th><th>目的城市</th><th>申请理由</th><th>删除记录</th></tr></thead>
 				<tbody>
-					<tr id="airTicket1">
-						<td>
-						<input id="airTicketFlyDate1" name="airTicketFlyDate1" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate required" style="width:170px;"
-							value="<fmt:formatDate value="${businessTripModel.businessTripReservationList.get(0).endDate}" pattern="yyyy-MM-dd HH:mm"/>"
-								onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm'});"/>
-						</td>
-						<td><input style="width:190px" id="airTicketAmount1" name="airTicketAmount1" maxlength="50" class="required"/></td>
-						<td><input style="width:190px" id="airTicketStartLocation1" name="airTicketStartLocation1" maxlength="50" class="required"/></td>
-						<td><input style="width:190px" id="airTicketArrivedLocation1" name="airTicketArrivedLocation1" maxlength="50" class="required"/></td>
-						<td><input style="width:190px" id="airTicketRemark1" name="airTicketRemark1" maxlength="50" class="required"/></td>
-						<td><input class="btn btn-primary" type="button" value="删除" onclick="removeBusinessTripAirTicket('airTicket1')" style="width:100px"></td>
-					</tr>
+					<c:forEach items="${businessTripAirTicketList}" var="businessTripAirTicket">
+						<tr>
+							<td><fmt:formatDate value="${businessTripAirTicket.flyDate}" pattern="yyyy-MM-dd HH:mm"/></td>
+							<td>${businessTripAirTicket.amount}</td>
+							<td>${businessTripAirTicket.startLocation}</td>
+							<td>${businessTripAirTicket.arrivedLocation}</td>
+							<td>${businessTripAirTicket.remark}</td>
+							<td>不可删除</td>
+						</tr>
+					</c:forEach>
 					<tr id="airTicketButton">
-						<td colspan="6" style="text-align:center"><input class="btn btn-primary" type="button" value="+" onclick="addBusinessTripAirTicket()" style="width:100px"></td>
+						<td colspan="6" style="text-align:center"><input class="btn btn-primary" type="button" value="追加机票信息" onclick="addBusinessTripAirTicket()" style="width:100px"></td>
 					</tr>
 				</tbody>
 			</table>
