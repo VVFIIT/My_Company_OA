@@ -40,6 +40,7 @@ public class AttendanceApprovalController extends BaseController {
 		attendanceMonth.getAct().setTaskDefKey(taskDefKey);
 		attendanceMonth.getAct().setTaskId(taskId);
 		attendanceApprovalService.saveAttendanceApproval(attendanceMonth);
+		addMessage(model, "审批成功!");
 		return "redirect:" + adminPath + "/act/task/todo/"; 
 	}
 

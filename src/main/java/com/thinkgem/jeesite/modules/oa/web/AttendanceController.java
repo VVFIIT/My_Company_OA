@@ -1,21 +1,15 @@
 package com.thinkgem.jeesite.modules.oa.web;
 
-import com.thinkgem.jeesite.common.persistence.Page;
-import com.thinkgem.jeesite.common.utils.DateUtils;
-import com.thinkgem.jeesite.common.utils.excel.ExportExcel;
-import com.thinkgem.jeesite.common.web.BaseController;
-import com.thinkgem.jeesite.modules.act.entity.Act;
-import com.thinkgem.jeesite.modules.act.utils.ActUtils;
-import com.thinkgem.jeesite.modules.oa.entity.AttendanceDay;
-import com.thinkgem.jeesite.modules.oa.entity.AttendanceMonth;
-import com.thinkgem.jeesite.modules.oa.helper.StringName;
-import com.thinkgem.jeesite.modules.oa.service.AttendanceMonthService;
-import com.thinkgem.jeesite.modules.oa.service.AttendanceService;
-import com.thinkgem.jeesite.modules.oa.helper.EmailUtil;
-import com.thinkgem.jeesite.modules.sys.entity.User;
-import com.thinkgem.jeesite.modules.sys.utils.UserUtils;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
-import org.apache.commons.lang3.StringUtils;
+import javax.mail.MessagingException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,14 +17,19 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import javax.mail.MessagingException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import com.thinkgem.jeesite.common.persistence.Page;
+import com.thinkgem.jeesite.common.utils.DateUtils;
+import com.thinkgem.jeesite.common.utils.excel.ExportExcel;
+import com.thinkgem.jeesite.common.web.BaseController;
+import com.thinkgem.jeesite.modules.act.entity.Act;
+import com.thinkgem.jeesite.modules.oa.entity.AttendanceDay;
+import com.thinkgem.jeesite.modules.oa.entity.AttendanceMonth;
+import com.thinkgem.jeesite.modules.oa.helper.EmailUtil;
+import com.thinkgem.jeesite.modules.oa.helper.StringName;
+import com.thinkgem.jeesite.modules.oa.service.AttendanceMonthService;
+import com.thinkgem.jeesite.modules.oa.service.AttendanceService;
+import com.thinkgem.jeesite.modules.sys.entity.User;
+import com.thinkgem.jeesite.modules.sys.utils.UserUtils;
 
 /**
  * 考勤Controller
@@ -354,25 +353,23 @@ public class AttendanceController extends BaseController {
 	/**
 	 * 查看考勤：退回考勤
 	 */
-/*	@RequestMapping(value = "sendBack")
-	public String sendBackAttendanceStatus(AttendanceMonth attendanceMonth, Model model, HttpServletRequest request,
-			HttpServletResponse response) {
-		attendanceMonthService.getSendBackAttendaceStatus(attendanceMonth);
-		addMessage(model, "退回成功");
-		// 显示考勤并分页
-		Page<AttendanceMonth> page = new Page<AttendanceMonth>(request, response);
-		attendanceMonth.setPage(page);
-		Page<AttendanceMonth> backAttendance = attendanceService
-				.getAttendanceShowAllExact(new Page<User>(request, response), attendanceMonth);
-		model.addAttribute("page", backAttendance);
-		// 显示年和月
-		AttendanceMonth backAttendanceDate = attendanceService.getAttendanceDateExact(attendanceMonth);
-		model.addAttribute("attendanceShowAll", backAttendanceDate);
-		return "modules/oa/attendanceShowAll";
-
-	}*/
-	
-
+	/*
+	 * @RequestMapping(value = "sendBack") public String
+	 * sendBackAttendanceStatus(AttendanceMonth attendanceMonth, Model model,
+	 * HttpServletRequest request, HttpServletResponse response) {
+	 * attendanceMonthService.getSendBackAttendaceStatus(attendanceMonth);
+	 * addMessage(model, "退回成功"); // 显示考勤并分页 Page<AttendanceMonth> page = new
+	 * Page<AttendanceMonth>(request, response); attendanceMonth.setPage(page);
+	 * Page<AttendanceMonth> backAttendance = attendanceService
+	 * .getAttendanceShowAllExact(new Page<User>(request, response),
+	 * attendanceMonth); model.addAttribute("page", backAttendance); // 显示年和月
+	 * AttendanceMonth backAttendanceDate =
+	 * attendanceService.getAttendanceDateExact(attendanceMonth);
+	 * model.addAttribute("attendanceShowAll", backAttendanceDate); return
+	 * "modules/oa/attendanceShowAll";
+	 * 
+	 * }
+	 */
 
 	/**
 	 * 我的考勤任务
@@ -409,26 +406,12 @@ public class AttendanceController extends BaseController {
 	 * @date 2018年1月15日 下午4:25:58
 	 */
 	@RequestMapping(value = "toApproval")
-	public String form(Act act, String resourceName, HttpServletRequest request, Model model)
-			throws UnsupportedEncodingException {
+	public String form(Act act, String id, Model model) throws UnsupportedEncodingException {
 
-		if (StringUtils.isNoneBlank(resourceName)) {
-			String resource = StringUtils.split(resourceName, ".")[0];
-			if ("attendance_audit".equals(resource)) {
-
-				AttendanceMonth attendanceMonth = new AttendanceMonth();
-				attendanceMonth.setProcInsId(act.getProcInsId());
-				List<AttendanceMonth> attendanceMonthList = attendanceMonthService.getAttendance(attendanceMonth);
-				if (attendanceMonthList != null && attendanceMonthList.size() > 0) {
-					attendanceMonth = attendanceMonthList.get(0);
-				}
-				model.addAttribute("attendanceMonth", attendanceMonth);
-			}
-		}
-
+		AttendanceMonth attendanceMonth = attendanceMonthService.getInformation(id);
+		model.addAttribute("attendanceMonth", attendanceMonth);
 		model.addAttribute("act", act);
 		return "modules/oa/attendanceApproval";
-
 	}
 
 }
