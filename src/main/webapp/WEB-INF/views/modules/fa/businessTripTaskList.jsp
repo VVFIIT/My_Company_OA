@@ -102,7 +102,7 @@
 							<a href="${ctx}/fa/businessTrip/deleteBusinessTripInfo?id=${businessTripApplication.id}" onclick="return confirmx('确认要删除吗？', this.href)">删除</a>
 						</c:if>
 					</c:if>
-					<c:if test="${loginName=='yzm'}">
+					<c:if test="${loginName=='zhenming.yang'}">
 						<c:if test="${businessTripApplication.status=='10'}">
 							<a href="${ctx}/fa/businessTrip/toApproveBusinessTripInfo_Manager?id=${businessTripApplication.id}">审批</a>
 						</c:if>

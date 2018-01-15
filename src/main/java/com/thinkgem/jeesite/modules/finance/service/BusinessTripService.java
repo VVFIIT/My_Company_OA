@@ -679,7 +679,7 @@ public class BusinessTripService {
 		Project project = new Project();
 		project.setName(projectName);
 		businessTripApplication.setProject(project);
-		if (!"yzm".equals(loginUser.getLoginName()) && !"zhe.jiang".equals(loginUser.getLoginName())) {
+		if (!"zhenming.yang".equals(loginUser.getLoginName()) && !"zhe.jiang".equals(loginUser.getLoginName())) {
 			businessTripApplication.setApplicant(loginUser);
 		}
 		List<BusinessTripApplication> businessTripInfoList = businessTripDao.findList(businessTripApplication);

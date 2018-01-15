@@ -679,13 +679,10 @@ public class AttendanceService {
 		// 启动Activity
 		String title = attendanceMonth.getName() + " " + attendanceMonth.getYear() + "年" + attendanceMonth.getMonth()
 				+ "月考勤";
-		User user = UserUtils.getUser();
 		Map<String, Object> startVars = Maps.newHashMap();
-		startVars.put("attendanceApply", user.getLoginName());
+		startVars.put("attendanceApply", UserUtils.getUser().getLoginName());
 		String procInsId = actTaskService.startProcess(ActUtils.PD_ATTENDANCE_AUDIT[0], ActUtils.PD_ATTENDANCE_AUDIT[1],
 				attendanceMonth.getId(), title, startVars);
-	
-		
 		// 修改为提交状态
 		attendanceMonth.setProcessStatus("2");
 		attendanceMonth.setProcInsId(procInsId);
@@ -693,7 +690,6 @@ public class AttendanceService {
 
 		// 触发Acitiviti个人申请流程
 		Map<String, Object> vars = Maps.newHashMap();
-		vars.put("pass","1");
 		//根据procinstId查taskId
 		Act act=actHiTaskInstDao.findIdByProcInsId(procInsId);
 		String taskId=act.getTaskId();
