@@ -299,7 +299,7 @@ public class DictUtils {
 	//(如果是提交状态则隐藏修改按钮)
 	public static String getCheckStatus(String processStatus) {
 		String status = "";
-		if ("2".equals(processStatus)||"3".equals(processStatus)||"4".equals(processStatus)||"5".equals(processStatus)) {
+		if ("2".equals(processStatus)||"3".equals(processStatus)||"5".equals(processStatus)) {
 			status = "none;";
 		} else {
 			status = "inline";

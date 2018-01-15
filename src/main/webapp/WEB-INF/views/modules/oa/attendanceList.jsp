@@ -70,9 +70,14 @@
                 <%-- <a id="processStatus" style="${fns:getCheckStatus(attendanceMonth.processStatus)}"
                    href="${ctx}/oa/attendance/submitOwnAttendance?id=${attendanceMonth.id}&processStatus=${attendanceMonth.processStatus}"
                    onclick="return confirmx('确认要提交该考勤吗？', this.href)">提交</a> --%>
-                <a id="processStatus" style="${fns:getCheckStatus(attendanceMonth.processStatus)}"
-                   href="${ctx}/oa/attendance/submitOwnAttendance?id=${attendanceMonth.id}"
+                <c:if test="${attendanceMonth.processStatus == '1'}">
+                	<a id="processStatus" style="${fns:getCheckStatus(attendanceMonth.processStatus)}" href="${ctx}/oa/attendance/submitOwnAttendance?id=${attendanceMonth.id}&commitMode=start"
                    onclick="return confirmx('确认要提交该考勤吗？', this.href)">提交</a>
+                </c:if>
+                <c:if test="${attendanceMonth.processStatus == '4'}">
+                	<a id="processStatus" style="${fns:getCheckStatus(attendanceMonth.processStatus)}" href="${ctx}/oa/attendance/submitOwnAttendance?id=${attendanceMonth.id}&commitMode=complete"
+                   onclick="return confirmx('确认要提交该考勤吗？', this.href)">提交</a>
+                </c:if>
             </td>
         </tr>
     </c:forEach>

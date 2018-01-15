@@ -37,7 +37,7 @@
 	<table id="contentTable" class="table table-striped table-bordered table-condensed">
 		<thead>
 			<tr>
-				<th>任务</th>
+				<th>任务标题</th>
 				<th>部门</th>
 				<th>申请人</th>
 				<th>当前环节</th>
@@ -48,7 +48,7 @@
 		<tbody>
 		  <tr>
 			<c:forEach items="${list}" var="att">
-			<td>${att.act.procDef.name}</td> 
+			<td>${att.act.vars.map.title}</td> 
 			<td>${att.department}</td>
 			<td>${att.name}</td>
 			<td>${att.act.task.name}</td>

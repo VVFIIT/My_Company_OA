@@ -232,10 +232,14 @@ public class AttendanceController extends BaseController {
 	 * 提交个人考勤
 	 */
 	@RequestMapping(value = "submitOwnAttendance")
-	public String submitOwnAttendance(String id, RedirectAttributes redirectAttributes, Model model,
+	public String submitOwnAttendance(String id, String commitMode, RedirectAttributes redirectAttributes, Model model,
 			HttpServletRequest request, HttpServletResponse response) {
-
-		Page<AttendanceMonth> page = attendanceService.submitOwnAttendance(id, redirectAttributes, request, response);
+		Page<AttendanceMonth> page = null;
+		if ("start".equals(commitMode)) {
+			page = attendanceService.submitOwnAttendance(id,redirectAttributes,request,response);
+		} else {
+			page = attendanceService.submitAgainAttendance(id,redirectAttributes,request,response);
+		}
 		model.addAttribute("page", page);
 		addMessage(redirectAttributes, "提交考勤成功");
 

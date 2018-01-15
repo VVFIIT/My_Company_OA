@@ -699,5 +699,28 @@ public class AttendanceService {
 		return attendanceMonthService.attendanceHomeList(new Page<AttendanceMonth>(request, response));
 	}
 	
+	/**
+	 * 被驳回后再次提交个人考勤
+	 * 
+	 * @author Meng
+	 */
+	@Transactional(propagation = Propagation.NOT_SUPPORTED)
+	public Page<AttendanceMonth> submitAgainAttendance(String id, RedirectAttributes redirectAttributes,
+			HttpServletRequest request, HttpServletResponse response) {
+		AttendanceMonth attendanceMonth = attendanceMonthService.getInformation(id);
+		String title = attendanceMonth.getName() + " " + attendanceMonth.getYear() + "年" + attendanceMonth.getMonth() + "月考勤";
+		// 触发Acitiviti个人申请流程
+		Map<String, Object> vars = Maps.newHashMap();
+		vars.put("title", title);
+		String procInsId = attendanceMonth.getProcInsId();
+		//根据procinstId查taskId
+		Act act=actHiTaskInstDao.findIdByProcInsId(procInsId);
+		String taskId=act.getTaskId();
+		attendanceApprovalService.complete(taskId, attendanceMonth.getAct().getProcInsId(),
+				"apply", title, vars);
+		
+		return attendanceMonthService.attendanceHomeList(new Page<AttendanceMonth>(request, response));
+	}
+	
 	
 }
