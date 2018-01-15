@@ -62,7 +62,7 @@
             <td>${fns:abbr(attendanceMonth.attendanceDayStatus.leaveDay,30)}</td>
             <td>${fns:abbr(attendanceMonth.attendanceDayStatus.paidLeaveDay,30)}</td>
             <td>${fns:abbr(attendanceMonth.attendanceDayStatus.sickLeaveDay,30)}</td>
-            <td>${fns:getDictLabel(attendanceMonth.processStatus,'oa_attendance_check_status','')}</td>
+            <td>${fns:getDictLabel(attendanceMonth.processStatus,'oa_processStatus_type','')}</td>
             <td>
                 <a href="${ctx}/oa/attendance/searchAttendanceInformation?id=${attendanceMonth.id}">查看</a>
                 <%-- <a href="${ctx}/oa/attendance/modifyAttendanceInformation?id=${attendanceMonth.id}&processStatus=${attendanceMonth.processStatus}" style="${fns:getCheckStatus(attendanceMonth.processStatus)}">修改</a> --%>

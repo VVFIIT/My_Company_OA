@@ -95,7 +95,7 @@
 					<td>${attendance.name}</td>
 					<td>
 						<font><c:if test="${empty attendance.processStatus}">未创建</c:if></font>
-						<font><c:if test="${not empty attendance.processStatus}">${fns:getDictLabel(attendanceMonth.processStatus,'oa_attendance_check_status','')}</c:if></font>
+						<font><c:if test="${not empty attendance.processStatus}">${fns:getDictLabel(attendanceMonth.processStatus,'oa_processStatus_type','')}</c:if></font>
 					</td>
 					<td>
 						<a id="showAttendance"
