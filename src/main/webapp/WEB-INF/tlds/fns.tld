@@ -276,4 +276,12 @@
     <example>${fns:getDictList(type)}</example>
   </function>
   
+  <function>
+    <description>考勤操作状态(如果是确认状态则显示导出按钮)</description>
+    <name>getCheckStatusShowOn</name>
+    <function-class>com.thinkgem.jeesite.modules.sys.utils.DictUtils</function-class>
+    <function-signature>java.lang.String getCheckStatusShowOn(java.lang.String)</function-signature>
+    <example>${fns:getDictList(type)}</example>
+  </function>
+  
 </taglib>

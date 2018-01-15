@@ -95,13 +95,17 @@
 					<td>${attendance.name}</td>
 					<td>
 						<font><c:if test="${empty attendance.processStatus}">未创建</c:if></font>
-						<font><c:if test="${not empty attendance.processStatus}">${fns:getDictLabel(attendanceMonth.processStatus,'oa_processStatus_type','')}</c:if></font>
+						<font><c:if test="${attendance.processStatus=='1'}">未提交</c:if></font>
+						<font><c:if test="${attendance.processStatus=='2'}">待经理审批</c:if></font>
+						<font><c:if test="${attendance.processStatus=='3'}">待人事审批</c:if></font>
+						<font><c:if test="${attendance.processStatus=='4'}">审批驳回</c:if></font>
+						<font><c:if test="${attendance.processStatus=='5'}">审批通过</c:if></font>
+						<%-- <font><c:if test="${not empty attendance.processStatus}">${fns:getDictLabel(attendanceMonth.processStatus,'oa_processStatus_type','')}</c:if></font> --%>
 					</td>
 					<td>
-						<a id="showAttendance"
-						style="${fns:getCheckStatusShow(attendance.processStatus)}"
-						href="${ctx}/oa/attendance/show?id=${attendance.id}">查看</a> 
-						<a id="btnAttExport1" href='#' style="${fns:getCheckStatusShow(attendance.processStatus)}" onclick="showExport('${attendance.id}')">导出</a> 
+						<a style="${fns:getCheckStatusShowOn(attendance.processStatus)}" href="${ctx}/oa/attendance/show?id=${attendance.id}">查看</a> 
+						<a href='#' style="${fns:getCheckStatusShow(attendance.processStatus)}" onclick="showExport('${attendance.id}')">导出</a> 
+						
 						<%-- <a id="sendBack"
 						style="${fns:getCheckStatusShow(attendance.processStatus)}"
 						href="${ctx}/oa/attendance/sendBack?id=${attendance.id}&year=${attendance.year}&month=${attendance.month}&processStatus=0"

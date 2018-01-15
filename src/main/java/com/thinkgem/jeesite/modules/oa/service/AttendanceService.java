@@ -721,7 +721,8 @@ public class AttendanceService {
 		String taskId=act.getTaskId();
 		attendanceApprovalService.complete(taskId, attendanceMonth.getAct().getProcInsId(),
 				"apply", title, vars);
-		
+		attendanceMonth.setProcessStatus("2");
+		attendanceMonthDao.update(attendanceMonth);
 		return attendanceMonthService.attendanceHomeList(new Page<AttendanceMonth>(request, response));
 	}
 	
