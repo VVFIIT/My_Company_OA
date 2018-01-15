@@ -61,16 +61,6 @@ public class ActTaskController extends BaseController {
 			return renderString(response, list);
 		}
 
-		// for(Act actGet : list){
-		// String resourceName = actGet.getProcDef().getResourceName();
-		// String resource= StringUtils.split(resourceName, ".")[0];
-		// //考勤
-		// if("attendance_audit".equals(resource)){
-		// return "modules/oa/attendanceApproval";
-		//
-		// }
-		//
-		// }
 		return "modules/act/actTaskTodoList";
 
 	}

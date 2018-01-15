@@ -4,6 +4,7 @@ import com.thinkgem.jeesite.common.persistence.Page;
 import com.thinkgem.jeesite.common.utils.DateUtils;
 import com.thinkgem.jeesite.common.utils.excel.ExportExcel;
 import com.thinkgem.jeesite.common.web.BaseController;
+import com.thinkgem.jeesite.modules.act.entity.Act;
 import com.thinkgem.jeesite.modules.oa.entity.AttendanceDay;
 import com.thinkgem.jeesite.modules.oa.entity.AttendanceMonth;
 import com.thinkgem.jeesite.modules.oa.helper.StringName;
@@ -365,5 +366,27 @@ public class AttendanceController extends BaseController {
 		AttendanceMonth backAttendanceDate = attendanceService.getAttendanceDateExact(attendanceMonth);
 		model.addAttribute("attendanceShowAll", backAttendanceDate);
 		return "modules/oa/attendanceShowAll";
+	}
+	
+	/**
+	 * 我的考勤任务
+	 * 
+	 * @param act
+	 * @param response
+	 * @param model
+	 * @return
+	 * @throws Exception
+	 * @author Grace
+	 * @date 2018年1月15日 上午10:15:28
+	 */
+	@RequestMapping(value = { "toDo" })
+	public String todoList(Act act, HttpServletResponse response, Model model) throws Exception {
+		List<AttendanceMonth> list = attendanceMonthService.todoListAttendance(act);
+		model.addAttribute("list", list);
+		if (UserUtils.getPrincipal().isMobileLogin()) {
+			return renderString(response, list);
+		}
+		return "modules/oa/attendanceToDoList";
+
 	}
 }

@@ -122,7 +122,7 @@ public class ReimburseService {
 		complete(taskId, procInstId, "ReimburseApply", title, vars);
 
 		String emailContent = "你好，"+user.getName()+"向您发起了报销申请，请审批.";
-		EmailUtil.sendTextEmail(user.getEmail(), "1606528102@qq.com", title, emailContent);
+		EmailUtil.sendTextEmail(user.getEmail(), "zhe.jang@hongshenol.com", title, emailContent);
 
 		reimburseMain.setProcInstId(procInstId);
 
@@ -477,8 +477,8 @@ public class ReimburseService {
 		String title = reimburseMainReturn.getApplicant().getName() + " 报销申请";
 		String emailBackTitle="报销申请被驳回";
 		
-		String applyEmailAddress="346535377@qq.com";
-		//	String applyEmailAddress=reimburseMainReturn.getApplicant().getEmail();
+		String applyEmailAddress=reimburseMainReturn.getApplicant().getEmail();
+	
 		
 		// 设置意见
 		reimburseMain.getAct().setComment(("yes".equals(reimburseMain.getAct().getFlag()) ? "[同意] " : "[驳回] ")
@@ -494,14 +494,14 @@ public class ReimburseService {
 				reimburseMain.setStatus("40");
 		
 				String emailContent = "您好，财务驳回了您的报销申请，请修改后重新申请。";
-				EmailUtil.sendTextEmail(user.getEmail(),applyEmailAddress , emailBackTitle, emailContent);
+				EmailUtil.sendTextEmail("zhe.jang@hongshenol.com",applyEmailAddress , emailBackTitle, emailContent);
 			} else {
 				//财务同意
 				reimburseMain.setStatus("30");
 				
 				String emailContent = "您好，"+reimburseMainReturn.getApplicant().getName()+"向您发起了报销申请，请审批.";
 				//目标邮箱第二个改成杨哥的邮箱
-				EmailUtil.sendTextEmail(user.getEmail(), "1606528102@qq.com", title, emailContent);
+				EmailUtil.sendTextEmail("zhe.jang@hongshenol.com", "zhenming.yang@hongshenol.com", title, emailContent);
 			}
 			reimburseMain.setFAComment(reimburseMain.getAct().getComment());
 

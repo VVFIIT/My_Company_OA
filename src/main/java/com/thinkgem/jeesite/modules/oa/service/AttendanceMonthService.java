@@ -3,6 +3,10 @@ package com.thinkgem.jeesite.modules.oa.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.activiti.engine.TaskService;
+import org.activiti.engine.impl.persistence.entity.TaskEntity;
+import org.activiti.engine.task.Task;
+import org.activiti.engine.task.TaskQuery;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +14,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.thinkgem.jeesite.common.persistence.Page;
+import com.thinkgem.jeesite.common.utils.StringUtils;
+import com.thinkgem.jeesite.modules.act.entity.Act;
 import com.thinkgem.jeesite.modules.oa.dao.AttendanceMonthDao;
 import com.thinkgem.jeesite.modules.oa.entity.AttendanceDayStatus;
 import com.thinkgem.jeesite.modules.oa.entity.AttendanceMonth;
@@ -22,6 +28,9 @@ import com.thinkgem.jeesite.modules.sys.utils.UserUtils;
 @Service
 @Transactional(readOnly = true)
 public class AttendanceMonthService {
+
+	@Autowired
+	private TaskService taskService;
 
 	protected Logger logger = LoggerFactory.getLogger(getClass());
 
@@ -161,5 +170,59 @@ public class AttendanceMonthService {
 		attendanceStatus.setProcessStatus("1");
 		attendanceMonthDao.update(attendanceStatus);
 		return attendanceStatus;
+	}
+
+	/**
+	 * 我的考勤任务
+	 * 
+	 * @param act
+	 * @return
+	 * @author Grace
+	 * @date 2018年1月15日 上午10:13:53
+	 */
+	public List<AttendanceMonth> todoListAttendance(Act act) {
+		String userId = UserUtils.getUser().getLoginName();// ObjectUtils.toString(UserUtils.getUser().getId());
+
+		List<AttendanceMonth> resultList = new ArrayList<AttendanceMonth>();
+
+		TaskQuery todoTaskQuery = taskService.createTaskQuery().taskAssignee(userId).active().includeProcessVariables()
+				.orderByTaskCreateTime().desc();
+
+		// 设置查询条件
+		if (StringUtils.isNotBlank(act.getProcDefKey())) {
+			todoTaskQuery.processDefinitionKey(act.getProcDefKey());
+		}
+		if (act.getBeginDate() != null) {
+			todoTaskQuery.taskCreatedAfter(act.getBeginDate());
+		}
+		if (act.getEndDate() != null) {
+			todoTaskQuery.taskCreatedBefore(act.getEndDate());
+		}
+
+		// 查询列表
+		List<Task> todoList = todoTaskQuery.list();
+
+		for (Task task : todoList) {
+			// 获取任务的procInsId
+			String procInsId = ((TaskEntity) task).getProcessInstanceId();
+
+			AttendanceMonth attendanceMonth = new AttendanceMonth();
+			attendanceMonth.setProcInsId(procInsId);
+			List<AttendanceMonth> attendanceMonthList = attendanceMonthDao.getAttendance(attendanceMonth);
+
+			if (attendanceMonthList != null && attendanceMonthList.size() > 0) {
+
+				attendanceMonth = attendanceMonthList.get(0);
+				// 将task和流程变量都赋给这个reimburseModel对象
+				Act actNew = new Act();
+				act.setTask(task);
+				act.setVars(task.getProcessVariables());
+				attendanceMonth.setAct(actNew);
+				// 将该对象放到resultList中
+				resultList.add(attendanceMonth);
+			}
+		}
+
+		return resultList;
 	}
 }

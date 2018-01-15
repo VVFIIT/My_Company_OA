@@ -1,11 +1,14 @@
 package com.thinkgem.jeesite.modules.finance.web;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
+import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -82,11 +85,14 @@ public class ReimburseController extends BaseController {
 	 * @return
 	 * @author Grace
 	 * @throws ParseException
+	 * @throws MessagingException 
+	 * @throws IOException 
+	 * @throws FileNotFoundException 
 	 * @date 2018年1月3日 下午5:00:03
 	 */
 	@RequestMapping(value = "commitApplyForm")
 	public String commitApplyForm(ReimburseMain reimburseMain, HttpServletRequest request, HttpServletResponse response,
-			RedirectAttributes redirectAttributes) throws ParseException {
+			RedirectAttributes redirectAttributes) throws ParseException, FileNotFoundException, IOException, MessagingException {
 
 		try {
 			String mainId = UUID.randomUUID().toString();
@@ -200,11 +206,14 @@ public class ReimburseController extends BaseController {
 	 * @param redirectAttributes
 	 * @return
 	 * @author Grace
+	 * @throws MessagingException 
+	 * @throws IOException 
+	 * @throws FileNotFoundException 
 	 * @date 2018年1月8日 下午6:03:03
 	 */
 	@RequestMapping(value = "approveSave")
 	public String approveSave(ReimburseMain reimburseMain, HttpServletRequest request,
-			RedirectAttributes redirectAttributes, Model model) {
+			RedirectAttributes redirectAttributes, Model model) throws FileNotFoundException, IOException, MessagingException {
 
 		if (StringUtils.isBlank(reimburseMain.getAct().getFlag())
 				|| StringUtils.isBlank(reimburseMain.getAct().getComment())) {

@@ -66,6 +66,9 @@ import com.thinkgem.jeesite.modules.act.service.creator.SimpleRuntimeActivityDef
 import com.thinkgem.jeesite.modules.act.utils.ActUtils;
 import com.thinkgem.jeesite.modules.act.utils.ProcessDefCache;
 import com.thinkgem.jeesite.modules.act.utils.ProcessDefUtils;
+import com.thinkgem.jeesite.modules.finance.entity.ReimburseMain;
+import com.thinkgem.jeesite.modules.oa.dao.AttendanceMonthDao;
+import com.thinkgem.jeesite.modules.oa.entity.AttendanceMonth;
 import com.thinkgem.jeesite.modules.sys.entity.User;
 import com.thinkgem.jeesite.modules.sys.utils.UserUtils;
 
@@ -102,6 +105,10 @@ public class ActTaskService extends BaseService {
 
 //	@Autowired
 //	private TestAuditDao testAuditDao;
+	
+	@Autowired
+	private AttendanceMonthDao attendanceMonthDao;
+	
 	/**
 	 * 获取待办列表
 	 * 
@@ -177,7 +184,7 @@ public class ActTaskService extends BaseService {
 		}
 		return result;
 	}
-
+	
 	/**
 	 * 获取已办任务
 	 * 

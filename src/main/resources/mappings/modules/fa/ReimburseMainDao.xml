@@ -18,7 +18,7 @@
 		a.FAFlag AS "FAFlag",
 		a.managerComment AS "managerComment",
 		a.FAComment AS "FAComment",
-		a.delFlag AS "delFlag"
+		a.delFlagRei AS "delFlagRei"
 	</sql>
 	
 	<sql id="faReimburseMainJoins">
@@ -30,7 +30,7 @@
 		FROM fa_reimburse_main a
 		<include refid="faReimburseMainJoins"/>
 		WHERE 
-		a.delFlag = 1	
+		a.delFlagRei = 1	
 		And a.id = #{id}
 		
 	</select>
@@ -43,7 +43,7 @@
 			FROM fa_reimburse_main a
 		JOIN sys_user u ON a.applicantId = u.id
 		JOIN sys_office o ON a.officeId = o.id
-		where a.delFlag = 1	
+		where a.delFlagRei = 1	
 		<if test="status != null and status != ''">
 			AND a.status = #{status}
 		</if>	
@@ -58,7 +58,7 @@
 			<include refid="faReimburseMainColumns"/>
 		FROM fa_reimburse_main a
 		<include refid="faReimburseMainJoins"/>
-		where a.delFlag = 1		
+		where a.delFlagRei = 1		
 		<choose>
 			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
 				ORDER BY ${page.orderBy}
@@ -76,7 +76,7 @@
 			FROM fa_reimburse_main a
 		JOIN sys_user u ON a.applicantId = u.id
 		JOIN sys_office o ON a.officeId = o.id
-		where a.delFlag = 1
+		where a.delFlagRei = 1
 		<if test="_parameter != null">
 			AND a.id = #{mainId}
 		</if>	
@@ -178,7 +178,7 @@
 	
 	<update id="deleteByFlag">
 		UPDATE fa_reimburse_main SET 	
-			delFlag = 0
+			delFlagRei = 0
 		WHERE id = #{id}
 	</update>
 </mapper>
