@@ -94,20 +94,18 @@
 					<td><%=number%></td>
 					<td>${attendance.name}</td>
 					<td>
-						<font color=blue><c:if test="${empty attendance.processStatus}">无</c:if></font>
-						<font color=red><c:if test="${attendance.processStatus ==1}"> 未提交</c:if></font>
-						<c:if test="${attendance.processStatus ==2}"> 提交</c:if> 
-						<c:if test="${attendance.processStatus ==3}"> 确认</c:if>
+						<font><c:if test="${empty attendance.processStatus}">未创建</c:if></font>
+						<font><c:if test="${not empty attendance.processStatus}">${fns:getDictLabel(attendanceMonth.processStatus,'oa_attendance_check_status','')}</c:if></font>
 					</td>
 					<td>
 						<a id="showAttendance"
 						style="${fns:getCheckStatusShow(attendance.processStatus)}"
 						href="${ctx}/oa/attendance/show?id=${attendance.id}">查看</a> 
 						<a id="btnAttExport1" href='#' style="${fns:getCheckStatusShow(attendance.processStatus)}" onclick="showExport('${attendance.id}')">导出</a> 
-						<a id="sendBack"
+						<%-- <a id="sendBack"
 						style="${fns:getCheckStatusShow(attendance.processStatus)}"
 						href="${ctx}/oa/attendance/sendBack?id=${attendance.id}&year=${attendance.year}&month=${attendance.month}&processStatus=0"
-						onclick="return confirmx('是否退回考勤？', this.href)">退回</a>
+						onclick="return confirmx('是否退回考勤？', this.href)">退回</a> --%>
 					</td>
 				</tr>
 			</c:forEach>

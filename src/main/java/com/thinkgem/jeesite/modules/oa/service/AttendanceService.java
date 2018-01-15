@@ -590,7 +590,7 @@ public class AttendanceService {
 					
 			returnPage.setCount(page.getCount());
 			returnPage.setList(returnList);
-		}else if("4".equals(attendanceMonth.getProcessStatus())){ //判断状态为：未创建
+		}else if("6".equals(attendanceMonth.getProcessStatus())){ //判断状态为：未创建
 			User user = new User();
 			List<User> userAllList = userDao.findAllList(user);
 			for(User userAllInformation : userAllList){

@@ -57,8 +57,8 @@ public class AttendanceApprovalService {
 		} else if ("PMApprovalAttendance".equals(taskDefKey)) {
 			// 如果PM或者人事驳回 都转到个人让重新提交
 			if ("no".equals(attendanceMonth.getAct().getFlag())) {
-				// 新建状态
-				attendanceMonth.setProcessStatus("1");
+				// 驳回状态
+				attendanceMonth.setProcessStatus("4");
 			} else {
 				attendanceMonth.setProcessStatus("3");
 			}
@@ -66,10 +66,10 @@ public class AttendanceApprovalService {
 			attendanceMonthReturn = attendanceMonthDao.updateAttanceMonthByProcInsId(attendanceMonth);
 		} else if ("HRApprovalAttendance".equals(taskDefKey)) {
 			if ("no".equals(attendanceMonth.getAct().getFlag())) {
-				// 新建状态
-				attendanceMonth.setProcessStatus("1");
-			} else {
+				// 驳回状态
 				attendanceMonth.setProcessStatus("4");
+			} else {
+				attendanceMonth.setProcessStatus("5");
 			}
 			attendanceMonth.setHRComment(attendanceMonth.getAct().getComment());
 			attendanceMonthReturn = attendanceMonthDao.updateAttanceMonthByProcInsId(attendanceMonth);

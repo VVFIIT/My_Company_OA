@@ -156,8 +156,7 @@ public class AttendanceMonthDao {
 		if (attendanceMonth.getMonth() != null) {
 			query.addCriteria(Criteria.where("month").is(attendanceMonth.getMonth()));
 		}
-		if (attendanceMonth.getProcessStatus() != null && !"0".equals(attendanceMonth.getProcessStatus())
-				&& !"4".equals(attendanceMonth.getProcessStatus())) {
+		if (attendanceMonth.getProcessStatus() != null && !"0".equals(attendanceMonth.getProcessStatus()) && !"6".equals(attendanceMonth.getProcessStatus())) {
 			query.addCriteria(Criteria.where("processStatus").is(attendanceMonth.getProcessStatus()));
 		}
 		Long countAll = this.mongoTemplate.count(query, AttendanceMonth.class);

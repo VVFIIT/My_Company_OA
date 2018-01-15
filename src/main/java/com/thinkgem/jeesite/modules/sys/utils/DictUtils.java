@@ -299,7 +299,7 @@ public class DictUtils {
 	//(如果是提交状态则隐藏修改按钮)
 	public static String getCheckStatus(String processStatus) {
 		String status = "";
-		if ("2".equals(processStatus)||"3".equals(processStatus)||"4".equals(processStatus)) {
+		if ("2".equals(processStatus)||"3".equals(processStatus)||"4".equals(processStatus)||"5".equals(processStatus)) {
 			status = "none;";
 		} else {
 			status = "inline";
@@ -308,10 +308,10 @@ public class DictUtils {
 		return status;
 	}
 	
-	//提交状态显示 导出按钮
+	//审批完成态显示 导出按钮
 	public static String getCheckStatusShow(String processStatus) {
 		String status = "";
-		if ("2".equals(processStatus) || "3".equals(processStatus)) {
+		if ("5".equals(processStatus)) {
 			status = "inline";
 		} else {
 			status = "none;";

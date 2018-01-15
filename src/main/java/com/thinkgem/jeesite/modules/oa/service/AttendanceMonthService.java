@@ -163,7 +163,7 @@ public class AttendanceMonthService {
 	/**
 	 * 查看考勤（退回）：改变考勤状态
 	 */
-	@Transactional(rollbackFor = Exception.class)
+	/*@Transactional(rollbackFor = Exception.class)
 	public AttendanceMonth getSendBackAttendaceStatus(AttendanceMonth attendanceMonth) {
 		AttendanceMonth attendanceStatus = new AttendanceMonth();
 		attendanceStatus.setId(attendanceMonth.getId());
@@ -171,7 +171,7 @@ public class AttendanceMonthService {
 		attendanceStatus.setProcessStatus("1");
 		attendanceMonthDao.update(attendanceStatus);
 		return attendanceStatus;
-	}
+	}*/
 
 	/**
 	 * 我的考勤任务
