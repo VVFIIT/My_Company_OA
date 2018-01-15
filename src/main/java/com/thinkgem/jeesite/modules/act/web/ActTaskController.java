@@ -145,23 +145,6 @@ public class ActTaskController extends BaseController {
 			act.setProcIns(actTaskService.getProcIns(act.getProcInsId()));
 		}
 
-		if (StringUtils.isNoneBlank(resourceName)) {
-			String resource = StringUtils.split(resourceName, ".")[0];
-			// 考勤 Grace
-			if ("attendance_audit".equals(resource)) {
-
-				AttendanceMonth attendanceMonth = new AttendanceMonth();
-				attendanceMonth.setProcInsId(act.getProcInsId());
-				List<AttendanceMonth> attendanceMonthList = attendanceMonthService.getAttendance(attendanceMonth);
-				if (attendanceMonthList != null && attendanceMonthList.size() > 0) {
-					attendanceMonth = attendanceMonthList.get(0);
-				}
-				model.addAttribute("attendanceMonth", attendanceMonth);
-				model.addAttribute("act", act);
-				return "modules/oa/attendanceApproval";
-			}
-		}
-
 		return "redirect:" + ActUtils.getFormUrl(formKey, act);
 
 		// // 传递参数到视图

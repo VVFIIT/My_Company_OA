@@ -5,6 +5,7 @@ import com.thinkgem.jeesite.common.utils.DateUtils;
 import com.thinkgem.jeesite.common.utils.excel.ExportExcel;
 import com.thinkgem.jeesite.common.web.BaseController;
 import com.thinkgem.jeesite.modules.act.entity.Act;
+import com.thinkgem.jeesite.modules.act.utils.ActUtils;
 import com.thinkgem.jeesite.modules.oa.entity.AttendanceDay;
 import com.thinkgem.jeesite.modules.oa.entity.AttendanceMonth;
 import com.thinkgem.jeesite.modules.oa.helper.StringName;
@@ -13,6 +14,8 @@ import com.thinkgem.jeesite.modules.oa.service.AttendanceService;
 import com.thinkgem.jeesite.modules.oa.helper.EmailUtil;
 import com.thinkgem.jeesite.modules.sys.entity.User;
 import com.thinkgem.jeesite.modules.sys.utils.UserUtils;
+
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -24,6 +27,7 @@ import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -143,13 +147,13 @@ public class AttendanceController extends BaseController {
 		// 传到JSP
 		model.addAttribute("attendanceMonth_ShowList", attendanceMonth);
 		try {
-			//发送邮件
+			// 发送邮件
 			User user = UserUtils.getUser();
 			EmailUtil.sendTextEmail("jiqing.jiang@hongshenol.com", "1606528102@qq.com", "出差任务", "你好");
 		} catch (IOException | MessagingException e) {
 			e.printStackTrace();
 		}
-//		MailUtil.singleMail("1606528102@qq.com","进度提示","你好");
+		// MailUtil.singleMail("1606528102@qq.com","进度提示","你好");
 		return "modules/oa/attendanceShowList";
 	}
 
@@ -231,11 +235,10 @@ public class AttendanceController extends BaseController {
 	public String submitOwnAttendance(String id, RedirectAttributes redirectAttributes, Model model,
 			HttpServletRequest request, HttpServletResponse response) {
 
-		Page<AttendanceMonth> page = attendanceService.submitOwnAttendance(id,redirectAttributes,request,response);
+		Page<AttendanceMonth> page = attendanceService.submitOwnAttendance(id, redirectAttributes, request, response);
 		model.addAttribute("page", page);
 		addMessage(redirectAttributes, "提交考勤成功");
-		
-		
+
 		// 判断是否存在可以添加的年份月份，并把MODE传到画面
 		attendanceService.insertMonthToModel(model);
 		return "modules/oa/attendanceList";
@@ -316,8 +319,8 @@ public class AttendanceController extends BaseController {
 		Page<AttendanceMonth> page = new Page<AttendanceMonth>(request, response);
 		attendanceMonth.setPage(page);
 		Page<AttendanceMonth> defaultAttendance = attendanceService
-				.getAttendanceShowAllDefault(new Page<User>(request, response), attendanceMonth);		
-		 
+				.getAttendanceShowAllDefault(new Page<User>(request, response), attendanceMonth);
+
 		model.addAttribute("page", defaultAttendance);
 		// 查询默认考勤的年和月
 		AttendanceMonth defaultAttendanceDate = attendanceService.getAttendanceDateDefault();
@@ -336,7 +339,7 @@ public class AttendanceController extends BaseController {
 		attendanceMonth.setPage(page);
 		Page<AttendanceMonth> exactAttendance = attendanceService
 				.getAttendanceShowAllExact(new Page<User>(request, response), attendanceMonth);
-		
+
 		model.addAttribute("page", exactAttendance);
 		// 根据查询的年和月显示
 		AttendanceMonth exactAttendanceDate = attendanceService.getAttendanceDateExact(attendanceMonth);
@@ -363,7 +366,7 @@ public class AttendanceController extends BaseController {
 		model.addAttribute("attendanceShowAll", backAttendanceDate);
 		return "modules/oa/attendanceShowAll";
 	}
-	
+
 	/**
 	 * 我的考勤任务
 	 * 
@@ -385,4 +388,40 @@ public class AttendanceController extends BaseController {
 		return "modules/oa/attendanceToDoList";
 
 	}
+
+	/**
+	 * 去审批页面
+	 * 
+	 * @param act
+	 * @param resourceName
+	 * @param request
+	 * @param model
+	 * @return
+	 * @throws UnsupportedEncodingException
+	 * @author Grace
+	 * @date 2018年1月15日 下午4:25:58
+	 */
+	@RequestMapping(value = "toApproval")
+	public String form(Act act, String resourceName, HttpServletRequest request, Model model)
+			throws UnsupportedEncodingException {
+
+		if (StringUtils.isNoneBlank(resourceName)) {
+			String resource = StringUtils.split(resourceName, ".")[0];
+			if ("attendance_audit".equals(resource)) {
+
+				AttendanceMonth attendanceMonth = new AttendanceMonth();
+				attendanceMonth.setProcInsId(act.getProcInsId());
+				List<AttendanceMonth> attendanceMonthList = attendanceMonthService.getAttendance(attendanceMonth);
+				if (attendanceMonthList != null && attendanceMonthList.size() > 0) {
+					attendanceMonth = attendanceMonthList.get(0);
+				}
+				model.addAttribute("attendanceMonth", attendanceMonth);
+			}
+		}
+
+		model.addAttribute("act", act);
+		return "modules/oa/attendanceApproval";
+
+	}
+
 }

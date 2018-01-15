@@ -37,8 +37,6 @@
 	<table id="contentTable" class="table table-striped table-bordered table-condensed">
 		<thead>
 			<tr>
-			
-				
 				<th>任务</th>
 				<th>部门</th>
 				<th>申请人</th>
@@ -48,14 +46,19 @@
 			</tr>
 		</thead>
 		<tbody>
+		  <tr>
 			<c:forEach items="${list}" var="att">
 			<td>${att.act.procDef.name}</td> 
 			<td>${att.department}</td>
 			<td>${att.name}</td>
 			<td>${att.act.task.name}</td>
-		
+			<td>
+			<a href="${ctx}/oa/attendance/toApproval?taskId=${task.id}&taskName=${fns:urlEncode(task.name)}&taskDefKey=${task.taskDefinitionKey}&procInsId=${task.processInstanceId}&procDefId=${task.processDefinitionId}&status=${status}&resourceName=${procDef.resourceName}">审批</a>
+			</td>
+			 </c:forEach>
 			
-			</c:forEach>
+		 </tr>
+		
 		</tbody>
 	</table>
 </body>
