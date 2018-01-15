@@ -679,9 +679,13 @@ public class AttendanceService {
 		// 启动Activity
 		String title = attendanceMonth.getName() + " " + attendanceMonth.getYear() + "年" + attendanceMonth.getMonth()
 				+ "月考勤";
+		User user = UserUtils.getUser();
+		Map<String, Object> startVars = Maps.newHashMap();
+		startVars.put("attendanceApply", user.getLoginName());
 		String procInsId = actTaskService.startProcess(ActUtils.PD_ATTENDANCE_AUDIT[0], ActUtils.PD_ATTENDANCE_AUDIT[1],
-				attendanceMonth.getId(), title);
-
+				attendanceMonth.getId(), title, startVars);
+	
+		
 		// 修改为提交状态
 		attendanceMonth.setProcessStatus("2");
 		attendanceMonth.setProcInsId(procInsId);
@@ -699,43 +703,5 @@ public class AttendanceService {
 		return attendanceMonthService.attendanceHomeList(new Page<AttendanceMonth>(request, response));
 	}
 	
-	/**
-	 * 测试代码
-	 * 
-	 * @param page
-	 * @param attendanceMonth
-	 * @return
-	 * @author Grace
-	 * @date 2017年11月15日 下午3:58:04
-	 */
-	public Page<AttendanceMonth> test(Page<User> page, AttendanceMonth attendanceMonth) {
-		Page<AttendanceMonth> returnPage = attendanceMonth.getPage();
-		User user = new User();
-		user.setPage(page);
-
-		List<User> userList = userDao.findList(user);
-
-//		List<User> userListNew = new ArrayList<User>();
-//		userListNew.add(userList.get(0));
-//		userListNew.add(userList.get(1));
-
-		List<AttendanceMonth> attendanceMonthListNew = new ArrayList<AttendanceMonth>();
-		AttendanceMonth attendanceMonth1=new AttendanceMonth();
-		attendanceMonth1.setName("高振东");
-		
-		AttendanceMonth attendanceMonth2=new AttendanceMonth();
-		attendanceMonth2.setName("王鲁杰");
-		attendanceMonthListNew.add(attendanceMonth1);
-		attendanceMonthListNew.add(attendanceMonth2);
 	
-		
-		Map<Object, Object> map = new HashMap<Object, Object>();
-		
-		map.put("list", attendanceMonthListNew);
-		map.put("page", page);
-		map.put("begin", (page.getPageNo() - 1) * page.getPageSize());
-		List<AttendanceMonth> returnList = userDao.findListByUserList(map);
-
-		return returnPage;
-	}
 }

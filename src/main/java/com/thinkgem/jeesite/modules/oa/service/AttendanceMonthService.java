@@ -16,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.thinkgem.jeesite.common.persistence.Page;
 import com.thinkgem.jeesite.common.utils.StringUtils;
 import com.thinkgem.jeesite.modules.act.entity.Act;
+import com.thinkgem.jeesite.modules.act.utils.ProcessDefCache;
 import com.thinkgem.jeesite.modules.oa.dao.AttendanceMonthDao;
 import com.thinkgem.jeesite.modules.oa.entity.AttendanceDayStatus;
 import com.thinkgem.jeesite.modules.oa.entity.AttendanceMonth;
@@ -189,15 +190,15 @@ public class AttendanceMonthService {
 				.orderByTaskCreateTime().desc();
 
 		// 设置查询条件
-		if (StringUtils.isNotBlank(act.getProcDefKey())) {
+		/*if (StringUtils.isNotBlank(act.getProcDefKey())) {
 			todoTaskQuery.processDefinitionKey(act.getProcDefKey());
 		}
 		if (act.getBeginDate() != null) {
 			todoTaskQuery.taskCreatedAfter(act.getBeginDate());
 		}
 		if (act.getEndDate() != null) {
-			todoTaskQuery.taskCreatedBefore(act.getEndDate());
-		}
+			todoTaskQuery.taskCreatedBefore(act.getEndDate());a
+		}*/
 
 		// 查询列表
 		List<Task> todoList = todoTaskQuery.list();
@@ -215,9 +216,12 @@ public class AttendanceMonthService {
 				attendanceMonth = attendanceMonthList.get(0);
 				// 将task和流程变量都赋给这个reimburseModel对象
 				Act actNew = new Act();
-				act.setTask(task);
-				act.setVars(task.getProcessVariables());
+				actNew.setTask(task);
+				actNew.setVars(task.getProcessVariables());
+				actNew.setProcDef(ProcessDefCache.get(task.getProcessDefinitionId()));
+				
 				attendanceMonth.setAct(actNew);
+				
 				// 将该对象放到resultList中
 				resultList.add(attendanceMonth);
 			}

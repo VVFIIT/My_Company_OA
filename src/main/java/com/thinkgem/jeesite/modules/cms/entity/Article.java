@@ -234,6 +234,11 @@ public class Article extends DataEntity<Article> {
    	public String getImageSrc() {
         return CmsUtils.formatImageSrcToWeb(this.image);
    	}
+
+	public void setDelFlag(String delFlagAudit) {
+		// TODO Auto-generated method stub
+		
+	}
 	
 }
 
