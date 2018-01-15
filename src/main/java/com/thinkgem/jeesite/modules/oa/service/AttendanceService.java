@@ -714,7 +714,10 @@ public class AttendanceService {
 		vars.put("title", title);
 		String procInsId = attendanceMonth.getProcInsId();
 		//根据procinstId查taskId
-		Act act=actHiTaskInstDao.findIdByProcInsId(procInsId);
+		Act act = new Act();
+		act.setProcInsId(procInsId);
+		act.setTaskDefKey("apply");
+		act=actHiTaskInstDao.findIdByProcInsIdAndActId(act).get(0);
 		String taskId=act.getTaskId();
 		attendanceApprovalService.complete(taskId, attendanceMonth.getAct().getProcInsId(),
 				"apply", title, vars);
