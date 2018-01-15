@@ -189,17 +189,6 @@ public class AttendanceMonthService {
 		TaskQuery todoTaskQuery = taskService.createTaskQuery().taskAssignee(userId).active().includeProcessVariables()
 				.orderByTaskCreateTime().desc();
 
-		// 设置查询条件
-		/*if (StringUtils.isNotBlank(act.getProcDefKey())) {
-			todoTaskQuery.processDefinitionKey(act.getProcDefKey());
-		}
-		if (act.getBeginDate() != null) {
-			todoTaskQuery.taskCreatedAfter(act.getBeginDate());
-		}
-		if (act.getEndDate() != null) {
-			todoTaskQuery.taskCreatedBefore(act.getEndDate());a
-		}*/
-
 		// 查询列表
 		List<Task> todoList = todoTaskQuery.list();
 

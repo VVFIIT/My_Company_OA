@@ -37,10 +37,11 @@
 	<table id="contentTable" class="table table-striped table-bordered table-condensed">
 		<thead>
 			<tr>
-				<th>任务</th>
+				<th>流程名称</th>
 				<th>部门</th>
 				<th>申请人</th>
 				<th>当前环节</th>
+				<th>创建时间</th>
 				<th>操作</th>
 			
 			</tr>
@@ -52,8 +53,11 @@
 			<td>${att.department}</td>
 			<td>${att.name}</td>
 			<td>${att.act.task.name}</td>
+		
+		
+			<td><fmt:formatDate value="${att.act.task.createTime}" type="both"/></td>
 			<td>
-			<a href="${ctx}/oa/attendance/toApproval?taskId=${task.id}&taskName=${fns:urlEncode(task.name)}&taskDefKey=${task.taskDefinitionKey}&procInsId=${task.processInstanceId}&procDefId=${task.processDefinitionId}&status=${status}&resourceName=${procDef.resourceName}">审批</a>
+			<a href="${ctx}/oa/attendance/toApproval?id=${att.id}&taskId=${att.act.task.id}&taskDefKey=${att.act.task.taskDefinitionKey}&procInsId=${att.procInsId}">审批</a>
 			</td>
 			 </c:forEach>
 			
