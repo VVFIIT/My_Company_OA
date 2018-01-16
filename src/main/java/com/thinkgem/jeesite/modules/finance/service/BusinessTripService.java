@@ -389,9 +389,10 @@ public class BusinessTripService {
 		//发送邮件
 		try {
 			String name = businessTripDao.getBusinessTripApplicationInfo(applicationId).getApplicant().getName();
+			String email = businessTripDao.getBusinessTripApplicationInfo(applicationId).getApplicant().getEmail();
 			String emailTitle = name+"出差申请";
 			String emailContent = "你好，"+name+"向您发起了出差申请！请审批。";
-			EmailUtil.sendTextEmail("office@hongshenol.com", "zhenming.yang@hongshenol.com", emailTitle, emailContent);
+			EmailUtil.sendTextEmail(email, "zhenming.yang@hongshenol.com", emailTitle, emailContent);
 		} catch (IOException | MessagingException e) {
 			e.printStackTrace();
 		}
