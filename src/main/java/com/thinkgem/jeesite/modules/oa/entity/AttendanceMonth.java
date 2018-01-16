@@ -26,6 +26,9 @@ public class AttendanceMonth extends ActEntity<AttendanceMonth> {
 
 	// 姓名
 	private String name;
+	
+	// 邮箱
+	private String email;
 
 	// 部门
 	private String department;
@@ -166,5 +169,13 @@ public class AttendanceMonth extends ActEntity<AttendanceMonth> {
 	public void preUpdate() {
 		// TODO Auto-generated method stub
 
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
 	}
 }

@@ -1,6 +1,9 @@
 package com.thinkgem.jeesite.modules.oa.service;
 
+import java.io.IOException;
 import java.util.Map;
+
+import javax.mail.MessagingException;
 
 import org.activiti.engine.TaskService;
 import org.slf4j.Logger;
@@ -13,6 +16,7 @@ import com.google.common.collect.Maps;
 import com.thinkgem.jeesite.common.utils.StringUtils;
 import com.thinkgem.jeesite.modules.oa.dao.AttendanceMonthDao;
 import com.thinkgem.jeesite.modules.oa.entity.AttendanceMonth;
+import com.thinkgem.jeesite.modules.oa.helper.EmailUtil;
 
 /**
  * 考勤审批
@@ -90,7 +94,17 @@ public class AttendanceApprovalService {
 
 		complete(attendanceMonth.getAct().getTaskId(), attendanceMonth.getAct().getProcInsId(),
 				attendanceMonth.getAct().getComment(), title, vars);
-
+		//发送邮件
+		if("no".equals(attendanceMonth.getAct().getFlag())) {
+			try {
+				String email = attendanceMonth.getEmail();
+				String emailTitle = "考勤驳回";
+				String emailContent = "您好，您的考勤被驳回！请修改后重新提交！";
+				EmailUtil.sendTextEmail("jiqing.jiang@hongshenol.com", email, emailTitle, emailContent);
+			} catch (IOException | MessagingException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 
 	/**

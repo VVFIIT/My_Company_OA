@@ -35,7 +35,7 @@
 		<form:input path="procInsId" type="hidden"/>		
 		<form:input path="act.taskDefKey" type="hidden"/>
 		<form:input path="act.taskId" type="hidden"/>
-		
+		<form:input path="email" type="hidden"/>
 		<sys:message content="${message}"/>
 		<div style="background:#f9f9f9; text-align:center">
 			<label style="font-weight:bold; font-size:15px">姓名：${attendanceMonth.name}</label>

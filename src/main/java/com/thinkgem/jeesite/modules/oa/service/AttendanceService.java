@@ -80,6 +80,7 @@ public class AttendanceService {
     	attendanceMonth1.setId(UUID.randomUUID().toString());
     	User user = UserUtils.getUser();
     	attendanceMonth1.setName(user.getName());
+    	attendanceMonth1.setEmail(user.getEmail());
     	attendanceMonth1.setProcessStatus("1");
     	attendanceMonth1.setDepartment(user.getOffice().getName());
     	try {

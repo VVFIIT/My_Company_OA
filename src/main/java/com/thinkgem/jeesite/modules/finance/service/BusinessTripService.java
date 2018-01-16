@@ -391,7 +391,7 @@ public class BusinessTripService {
 			String name = businessTripDao.getBusinessTripApplicationInfo(applicationId).getApplicant().getName();
 			String emailTitle = name+"出差申请";
 			String emailContent = "你好，"+name+"向您发起了出差申请！请审批。";
-			EmailUtil.sendTextEmail("jiqing.jiang@hongshenol.com", "zhenming.yang@hongshenol.com", emailTitle, emailContent);
+			EmailUtil.sendTextEmail("office@hongshenol.com", "zhenming.yang@hongshenol.com", emailTitle, emailContent);
 		} catch (IOException | MessagingException e) {
 			e.printStackTrace();
 		}
@@ -539,7 +539,7 @@ public class BusinessTripService {
 			try {
 				String emailTitle = "出差申请驳回";
 				String emailContent = "您好，经理驳回了您发起的出差申请！请查看。";
-				EmailUtil.sendTextEmail("jiqing.jiang@hongshenol.com", email, emailTitle, emailContent);
+				EmailUtil.sendTextEmail("office@hongshenol.com", email, emailTitle, emailContent);
 			} catch (IOException | MessagingException e) {
 				e.printStackTrace();
 			}
@@ -548,7 +548,7 @@ public class BusinessTripService {
 			try {
 				String emailTitle = name+"出差申请";
 				String emailContent = "您好，"+name+"向您发起了出差申请！请审批。";
-				EmailUtil.sendTextEmail("jiqing.jiang@hongshenol.com", "zhe.jiang@hongshenol.com", emailTitle, emailContent);
+				EmailUtil.sendTextEmail("office@hongshenol.com", "zhe.jiang@hongshenol.com", emailTitle, emailContent);
 			} catch (IOException | MessagingException e) {
 				e.printStackTrace();
 			}
@@ -648,7 +648,7 @@ public class BusinessTripService {
 			try {
 				String emailTitle = "出差申请驳回";
 				String emailContent = "您好，财务驳回了您发起的出差申请！请查看。";
-				EmailUtil.sendTextEmail("jiqing.jiang@hongshenol.com", email, emailTitle, emailContent);
+				EmailUtil.sendTextEmail("office@hongshenol.com", email, emailTitle, emailContent);
 			} catch (IOException | MessagingException e) {
 				e.printStackTrace();
 			}
@@ -657,7 +657,7 @@ public class BusinessTripService {
 			try {
 				String emailTitle = "出差申请通过";
 				String emailContent = "您好，您的出差申请已通过！";
-				EmailUtil.sendTextEmail("jiqing.jiang@hongshenol.com", email, emailTitle, emailContent);
+				EmailUtil.sendTextEmail("office@hongshenol.com", email, emailTitle, emailContent);
 			} catch (IOException | MessagingException e) {
 				e.printStackTrace();
 			}
