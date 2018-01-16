@@ -51,7 +51,7 @@
     
     <select id="findTaskIdByProcInsId" resultType="string">
 		select id_ as taskId 
-		from act_hi_taskinst
+		from ACT_HI_TASKINST
 		WHERE proc_inst_id_ = #{0} and TASK_DEF_KEY_ = #{1}
 		AND END_TIME_ IS Null
 	</select>

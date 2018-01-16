@@ -3,13 +3,13 @@
 <mapper namespace="com.thinkgem.jeesite.modules.act.dao.ActHiTaskInstDao">
 	<select id="findIdByProcInsId" resultType="com.thinkgem.jeesite.modules.act.entity.Act">
 		select id_ as taskId 
-		from act_hi_taskinst
+		from ACT_HI_TASKINST
 		WHERE proc_inst_id_ = #{procInsId}
 	</select>	
 	
 	<select id="findIdByProcInsIdAndActId" resultType="com.thinkgem.jeesite.modules.act.entity.Act">
 		select id_ as taskId 
-		from act_hi_taskinst
+		from ACT_HI_TASKINST
 		WHERE 
 		proc_inst_id_ = #{procInsId}
 		and task_Def_Key_ = #{taskDefKey}
