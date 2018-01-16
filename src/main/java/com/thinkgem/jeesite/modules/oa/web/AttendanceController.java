@@ -413,7 +413,6 @@ public class AttendanceController extends BaseController {
 		act.setComment(comment);
 		attendanceMonth.setAct(act);
 		model.addAttribute("attendanceMonth", attendanceMonth);
-//		model.addAttribute("act", act);
 		return "modules/oa/attendanceApproval";
 	}
 

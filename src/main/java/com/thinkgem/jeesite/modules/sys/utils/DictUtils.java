@@ -323,7 +323,7 @@ public class DictUtils {
 	//审批完成态显示 导出按钮
 	public static String getCheckStatusShowOn(String processStatus) {
 		String status = "";
-		if ("2".equals(processStatus)||"3".equals(processStatus)||"5".equals(processStatus)) {
+		if ("2".equals(processStatus)||"3".equals(processStatus)||"4".equals(processStatus)||"5".equals(processStatus)) {
 			status = "inline";
 		} else {
 			status = "none;";

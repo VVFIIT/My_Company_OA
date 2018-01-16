@@ -21,6 +21,14 @@
 	    <li class="active"><a>考勤修改</a></li>
 	</ul>
 	<form:form id="attUpdateListForm" modelAttribute="attendanceMonth_UpdateList" target="mainFrame" action="${ctx}/oa/attendance/attendanceUpdateList" method="post" class="breadcrumb form-search">
+		<c:if test="${attendanceMonth_UpdateList.processStatus == '4'}">
+			<c:if test="${not empty attendanceMonth_UpdateList.PMComment}">
+				<div style="height:30px"><label style="font-weight:bold; font-size:13px">经理意见：</label>${attendanceMonth_UpdateList.PMComment}</div>
+			</c:if>
+			<c:if test="${not empty attendanceMonth_UpdateList.HRComment}">
+				<div><label style="font-weight:bold; font-size:13px; margin-bottom:10px">人事意见：</label>${attendanceMonth_UpdateList.HRComment}</div>
+			</c:if>
+		</c:if>
 		<table id="attendanceTable" class="table table-striped table-bsordered table-condensed">
 			<thead><tr><th style="width:20%">日期</th><th style="width:20%">星期</th><th style="width:30%">工作地点</th><th style="width:30%">考勤状态</th></thead>
 			<tbody>
