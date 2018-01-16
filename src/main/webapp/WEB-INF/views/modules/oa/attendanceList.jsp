@@ -6,7 +6,10 @@
     <meta name="decorator" content="default"/>
     <script type="text/javascript">
         $(document).ready(function () {
-
+        	$("#searchForm").validate({
+				submitHandler: function(form){
+				},
+			});
         });
 
         function page(n, s) {
@@ -27,7 +30,7 @@
 </head>
 <body>
 <ul class="nav nav-tabs">
-    <li class="active"><a href="${ctx}/oa/attendance/list">考勤列表</a></li>
+    <li class="active"><a href="${ctx}/oa/attendance/list">我的考勤</a></li>
     <li><a href="${ctx}/oa/attendance/insert" onclick="noInsertMonth()">考勤添加</a></li>
 </ul>
 <form:form id="searchForm" action="${ctx}/oa/attendance/list" class="breadcrumb form-search">

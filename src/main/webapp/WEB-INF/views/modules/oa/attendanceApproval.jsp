@@ -27,41 +27,30 @@
 </head>
 <body>
 	<ul class="nav nav-tabs">
-		<li><a href="${ctx}/oa/testAudit/">审批列表</a></li>
-		
+		<li><a href="${ctx}/act/task/todo/">考勤任务</a></li>
+		<li class="active"><a href="">考勤审批</a></li>
 	</ul>
-	
 	<form:form id="attApprovalForm" modelAttribute="attendanceMonth" target="mainFrame" action="${ctx}/oa/attendanceApproval/save" method="post" class="breadcrumb form-search">
 		<form:hidden id="flag" path="act.flag"/>	
-		<input name="procInsId" type="hidden" value="${act.procInsId}"/>		
-		<input id="taskDefKey" type="hidden" name="taskDefKey" value="${act.taskDefKey}"/>
-		<input id="taskId" type="hidden" name="taskId" value="${act.taskId}"/>
+		<form:input path="procInsId" type="hidden"/>		
+		<form:input path="act.taskDefKey" type="hidden"/>
+		<form:input path="act.taskId" type="hidden"/>
 		
 		<sys:message content="${message}"/>
-		<fieldset>
-			<legend>${testAudit.act.taskName}</legend>
-			<table class="table-form">
-				<tr>
-					<td class="tit">姓名：${attendanceMonth.name}</td>
-					<td> </td>
-					<td class="tit">部门：${attendanceMonth.department}</td>					
-				</tr>
-			
-				<c:if test="${act.taskDefKey eq 'HRApprovalAttendance'}">
-				<tr>
-					<td class="tit">部门经理意见:${attendanceMonth.PMComment}</td>
-				
-					
-				</tr> 
-				</c:if>
-				<tr>
-					<td class="tit">您的意见:</td>
-					<td colspan="5">					
-						<form:textarea path="act.comment" class="required" rows="3" maxlength="20" cssStyle="width:700px"/>					
-					</td>
-				</tr>
-			</table>
-		</fieldset>
+		<div style="background:#f9f9f9; text-align:center">
+			<label style="font-weight:bold; font-size:15px">姓名：${attendanceMonth.name}</label>
+			<label style="font-weight:bold; font-size:15px">部门：${attendanceMonth.department}</label>
+		</div>
+		<c:if test="${attendanceMonth.act.taskDefKey eq 'HRApprovalAttendance'}">
+			<div style="background:#40abe9; margin-bottom:10px"><label style="font-weight:bold">经理意见：</label></div>
+			<div>${attendanceMonth.PMComment}</div>
+		</c:if>
+		<div style="background:#40abe9; margin-bottom:10px; margin-top:10px"><label style="font-weight:bold">您的意见：</label></div>
+		<div>
+			<fieldset>
+				<form:textarea path="act.comment" class="required"  maxlength="200" cssStyle="width:50%"/>
+			</fieldset>
+		</div>
 		<div class="form-actions">
 			<input id="btnSubmit" class="btn btn-primary" type="submit" value="同 意" onclick="$('#flag').val('yes')"/>&nbsp;
 			<input id="btnSubmit" class="btn btn-inverse" type="submit" value="驳 回" onclick="$('#flag').val('no')"/>&nbsp;	

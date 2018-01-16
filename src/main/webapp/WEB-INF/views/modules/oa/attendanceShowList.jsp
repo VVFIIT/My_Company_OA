@@ -11,6 +11,12 @@
 	    <li class="active"><a>考勤查看</a></li>
 	</ul>
 	<form:form id="attInsertListForm" modelAttribute="attendanceMonth_ShowList" target="mainFrame" action="${ctx}/oa/attendance/attendanceInsertList" method="post" class="breadcrumb form-search">
+		<c:if test="${not empty attendanceMonth_ShowList.PMComment}">
+			<div style="height:30px"><label style="font-weight:bold; font-size:13px">经理意见：</label>${attendanceMonth_ShowList.PMComment}</div>
+		</c:if>
+		<c:if test="${not empty attendanceMonth_ShowList.HRComment}">
+			<div><label style="font-weight:bold; font-size:13px; margin-bottom:10px">人事意见：</label>${attendanceMonth_ShowList.HRComment}</div>
+		</c:if>
 		<table id="attendanceTable" class="table table-striped table-bsordered table-condensed">
 			<thead><tr><th style="width:25%">日期</th><th style="width:25%">星期</th><th style="width:25%">工作地点</th><th style="width:25%">考勤状态</th></thead>
 			<tbody>

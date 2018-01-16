@@ -240,7 +240,7 @@ public class AttendanceController extends BaseController {
 			page = attendanceService.submitAgainAttendance(id,redirectAttributes,request,response);
 		}
 		model.addAttribute("page", page);
-		addMessage(redirectAttributes, "提交考勤成功");
+		addMessage(model, "提交考勤成功");
 
 		// 判断是否存在可以添加的年份月份，并把MODE传到画面
 		attendanceService.insertMonthToModel(model);
@@ -409,8 +409,11 @@ public class AttendanceController extends BaseController {
 	public String form(Act act, String id, Model model) throws UnsupportedEncodingException {
 
 		AttendanceMonth attendanceMonth = attendanceMonthService.getInformation(id);
+		String comment = "我同意"+attendanceMonth.getName()+attendanceMonth.getYear()+"年"+attendanceMonth.getMonth()+"月的考勤";
+		act.setComment(comment);
+		attendanceMonth.setAct(act);
 		model.addAttribute("attendanceMonth", attendanceMonth);
-		model.addAttribute("act", act);
+//		model.addAttribute("act", act);
 		return "modules/oa/attendanceApproval";
 	}
 

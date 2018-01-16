@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.thinkgem.jeesite.common.web.BaseController;
 import com.thinkgem.jeesite.modules.oa.entity.AttendanceMonth;
@@ -27,21 +28,21 @@ public class AttendanceApprovalController extends BaseController {
 	private AttendanceApprovalService attendanceApprovalService;
 
 	@RequestMapping(value = "save")
-	public String saveAttendanceApproval(AttendanceMonth attendanceMonth, Model model,HttpServletRequest request) {
+	public String saveAttendanceApproval(AttendanceMonth attendanceMonth, RedirectAttributes redirectAttributes) {
 	 
-		if (StringUtils.isBlank(attendanceMonth.getAct().getFlag())
-				|| StringUtils.isBlank(attendanceMonth.getAct().getComment())) {
-			addMessage(model, "请填写审核意见。");
-		}		
+//		if (StringUtils.isBlank(attendanceMonth.getAct().getFlag())
+//				|| StringUtils.isBlank(attendanceMonth.getAct().getComment())) {
+//			addMessage(model, "请填写审核意见。");
+//		}		
 
 		//环节KEY
-		String taskDefKey=request.getParameter("taskDefKey").toString();
-		String taskId=request.getParameter("taskId").toString();
-		attendanceMonth.getAct().setTaskDefKey(taskDefKey);
-		attendanceMonth.getAct().setTaskId(taskId);
+//		String taskDefKey=request.getParameter("taskDefKey").toString();
+//		String taskId=request.getParameter("taskId").toString();
+//		attendanceMonth.getAct().setTaskDefKey(taskDefKey);
+//		attendanceMonth.getAct().setTaskId(taskId);
 		attendanceApprovalService.saveAttendanceApproval(attendanceMonth);
-		addMessage(model, "审批成功!");
-		return "redirect:" + adminPath + "/act/task/todo/"; 
+		addMessage(redirectAttributes, "审批成功!");
+		return "redirect:" + adminPath + "/oa/attendance/toDo?repage"; 
 	}
 
 	
