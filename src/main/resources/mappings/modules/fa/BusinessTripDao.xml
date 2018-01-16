@@ -9,6 +9,7 @@
 		o.name AS "office.name", 
 		u.id AS "applicant.id", 
 		u.name AS "applicant.name", 
+		u.email AS "applicant.email", 
 		p.id AS "project.id",
 		p.itemNo AS "project.itemNo",
 		p.name AS "project.name",
