@@ -32,7 +32,7 @@
     
     <sql id="businessTripApplicationJoins">
 		JOIN sys_user u ON u.id=a.applicantId
-		JOIN sys_user t ON t.id=a.togetherId
+		LEFT JOIN sys_user t ON t.id=a.togetherId
 		JOIN sys_office o ON o.id=a.officeId
 		JOIN fa_project p ON p.id=a.projectId
     </sql>
