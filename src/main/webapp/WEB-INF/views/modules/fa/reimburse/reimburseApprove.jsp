@@ -7,6 +7,8 @@
 	<script type="text/javascript">
 		$(document).ready(function() {
 		
+			document.getElementById("reiComment").value="同意";
+			
 			$("#inputFormApproveSave").validate({
 				submitHandler: function(form){
 					loading('正在提交，请稍等...');		
@@ -45,7 +47,7 @@
 				<tr>
 					<td class="tit">您的意见</td>
 					<td colspan="5">
-						<form:textarea path="act.comment" class="required" rows="5" maxlength="20" cssStyle="width:500px"/> 
+						<form:textarea path="act.comment" id="reiComment" class="required" rows="5" maxlength="20" cssStyle="width:500px"/> 
 					</td>
 				</tr>
 			</table>

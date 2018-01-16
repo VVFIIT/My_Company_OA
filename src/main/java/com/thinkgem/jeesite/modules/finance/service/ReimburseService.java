@@ -11,6 +11,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+import com.thinkgem.jeesite.modules.oa.helper.EmailUtil;
 
 import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
@@ -121,8 +122,9 @@ public class ReimburseService {
 		String taskId = act.getTaskId();
 		complete(taskId, procInstId, "ReimburseApply", title, vars);
 
-		String emailContent = "你好，"+user.getName()+"向您发起了报销申请，请审批.";
-		EmailUtil.sendTextEmail(user.getEmail(), "zhe.jang@hongshenol.com", title, emailContent);
+		String emailContent = "你好，" + user.getName() + "向您发起了报销申请，请审批.";
+		// 第一个是发起人，第二个是目标人
+		EmailUtil.sendTextEmail(user.getEmail(), "zhe.jiang@hongshenol.com", title, emailContent);
 
 		reimburseMain.setProcInstId(procInstId);
 
@@ -453,9 +455,9 @@ public class ReimburseService {
 	 * @param reimburseModel
 	 * @param flag
 	 * @author Grace
-	 * @throws MessagingException 
-	 * @throws IOException 
-	 * @throws FileNotFoundException 
+	 * @throws MessagingException
+	 * @throws IOException
+	 * @throws FileNotFoundException
 	 * @date 2018年1月8日 下午6:03:18
 	 */
 	@Transactional(readOnly = false)
@@ -472,14 +474,13 @@ public class ReimburseService {
 			act.setTaskDefKey("ManagerApproval");
 			act = actHiTaskInstDao.findIdByProcInsIdAndActId(act).get(0);
 		}
-		
+
 		ReimburseMain reimburseMainReturn = reimburseMainDao.getMainById(reimburseMain.getId());
 		String title = reimburseMainReturn.getApplicant().getName() + " 报销申请";
-		String emailBackTitle="报销申请被驳回";
-		
-		String applyEmailAddress=reimburseMainReturn.getApplicant().getEmail();
-	
-		
+		String emailBackTitle = "报销申请被驳回";
+
+		String applyEmailAddress = reimburseMainReturn.getApplicant().getEmail();
+
 		// 设置意见
 		reimburseMain.getAct().setComment(("yes".equals(reimburseMain.getAct().getFlag()) ? "[同意] " : "[驳回] ")
 				+ reimburseMain.getAct().getComment());
@@ -492,16 +493,16 @@ public class ReimburseService {
 			if ("no".equals(reimburseMain.getAct().getFlag())) {
 				// 驳回
 				reimburseMain.setStatus("40");
-		
+
 				String emailContent = "您好，财务驳回了您的报销申请，请修改后重新申请。";
-				EmailUtil.sendTextEmail("zhe.jang@hongshenol.com",applyEmailAddress , emailBackTitle, emailContent);
+				EmailUtil.sendTextEmail(EmailUtil.FROM, applyEmailAddress, emailBackTitle, emailContent);
 			} else {
-				//财务同意
+				// 财务同意
 				reimburseMain.setStatus("30");
-				
-				String emailContent = "您好，"+reimburseMainReturn.getApplicant().getName()+"向您发起了报销申请，请审批.";
-				//目标邮箱第二个改成杨哥的邮箱
-				EmailUtil.sendTextEmail("zhe.jang@hongshenol.com", "zhenming.yang@hongshenol.com", title, emailContent);
+
+				String emailContent = "您好，" + reimburseMainReturn.getApplicant().getName() + "向您发起了报销申请，请审批.";
+				// 目标邮箱第二个改成杨哥的邮箱
+				EmailUtil.sendTextEmail(EmailUtil.FROM, "zhenming.yang@hongshenol.com", title, emailContent);
 			}
 			reimburseMain.setFAComment(reimburseMain.getAct().getComment());
 
@@ -512,14 +513,14 @@ public class ReimburseService {
 			if ("no".equals(reimburseMain.getAct().getFlag())) {
 				// 驳回
 				reimburseMain.setStatus("40");
-				
+
 				String emailContent = "您好，经理驳回了您的报销申请，请修改后重新申请。";
-				EmailUtil.sendTextEmail(user.getEmail(),applyEmailAddress , emailBackTitle, emailContent);
+				EmailUtil.sendTextEmail(EmailUtil.FROM, applyEmailAddress, emailBackTitle, emailContent);
 			} else {
 				reimburseMain.setStatus("50");
-				
+
 				String emailContent = "您好，恭喜， 报销申请已通过！";
-				EmailUtil.sendTextEmail(user.getEmail(),applyEmailAddress , emailBackTitle, emailContent);
+				EmailUtil.sendTextEmail(EmailUtil.FROM, applyEmailAddress, emailBackTitle, emailContent);
 			}
 			reimburseMain.setManagerComment(reimburseMain.getAct().getComment());
 
@@ -535,9 +536,6 @@ public class ReimburseService {
 		// 提交流程任务
 		Map<String, Object> vars = Maps.newHashMap();
 		vars.put("pass", "yes".equals(reimburseMain.getAct().getFlag()) ? "1" : "0");
-
-		
-		
 
 		complete(act.getTaskId(), reimburseMain.getProcInstId(), reimburseMain.getAct().getComment(), title, vars);
 	}

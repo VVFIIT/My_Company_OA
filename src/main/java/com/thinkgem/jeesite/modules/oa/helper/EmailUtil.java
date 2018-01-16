@@ -25,9 +25,9 @@ public class EmailUtil {
 
     private static final String HOST = "smtp.hongshenol.com";
     private static final String isAUTH = "true";
-    private static final String FROM = "jiqing.jiang@hongshenol.com";
-    private static final String USERNAME = "jiqing.jiang@hongshenol.com";
-    private static final String PASSWORD = "jiang83191428";
+    public static final String FROM = "office@hongshenol.com";
+    private static final String USERNAME = "office@hongshenol.com";
+    private static final String PASSWORD = "dlhs2018";
     private static final String TIMEOUT = "25000";
     private static final String DEBUG = "true";
     private static Session session;
