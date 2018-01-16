@@ -34,7 +34,7 @@
 				</c:forEach>
 				<tr>
 					<td></td><td></td><td></td>
-					<td><input id="btnSubmit" class="btn btn-primary" type="submit" value="提交" onclick="success()" style="margin-left:110px"/></td>
+					<td><input id="btnSubmit" class="btn btn-primary" type="submit" value="保存" onclick="success()" style="margin-left:110px"/></td>
 				</tr>
 			</tbody>
 			<tr>
