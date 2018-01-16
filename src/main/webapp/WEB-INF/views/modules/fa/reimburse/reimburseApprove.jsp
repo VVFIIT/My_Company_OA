@@ -47,7 +47,7 @@
 				<tr>
 					<td class="tit">您的意见</td>
 					<td colspan="5">
-						<form:textarea path="act.comment" id="reiComment" class="required" rows="5" maxlength="20" cssStyle="width:500px"/> 
+						<form:textarea path="act.comment" id="reiComment" class="required" rows="5" maxlength="40" cssStyle="width:500px"/> 
 					</td>
 				</tr>
 			</table>

@@ -233,8 +233,8 @@
 					<input id="beginDate" name="beginDate" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate required required" style="width:200px;"
 							value="<fmt:formatDate value="${reimburseMain.beginDate}" pattern="yyyy-MM-dd"/>"
 								onclick="WdatePicker({dateFmt:'yyyy-MM-dd'});"/>
-					
 					</td>
+					<td><nobr>至</nobr>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
 					<td>
 					<input id="endDate" name="endDate" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate required required" style="width:200px;"
 							value="<fmt:formatDate value="${reimburseMain.endDate}" pattern="yyyy-MM-dd"/>"
