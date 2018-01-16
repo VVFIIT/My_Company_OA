@@ -198,6 +198,7 @@ public class AttendanceMonthService {
 
 			AttendanceMonth attendanceMonth = new AttendanceMonth();
 			attendanceMonth.setProcInsId(procInsId);
+		
 			List<AttendanceMonth> attendanceMonthList = attendanceMonthDao.getAttendance(attendanceMonth);
 
 			if (attendanceMonthList != null && attendanceMonthList.size() > 0) {
@@ -212,7 +213,19 @@ public class AttendanceMonthService {
 				attendanceMonth.setAct(actNew);
 				
 				// 将该对象放到resultList中
-				resultList.add(attendanceMonth);
+				/*0 全部
+				1 未提交
+				2 待经理审批
+				3 待人事审批
+				4 审批驳回
+				5 审批通过
+				6 未创建*/
+				
+				//待审批的任务才显示在我的任务里，如果是审批驳回的 还是在我的考勤里
+				if("2".equals(attendanceMonth.getProcessStatus())||"3".equals(attendanceMonth.getProcessStatus())){
+					resultList.add(attendanceMonth);
+				}
+				
 			}
 		}
 

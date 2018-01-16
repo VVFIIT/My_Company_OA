@@ -32,8 +32,6 @@
 			
 			var projectLongDistanceId = 'projectLongDistance'+trMaxNum;
 			var createDateLongDistanceId = 'createDateLongDistance'+trMaxNum;
-			/* var itemNoLongDistanceId = 'itemNoLongDistance'+trMaxNum;
-			var projectNameLongDistanceId = 'projectNameLongDistance'+trMaxNum; */
 			var remarkLongDistanceId = 'remarkLongDistance'+trMaxNum;
 			var amountLongDistanceId = 'amountLongDistance'+trMaxNum;
 			var longDistanceId = 'longDistance'+trMaxNum;
@@ -42,7 +40,7 @@
 			
 			$("#longDistanceButton").before("<tr id='"+longDistanceId+"'><td><select id='"+projectLongDistanceId+nameStr+projectLongDistanceId+"' class='input-xlarge required' style='width:150px'><c:forEach items='${projectList}' var='project'><option value='${project.id}' selected>${project.name}</option></c:forEach></select></td><td><input id='"+createDateLongDistanceId+nameStr+createDateLongDistanceId+
 					"' type='text' readonly='readonly' maxlength='20' class='input-medium Wdate required' style='width:150px;' value='<fmt:formatDate value='${X}' pattern='yyyy-MM-dd'/>' onclick='WdatePicker({dateFmt:&#39;yyyy-MM-dd&#39;});'/></td><td><input id='"
-				+remarkLongDistanceId+nameStr+remarkLongDistanceId+sameStr+amountLongDistanceId+nameStr+amountLongDistanceId+"' maxlength='50' class='required' style='width:150px' type='number'/></td><td><input class='btn btn-primary' type='button' value='删除' onclick='removeLongDistance(&#39;"+longDistanceId+"&#39;)' style='width:100px'></td></tr>");		
+				+remarkLongDistanceId+nameStr+remarkLongDistanceId+"' maxlength='50' class='required' style='width:430px' type='text'/></td><td><input id='"+amountLongDistanceId+nameStr+amountLongDistanceId+"' maxlength='50' class='required' style='width:150px' type='number'/></td><td><input class='btn btn-primary' type='button' value='删除' onclick='removeLongDistance(&#39;"+longDistanceId+"&#39;)' style='width:100px'></td></tr>");		
 		
 		
 		}
@@ -65,11 +63,13 @@
 			var projectTaxiId = 'projectTaxi'+trMaxNum;
 			var taxiId = 'taxi'+trMaxNum;
 			var sameStr = "' maxlength='50' class='required' style='width:150px' type='text'/></td><td><input id='";
+			var sameStr100 = "' maxlength='50' class='required' style='width:100px' type='text'/></td><td><input id='";
+			
 			var nameStr = "' name='";
 
 			$("#taxiButton").before("<tr id='"+taxiId+"'><td><select id='"+projectTaxiId+nameStr+projectTaxiId+"' class='input-xlarge required' style='width:150px'><c:forEach items='${projectList}' var='project'><option value='${project.id}' selected>${project.name}</option></c:forEach></select></td><td><input id='"+createDateTaxiId+nameStr+createDateTaxiId+
 					"' type='text' readonly='readonly' maxlength='20' class='input-medium Wdate required' style='width:150px;' value='<fmt:formatDate value='${X}' pattern='yyyy-MM-dd'/>' onclick='WdatePicker({dateFmt:&#39;yyyy-MM-dd&#39;});'/></td><td><input id='"
-					+remarkTaxiId+nameStr+remarkTaxiId+sameStr+timeTaxiId+nameStr+timeTaxiId+sameStr+departureLocationTaxiId+nameStr+departureLocationTaxiId+sameStr+arrivedLocationTaxiId+nameStr+arrivedLocationTaxiId+sameStr+amountTaxiId+nameStr+amountTaxiId+"' maxlength='50' class='required' style='width:150px' type='number'/></td><td><input class='btn btn-primary' type='button' value='删除' onclick='removeLongDistance(&#39;"+taxiId+"&#39;)' style='width:100px'></td></tr>");		
+					+remarkTaxiId+nameStr+remarkTaxiId+sameStr100+timeTaxiId+nameStr+timeTaxiId+sameStr100+departureLocationTaxiId+nameStr+departureLocationTaxiId+sameStr+arrivedLocationTaxiId+nameStr+arrivedLocationTaxiId+sameStr+amountTaxiId+nameStr+amountTaxiId+"' maxlength='50' class='required' style='width:70px' type='number'/></td><td><input class='btn btn-primary' type='button' value='删除' onclick='removeLongDistance(&#39;"+taxiId+"&#39;)' style='width:100px'></td></tr>");		
 					
 		}
 
@@ -92,11 +92,11 @@
 			var hospitalityId = 'hospitality'+trMaxNum;
 			var sameStr = "' maxlength='50' class='required' style='width:150px' type='text'/></td><td><input id='";
 			var nameStr = "' name='";
-			var numberStr = "' maxlength='50' class='required' style='width:150px' type='number'/></td><td><input id='";
+			var numberStr = "' maxlength='50' class='required' style='width:30px' type='number'/></td><td><input id='";
 			
 			$("#hospitalityButton").before("<tr id='"+hospitalityId+"'><td><select id='"+projectHospitalityId+nameStr+projectHospitalityId+"' class='input-xlarge required' style='width:150px'><c:forEach items='${projectList}' var='project'><option value='${project.id}' selected>${project.name}</option></c:forEach></select></td><td><input id='"+createDateHospitalityId+nameStr+createDateHospitalityId+
 					"' type='text' readonly='readonly' maxlength='20' class='input-medium Wdate required' style='width:150px;' value='<fmt:formatDate value='${X}' pattern='yyyy-MM-dd'/>' onclick='WdatePicker({dateFmt:&#39;yyyy-MM-dd &#39;});'/></td><td><input id='"
-					+clientNameId+nameStr+clientNameId+sameStr+inviteesNameId+nameStr+inviteesNameId+sameStr+invitedPositionId+nameStr+invitedPositionId+sameStr+numberId+nameStr+numberId+numberStr+amountHospitalityId+nameStr+amountHospitalityId+"' maxlength='50' class='required' style='width:150px' type='number'/></td><td><input class='btn btn-primary' type='button' value='删除' onclick='removeLongDistance(&#39;"+hospitalityId+"&#39;)' style='width:100px'></td></tr>");		
+					+clientNameId+nameStr+clientNameId+sameStr+inviteesNameId+nameStr+inviteesNameId+sameStr+invitedPositionId+nameStr+invitedPositionId+sameStr+numberId+nameStr+numberId+numberStr+amountHospitalityId+nameStr+amountHospitalityId+"' maxlength='50' class='required' style='width:80px' type='number'/></td><td><input class='btn btn-primary' type='button' value='删除' onclick='removeLongDistance(&#39;"+hospitalityId+"&#39;)' style='width:100px'></td></tr>");		
 					
 		}
 		
@@ -114,11 +114,12 @@
 			var projectOtherId = 'projectOther'+trMaxNum;
 			var otherId = 'other'+trMaxNum;
 			var sameStr = "' maxlength='50' class='required' style='width:150px' type='text'/></td><td><input id='";
+			var sameStr420 = "' maxlength='50' class='required' style='width:420px' type='text'/></td><td><input id='";
 			var nameStr = "' name='";
 
 			$("#otherButton").before("<tr id='"+otherId+"'><td><select id='"+projectOtherId+nameStr+projectOtherId+"' class='input-xlarge required' style='width:150px'><c:forEach items='${projectList}' var='project'><option value='${project.id}' selected>${project.name}</option></c:forEach></select></td><td><input id='"+createDateOtherId+nameStr+createDateOtherId+
 					"' type='text' readonly='readonly' maxlength='20' class='input-medium Wdate required' style='width:150px;' value='<fmt:formatDate value='${X}' pattern='yyyy-MM-dd'/>' onclick='WdatePicker({dateFmt:&#39;yyyy-MM-dd &#39;});'/></td><td><input id='"
-					+remarkOtherId+nameStr+remarkOtherId+sameStr+amountOtherId+nameStr+amountOtherId+"' maxlength='50' class='required' style='width:150px' type='number'/></td><td><input class='btn btn-primary' type='button' value='删除' onclick='removeOther(&#39;"+otherId+"&#39;)' style='width:100px'></td></tr>");		
+					+remarkOtherId+nameStr+remarkOtherId+sameStr420+amountOtherId+nameStr+amountOtherId+"' maxlength='50' class='required' style='width:150px' type='number'/></td><td><input class='btn btn-primary' type='button' value='删除' onclick='removeOther(&#39;"+otherId+"&#39;)' style='width:100px'></td></tr>");		
 					
 		}
 		
@@ -263,7 +264,7 @@
 						<td><input id="createDateLongDistance1" name="createDateLongDistance1" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate required" style="width:150px;" class="required"
 							value="<fmt:formatDate value="${X}" pattern="yyyy-MM-dd"/>"
 								onclick="WdatePicker({dateFmt:'yyyy-MM-dd'});"/></td>
-						<td><input style="width:150px" id="remarkLongDistance1" name="remarkLongDistance1" maxlength="50"  type="text" class="required"/></td>
+						<td><input style="width:430px" id="remarkLongDistance1" name="remarkLongDistance1" maxlength="50"  type="text" class="required"/></td>
 						<td><input style="width:150px" id="amountLongDistance1" name="amountLongDistance1"  maxlength="50" type="number" class="required"/></td>
 						<td><input class="btn btn-primary" type="button" value="删除" onclick="removeLongDistance('longDistance1')" style="width:100px "></td>
 					<tr id="longDistanceButton">
@@ -292,16 +293,16 @@
 							value="<fmt:formatDate value="${X}" pattern="yyyy-MM-dd"/>"
 								onclick="WdatePicker({dateFmt:'yyyy-MM-dd'});"/></td>		
 						
-						<td><input style="width:150px" id="remarkTaxi1" name="remarkTaxi1" maxlength="50" type="text" class="required"/></td>
-						<td><input style="width:150px" id="timeTaxi1" name="timeTaxi1" maxlength="50" type="text" class="required"/></td>
+						<td><input style="width:100px" id="remarkTaxi1" name="remarkTaxi1" maxlength="50" type="text" class="required"/></td>
+						<td><input style="width:100px" id="timeTaxi1" name="timeTaxi1" maxlength="50" type="text" class="required"/></td>
 						<td><input style="width:150px" id="departureLocationTaxi1" name="departureLocationTaxi1" maxlength="50"  type="text" class="required"/></td>
 						<td><input style="width:150px" id="arrivedLocationTaxi1" name="arrivedLocationTaxi1" maxlength="50"  type="text" class="required"/></td>
-						<td><input style="width:150px" id="amountTaxi1" name="amountTaxi1" maxlength="50"  type="number" class="required"/></td>
+						<td><input style="width:70px" id="amountTaxi1" name="amountTaxi1" maxlength="50"  type="number" class="required"/></td>
 						
 						<td><input class="btn btn-primary" type="button" value="删除" onclick="removeTaxi('taxi1')" style="width:100px "></td>
 				
 					<tr id="taxiButton">
-						<td colspan="7" style="text-align:center"><input class="btn btn-primary" type="button" value="+" onclick="addNewTaxi()" style="width:100px"></td>
+						<td colspan="8" style="text-align:center"><input class="btn btn-primary" type="button" value="+" onclick="addNewTaxi()" style="width:100px"></td>
 					</tr>
 				</tbody>
 			</table>
@@ -329,12 +330,12 @@
 					<td><input style="width:150px" id="clientNameHospitality1" name="clientNameHospitality1" maxlength="50"  type="text" class="required"/></td>
 					<td><input style="width:150px" id="inviteesNameHospitality1" name="inviteesNameHospitality1" maxlength="50"  type="text" class="required"/></td>
 					<td><input style="width:150px" id="invitedPositionHospitality1" name="invitedPositionHospitality1" maxlength="50"  type="text" class="required"/></td>
-					<td><input style="width:150px" id="numberHospitality1" name="numberHospitality1" maxlength="50"  type="number" class="required"/></td>
-					<td><input style="width:150px" id="amountHospitality1" name="amountHospitality1" maxlength="50" type="number" class="required"/></td>
+					<td><input style="width:30px" id="numberHospitality1" name="numberHospitality1" maxlength="50"  type="number" class="required"/></td>
+					<td><input style="width:80px" id="amountHospitality1" name="amountHospitality1" maxlength="50" type="number" class="required"/></td>
 					<td><input class="btn btn-primary" type="button" value="删除" onclick="removeHospitality('hospitality1')" style="width:100px"></td>
 				
 					<tr id="hospitalityButton">
-						<td colspan="7" style="text-align:center"><input class="btn btn-primary" type="button" value="+" onclick="addNewHospitality()" style="width:100px"></td>
+						<td colspan="8" style="text-align:center"><input class="btn btn-primary" type="button" value="+" onclick="addNewHospitality()" style="width:100px"></td>
 					</tr>
 					
 				</tbody>
@@ -358,11 +359,11 @@
 						<td><input id="createDateOther1" name="createDateOther1" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate required" style="width:150px; class="required""
 							value="<fmt:formatDate value="${X}" pattern="yyyy-MM-dd"/>"
 								onclick="WdatePicker({dateFmt:'yyyy-MM-dd'});"/></td>
-						<td><input style="width:150px" id="remarkOther1" name="remarkOther1" maxlength="50"  type="text" class="required"/></td>
+						<td><input style="width:420px" id="remarkOther1" name="remarkOther1" maxlength="50"  type="text" class="required"/></td>
 						<td><input style="width:150px" id="amountOther1" name="amountOther1" maxlength="50"  type="number" class="required"/></td>
 						<td><input class="btn btn-primary" type="button" value="删除" onclick="removeOther('Other1')" style="width:100px"></td>
 					<tr id="otherButton">
-						<td colspan="7" style="text-align:center"><input class="btn btn-primary" type="button" value="+" onclick="addNewOther()" style="width:100px"></td>
+						<td colspan="5" style="text-align:center"><input class="btn btn-primary" type="button" value="+" onclick="addNewOther()" style="width:100px"></td>
 					</tr>
 				</tbody>
 			</table>
