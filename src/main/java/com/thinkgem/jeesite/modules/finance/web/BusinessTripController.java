@@ -242,7 +242,21 @@ public class BusinessTripController extends BaseController {
 		businessTripService.FAApprove(businessTripHotelHelper);
 		businessTripService.completeFAProcess(businessTripHotelHelper.getBusinessTripApplication().getFAFlag(), businessTripHotelHelper.getBusinessTripApplication().getId());
 		String name = businessTripService.getBusinessTripApplicationInfo(businessTripHotelHelper.getBusinessTripApplication().getId()).getApplicant().getName();
-		addMessage(redirectAttributes, "审批完成！ 您驳回了"+name+"的出差申请！");
+		String insertFlag = businessTripService.getBusinessTripApplicationInfo(businessTripHotelHelper.getBusinessTripApplication().getId()).getInsertFlag();
+		String FAFlag = businessTripHotelHelper.getBusinessTripApplication().getFAFlag();
+		if ("yes".equals(insertFlag)) {
+			if ("yes".equals(FAFlag)) {
+				addMessage(redirectAttributes, "审批完成！ 您同意了"+name+"的出差追加申请！");
+			} else {
+				addMessage(redirectAttributes, "审批完成！ 您驳回了"+name+"的出差追加申请！");
+			}
+		} else {
+			if ("yes".equals(FAFlag)) {
+				addMessage(redirectAttributes, "审批完成！ 您同意了"+name+"的出差申请！");
+			} else {
+				addMessage(redirectAttributes, "审批完成！ 您驳回了"+name+"的出差申请！");
+			}
+		}
 		return "redirect:" + Global.getAdminPath() + "/fa/businessTrip/toBusinessTripTaskList?repage";
 	}
 	

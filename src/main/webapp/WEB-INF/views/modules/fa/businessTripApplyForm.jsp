@@ -37,7 +37,7 @@
 			$("#reservationButton").before("<tr id='"+reservationId+"'><td><input id='"+reservationCityId+nameStr+reservationCityId+"' maxlength='50' class='required' style='width:120px'/></td><td><input id='"+reservationWorkPlaceId+nameStr+reservationWorkPlaceId+sameStr+reservationBeginDateId+nameStr+reservationBeginDateId+
 					"' type='text' readonly='readonly' maxlength='20' class='input-medium Wdate required' style='width:150px;' value='<fmt:formatDate value='${businessTripModel.businessTripReservationList.get(0).beginDate}' pattern='yyyy-MM-dd'/>' onclick='WdatePicker({dateFmt:&#39;yyyy-MM-dd&#39;});'/></td><td><input id='"+reservationEndDateId+nameStr+reservationEndDateId+
 					"' type='text' readonly='readonly' maxlength='20' class='input-medium Wdate' style='width:150px;' value='<fmt:formatDate value='${businessTripModel.businessTripReservationList.get(0).endDate}' pattern='yyyy-MM-dd'/>' onclick='WdatePicker({dateFmt:&#39;yyyy-MM-dd&#39;});'/></td><td><input id='"+reservationDaysId+nameStr+reservationDaysId+
-					"' maxlength='50' style='width:100px'/></td><td><input id='"+reservationRemarkId+nameStr+reservationRemarkId+"' maxlength='50' style='width:190px'/></td><td><input class='btn btn-primary' type='button' value='删除' onclick='removeBusinessTripReservation(&#39;"+reservationId+"&#39;)' style='width:100px'></td></tr>");
+					"' maxlength='50' type="number" style='width:100px'/></td><td><input id='"+reservationRemarkId+nameStr+reservationRemarkId+"' maxlength='50' style='width:190px'/></td><td><input class='btn btn-primary' type='button' value='删除' onclick='removeBusinessTripReservation(&#39;"+reservationId+"&#39;)' style='width:100px'></td></tr>");
 		}
 		/* 增加一条机票信息 */
 		function addBusinessTripAirTicket(){
@@ -177,7 +177,7 @@
 							value="<fmt:formatDate value="${businessTripModel.businessTripReservationList.get(0).endDate}" pattern="yyyy-MM-dd"/>"
 								onclick="WdatePicker({dateFmt:'yyyy-MM-dd'});"/>
 						</td>
-						<td><input style="width:100px" id="reservationDays1" name="reservationDays1" maxlength="50"/></td>
+						<td><input style="width:100px" id="reservationDays1" name="reservationDays1" type="number" maxlength="50"/></td>
 						<td><input style="width:190px" id="reservationRemark1" name="reservationRemark1" maxlength="50"/></td>
 						<td><input class="btn btn-primary" type="button" value="删除" onclick="removeBusinessTripReservation('reservation1')" style="width:100px"></td>
 					</tr>
