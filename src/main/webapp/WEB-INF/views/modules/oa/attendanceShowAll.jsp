@@ -48,6 +48,7 @@
 	<form:form id="attSearchListForm" modelAttribute="attendanceShowAll" action="${ctx}/oa/attendance/showAllExact" method="post" class="breadcrumb form-search">
 			 <input id="pageNo" name="pageNo" type="hidden" value="${page.pageNo}"/>
 			 <input id="pageSize" name="pageSize" type="hidden" value="${page.pageSize}"/>
+			 <sys:tableSort id="orderBy" name="orderBy" value="${page.orderBy}" callback="page();"/>
 			<ul class="ul-form">
 				<li><label>请选择年份：</label>
 					<form:select path="year" class="input-medium">
@@ -61,15 +62,15 @@
 						<form:options items="${fns:getDictList('oa_month_type')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
 					</form:select>
 				</li>
-				<li class="btns"><input id="btnSubmit" class="btn btn-primary" type="submit" value="查询"/></li>
+				<li class="btns"><input id="btnSubmit" class="btn btn-primary" type="submit" value="查询" /></li>
 			</ul>
 	</form:form>
 	<sys:message content="${message}"/>
 
 	<table id="contentTable" class="table table-striped table-bordered table-condensed">
 		<thead><tr>
-			<th>姓名</th>
-			<th>考勤状态</th>
+			<th class="sort-column name">姓名</th>
+			<th class="sort-column processStatus">考勤状态</th>
 			<th>操作</th>
 		</tr></thead>
 		<tbody>
@@ -85,9 +86,9 @@
 					<c:if test="${attendance.processStatus ==3}"> 确认</c:if>	
 				</td>
 				<td>
-					<c:if test="${empty attendance.processStatus}"><a href="${ctx}/oa/attendance/showAllExact?year=${attendance.year}&month=${attendance.month}" onclick="return confirmx('该用户未创建', this.href)">查看</a></c:if>					
+					<%-- <c:if test="${empty attendance.processStatus}"><a href="${ctx}/oa/attendance/showAllExact?year=${attendance.year}&month=${attendance.month}" onclick="return confirmx('该用户未创建', this.href)">查看</a></c:if> --%>					
 					<c:if test="${attendance.processStatus ==2}"> <a href="${ctx}/oa/attendance/show?id=${attendance.id}">查看</a></c:if>
-					<c:if test="${attendance.processStatus ==1}"> <a href="${ctx}/oa/attendance/showAllExact?year=${attendance.year}&month=${attendance.month}" onclick="return confirmx('该用户未提交', this.href)">查看</a></c:if>
+					<%-- <c:if test="${attendance.processStatus ==1}"> <a href="${ctx}/oa/attendance/showAllExact?year=${attendance.year}&month=${attendance.month}" onclick="return confirmx('该用户未提交', this.href)">查看</a></c:if> --%>
 					<c:if test="${attendance.processStatus ==3}"> <a href="${ctx}/oa/attendance/show?id=${attendance.id}">查看</a></c:if>
 				
 				 	<a id="btnAttExport1" style="${fns:getCheckStatusShow(attendance.processStatus)}" onclick="showExport('${attendance.id}')"  >导出</a> 

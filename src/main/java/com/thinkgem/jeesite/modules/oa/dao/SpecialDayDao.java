@@ -5,13 +5,12 @@ import java.util.List;
 import com.thinkgem.jeesite.common.persistence.CrudDao;
 import com.thinkgem.jeesite.common.persistence.annotation.MyBatisDao;
 import com.thinkgem.jeesite.modules.oa.entity.SpecialDay;
-import com.thinkgem.jeesite.modules.sys.entity.User;
 
 /**
  * 特殊日子
  */
 @MyBatisDao
-public interface SpecialDayDao extends CrudDao<SpecialDay>{
+public interface SpecialDayDao extends CrudDao<SpecialDay> {
 	/**
 	 * 根据类型查List
 	 * 
@@ -19,7 +18,5 @@ public interface SpecialDayDao extends CrudDao<SpecialDay>{
 	 * @return
 	 */
 	public List<SpecialDay> findByType(SpecialDay specialDay);
-	
-	
-	
+
 }

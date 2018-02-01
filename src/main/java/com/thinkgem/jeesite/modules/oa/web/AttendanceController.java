@@ -188,6 +188,15 @@ public class AttendanceController extends BaseController {
 		//返回首页并将画面信息传到画面
 		Page<AttendanceMonth> page = attendanceMonthService.attendanceHomeList(new Page<AttendanceMonth>(request, response));
 		model.addAttribute("page", page);
+		//判断是否存在可以添加的年份月份，并把MODE传到画面
+		AttendanceMonth attendanceMonth1 = attendanceService.getDefaultYearAndMonth();
+		if (attendanceMonth1.getYear() == 0) {
+			//不存在
+			model.addAttribute("MODE", "noInsertMonth");
+		} else {
+			//存在
+			model.addAttribute("MODE", "yesInsertMonth");
+		}
 		return "modules/oa/attendanceList";
 	}
 
