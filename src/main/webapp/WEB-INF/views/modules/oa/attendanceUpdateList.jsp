@@ -38,6 +38,10 @@
 				</tr>
 			</tbody>
 		</table>
+		<td><form:input path="name" htmlEscape="false" maxlength="50" class="required" style="width:150px;display:none"/></td>
+		<td><form:input path="month" htmlEscape="false" maxlength="50" class="required" style="width:150px;display:none"/></td>
+		<td><form:input path="year" htmlEscape="false" maxlength="50" class="required" style="width:150px;display:none"/></td>
+		<td><form:input path="id" htmlEscape="false" maxlength="50" class="required" style="width:150px;display:none"/></td>
 	</form:form>
 </body>
 </html>

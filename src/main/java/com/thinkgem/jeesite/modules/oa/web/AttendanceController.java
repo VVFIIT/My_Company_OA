@@ -189,7 +189,7 @@ public class AttendanceController extends BaseController {
 
 	@ModelAttribute("attendanceMonth")
 	public AttendanceMonth getAttendanceMonthModel() {
-		return this.updateAttendanceMonth;
+		return new AttendanceMonth();
 	}
 
 	/**
