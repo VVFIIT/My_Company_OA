@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.thinkgem.jeesite.common.config.Global;
 import com.thinkgem.jeesite.common.persistence.Page;
 import com.thinkgem.jeesite.common.utils.DateUtils;
 import com.thinkgem.jeesite.common.utils.excel.ExportExcel;
@@ -262,6 +263,8 @@ public class AttendanceController extends BaseController {
 	public String attendanceShowAllExport(AttendanceMonth attendanceMonth, HttpServletRequest request,
 			HttpServletResponse response, RedirectAttributes redirectAttributes) {
 		try {
+			//5是审批通过状态
+			attendanceMonth.setProcessStatus("5");
 			List<AttendanceMonth> list = attendanceMonthService.getAttendance(attendanceMonth);
 			List<AttendanceDay> exportList = new ArrayList<AttendanceDay>();
 
@@ -309,7 +312,7 @@ public class AttendanceController extends BaseController {
 		} catch (Exception e) {
 			addMessage(redirectAttributes, "导出员工考勤失败！失败信息：" + e.getMessage());
 		}
-		return "redirect:" + adminPath + "/modules/oa/attendanceShowAll";
+		return "redirect:" + Global.getAdminPath() + "/oa/attendance/showAll?repage";
 	}
 
 	/**
